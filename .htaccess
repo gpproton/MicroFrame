@@ -1,0 +1,13 @@
+##############################
+##
+## Config initialization..
+##
+##############################
+
+RewriteEngine On
+IndexIgnore *
+Options All -Indexes
+
+<Files *.php>
+deny from all
+</Files>

@@ -1,0 +1,85 @@
+
+
+body {
+  scroll-behavior: unset;
+  scrollbar-color: #942621;
+  height: 100vh;
+}
+
+.dl-card-square.mdl-card {
+  min-width: 90%;
+  min-height: 400px;
+  padding: 0px, 0px, 0px, 0px;
+  margin: auto;
+  margin-top: 10vh;
+}
+
+.dl_header_text {
+  margin-bottom: 15px !important;
+  font-size: 24px;
+  font-weight: 100;
+  text-align: center;
+  color: #942621;
+}
+
+.dl_status_icon {
+  margin-bottom: 25px !important;
+  text-align: center;
+}
+
+.dl_status_icon_error {
+  color: red;
+  font-size: 7em;
+  margin: auto !important;
+}
+
+.dl_status_icon_warning {
+  color: orange;
+  font-size: 7em;
+  margin: auto !important;
+}
+
+.dl_status_icon_done {
+  color: green;
+  font-size: 7em;
+}
+
+.mdl-textfield__label {
+  color: #942621;
+  font-weight: 100;
+}
+
+.dl_base_form {
+  margin: auto;
+}
+
+.dl_form {
+  margin: auto;
+}
+
+.dl_input {
+  border-color: #942621 !important;
+  float: left;
+}
+
+.dl_button {
+  background-color: #942621 !important;
+  float: right;
+}
+
+.dl_vertical_center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+
+.dl_horizontal_center {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
