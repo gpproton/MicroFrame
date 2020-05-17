@@ -1,0 +1,15 @@
+{
+    "name": "gpproton/bhn_mcpl_invoicepdf",
+    "description": "An internal invoice listing and download system",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Godwin peter .O",
+            "email": "me@godwin.dev"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^4.1"
+    }
+}
