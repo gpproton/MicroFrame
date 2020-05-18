@@ -9,7 +9,7 @@ final class Routes {
     const QUERY_MODE = 'mode';
     const STATE_TAGS = array(
         'start',
-        'main',
+        'list',
         'auth',
         'done',
         'error',
@@ -44,7 +44,7 @@ final class Routes {
                 self::StartController();
             break;
             case self::STATE_TAGS[1]:
-                self::MainController();
+                self::ListController();
             break;
             case self::STATE_TAGS[2]:
                 self::AuthController();
@@ -73,13 +73,13 @@ final class Routes {
         StartView::Render();
     }
 
-    private function MainController()
+    private function ListController()
     {
         // Check if from done state
         // self::RedirectQuery('?' . Query::ModeSwitch('main'));
 
         Utils::viewLoader(self::$RouteMode);
-        MainView::Render();
+        ListView::Render();
     }
 
     private function DoneController()
