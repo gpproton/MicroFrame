@@ -14,7 +14,7 @@ body {
   margin-top: 10vh;
 }
 
-.dl_header_text {
+.tlr_header_text {
   margin-bottom: 15px !important;
   font-size: 24px;
   font-weight: 100;
@@ -22,24 +22,30 @@ body {
   color: #942621;
 }
 
-.dl_status_icon {
+.tlr_status_icon {
   margin-bottom: 25px !important;
   text-align: center;
 }
 
-.dl_status_icon_error {
+.tlr_status_icon_lock {
+  color: orange;
+  font-size: 5em;
+  margin: auto !important;
+}
+
+.tlr_status_icon_error {
   color: red;
   font-size: 7em;
   margin: auto !important;
 }
 
-.dl_status_icon_warning {
+.tlr_status_icon_warning {
   color: orange;
   font-size: 7em;
   margin: auto !important;
 }
 
-.dl_status_icon_done {
+.tlr_status_icon_done {
   color: green;
   font-size: 7em;
 }
@@ -49,25 +55,25 @@ body {
   font-weight: 100;
 }
 
-.dl_base_form {
+.tlr_base_form {
   margin: auto;
 }
 
-.dl_form {
+.tlr_form {
   margin: auto;
 }
 
-.dl_input {
+.tlr_input {
   border-color: #942621 !important;
   float: left;
 }
 
-.dl_button {
+.tlr_button {
   background-color: #942621 !important;
   float: right;
 }
 
-.dl_vertical_center {
+.tlr_vertical_center {
   margin: 0;
   position: absolute;
   top: 50%;
@@ -76,7 +82,7 @@ body {
 }
 
 
-.dl_horizontal_center {
+.tlr_horizontal_center {
   margin: 0;
   position: absolute;
   left: 50%;
