@@ -6,8 +6,6 @@ final class Main {
 
     private $HandlerConfig = 'Handlers_Config';
     private $HandlersQuery = 'Handlers_Query';
-    private $HandlerStream = 'Handlers_Stream';
-    private $HelpersPath = 'Helpers_Path';
     private $HandlerRoutes = 'Handlers_Routes';
 
     private $HelpersUtils = 'Helpers_Utils';
@@ -26,7 +24,6 @@ final class Main {
 
         // Auto loads required classes
         Config::Load();
-        Path::Load();
 
     }
 
