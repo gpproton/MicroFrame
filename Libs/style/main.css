@@ -4,14 +4,28 @@ body {
   scroll-behavior: unset;
   scrollbar-color: #942621;
   height: 100vh;
+  overflow: hidden;
 }
 
 .dl-card-square.mdl-card {
-  min-width: 90%;
+  min-width: 100%;
   min-height: 400px;
-  padding: 0px, 0px, 0px, 0px;
+  padding: 0px, 0px, 0px, 0px !important;
   margin: auto;
   margin-top: 10vh;
+}
+
+.mdl-card__supporting-text {
+  font-size: 1rem;
+  overflow: hidden;
+  padding: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 90%;
+}
+
+.mdl-data-table {
+  width: 90%;
 }
 
 .tlr_header_text {
