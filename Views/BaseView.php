@@ -32,12 +32,12 @@ EOF;
     protected static function Footer()
     {
         return <<<EOF
+                    </div>
                 </div>
-            </div>
-            <script src="./Libs/js/alpine.min.js" defer></script>
-            <script defer src="./Libs/js/material.min.js"></script>
-            <script src="./Libs/js/main.js" defer></script>
-        </body>
+                <script src="./Libs/js/alpine.min.js" defer></script>
+                <script defer src="./Libs/js/material.min.js"></script>
+                <script src="./Libs/js/main.js" defer></script>
+            </body>
         </html>
 
 EOF;
