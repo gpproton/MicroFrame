@@ -11,7 +11,7 @@ final class Routes {
         'start',
         'list',
         'auth',
-        'done',
+        'search',
         'error',
     );
 
@@ -50,7 +50,7 @@ final class Routes {
                 self::AuthController();
             break;
             case self::STATE_TAGS[3]:
-                self::DoneController();
+                self::SearchController();
             break;
             case self::STATE_TAGS[4]:
                 self::ErrorController();
@@ -82,10 +82,10 @@ final class Routes {
         ListView::Render();
     }
 
-    private function DoneController()
+    private function SearchController()
     {
         Utils::viewLoader(self::$RouteMode);
-        DoneView::Render();
+        SearchView::Render();
 
         if(Session::Status())
         {
