@@ -15,19 +15,26 @@ final class Query {
 
     public static function Filter()
     {
-        $query  = explode('&', $_SERVER['QUERY_STRING']);
-        $params = array();
-
-        foreach( $query as $param )
+        $query = "";
+        if(isset($_SERVER['QUERY_STRING']))
         {
-        // prevent notice on explode() if $param has no '='
-        if (strpos($param, '=') === false) $param += '=';
+            $query  = explode('&', $_SERVER['QUERY_STRING']);
 
-        list($name, $value) = explode('=', $param, 2);
-        $params[urldecode($name)][] = urldecode($value);
+            $params = array();
+
+            foreach( $query as $param )
+            {
+            // prevent notice on explode() if $param has no '='
+            if (strpos($param, '=') === false) $param += '=';
+
+            list($name, $value) = explode('=', $param, 2);
+            $params[urldecode($name)][] = urldecode($value);
+            }
+
+            return $params;
         }
-
-        return $params;
+        
+        return [];
 
     }
 

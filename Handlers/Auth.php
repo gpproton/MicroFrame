@@ -27,7 +27,7 @@ final class Auth {
         }
     }
 
-    private function Key()
+    private static function Key()
     {
         switch(Config::$AUTH_TYPE)
         {
@@ -43,17 +43,17 @@ final class Auth {
     }
 
     // Auth JWT auth sources
-    private function PassKey()
+    private static function PassKey()
     {
         return Config::$PASS_KEY;
     }
 
-    private function Database()
+    private static function Database()
     {
         return '';
     }
 
-    private function Auth0()
+    private static function Auth0()
     {
         return '';
     }

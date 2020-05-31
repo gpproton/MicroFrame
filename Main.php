@@ -4,9 +4,10 @@ require 'vendor/autoload.php';
 
 final class Main {
 
-    private $HandlerConfig = 'Handlers_Config';
+    private $HandlersConfig = 'Handlers_Config';
+    private $HandlersDatabase = 'Handlers_Database';
     private $HandlersQuery = 'Handlers_Query';
-    private $HandlerRoutes = 'Handlers_Routes';
+    private $HandlersRoutes = 'Handlers_Routes';
 
     private $HelpersUtils = 'Helpers_Utils';
     private $HandlersSession = 'Handlers_Session';
@@ -14,13 +15,16 @@ final class Main {
 
     public function __construct()
     {
+        ////////
         // Class Injections..
+        ///////
 
-        Injector::loadClass($this->HandlerConfig);
+        // Priority
+        Injector::loadClass($this->HandlersConfig);
+        Injector::loadClass($this->HandlersDatabase);
+
         Injector::loadClass($this->HandlersQuery);
-        Injector::loadClass($this->HandlerStream);
-        Injector::loadClass($this->HelpersPath);
-        Injector::loadClass($this->HandlerRoutes);
+        Injector::loadClass($this->HandlersRoutes);
 
         // Auto loads required classes
         Config::Load();
@@ -34,6 +38,11 @@ final class Main {
         Injector::loadClass($this->HandlersSession);
         Injector::loadClass($this->HandlersAuth);
 
-        Routes::Initialize();
+        // Boot Database
+        if(Database::Initialize())
+        {
+            Routes::Initialize();
+        }
+
     }
 }

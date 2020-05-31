@@ -18,6 +18,7 @@ final class Config {
     public static $DATABASE_PORT;
     public static $DATABASE_USER;
     public static $DATABASE_PASS;
+    public static $DATABASE_EXTRA;
 
     public static function Load()
     {
@@ -40,6 +41,7 @@ final class Config {
         self::$DATABASE_PORT = getenv('DATABASE_PORT');
         self::$DATABASE_USER = getenv('DATABASE_USER');
         self::$DATABASE_PASS = getenv('DATABASE_PASS');
+        self::$DATABASE_EXTRA = getenv('DATABASE_EXTRA');
 
     }
 }

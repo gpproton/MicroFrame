@@ -24,7 +24,7 @@ final class Routes {
 
         self::$queryString = Query::Filter();
 
-        if(count(self::$queryString) < 1 && self::$queryString[self::QUERY_MODE] != null)
+        if(count(self::$queryString) < 1)
         {
             self::$RouteMode = self::STATE_TAGS[0];
         }
@@ -67,13 +67,13 @@ final class Routes {
         header("Location: /" . $queryString);
     }
 
-    private function StartController()
+    private static function StartController()
     {
         Utils::viewLoader(self::$RouteMode);
         StartView::Render();
     }
 
-    private function ListController()
+    private static function ListController()
     {
         // Check if from done state
         // self::RedirectQuery('?' . Query::ModeSwitch('main'));
@@ -82,7 +82,7 @@ final class Routes {
         ListView::Render();
     }
 
-    private function SearchController()
+    private static function SearchController()
     {
         Utils::viewLoader(self::$RouteMode);
         SearchView::Render();
@@ -93,13 +93,13 @@ final class Routes {
         }
     }
 
-    private function ErrorController()
+    private static function ErrorController()
     {
         Utils::viewLoader(self::$RouteMode);
         ErrorView::Render();
     }
 
-    private function AuthController()
+    private static function AuthController()
     {
         Utils::viewLoader(self::$RouteMode);
         AuthView::Render();

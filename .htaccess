@@ -9,5 +9,9 @@ IndexIgnore *
 Options All -Indexes
 
 <Files *.php>
-deny from all
+#deny from all
+</Files>
+
+<Files index.php>
+allow from all
 </Files>
