@@ -1,14 +1,16 @@
 
 
-var dialog = document.querySelector('dialog');
-var showDialogButton = document.querySelector('#show-dialog');
-if (! dialog.showModal) {
-  dialogPolyfill.registerDialog(dialog);
-}
-showDialogButton.addEventListener('click', function() {
-  dialog.showModal();
-});
-dialog.querySelector('.close').addEventListener('click', function() {
-  dialog.close();
-});
+function showToast() {
+  'use strict';
+  var snackbarContainer = document.querySelector('#toast-text');
+    'use strict';
+    var data = {
+      message: 'Invalid Session / Credential..',
+      timeout: 2000,
+      actionText: 'X',
+      actionHandler: (function() {} ())
+    };
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+};
 
+window.onload = showToast;

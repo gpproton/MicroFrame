@@ -9,7 +9,7 @@ final class AuthView extends BaseView {
 ?>
 
     <div>
-        <div class="tlr_horizontal_center">
+        <div onload="showToast()" class="tlr_horizontal_center">
             <div class="tlr_status_icon">
                 <span class="material-icons tlr_status_icon_lock">lock</span>
             </div>
@@ -27,7 +27,16 @@ final class AuthView extends BaseView {
                 </div>
             </div>
         </form>
+
+        <div id="toast-text" class="mdl-js-snackbar mdl-snackbar" style="background-color: red;">
+            <div class="mdl-snackbar__text">
+            </div>
+            <button class="mdl-snackbar__action" style="color:  #FFFFFF;" type="button">
+            X
+            </button>
+        </div>
     </div>
+
 
 <?php
     return '';
