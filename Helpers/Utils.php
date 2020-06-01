@@ -104,4 +104,37 @@ final class Utils {
         return $classString;
     }
 
+    public static function nullCheck($type, $data)
+    {
+        if($type == 'date')
+        {
+            if(!empty($data))
+            {
+                return $data;
+            }
+            return 'Pending';
+        }
+        else if($type == 'download')
+        {
+            if(!empty($data))
+            {
+                $fileHTTPUrl = Config::$UPLOAD_BASE_URL . $data;
+                return "<a href='$fileHTTPUrl' target='_blank' class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored'>
+                        <span id='dl_icon' class='material-icons' style='color: green;'>vertical_align_bottom</span>
+                        </a>
+                        <div class='mdl-tooltip' for='dl_icon'>
+                        Click to download <br> attached document.
+                        </div>";
+            }
+            return "<a class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored'>
+                    <span id='dl_icon' class='material-icons' style='color: red;'>not_interested</span>
+                    </a>
+                    <div class='mdl-tooltip' for='dl_icon'>
+                    Attached document is <br> unavailable.
+                    </div>";
+        }
+
+        return 'Not Data';
+    }
+
 }
