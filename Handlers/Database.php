@@ -18,33 +18,36 @@ class Database {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array,
           ];
 
-        try {
+        if(empty(self::$Connection))
+        {
+            try {
 
-            if(Config::$DATABASE_TYPE == 'oracle')
-            {
-                self::$Connection = new PDOOCI\PDO(
-                    self::OracleConnectionStr(),
-                    Config::$DATABASE_USER,
-                    Config::$DATABASE_PASS,
-                    $Options
+                if(Config::$DATABASE_TYPE == 'oracle')
+                {
+                    self::$Connection = new PDOOCI\PDO(
+                        self::OracleConnectionStr(),
+                        Config::$DATABASE_USER,
+                        Config::$DATABASE_PASS,
+                        $Options
+                    );
+                    
+                }
+                else
+                {
+                    // For others
+                    self::$Connection = new PDO("", "", "", $Options);
+                }
+            } catch(PDOException $e) {
+    
+                $jsonMsg = array(
+                    'status' => 0,
+                    'type' => 'Dabase Error',
+                    'message' => 'error: ' . $e->getMessage()
                 );
-                
+    
+                echo json_encode($jsonMsg);
+                return false;
             }
-            else
-            {
-                // For others
-                self::$Connection = new PDO("", "", "", $Options);
-            }
-        } catch(PDOException $e) {
-
-            $jsonMsg = array(
-                'status' => 0,
-                'type' => 'Dabase Error',
-                'message' => 'error: ' . $e->getMessage()
-            );
-
-            echo json_encode($jsonMsg);
-            return false;
         }
 
         return self::$Connection;
