@@ -2,32 +2,31 @@
 
 class Model {
 
-    public $queryString;
-    public $queryParams;
-    public $queryPrepare;
-    public $queryReturn;
+    public $queryString = "";
+    public $queryParams = array();
+    public $queryPrepare = null;
+    public $queryReturn = true;
+    public $modelString;
 
     public function __construct($modelString)
     {
-        Injector::loadClass($modelString);
+        $this->modelString = $modelString;
+    }
+
+    public function Query()
+    {
+        Injector::loadClass($this->modelString);
+        
+        $this->queryReturn = getQueryReturn();
+        $this->queryString = getQueryString();
 
         try
         {
             /* Use prepared statements for maximum security against injections */
             $bootStrap =  Database::Initialize();
-            $this->queryPrepare = $bootStrap->query($this->queryString);
-            
-            $this->queryString = "SELECT * FROM
-            (SELECT oft.FT_TXN_NO, oft.FT_NEW_VEHICLE_NUMBER
-            FROM OT_FLEET_TIME oft)
-            WHERE ROWNUM <= 5";
-            
-            while ($row = $this->queryPrepare->fetch(PDO::FETCH_ASSOC))
-            {
-                echo var_dump($row) . '<br>';
-            }
-    
-            // $this->queryPrepare->execute($this->queryParams);
+            $this->queryPrepare = $bootStrap->prepare($this->queryString, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+	        $this->queryPrepare->execute($this->queryParams);
+
         }
         catch (PDOException $e)
         {
@@ -38,16 +37,9 @@ class Model {
             );
 
             echo json_encode($jsonMsg);
-
-            exit();
-            // return false;
+            return false;
         }
 
-        if($this->queryReturn)
-        {
-            // return $this->queryPrepare;
-        }
-
-        // return false;
+        return $this->queryPrepare;
     }
 }
