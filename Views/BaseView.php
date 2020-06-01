@@ -18,7 +18,7 @@ class BaseView {
                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
                 <link rel="stylesheet" href="./Libs/style/material.min.css">
                 <link rel="stylesheet" href="./Libs/style/main.css">
-                <title>TDLOADS</title>
+                <title>BHN-MCPL INVOICE</title>
             </head>
             <body>
             <div class="dl-card-square mdl-card mdl-shadow--2dp">

@@ -2,9 +2,7 @@
 
 final class Injector {
     public function __construct()
-    {
-
-    }
+    { }
     
     public static function loadClass($class)
     {
