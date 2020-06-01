@@ -4,12 +4,20 @@ final class Config {
 
     // Parameters
     public static $BASE_REAL_PATH;
+    const ALLOWED_QUERY_STRINGS = array(
+        'start',
+        'list',
+        'auth',
+        'search',
+        'error',
+    );
     public static $STORAGE_PATH;
     public static $CACHE_PATH;
     public static $PASS_KEY;
     public static $AUTH_TYPE;
     public static $AUTH_TIMEOUT;
     public static $SESSION_KEY;
+    public static $UPLOAD_BASE_URL;
 
     // Databse keys
 
@@ -42,6 +50,7 @@ final class Config {
         self::$DATABASE_USER = getenv('DATABASE_USER');
         self::$DATABASE_PASS = getenv('DATABASE_PASS');
         self::$DATABASE_EXTRA = getenv('DATABASE_EXTRA');
+        self::$UPLOAD_BASE_URL = getenv('UPLOAD_BASE_URL');
 
     }
 }

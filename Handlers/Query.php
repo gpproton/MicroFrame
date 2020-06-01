@@ -2,13 +2,7 @@
 
 final class Query {
 
-    const STATE_TAGS = array(
-        'start',
-        'list',
-        'auth',
-        'search',
-        'error'
-    );
+    const STATE_TAGS = Config::ALLOWED_QUERY_STRINGS;
 
     public function __construct()
     { }

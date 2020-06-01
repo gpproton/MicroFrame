@@ -7,13 +7,7 @@ final class Routes {
 
     // Fixed tags for query strings
     const QUERY_MODE = 'mode';
-    const STATE_TAGS = array(
-        'start',
-        'list',
-        'auth',
-        'search',
-        'error',
-    );
+    const STATE_TAGS = Config::ALLOWED_QUERY_STRINGS;
 
     public function __construct()
     { }
@@ -24,13 +18,13 @@ final class Routes {
 
         self::$queryString = Query::Filter();
 
-        if(count(self::$queryString) < 1)
+        if(count(self::$queryString) < 1 || !in_array(self::$queryString, Config::ALLOWED_QUERY_STRINGS))
         {
-            self::$RouteMode = self::STATE_TAGS[0];
+            self::$RouteMode = self::STATE_TAGS[2];
         }
         else
         {
-            self::$RouteMode = self::$queryString[self::QUERY_MODE][0];
+            self::$RouteMode = self::$queryString[self::QUERY_MODE][2];
         }
 
         if(!Auth::Verify())
