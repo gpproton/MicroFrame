@@ -6,6 +6,15 @@ final class ListView extends BaseView {
 
     protected static function Content()
     {
+
+        $invoiceModel = new Model('Models_InvoiceList');
+        $invoiceModel->queryParams = array(':rownums' => 5);
+        $invoiceData = $invoiceModel->Query();
+        // while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC))
+        // {
+        //     echo var_dump($row) . '<br>';
+        // }
+
 ?>
 
     <div>
