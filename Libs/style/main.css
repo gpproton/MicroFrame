@@ -7,6 +7,15 @@ body {
   overflow: hidden;
 }
 
+table{
+  border-spacing: 0;
+}
+/* thead, tbody, tr { display: block; } */
+
+tbody {
+  overflow-x: scroll;
+}
+
 .dl-card-square.mdl-card {
   min-width: 100%;
   min-height: 550px;
@@ -34,6 +43,7 @@ body {
 }
 
 .tlr_header_text {
+  margin-top: 10px !important;
   margin-bottom: 15px !important;
   font-size: 24px;
   font-weight: 100;

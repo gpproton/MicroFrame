@@ -8,7 +8,10 @@ final class ListView extends BaseView {
     {
 
         $invoiceModel = new Model('Models_InvoiceList');
-        $invoiceModel->queryParams = array(':rownums' => 5);
+        $invoiceModel->queryParams = array(
+            ':TINVH_NO' => 20880,
+            ':TINVH_TXN_CODE' => 'INOTHS'
+        );
         $invoiceData = $invoiceModel->Query();
 
 ?>
@@ -34,39 +37,22 @@ final class ListView extends BaseView {
                     </tr>
                 </thead>
                 
-                <tbody>
-                <?php while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC)) { ?>
+                <tbody style="">
+                <?php while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC)) { /* echo var_dump($row) . '<br>' */ ?>
                     <tr>
-                        <td class="mdl-data-table__cell--non-numeric">KJA 543 JX</td>
-                        <td class="mdl-data-table__cell--non-numeric">04-MAY-2020 13:06</td>
-                        <td class="mdl-data-table__cell--non-numeric">313213</td>
+                        <td class="mdl-data-table__cell--non-numeric"><?php echo $row['FT_NEW_VEHICLE_NUMBER'] ?></td>
+                        <td class="mdl-data-table__cell--non-numeric"><?php echo Utils::nullCheck('date', $row['ZUD_CR_DT']) ?></td>
+                        <td class="mdl-data-table__cell--non-numeric"><?php echo $row['TINVH_NO'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric">
                             <button class="mdl-button mdl-js-button mdl-button--primary" style="padding: 0; margin: 0; font-size: 11px;">
-                                LMN98787987JNBJH
+                            <?php echo $row['FT_DELIVER_NO'] ?>
                             </button>
                         </td>
                         <td>
-                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-                            <span class="material-icons" style="color: green;">vertical_align_bottom</span>
-                            </button>
+                            <?php echo Utils::nullCheck('download', $row['ZUD_DOC_ADDR']) ?>
                         </td>
                     </tr>
                 <?php } ?>
-                    <!-- <tr>
-                        <td class="mdl-data-table__cell--non-numeric">EPE 752 XX</td>
-                        <td class="mdl-data-table__cell--non-numeric">21-MAY-2020 00:43</td>
-                        <td class="mdl-data-table__cell--non-numeric">324123</td>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <button class="mdl-button mdl-js-button mdl-button--primary" style="padding: 0; margin: 0; font-size: 11px;">
-                                LMN98787HBUG88989
-                            </button>
-                        </td>
-                        <td>
-                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-                            <span class="material-icons" style="color: red;">not_interested</span>
-                            </button>
-                        </td>
-                    </tr> -->
                 </tbody>
             </table>
 
