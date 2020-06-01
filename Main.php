@@ -6,6 +6,7 @@ final class Main {
 
     private $HandlersConfig = 'Handlers_Config';
     private $HandlersDatabase = 'Handlers_Database';
+    private $HelpersModel = 'Helpers_Model';
     private $HandlersQuery = 'Handlers_Query';
     private $HandlersRoutes = 'Handlers_Routes';
 
@@ -22,6 +23,7 @@ final class Main {
         // Priority
         Injector::loadClass($this->HandlersConfig);
         Injector::loadClass($this->HandlersDatabase);
+        Injector::loadClass($this->HelpersModel);
 
         Injector::loadClass($this->HandlersQuery);
         Injector::loadClass($this->HandlersRoutes);

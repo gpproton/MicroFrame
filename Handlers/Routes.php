@@ -3,7 +3,7 @@
 final class Routes {
 
     private static $RouteMode;
-    private static $queryString;
+    private static $queryString = [];
 
     // Fixed tags for query strings
     const QUERY_MODE = 'mode';
@@ -69,6 +69,21 @@ final class Routes {
 
     private static function StartController()
     {
+        $testModel = new Model('Models_InvoiceList');
+        $testModel->queryParams = array(':rownums' => 5);
+
+        // $testModel->queryString = "SELECT * FROM
+        // (SELECT oft.FT_TXN_NO, oft.FT_NEW_VEHICLE_NUMBER
+        // FROM OT_FLEET_TIME oft)
+        // WHERE ROWNUM <= 5";
+
+        // $testModel->queryReturn = true;
+
+        // while ($row = $testModel->queryPrepare->fetch(PDO::FETCH_ASSOC))
+        // {
+        //     echo var_dump($row) . '<br>';
+        // }
+
         Utils::viewLoader(self::$RouteMode);
         StartView::Render();
     }

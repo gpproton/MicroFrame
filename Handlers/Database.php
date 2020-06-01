@@ -2,26 +2,38 @@
 
 class Database {
 
-    private static $Connection;
+    protected static $Connection;
     private static $SLASH = '/';
     private static $COLUMN = ':';
 
+    public function __construct()
+    { }
+
     public static function Initialize()
     {
+        $Options = [
+            PDO::ATTR_PERSISTENT         => true,
+            PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array,
+          ];
+
         try {
+
             if(Config::$DATABASE_TYPE == 'oracle')
             {
                 self::$Connection = new PDOOCI\PDO(
                     self::OracleConnectionStr(),
                     Config::$DATABASE_USER,
-                    Config::$DATABASE_PASS
+                    Config::$DATABASE_PASS,
+                    $Options
                 );
                 
-                self::$Connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
             else
             {
-
+                // For others
+                self::$Connection = new PDO("", "", "", $Options);
             }
         } catch(PDOException $e) {
 
@@ -35,8 +47,10 @@ class Database {
             return false;
         }
 
-        return true;
+        return self::$Connection;
     }
+
+
 
     private static function OracleConnectionStr()
     {
@@ -51,12 +65,12 @@ class Database {
 
     private static function MysqlConnectionStr()
     {
-
+        return "";
     }
 
     private static function PGConnectionStr()
     {
-
+        return "";
     }
 
 }
