@@ -10,10 +10,6 @@ final class ListView extends BaseView {
         $invoiceModel = new Model('Models_InvoiceList');
         $invoiceModel->queryParams = array(':rownums' => 5);
         $invoiceData = $invoiceModel->Query();
-        // while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC))
-        // {
-        //     echo var_dump($row) . '<br>';
-        // }
 
 ?>
 
@@ -30,30 +26,16 @@ final class ListView extends BaseView {
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--0dp tlr_horizontal_center">
                 <thead style="font-size: 11px;">
                     <tr>
-                    <th class="mdl-data-table__cell--non-numeric" style="color: #942621; text-decoration: none;">TRUCK NO</th>
-                    <th class="mdl-data-table__cell--non-numeric">DELIVERY TIME</th>
-                    <th class="mdl-data-table__cell--non-numeric">INVOICE NO</th>
-                    <th class="mdl-data-table__cell--non-numeric">DELIVERY NO</th>
+                    <th class="mdl-data-table__cell--non-numeric tlr_table_th">TRUCK NO</th>
+                    <th class="mdl-data-table__cell--non-numeric tlr_table_th">DELIVERY TIME</th>
+                    <th class="mdl-data-table__cell--non-numeric tlr_table_th">INVOICE NO</th>
+                    <th class="mdl-data-table__cell--non-numeric tlr_table_th">DELIVERY NO</th>
                     <th> </th>
                     </tr>
                 </thead>
                 
                 <tbody>
-                    <tr>
-                        <td class="mdl-data-table__cell--non-numeric">EPE 123 XX</td>
-                        <td class="mdl-data-table__cell--non-numeric">06-MAY-2020 04:21</td>
-                        <td class="mdl-data-table__cell--non-numeric">231221</td>
-                        <td class="mdl-data-table__cell--non-numeric">
-                            <button id="show-dialog" class="mdl-button mdl-js-button mdl-button--primary" style="padding: 0; margin: 0; font-size: 11px;">
-                                LMN099HB989UHJJ8
-                            </button>
-                        </td>
-                        <td>
-                            <button class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-                            <span class="material-icons" style="color: red;">not_interested</span>
-                            </button>
-                        </td>
-                    </tr>
+                <?php while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC)) { ?>
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric">KJA 543 JX</td>
                         <td class="mdl-data-table__cell--non-numeric">04-MAY-2020 13:06</td>
@@ -69,7 +51,8 @@ final class ListView extends BaseView {
                             </button>
                         </td>
                     </tr>
-                    <tr>
+                <?php } ?>
+                    <!-- <tr>
                         <td class="mdl-data-table__cell--non-numeric">EPE 752 XX</td>
                         <td class="mdl-data-table__cell--non-numeric">21-MAY-2020 00:43</td>
                         <td class="mdl-data-table__cell--non-numeric">324123</td>
@@ -83,7 +66,7 @@ final class ListView extends BaseView {
                             <span class="material-icons" style="color: red;">not_interested</span>
                             </button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
 

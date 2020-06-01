@@ -9,7 +9,7 @@ body {
 
 .dl-card-square.mdl-card {
   min-width: 100%;
-  min-height: 400px;
+  min-height: 550px;
   padding: 0px, 0px, 0px, 0px !important;
   margin: auto;
   margin-top: 10vh;
@@ -26,6 +26,11 @@ body {
 
 .mdl-data-table {
   width: 90%;
+}
+
+.tlr_table_th {
+  color: #942621 !important;
+  text-decoration: none;
 }
 
 .tlr_header_text {
