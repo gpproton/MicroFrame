@@ -17,8 +17,7 @@ final class Routes {
         // Initialize query class
 
         self::$queryString = Query::Filter();
-
-        if(count(self::$queryString) < 1 || !in_array(self::$queryString, Config::ALLOWED_QUERY_STRINGS))
+        if(count(self::$queryString) < 1 || !in_array(self::$queryString['mode'][0], Config::ALLOWED_QUERY_STRINGS))
         {
             self::$RouteMode = self::STATE_TAGS[2];
         }
