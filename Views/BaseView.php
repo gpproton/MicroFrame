@@ -62,7 +62,7 @@ EOF;
         return <<<EOF
                     </div>
                 </div>
-                <script src="./Libs/js/alpine.min.js" defer></script>
+                <!--<script src="./Libs/js/alpine.min.js" defer></script>-->
                 <script defer src="./Libs/js/material.min.js"></script>
                 <script src="./Libs/js/main.js" defer></script>
             </body>
