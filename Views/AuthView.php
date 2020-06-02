@@ -31,7 +31,7 @@ final class AuthView extends BaseView {
                 <?php if(Config::$AUTH_TYPE !== 'passkey') { ?>
                 <!-- Username field for other Auth types -->
                 <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input tlr_input" type="text" id="userid" name="tlr_user_id" style="border-color: #942621;">
+                    <input class="mdl-textfield__input tlr_input" type="text" id="userid" name="tlr_auth_user_id" style="border-color: #942621;">
                     <label class="mdl-textfield__label" for="tlr_search">User ID</label>
                 </div>
                 <br />
