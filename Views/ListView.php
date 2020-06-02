@@ -19,16 +19,16 @@ final class ListView extends BaseView {
 
         $invoiceModel = new Model('Models_InvoiceList');
         $invoiceModel->queryParams = array(
-            ':TINVH_NO' => 20880,
+            ':TINVH_NO' => Query::PostData('tlr_search_invoice'),
             ':TINVH_TXN_CODE' => 'INOTHS'
         );
         $invoiceData = $invoiceModel->Query();
-
+        $rowCount = 0;
 ?>
 
     <div>
          <div style="margin-top: 25px;">
-         <a class="" style="color: #942621; text-decoration: none;" href="#">
+         <a class="" style="color: #942621; text-decoration: none;" href="<?php echo Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[3]) ?>">
             <button style="margin-left: 25px;" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
                 <span class="material-icons" style="font-size: 36px; color: #942621;">keyboard_arrow_left</span>
             </button>
@@ -48,7 +48,7 @@ final class ListView extends BaseView {
                 </thead>
                 
                 <tbody style="">
-                <?php while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC)) { /* echo var_dump($row) . '<br>' */ ?>
+                <?php while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC)) { $rowCount++; ?>
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $row['FT_NEW_VEHICLE_NUMBER'] ?></td>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo Utils::nullCheck('date', $row['ZUD_CR_DT']) ?></td>
@@ -65,6 +65,17 @@ final class ListView extends BaseView {
                 <?php } ?>
                 </tbody>
             </table>
+
+            <?php if($rowCount < 1) { ?>
+                <div class="tlr_status_icon" style="margin-top: 0px;">
+                    <span class="material-icons tlr_status_icon_lock">warning</span>
+                </div>
+                <div id="list-toast-text" class="mdl-js-snackbar mdl-snackbar" style="background-color: orange;">
+                    <div class="mdl-snackbar__text">
+                    </div>
+                    <button class="mdl-snackbar__action" style="color:  #FFFFFF;" type="button">X</button>
+                </div>
+            <?php } ?>
 
             <!-- Test diag -->
             <dialog class="mdl-dialog" style="min-width: 500px;">
