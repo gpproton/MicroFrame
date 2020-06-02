@@ -11,7 +11,7 @@
 
 final class Config {
 
-    // Parameters
+    // Query string parameters key
     public static $BASE_REAL_PATH;
     const ALLOWED_QUERY_STRINGS = array(
         'start',
@@ -21,10 +21,14 @@ final class Config {
         'error',
     );
 
+    // Post keys
     const ALLOWED_POST_KEY = array(
         'tlr_submit_login',
+        'tlr_auth_user_id',
+        'tlr_auth_sec_key',
         'tlr_submit_search',
-        'tlr_auth_sec_key'
+        'tlr_search_invoice'
+        
     );
 
     public static $STORAGE_PATH;
