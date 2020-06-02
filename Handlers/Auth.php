@@ -7,23 +7,39 @@ final class Auth {
 
     public static function Verify()
     {
-        Config::Load();
         Session::Boot();
 
-        Session::$SESSION_VALUE = Query::PostData('tlr_passkey');
+        // Key validation with session or post data
+        if(empty(Query::PostData('tlr_auth_sec_key')) && !empty(Session::Confirm()))
+        {
+            Session::$SESSION_VALUE = Session::Confirm();
+        }
+        else if (
+            !empty(Query::PostData('tlr_auth_sec_key'))
+            && Query::PostData('tlr_submit_login') !== null
+            && empty(Session::Confirm())
+        )
+        {
+            Session::$SESSION_VALUE = Query::PostData('tlr_auth_sec_key');
+        }
 
+        // 
         if(isset(Session::$SESSION_VALUE) && Session::$SESSION_VALUE !== self::Key())
         {
             return false;
         }
-        else if(!Session::Status() && Session::$SESSION_VALUE=== self::Key())
+        else if(!Session::Status() && Session::$SESSION_VALUE === self::Key())
         {
             Session::Setup();
+            return true;
+        }
+        else if(Session::Status() && Session::$SESSION_VALUE === self::Key())
+        {
             return Session::Status();
         }
         else
         {
-            return true;
+            return false;
         }
     }
 

@@ -14,21 +14,33 @@ final class Routes {
 
     public static function Initialize()
     {
-        // Initialize query class
-
         self::$queryString = Query::Filter();
-        if(count(self::$queryString) < 1 || !in_array(self::$queryString['mode'][0], Config::ALLOWED_QUERY_STRINGS))
+        $authStates = (
+            count(self::$queryString) < 1
+            || !in_array(self::$queryString['mode'][0], Config::ALLOWED_QUERY_STRINGS)
+            || self::$queryString['mode'][0] === self::STATE_TAGS[2]
+        );
+
+        // Set and filter modes as required
+        if($authStates)
         {
             self::$RouteMode = self::STATE_TAGS[2];
         }
         else
         {
-            self::$RouteMode = self::$queryString[self::QUERY_MODE][2];
+            self::$RouteMode = self::$queryString['mode'][0];
         }
 
-        if(!Auth::Verify())
+        // Authentication redirections
+        if(!Auth::Verify() && !$authStates)
         {
-            self::RedirectQuery('?' . $_SERVER['QUERY_STRING']);
+            // self::RedirectQuery('?' . $_SERVER['QUERY_STRING']);
+            // self::RedirectQuery('?' . Query::ModeSwitch('main'));
+            self::RedirectQuery('?' . self::QUERY_MODE . '=' . self::STATE_TAGS[2]);
+        }
+        else if(Auth::Verify() && $authStates)
+        {
+            self::RedirectQuery('?' . self::QUERY_MODE . '=' . self::STATE_TAGS[3]);
         }
 
         switch(self::$RouteMode)
@@ -58,6 +70,7 @@ final class Routes {
     {
         header("Status: 301 Moved Permanently");
         header("Location: /" . $queryString);
+        die();
     }
 
     private static function StartController()
@@ -80,10 +93,10 @@ final class Routes {
         Utils::viewLoader(self::$RouteMode);
         SearchView::Render();
 
-        if(Session::Status())
-        {
+        // if(Session::Status())
+        // {
 
-        }
+        // }
     }
 
     private static function ErrorController()

@@ -19,9 +19,9 @@ final class AuthView extends BaseView {
         <form action="" method="POST" class="tlr_form tlr_vertical_center tlr_horizontal_center">
             <div class="tlr_base_form">
                 <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input tlr_input" type="password" id="auth" name="tlr_passkey" required>
+                    <input class="mdl-textfield__input tlr_input" type="password" id="auth" name="tlr_auth_sec_key" required>
                     <label class="mdl-textfield__label" for="auth">Pass Key..</label>
-                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tlr_button" name="tlr_submit">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tlr_button" name="tlr_submit_login">
                         <i class="material-icons">navigate_next</i>
                     </button>
                 </div>
