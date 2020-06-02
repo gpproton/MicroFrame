@@ -79,7 +79,7 @@ final class Query {
 
     public static function PostData($postKey)
     {
-        if(in_array($postKey, Config::ALLOWED_POST_KEY))
+        if(in_array($postKey, Config::ALLOWED_POST_KEY) && isset($_POST[$postKey]))
         {
             return $_POST[$postKey];
         }

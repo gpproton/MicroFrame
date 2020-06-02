@@ -125,7 +125,7 @@ final class Utils {
         }
         else if($type == 'download')
         {
-            if(!empty($data))
+            if(strpos($data, 'NIL') === false)
             {
                 $fileHTTPUrl = Config::$UPLOAD_BASE_URL . $data;
                 return "<a href='$fileHTTPUrl' target='_blank' class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored'>

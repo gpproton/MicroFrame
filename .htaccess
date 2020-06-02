@@ -6,15 +6,16 @@
 
 RewriteEngine On
 RewriteCond $1 !^(index\.php)
-#RewriteRule ^(.*)$ /index.php/$1 [L,R=301]
-RewriteCond $1 !^(index\.php|*\.jpg|*\.gif|*\.css|*\.png)
 
 RedirectMatch 403 ^/vendor/?$
 IndexIgnore *
 Options All -Indexes
 
-order deny,allow
-deny from all
+<FilesMatch "composer\.*|.\env|nginx\.conf|.\htaccess">
+    Order allow,deny
+    Deny from all
+    Allow From 127.0.0.1
+</FilesMatch>
 
 <FilesMatch "\.php$">
     Order Allow,Deny
@@ -26,12 +27,8 @@ deny from all
     Allow from all
 </FilesMatch>
 
-<Files .htaccess>
-order allow,deny
-deny from all
-</Files>
-
-<Files composer.*>
-order allow,deny
-deny from all
+<Files .git*>
+    Order allow,deny
+    Deny from all
+    Allow From 127.0.0.1
 </Files>

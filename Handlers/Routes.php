@@ -79,8 +79,8 @@ final class Routes {
     public static function RedirectQuery($queryString)
     {
         header("Status: 301 Moved Permanently");
-        header("Location: " . $queryString);
-        die();
+        header("Location: " . $queryString, TRUE, 301);
+        exit();
     }
 
     // Return actual page link when needed
@@ -95,7 +95,7 @@ final class Routes {
             $currentLink = substr($currentLink, 0, strpos($currentLink, '?') - strlen($currentLink));
         }
 
-        if($option !== 'base' && count(self::$queryString) > 0)
+        if($option !== 'base')
         {
             return $currentLink . '?mode=' . $option;
         }
