@@ -47,7 +47,7 @@ final class ListView extends BaseView {
                     </tr>
                 </thead>
                 
-                <tbody style="">
+                <tbody>
                 <?php while ($row =  $invoiceData->fetch(PDO::FETCH_ASSOC)) { $rowCount++; ?>
                     <tr>
                         <td class="mdl-data-table__cell--non-numeric"><?php echo $row['FT_NEW_VEHICLE_NUMBER'] ?></td>
@@ -75,6 +75,12 @@ final class ListView extends BaseView {
                     </div>
                     <button class="mdl-snackbar__action" style="color:  #FFFFFF;" type="button">X</button>
                 </div>
+
+                <script type="text/JavaScript">
+                    setTimeout(function () {
+                    window.location.href = "<?php echo Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[3]) ?>";
+                    }, 8000);
+                </script>
             <?php } ?>
 
             <!-- Test diag -->
