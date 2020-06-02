@@ -45,13 +45,14 @@ final class Routes {
         {
             // self::RedirectQuery('?' . $_SERVER['QUERY_STRING']);
             // self::RedirectQuery('?' . Query::ModeSwitch('main'));
-            self::RedirectQuery('?' . self::QUERY_MODE . '=' . self::STATE_TAGS[2]);
+            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[2]));
         }
         else if(Auth::Verify() && $authStates)
         {
-            self::RedirectQuery('?' . self::QUERY_MODE . '=' . self::STATE_TAGS[3]);
+            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[3]));
         }
-
+        
+        // Route controllers match with modes
         switch(self::$RouteMode)
         {
             case self::STATE_TAGS[0]:
@@ -78,10 +79,30 @@ final class Routes {
     public static function RedirectQuery($queryString)
     {
         header("Status: 301 Moved Permanently");
-        header("Location: /" . $queryString);
+        header("Location: " . $queryString);
         die();
     }
 
+    // Return actual page link when needed
+    public static function PageActualUrl($option)
+    {
+        $currentLink = (isset($_SERVER['HTTPS'])
+        && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+        . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+        if(strpos($currentLink, '?'))
+        {
+            $currentLink = substr($currentLink, 0, strpos($currentLink, '?') - strlen($currentLink));
+        }
+
+        if($option !== 'base' && count(self::$queryString) > 0)
+        {
+            return $currentLink . '?mode=' . $option;
+        }
+        return $currentLink;
+    }
+
+    // All view controllers
     private static function StartController()
     {
         Utils::viewLoader(self::$RouteMode);
@@ -90,22 +111,28 @@ final class Routes {
 
     private static function ListController()
     {
-        // Check if from done state
-        // self::RedirectQuery('?' . Query::ModeSwitch('main'));
-
         Utils::viewLoader(self::$RouteMode);
-        ListView::Render();
+        if(Query::PostData('tlr_submit_search') === null)
+        {
+            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[3]));
+        }
+        else
+        {
+            ListView::Render();
+        }
     }
 
     private static function SearchController()
     {
         Utils::viewLoader(self::$RouteMode);
-        SearchView::Render();
-
-        // if(Session::Status())
-        // {
-
-        // }
+        if(Query::PostData('tlr_submit_search') !== null)
+        {
+            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[1]));
+        }
+        else
+        {
+            SearchView::Render();
+        }
     }
 
     private static function ErrorController()

@@ -23,7 +23,7 @@ final class SearchView extends BaseView {
             <div>
                 <span class="tlr_horizontal_center" style="font-weight: 200; font-size: 5em; color: #942621;">Invoice Search</span>
             </div>
-            <form action="" method="POST" class="tlr_form">
+            <form action="<?php echo Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[1]); ?>" autocomplete="off" target="_self" method="POST" class="tlr_form">
                 <div class="mdl-textfield mdl-js-textfield tlr_horizontal_center" style="margin-top: 120px;">
                     <input class="mdl-textfield__input tlr_input" type="text" id="tlr_search" name="tlr_search_invoice" pattern="-?[0-9]*(\.[0-9]+)?" style="border-color: #942621;">
                     <label class="mdl-textfield__label" for="tlr_search">Invoice No</label>

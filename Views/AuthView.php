@@ -26,7 +26,7 @@ final class AuthView extends BaseView {
             <span class="tlr_header_text" style="font-size: 22px;">Requires a PassKey</span>
         </div>
 
-        <form action="" method="POST" class="tlr_form tlr_vertical_center tlr_horizontal_center">
+        <form action="<?php echo Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[2]); ?>" method="POST"  autocomplete="off" target="_self" class="tlr_form tlr_vertical_center tlr_horizontal_center">
             <div class="tlr_base_form">
                 <?php if(Config::$AUTH_TYPE !== 'passkey') { ?>
                 <!-- Username field for other Auth types -->
