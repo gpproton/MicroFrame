@@ -13,6 +13,11 @@ final class Config {
 
     // Query string parameters key
     public static $BASE_REAL_PATH;
+    const ALLOWED_QUERY_STRINGS_KEYS = array(
+        'mode'
+    );
+
+    // Query string parameters mode values
     const ALLOWED_QUERY_STRINGS = array(
         'start',
         'list',
