@@ -67,7 +67,7 @@ final class ListView extends BaseView {
             </table>
 
             <?php if($rowCount < 1) { ?>
-                <div class="tlr_status_icon" style="margin-top: 0px;">
+                <div class="tlr_status_icon" style="padding-top: 75px;">
                     <span class="material-icons tlr_status_icon_lock">warning</span>
                 </div>
                 <div id="list-toast-text" class="mdl-js-snackbar mdl-snackbar" style="background-color: orange;">
