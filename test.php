@@ -1,20 +1,22 @@
 <?php
 
+/* 
+ * MIT License
+ * Copyright 2020 - Godwin peter .O (me@godwin.dev)
+ * Tolaram Group Nigeria
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
+ * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish
+ * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
+ */
+
+
 require_once 'vendor/autoload.php';
 
 class Test {
 
     public static function Run()
     {
-        try {
-            $conn = new PDOOCI\PDO("oci:dbname=//192.168.77.4:1521/ORCL", "orbhn", "orbhn");
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         
-            echo "Hahahahaha";
-        } catch(PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
-        }
-
     }
 }
 
