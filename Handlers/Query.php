@@ -24,7 +24,9 @@ final class Query {
             $query  = explode('&', $_SERVER['QUERY_STRING']);
             if(count($query) > 0 && !empty($query[0]))
             {
+                $allowed = Config::ALLOWED_QUERY_STRINGS_KEYS;
                 $params = array();
+                $filtered = array();
 
                 foreach( $query as $param )
                 {
@@ -35,9 +37,18 @@ final class Query {
                 $params[urldecode($name)][] = urldecode($value);
                 }
 
-                return $params;
+                if(count($params) > 0)
+                {
+                    $filtered = array_filter(
+                        $params,
+                        function ($key) use ($allowed) {
+                            return in_array($key, $allowed);
+                        },
+                        ARRAY_FILTER_USE_KEY
+                    );
+                }
+                return $filtered;
             }
-            
         }
         
         return [];
