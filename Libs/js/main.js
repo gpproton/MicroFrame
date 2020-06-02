@@ -11,15 +11,32 @@
  
 function showToast() {
   'use strict';
-  var snackbarContainer = document.querySelector('#toast-text');
-    'use strict';
-    var data = {
+  var authToast = document.querySelector('#toast-text');
+  var listToast = document.querySelector('#list-toast-text');
+
+    var authToastdata = {
       message: 'Invalid Session / Credential..',
       timeout: 2000,
       actionText: 'X',
       actionHandler: (function() {} ())
     };
-    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+    
+    var listToastdata = {
+      message: 'No result found..',
+      timeout: 5000,
+      actionText: 'X',
+      actionHandler: (function() {} ())
+    };
+
+    if(authToast !== null)
+    {
+      authToast.MaterialSnackbar.showSnackbar(authToastdata);
+    }
+
+    if(listToast !== null)
+    {
+      listToast.MaterialSnackbar.showSnackbar(listToastdata);
+    }
 };
 
 window.onload = showToast;
