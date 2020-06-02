@@ -48,14 +48,6 @@ final class Query {
             case $locakedStrings[1]:
                 $finalQuery = str_replace($firstString . $modeType, $firstString . $locakedStrings[3], $curQuery);
             break;
-            // Auth sucessfully - redirect to done.
-            case $locakedStrings[2]:
-                $finalQuery = str_replace($firstString . $modeType, $firstString . $locakedStrings[3], $curQuery);
-            break;
-             // Done view displyed - redirect to auth.
-            case $locakedStrings[3]:
-                $finalQuery = str_replace($firstString . $modeType, $firstString . $locakedStrings[2], $curQuery);
-            break;
             // Redirect to error view.
             default:
                 $finalQuery = str_replace($firstString . $modeType, $firstString . $locakedStrings[4], $curQuery);
@@ -67,7 +59,7 @@ final class Query {
 
     public static function PostData($postKey)
     {
-        if(isset($_POST['tlr_submit']))
+        if(in_array($postKey, Config::ALLOWED_POST_KEY))
         {
             return $_POST[$postKey];
         }

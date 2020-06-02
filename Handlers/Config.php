@@ -11,6 +11,13 @@ final class Config {
         'search',
         'error',
     );
+
+    const ALLOWED_POST_KEY = array(
+        'tlr_submit_login',
+        'tlr_submit_search',
+        'tlr_auth_sec_key'
+    );
+
     public static $STORAGE_PATH;
     public static $CACHE_PATH;
     public static $PASS_KEY;

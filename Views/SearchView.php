@@ -17,7 +17,7 @@ final class SearchView extends BaseView {
                 <input class="mdl-textfield__input tlr_input" type="text" id="tlr_search" pattern="-?[0-9]*(\.[0-9]+)?" style="border-color: #942621;">
                 <label class="mdl-textfield__label" for="tlr_search">Invoice No</label>
                 <span class="mdl-textfield__error">Input is not a number!</span>
-                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tlr_button" name="tlr_submit">
+                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored tlr_button" name="tlr_submit_login">
                     <i class="material-icons">search</i>
                 </button>
             </div>
