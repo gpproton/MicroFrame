@@ -19,6 +19,21 @@ final class Utils {
         return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $urlPath) == 0;
     }
 
+    public static function getClientIP()
+    {
+        $ipaddress = 'UNKNOWN';
+        $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
+        foreach($keys as $k)
+        {
+            if (isset($_SERVER[$k]) && !empty($_SERVER[$k]) && filter_var($_SERVER[$k], FILTER_VALIDATE_IP))
+            {
+                $ipaddress = $_SERVER[$k];
+                break;
+            }
+        }
+        return $ipaddress;
+    }
+
     public static function mimeType($filename)
     {
         if(!function_exists('mime_content_type')) {

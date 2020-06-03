@@ -30,7 +30,7 @@ final class Routes {
             || self::$queryString['mode'][0] === self::STATE_TAGS[2]
         );
 
-        
+        echo var_dump(Utils::getClientIP());
 
         
         // Set and filter modes as required
