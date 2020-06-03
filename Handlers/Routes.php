@@ -30,6 +30,9 @@ final class Routes {
             || self::$queryString['mode'][0] === self::STATE_TAGS[2]
         );
 
+        
+
+        
         // Set and filter modes as required
         if($authStates)
         {
@@ -40,11 +43,18 @@ final class Routes {
             self::$RouteMode = self::$queryString['mode'][0];
         }
 
-        // Authentication redirections
-        if(!Auth::Verify() && !$authStates)
+        $byPass = false;
+        if(isset(self::$queryString['mode']))
         {
-            // self::RedirectQuery('?' . $_SERVER['QUERY_STRING']);
-            // self::RedirectQuery('?' . Query::ModeSwitch('main'));
+            $byPass = self::$queryString['mode'][0] === self::STATE_TAGS[0]
+            || (self::$queryString['mode'][0] === self::STATE_TAGS[5]) && Auth::Verify();
+        }
+
+        // Authentication redirections
+        if($byPass)
+        { }
+        else if(!Auth::Verify() && !$authStates)
+        {
             self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[2]));
         }
         else if(Auth::Verify() && $authStates)
@@ -56,7 +66,7 @@ final class Routes {
         switch(self::$RouteMode)
         {
             case self::STATE_TAGS[0]:
-                self::StartController();
+                self::FaqsController();
             break;
             case self::STATE_TAGS[1]:
                 self::ListController();
@@ -70,8 +80,11 @@ final class Routes {
             case self::STATE_TAGS[4]:
                 self::ErrorController();
             break;
+            case self::STATE_TAGS[5]:
+                self::SignOutController();
+            break;
             default:
-                self::StartController();
+                self::AuthController();
             break;
         }
     }
@@ -84,18 +97,18 @@ final class Routes {
     }
 
     // Return actual page link when needed
-    public static function PageActualUrl($option)
+    public static function PageActualUrl($option = null)
     {
         $currentLink = (isset($_SERVER['HTTPS'])
         && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
         . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-        if(strpos($currentLink, '?'))
+        if(strpos($currentLink, '?') !== false)
         {
             $currentLink = substr($currentLink, 0, strpos($currentLink, '?') - strlen($currentLink));
         }
 
-        if($option !== 'base')
+        if($option !== null)
         {
             return $currentLink . '?mode=' . $option;
         }
@@ -103,10 +116,10 @@ final class Routes {
     }
 
     // All view controllers
-    private static function StartController()
+    private static function FaqsController()
     {
         Utils::viewLoader(self::$RouteMode);
-        StartView::Render();
+        FaqsView::Render();
     }
 
     private static function ListController()
@@ -146,6 +159,12 @@ final class Routes {
         Utils::viewLoader(self::$RouteMode);
         AuthView::Render();
 
+    }
+
+    private static function SignOutController()
+    {
+        Utils::viewLoader(self::$RouteMode);
+        SignOutView::Render();
     }
 
 }

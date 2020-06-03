@@ -19,11 +19,12 @@ final class Config {
 
     // Query string parameters mode values
     const ALLOWED_QUERY_STRINGS = array(
-        'start',
+        'faqs',
         'list',
         'auth',
         'search',
         'error',
+        'signout',
     );
 
     // Post keys
