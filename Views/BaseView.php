@@ -93,6 +93,11 @@ EOF;
         return <<<EOF
                         </div>
                     </div>
+                    <footer class="mdl-mini-footer" style="background-color: #ffffff; max-height: 55px;">
+                    <div class="mdl-mini-footer__right-section">
+                        <div class="mdl-logo" style="color: #942621;">&copy; 2020 Tolaram ERP</div>
+                    </div>
+                    </footer>
                 </div>
                 <!--<script src="./Libs/js/alpine.min.js" defer></script>-->
                 <script defer src="./Libs/js/material.min.js"></script>
