@@ -17,6 +17,7 @@ class BaseView {
         if(isset(Query::Filter()['mode'])) if(Query::Filter()['mode'][0] === Config::ALLOWED_QUERY_STRINGS[5]) Session::Explunge();
         
         $baseUrl = Routes::PageActualUrl();
+        $iconImage = "<a href='" . $baseUrl . "'><img src='" . $baseUrl . "Assets/Icons/apple-icon.png' style='height: 32px;' alt='logo' /></a>";
         $logOutLink = "";
         $faqsLink = "<a class='mdl-navigation__link' href='" . Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[0]) . "'>FAQ's</a>";
         if(Auth::Verify()) $logOutLink = "<a class='mdl-navigation__link' href='" . Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[5]) . "'>Sign Out</a>";
@@ -62,7 +63,7 @@ class BaseView {
                 <div class="mdl-layout-spacer"></div>
                 <!-- Title -->
                 <span style="margin-left: -45px;">
-                <a href="{$baseUrl}"><img src="{$baseUrl}Assets/Icons/apple-icon.png" style="height: 32px;" alt="logo" /></a>
+                    {$iconImage}
                 </span>
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
@@ -72,7 +73,7 @@ class BaseView {
             </header>
             <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">
-                <a href="{$baseUrl}"><img src="{$baseUrl}Assets/Icons/apple-icon.png" style="height: 32px;" alt="logo" /></a>
+                {$iconImage}
             </span>
                 <nav class="mdl-navigation">
                     {$faqsLink}
