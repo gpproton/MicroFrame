@@ -14,7 +14,7 @@ class BaseView {
 
     protected static function Header()
     {
-        if(Query::Filter()['mode'][0] === Config::ALLOWED_QUERY_STRINGS[5]) Session::Explunge();
+        if(isset(Query::Filter()['mode'])) if(Query::Filter()['mode'][0] === Config::ALLOWED_QUERY_STRINGS[5]) Session::Explunge();
         
         $baseUrl = Routes::PageActualUrl();
         $logOutLink = "";
