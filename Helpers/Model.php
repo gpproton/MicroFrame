@@ -45,8 +45,7 @@ class Model {
                 'message' => 'error: ' . $e->getMessage()
             );
 
-            echo json_encode($jsonMsg);
-            return false;
+            Utils::errorHandler($jsonMsg);
         }
 
         return $this->queryPrepare;

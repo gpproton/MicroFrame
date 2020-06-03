@@ -19,7 +19,7 @@ final class Utils {
         return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $urlPath) == 0;
     }
 
-    public static function getClientIP()
+    public static function getLocalStatus()
     {
         $ipaddress = 'UNKNOWN';
         $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
@@ -31,7 +31,22 @@ final class Utils {
                 break;
             }
         }
-        return $ipaddress;
+        return (
+            $ipaddress == '::1'
+            || $ipaddress == '127.0.0.1'
+            || $ipaddress == '0.0.0.0'
+        );
+    }
+
+    public static function errorHandler($option)
+    {
+        if(Utils::getLocalStatus())
+        {
+            echo json_encode($option);
+            return false;
+        }
+        
+        Routes::RedirectQuery(Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[4]));
     }
 
     public static function mimeType($filename)
