@@ -23,67 +23,8 @@ final class Routes {
 
     public static function Initialize()
     {
-        self::$queryString = Query::Filter();
-        $authStates = (
-            count(self::$queryString) < 1
-            || !in_array(self::$queryString['mode'][0], Config::ALLOWED_QUERY_STRINGS)
-            || self::$queryString['mode'][0] === self::STATE_TAGS[2]
-        );
-
-        // Set and filter modes as required
-        if($authStates)
-        {
-            self::$RouteMode = self::STATE_TAGS[2];
-        }
-        else
-        {
-            self::$RouteMode = self::$queryString['mode'][0];
-        }
-
-        $byPass = false;
-        if(isset(self::$queryString['mode']))
-        {
-            $byPass = self::$queryString['mode'][0] === self::STATE_TAGS[0]
-            || (self::$queryString['mode'][0] === self::STATE_TAGS[5]) && Auth::Verify();
-        }
-
-        // Authentication redirections
-        if($byPass)
-        { }
-        else if(!Auth::Verify() && !$authStates)
-        {
-            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[2]));
-        }
-        else if(Auth::Verify() && $authStates)
-        {
-            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[3]));
-        }
-        
-        // Route controllers match with modes
-        switch(self::$RouteMode)
-        {
-            case self::STATE_TAGS[0]:
-                self::FaqsController();
-            break;
-            case self::STATE_TAGS[1]:
-                self::ListController();
-            break;
-            case self::STATE_TAGS[2]:
-                self::AuthController();
-            break;
-            case self::STATE_TAGS[3]:
-                self::SearchController();
-            break;
-            case self::STATE_TAGS[4]:
-                self::ErrorController();
-            break;
-            case self::STATE_TAGS[5]:
-                self::SignOutController();
-            break;
-            default:
-                self::AuthController();
-            break;
-        }
+        self::$RouteMode = self::STATE_TAGS[2];
+        self::AuthController();
     }
 
     public static function RedirectQuery($queryString)
