@@ -45,7 +45,10 @@ class Model {
                 'message' => 'error: ' . $e->getMessage()
             );
 
-            Utils::errorHandler($jsonMsg);
+            if(!Utils::getLocalStatus())
+            {
+                Utils::errorHandler($jsonMsg);
+            }
         }
 
         return $this->queryPrepare;

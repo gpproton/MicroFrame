@@ -24,6 +24,7 @@ class Database {
         $Options = [
             PDO::ATTR_PERSISTENT         => true,
             PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
+            PDO::ATTR_TIMEOUT => 5, // PDO timeout for queries
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array,
           ];
@@ -32,21 +33,33 @@ class Database {
         {
             try {
 
-                if(Config::$DATABASE_TYPE == 'oracle')
+                switch(Config::$DATABASE_TYPE)
                 {
-                    self::$Connection = new PDOOCI\PDO(
-                        self::OracleConnectionStr(),
-                        Config::$DATABASE_USER,
-                        Config::$DATABASE_PASS,
-                        $Options
-                    );
-                    
+                    case 'oracle':
+                        if (in_array("oci",PDO::getAvailableDrivers(),TRUE))
+                        {
+                            self::$Connection = new PDO(
+                                self::OracleConnectionStr(),
+                                Config::$DATABASE_USER,
+                                Config::$DATABASE_PASS,
+                                $Options
+                            ); 
+                        }
+                        else
+                        {
+                            self::$Connection = new PDOOCI\PDO(
+                                self::OracleConnectionStr(),
+                                Config::$DATABASE_USER,
+                                Config::$DATABASE_PASS,
+                                $Options
+                            );
+                        }
+                        break;
+                    default:
+                        //self::$Connection = new PDO("", "", "", $Options);
+                        return false;
                 }
-                else
-                {
-                    // For others
-                    self::$Connection = new PDO("", "", "", $Options);
-                }
+
             } catch(PDOException $e) {
     
                 $jsonMsg = array(
@@ -55,7 +68,10 @@ class Database {
                     'message' => 'error: ' . $e->getMessage()
                 );
 
-                Utils::errorHandler($jsonMsg);
+                if(!Utils::getLocalStatus())
+                {
+                    Utils::errorHandler($jsonMsg);
+                }
                 
             }
         }
@@ -63,7 +79,10 @@ class Database {
         return self::$Connection;
     }
 
-
+    private static function SQLiteConnectionStr()
+    {
+        return "";
+    }
 
     private static function OracleConnectionStr()
     {
