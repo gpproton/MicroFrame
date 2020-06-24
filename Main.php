@@ -50,7 +50,7 @@ final class Main {
         Injector::loadClass($this->HandlersAuth);
 
         // Boot Database
-        if(Database::Initialize())
+        if(Database::Initialize() || Utils::getLocalStatus())
         {
             Routes::Initialize();
         }
