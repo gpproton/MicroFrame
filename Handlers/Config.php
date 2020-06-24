@@ -37,6 +37,8 @@ final class Config {
         
     );
 
+    public static $PRODUCTION_MODE;
+    public static $SITE_TITLE;
     public static $STORAGE_PATH;
     public static $CACHE_PATH;
     public static $PASS_KEY;
@@ -63,6 +65,8 @@ final class Config {
 
         ///// Variable configurations
         //
+        self::$PRODUCTION_MODE = getenv('PRODUCTION_MODE') === 'true';
+        self::$SITE_TITLE = getenv('SITE_TITLE');
         self::$STORAGE_PATH = getenv('STORAGE_PATH');
         self::$CACHE_PATH = getenv('CACHE_PATH');
         self::$PASS_KEY = getenv('PASS_KEY');

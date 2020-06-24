@@ -32,9 +32,10 @@ final class Utils {
             }
         }
         return (
-            $ipaddress == '::1'
+            ($ipaddress == '::1'
             || $ipaddress == '127.0.0.1'
-            || $ipaddress == '0.0.0.0'
+            || $ipaddress == '0.0.0.0')
+            || !Config::$PRODUCTION_MODE
         );
     }
 
