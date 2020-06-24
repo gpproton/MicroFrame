@@ -36,7 +36,7 @@ class Database {
                 switch(Config::$DATABASE_TYPE)
                 {
                     case 'oracle':
-                        if (in_array("oci",PDO::getAvailableDrivers(),TRUE))
+                        if (self::checkPDODriver('oci'))
                         {
                             self::$Connection = new PDO(
                                 self::OracleConnectionStr(),
@@ -54,7 +54,40 @@ class Database {
                                 $Options
                             );
                         }
-                        break;
+                    break;
+                    case 'postgres':
+                        if (self::checkPDODriver('pgsql'))
+                        {
+                            self::$Connection = new PDO(
+                                self::PGConnectionStr(),
+                                Config::$DATABASE_USER,
+                                Config::$DATABASE_PASS,
+                                $Options
+                            ); 
+                        }
+                    break;
+                    case 'mysql':
+                        if (self::checkPDODriver('mysql'))
+                        {
+                            self::$Connection = new PDO(
+                                self::MysqlConnectionStr(),
+                                Config::$DATABASE_USER,
+                                Config::$DATABASE_PASS,
+                                $Options
+                            ); 
+                        }
+                    break;
+                    case 'sqlite':
+                        if (self::checkPDODriver('sqlite'))
+                        {
+                            self::$Connection = new PDO(
+                                self::SQLiteConnectionStr(),
+                                Config::$DATABASE_USER,
+                                Config::$DATABASE_PASS,
+                                $Options
+                            ); 
+                        }
+                    break;
                     default:
                         //self::$Connection = new PDO("", "", "", $Options);
                         return false;
@@ -64,7 +97,7 @@ class Database {
     
                 $jsonMsg = array(
                     'status' => 0,
-                    'type' => 'Dabase Error',
+                    'type' => 'Database Error',
                     'message' => 'error: ' . $e->getMessage()
                 );
 
@@ -103,6 +136,20 @@ class Database {
     private static function PGConnectionStr()
     {
         return "";
+    }
+
+    private static function checkPDODriver($text)
+    {
+        $jsonMsg = array(
+            'status' => 0,
+            'type' => 'Database Error',
+            'message' => 'error: Database pdo driver is not installed'
+        );
+
+        if (!in_array($text, PDO::getAvailableDrivers(),TRUE))
+        {
+            Utils::errorHandler($jsonMsg);
+        }
     }
 
 }
