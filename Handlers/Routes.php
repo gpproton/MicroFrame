@@ -54,44 +54,7 @@ final class Routes {
     }
 
     // All view controllers
-    private static function FaqsController()
-    {
-        Utils::viewLoader(self::$RouteMode);
-        FaqsView::Render();
-    }
-
-    private static function ListController()
-    {
-        Utils::viewLoader(self::$RouteMode);
-        if(Query::PostData('tlr_submit_search') === null)
-        {
-            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[3]));
-        }
-        else
-        {
-            ListView::Render();
-        }
-    }
-
-    private static function SearchController()
-    {
-        Utils::viewLoader(self::$RouteMode);
-        if(Query::PostData('tlr_submit_search') !== null)
-        {
-            self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[1]));
-        }
-        else
-        {
-            SearchView::Render();
-        }
-    }
-
-    private static function ErrorController()
-    {
-        Utils::viewLoader(self::$RouteMode);
-        ErrorView::Render();
-    }
-
+    // Temp Auth placeholder for devel
     private static function AuthController()
     {
         Utils::viewLoader(self::$RouteMode);
@@ -99,10 +62,48 @@ final class Routes {
 
     }
 
-    private static function SignOutController()
-    {
-        Utils::viewLoader(self::$RouteMode);
-        SignOutView::Render();
-    }
+    // private static function FaqsController()
+    // {
+    //     Utils::viewLoader(self::$RouteMode);
+    //     FaqsView::Render();
+    // }
+
+    // private static function ListController()
+    // {
+    //     Utils::viewLoader(self::$RouteMode);
+    //     if(Query::PostData('tlr_submit_search') === null)
+    //     {
+    //         self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[3]));
+    //     }
+    //     else
+    //     {
+    //         ListView::Render();
+    //     }
+    // }
+
+    // private static function SearchController()
+    // {
+    //     Utils::viewLoader(self::$RouteMode);
+    //     if(Query::PostData('tlr_submit_search') !== null)
+    //     {
+    //         self::RedirectQuery(self::PageActualUrl(self::STATE_TAGS[1]));
+    //     }
+    //     else
+    //     {
+    //         SearchView::Render();
+    //     }
+    // }
+
+    // private static function ErrorController()
+    // {
+    //     Utils::viewLoader(self::$RouteMode);
+    //     ErrorView::Render();
+    // }
+
+    // private static function SignOutController()
+    // {
+    //     Utils::viewLoader(self::$RouteMode);
+    //     SignOutView::Render();
+    // }
 
 }
