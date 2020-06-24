@@ -35,7 +35,7 @@ final class Utils {
             ($ipaddress == '::1'
             || $ipaddress == '127.0.0.1'
             || $ipaddress == '0.0.0.0')
-            || !Config::$PRODUCTION_MODE
+            && !Config::$PRODUCTION_MODE
         );
     }
 
@@ -46,8 +46,8 @@ final class Utils {
             echo json_encode($option);
             return false;
         }
-        
-        Routes::RedirectQuery(Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[4]));
+        // TODO: Fix future redirection logic
+        // Routes::RedirectQuery(Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[4]));
     }
 
     public static function mimeType($filename)
