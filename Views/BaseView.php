@@ -14,15 +14,15 @@ class BaseView {
 
     protected static function Header()
     {
-        if(isset(Query::Filter()['mode'])) if(Query::Filter()['mode'][0] === Config::ALLOWED_QUERY_STRINGS[5]) Session::Explunge();
+        // if(isset(Query::Filter()['mode'])) if(Query::Filter()['mode'][0] === Config::ALLOWED_QUERY_STRINGS[5]) Session::Explunge();
         
         $baseUrl = Routes::PageActualUrl();
         $siteTitle = Config::$SITE_TITLE;
-        $iconImage = "<a href='" . $baseUrl . "'><img src='" . $baseUrl . "Assets/Icons/apple-icon.png' style='height: 32px;' alt='logo' /></a>";
-        $iconsBasePath = $baseUrl . 'Assets/Icons';
-        $logOutLink = "";
-        $faqsLink = "<a class='mdl-navigation__link' href='" . Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[0]) . "'>FAQ's</a>";
-        if(Auth::Verify()) $logOutLink = "<a class='mdl-navigation__link' href='" . Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[5]) . "'>Sign Out</a>";
+        // $iconImage = "<a href='" . $baseUrl . "'><img src='" . $baseUrl . "Assets/Icons/apple-icon.png' style='height: 32px;' alt='logo' /></a>";
+        // $iconsBasePath = $baseUrl . 'Assets/Icons';
+        // $logOutLink = "";
+        // $faqsLink = "<a class='mdl-navigation__link' href='" . Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[0]) . "'>FAQ's</a>";
+        // if(Auth::Verify()) $logOutLink = "<a class='mdl-navigation__link' href='" . Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[5]) . "'>Sign Out</a>";
         return <<<EOF
 
         <!DOCTYPE html>
