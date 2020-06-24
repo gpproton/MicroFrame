@@ -17,6 +17,7 @@ class BaseView {
         if(isset(Query::Filter()['mode'])) if(Query::Filter()['mode'][0] === Config::ALLOWED_QUERY_STRINGS[5]) Session::Explunge();
         
         $baseUrl = Routes::PageActualUrl();
+        $siteTitle = Config::$SITE_TITLE;
         $iconImage = "<a href='" . $baseUrl . "'><img src='" . $baseUrl . "Assets/Icons/apple-icon.png' style='height: 32px;' alt='logo' /></a>";
         $iconsBasePath = $baseUrl . 'Assets/Icons';
         $logOutLink = "";
@@ -34,7 +35,7 @@ class BaseView {
                 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
                 <!-- Load icon library -->
                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-                <link rel="stylesheet" href="./Libs/style/material.min.css">
+                <link rel="stylesheet" href="./Libs/style/materialize.min.css">
                 <link rel="stylesheet" href="./Libs/style/main.css">
                 <!-- Load Icons / Logos -->
                 <link rel="apple-touch-icon" sizes="57x57" href="{$iconsBasePath}/apple-icon-57x57.png">
@@ -54,36 +55,10 @@ class BaseView {
                 <meta name="msapplication-TileColor" content="#ffffff">
                 <meta name="msapplication-TileImage" content="{$iconsBasePath}/ms-icon-144x144.png">
                 <meta name="theme-color" content="#ffffff">
-                <title>BHN-MCPL INVOICE</title>
+                <title>{$siteTitle}</title>
             </head>
             <body>
-            <!-- Always shows a header, even in smaller screens. -->
-            <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-            <header class="mdl-layout__header mdl-layout__header--scroll" style="background-color: #ededed; color: #942621;">
-                <div class="mdl-layout__header-row"><!-- Add spacer, to align navigation to the right -->
-                <div class="mdl-layout-spacer"></div>
-                <!-- Title -->
-                <span style="margin-left: -45px;">
-                    {$iconImage}
-                </span>
-                <div class="mdl-layout-spacer"></div>
-                <!-- Navigation. We hide it in small screens. -->
-                <nav class="mdl-navigation mdl-layout--large-screen-only">
-                </nav>
-                </div>
-            </header>
-            <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title">
-                {$iconImage}
-            </span>
-                <nav class="mdl-navigation">
-                    {$faqsLink}
-                    {$logOutLink}
-                </nav>
-            </div>
-            <div class="dl-card-square mdl-card mdl-shadow--0dp">
-                <div class="mdl-card__supporting-text">
-        
+            <div class="container">        
         
     
 EOF;
@@ -92,16 +67,10 @@ EOF;
     protected static function Footer()
     {
         return <<<EOF
-                        </div>
-                    </div>
-                    <footer class="mdl-mini-footer" style="background-color: #ffffff; max-height: 55px;">
-                    <div class="mdl-mini-footer__right-section">
-                        <div class="mdl-logo" style="color: #942621;">&copy; 2020 Tolaram ERP</div>
-                    </div>
-                    </footer>
+
                 </div>
                 <!--<script src="./Libs/js/alpine.min.js" defer></script>-->
-                <script defer src="./Libs/js/material.min.js"></script>
+                <script defer src="./Libs/js/materialize.min.js"></script>
                 <script src="./Libs/js/main.js" defer></script>
             </body>
         </html>
