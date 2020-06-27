@@ -9,8 +9,11 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-final class Logger {
-    public function __construct()
-    { }
+ namespace App\Controllers\Service;
 
+ use App\Controllers\CoreController as Core;
+
+class ErrorController extends Core {
+
+    
 }

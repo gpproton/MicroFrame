@@ -9,34 +9,12 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace App\Helpers;
+
 final class Config {
 
     // Query string parameters key
     public static $BASE_REAL_PATH;
-    const ALLOWED_QUERY_STRINGS_KEYS = array(
-        'mode'
-    );
-
-    // Query string parameters mode values
-    const ALLOWED_QUERY_STRINGS = array(
-        'Faqs',
-        'List',
-        'Auth',
-        'Search',
-        'Error',
-        'Signout',
-    );
-
-    // Post keys
-    const ALLOWED_POST_KEY = array(
-        'tlr_submit_login',
-        'tlr_auth_user_id',
-        'tlr_auth_sec_key',
-        'tlr_submit_search',
-        'tlr_search_invoice'
-        
-    );
-
     public static $PRODUCTION_MODE;
     public static $SITE_TITLE;
     public static $STORAGE_PATH;
@@ -48,6 +26,7 @@ final class Config {
     public static $UPLOAD_BASE_URL;
 
     // Databse keys
+    public static $DATA_SOURCE;
 
     public static $DATABASE_TYPE;
     public static $DATABASE_HOST;
@@ -59,8 +38,8 @@ final class Config {
     public static function Load()
     {
         // Load env file on project path..
-        $BASE_REAL_PATH = realpath(__DIR__ . '/..');
-        $dotenv = Dotenv\Dotenv::createImmutable($BASE_REAL_PATH);
+        $BASE_REAL_PATH = realpath(__DIR__ . '/../..');
+        $dotenv = \Dotenv\Dotenv::createImmutable($BASE_REAL_PATH);
         $dotenv->load();
 
         ///// Variable configurations
@@ -73,6 +52,8 @@ final class Config {
         self::$AUTH_TYPE = getenv('AUTH_TYPE');
         self::$AUTH_TIMEOUT = getenv('AUTH_TIMEOUT');
         self::$SESSION_KEY = getenv('SESSION_KEY');
+
+        self::$DATA_SOURCE = json_decode(getenv('DATA_SOURCE'), FALSE);
 
         self::$DATABASE_TYPE = getenv('DATABASE_TYPE');
         self::$DATABASE_HOST = getenv('DATABASE_HOST');

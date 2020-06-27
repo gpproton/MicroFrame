@@ -9,9 +9,6 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-require 'vendor/autoload.php';
-require_once './App/Core.php';
+namespace App\Helpers;
 
-// Initialize processes..
-$baseApp = new App\Core;
-$baseApp->Run();
+final class DateTime { }

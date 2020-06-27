@@ -9,6 +9,8 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace App\Middleware;
+
 final class Session {
 
     private static $SESSION_KEY = '';

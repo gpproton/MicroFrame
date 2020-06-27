@@ -9,9 +9,11 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-require 'vendor/autoload.php';
-require_once './App/Core.php';
+ namespace App\Controllers\Service;
 
-// Initialize processes..
-$baseApp = new App\Core;
-$baseApp->Run();
+ use App\Controllers\CoreController as Core;
+
+class NotFoundController extends Core {
+
+    
+}
