@@ -11,7 +11,7 @@
 
 namespace App\Helpers;
 
-final class HTTPQuery {
+final class Input {
 
     public function __construct()
     { }
