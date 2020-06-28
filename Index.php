@@ -10,7 +10,7 @@
  */
 
 require 'vendor/autoload.php';
-require_once './App/Core.php';
+require_once './MicroFrame/Core.php';
 
 // Initialize processes..
 $baseApp = new MicroFrame\Core;

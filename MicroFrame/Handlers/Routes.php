@@ -22,18 +22,19 @@ final class Routes {
     {
         // echo var_dump(\MicroFrame\Helpers\Config::$DATA_SOURCE->default->host);
 
-            if(empty(Input::RequestGetData()))
-            {
-                echo 'Hallo';
+            // if(empty(Input::RequestGetData()))
+            // {
+            //     echo 'Hallo';
 
-                return FALSE;
-            }
-            else
-            {
-                echo var_dump(Input::RequestGetData());
+            //     return FALSE;
+            // }
+            // else
+            // {
+            //     echo var_dump(Input::RequestGetData());
 
-                return TRUE;
-            }
+            //     return TRUE;
+            // }
+            echo var_dump(Input::RequestGetData());
     }
 
 }
