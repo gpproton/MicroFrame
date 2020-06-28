@@ -9,11 +9,28 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace App\Controllers;
+ namespace Microframe\Core;
 
 class CoreController {
 
 // TODO: Completely define all output and input methods.
+
+    protected function Request()
+    {
+
+    }
+
+    protected function Format()
+    {
+        
+    }
+
+    protected function Response()
+    {
+
+    }
+
+
 
     
 }

@@ -9,31 +9,29 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\Handlers;
+namespace App;
 
-use App\Helpers\HTTPQuery;
+use \MicroFrame\Helpers\Config;
+use \MicroFrame\Handlers\Routes;
 
-final class Routes {
+final class Core {
 
     public function __construct()
-    { }
-
-    public static function Initialize()
     {
-        // echo var_dump(\App\Helpers\Config::$DATA_SOURCE->default->host);
-
-            if(empty(HTTPQuery::RequestGetData()))
+        // Auto loader class injection.
+        spl_autoload_register(function ($class)
+        {
+            $nameSpacePath = str_replace('\\', '/', $class) . '.php';
+            if(is_file($nameSpacePath))
             {
-                echo 'Hallo';
-
-                return FALSE;
+                require $nameSpacePath;
             }
-            else
-            {
-                echo var_dump(HTTPQuery::RequestGetData());
-
-                return TRUE;
-            }
+        });
     }
 
+    public function Run()
+    {
+        Config::Load();
+        Routes::Initialize();
+    }
 }

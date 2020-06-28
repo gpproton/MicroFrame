@@ -11,7 +11,7 @@
 
  namespace App\Controllers\Pages;
 
- use App\Controllers\CoreController as Core;
+ use MicroFrame\Core\Controller as Core;
 
 class DefaultController extends Core {
 

@@ -9,13 +9,10 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\Helpers;
+namespace MicroFrame\Handlers;
 
-final class Strings {
+final class Logger {
+    public function __construct()
+    { }
 
-    public static function urlIllegalCheckr($urlPath)
-    {
-        return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $urlPath) == 0;
-    }
-    
 }

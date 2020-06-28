@@ -11,7 +11,7 @@
 
  namespace App\Controllers\Service;
 
- use App\Controllers\CoreController as Core;
+ use MicroFrame\Core\Controller as Core;
 
 class ErrorController extends Core {
 

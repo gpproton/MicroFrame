@@ -9,7 +9,7 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\Helpers;
+namespace MicroFrame\Helpers;
 
 final class Config {
 

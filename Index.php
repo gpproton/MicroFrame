@@ -13,5 +13,5 @@ require 'vendor/autoload.php';
 require_once './App/Core.php';
 
 // Initialize processes..
-$baseApp = new App\Core;
+$baseApp = new MicroFrame\Core;
 $baseApp->Run();
