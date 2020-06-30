@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Strings helper class
+ * Routes class class
  * 
  * PHP Version 5
  * 
