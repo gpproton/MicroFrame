@@ -32,6 +32,6 @@ final class Core {
     public function Run()
     {
         Config::Load();
-        Routes::Initialize();
+        Routes::Boot();
     }
 }
