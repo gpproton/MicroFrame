@@ -31,6 +31,7 @@ class Controller {
 
     protected $request;
     protected $response;
+    protected $model;
     protected $middlewareState = false;
 
     protected function __construct()
