@@ -5,7 +5,7 @@
  * 
  * PHP Version 5
  * 
- * @category  App\Middleware
+ * @category  Middleware
  * @package   MicroFrame
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
