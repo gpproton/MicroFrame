@@ -5,7 +5,7 @@
  * 
  * PHP Version 5
  * 
- * @category  Core
+ * @category  App\Middleware
  * @package   MicroFrame
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
@@ -20,37 +20,18 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace Microframe\Core;
+ namespace App\Middleware;
 
- use  Middleware, Request, Response, Model;
+ use \MicroFrame\Core\MiddleWare;
 
-class Controller {
+final class Auth extends MiddleWare {
 
-    // TODO: Completely define all output and input methods.
+    public function __construct()
+    { }
 
-
-    protected $request;
-    protected $response;
-    protected $middlewareState = false;
-
-    protected function __construct()
+    public function handle()
     {
 
     }
 
-    protected function build()
-    {
-
-    }
-
-    protected function addMiddleware(Middleware $middleware)
-    {
-        $middlewareState = $middleware->handle() && $middlewareState;
-    }
-
-    protected function start()
-    {
-
-    }
-    
 }

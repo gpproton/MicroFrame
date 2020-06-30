@@ -22,35 +22,9 @@
 
  namespace Microframe\Core;
 
- use  Middleware, Request, Response, Model;
+abstract class Middleware {
 
-class Controller {
+    abstract public function handle() : boolean;
 
-    // TODO: Completely define all output and input methods.
-
-
-    protected $request;
-    protected $response;
-    protected $middlewareState = false;
-
-    protected function __construct()
-    {
-
-    }
-
-    protected function build()
-    {
-
-    }
-
-    protected function addMiddleware(Middleware $middleware)
-    {
-        $middlewareState = $middleware->handle() && $middlewareState;
-    }
-
-    protected function start()
-    {
-
-    }
     
 }
