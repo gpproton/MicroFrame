@@ -20,7 +20,7 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace App\Controllers\Api;
+ namespace App\Controllers\Page;
 
  use \MicroFrame\Core\Controller as Core;
 

@@ -9,11 +9,11 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace App\Controllers\Pages;
+ namespace App\Controllers\Page;
 
  use MicroFrame\Core\Controller as Core;
 
-class NotFoundController extends Core {
+class DefaultController extends Core {
 
     
 }
