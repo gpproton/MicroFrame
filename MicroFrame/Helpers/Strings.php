@@ -5,11 +5,11 @@
  * 
  * PHP Version 5
  * 
- * @category  PHP
+ * @category  Helpers
  * @package   MicroFrame
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
- * @copyright 2006 Tolaram Group Nigeria
+ * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
  * @link      https://github.com/gpproton/bhn_mcpl_invoicepdf
  * 
@@ -21,13 +21,6 @@
  */
 
 namespace MicroFrame\Helpers;
-
-/**
- * Generic_Sniffs_Functions_OpeningFunctionBraceBsdAllmanSniff.
- *
- * @category PHP
- * @package  PHP_CodeSniffer
- */
 
 final class Strings
 {
