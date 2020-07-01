@@ -22,8 +22,8 @@
 
 namespace MicroFrame;
 
-use \MicroFrame\Helpers\Config;
-use \MicroFrame\Handlers\Routes;
+use \MicroFrame\Helpers\Config as config;
+use MicroFrame\Handlers\Routes as route;
 
 final class Core {
 
@@ -35,6 +35,7 @@ final class Core {
             $nameSpacePath = str_replace('\\', '/', $class) . '.php';
             if(is_file($nameSpacePath))
             {
+                /** @var string $nameSpacePath */
                 require_once $nameSpacePath;
             }
         });
@@ -42,7 +43,9 @@ final class Core {
 
     public function Run()
     {
-        Config::Load();
-        Routes::Boot();
+        // Bootstrap all defined configurations
+        config::Load();
+        // Trigger actions and filters on HTTP request
+        route::Boot();
     }
 }
