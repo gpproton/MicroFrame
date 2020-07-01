@@ -20,7 +20,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace MicroFrame\Core;
+namespace MicroFrame\Interfaces;
 
 interface IRequest
 {
