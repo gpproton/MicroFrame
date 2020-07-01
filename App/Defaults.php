@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Strings helper class
+ * Default options class
  * 
  * PHP Version 5
  * 
