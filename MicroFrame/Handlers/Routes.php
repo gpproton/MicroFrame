@@ -22,7 +22,9 @@
 
 namespace MicroFrame\Handlers;
 
-use MicroFrame\Helpers\Input;
+use MicroFrame\Core\Request;
+use MicroFrame\Core\Response;
+
 
 final class Routes
 {
@@ -37,5 +39,10 @@ final class Routes
     {
 
     }
+
+//    public static function Boot(Request $request, Response $response)
+//    {
+//        $request->all();
+//    }
 
 }
