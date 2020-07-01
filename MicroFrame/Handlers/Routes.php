@@ -1,5 +1,5 @@
 <?php
-
+defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Routes class
  * 
@@ -37,7 +37,7 @@ final class Routes
 
     public static function Boot()
     {
-
+        
     }
 
 //    public static function Boot(Request $request, Response $response)
