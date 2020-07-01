@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Routes class class
+ * Routes class
  * 
  * PHP Version 5
  * 
@@ -35,18 +35,7 @@ final class Routes
 
     public static function Boot()
     {
-        // echo var_dump(\MicroFrame\Helpers\Config::$DATA_SOURCE->default->host);
-        // if (empty(Input::RequestGetData()) ) {
-        //     echo 'Hallo';
-        //     return false;
-        // } else {
-        //     echo var_dump(Input::RequestGetData());
-        //     return true;
-        // }
 
-        // $classT = "\App\Controllers\Api\DefaultController";
-        // $test = new $classT;
-        // $test->Test();
     }
 
 }

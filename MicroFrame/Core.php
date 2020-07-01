@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Routes class class
+ * Core class
  *
  * PHP Version 5
  *
- * @category  Handlers
+ * @category  MicroFrame
  * @package   MicroFrame
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
