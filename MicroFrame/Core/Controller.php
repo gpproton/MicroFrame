@@ -1,5 +1,5 @@
 <?php
-
+defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Strings helper class
  *
@@ -36,11 +36,11 @@ class Controller
     protected $request;
     protected $response;
     protected $model;
-    protected $middlewareState = false;
+    protected $middlewareState;
 
     protected function __construct()
     {
-
+        $this->middlewareState = false;
     }
 
     protected function build()
@@ -50,12 +50,17 @@ class Controller
 
     protected function addMiddleware(Middleware $middleware)
     {
-        $middlewareState = $middleware->handle() && $middlewareState;
+        $this->middlewareState = $middleware->handle() && $this->middlewareState;
     }
 
     protected function start()
     {
 
+    }
+
+    public function __destruct()
+    {
+        // TODO: Implement __destruct() method.
     }
 
 }
