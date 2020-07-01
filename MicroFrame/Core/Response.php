@@ -1,5 +1,5 @@
 <?php
-
+defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Strings helper class
  *
@@ -22,15 +22,33 @@
 
 namespace MicroFrame\Core;
 
+use MicroFrame\Core\Request as request;
+
 final class Response
 {
+    private $request;
+    private $proceed;
+    private $contentArray;
+    public $formats = array('json', 'xml', 'txt', 'html');
+    public $format = 'json';
+    public $Errors = [
+        '200' => array('status' => 1, 'code' => 200, 'message' => 'Completed Successfully'),
+        '204' => array('status' => 0, 'code' => 204, 'message' => 'No content found'),
+        '401' => array('status' => 0, 'code' => 401, 'message' => 'Request unauthorised'),
+        '405' => array('status' => 0, 'code' => 405, 'message' => 'HTTP method not allowed'),
+        '404' => array('status' => 0, 'code' => 404, 'message' => 'Requested resource not found'),
+        '500' => array('status' => 0, 'code' => 500, 'message' => 'Some magic error occurred')
+    ];
+
 
     public function __construct()
     {
-
+        $this->request = new request();
+        $this->proceed = false;
+        $this->contentArray = $this->Errors['204'];
     }
 
-    Public function setFormat($formatType)
+    Public function format($formatType)
     {
 
     }
@@ -40,22 +58,44 @@ final class Response
 
     }
 
+    public function methods($selected = ['get'])
+    {
+        if(in_array($this->request->method(), $selected))
+        {
+            $this->proceed = true;
+            return;
+        }
+        $this->content($this->Errors['405']);
+//        http_response_code($this->Errors['405']['code']);
+        $this->proceed = false;
+    }
+
     Public function content($contentArray)
     {
-
+        $this->contentArray = $contentArray;
     }
 
-    Public function setHeader($key, $value)
+    Public function header($key, $value)
     {
 
     }
 
-    Public function setCookie($key, $value)
+    Public function cookie($key, $value)
     {
 
     }
 
-    Public function setSession($key, $value)
+    Public function session($key, $value)
+    {
+
+    }
+
+    public function render($viewClass)
+    {
+
+    }
+
+    public function send()
     {
 
     }
