@@ -1,7 +1,18 @@
 <?php
 
-// TODO: Set all default php ini params here.
-init_set("short_open_tag", 1);
+/**
+ * Set default PHP configurations.
+ */
+ini_set("short_open_tag", 1);
+ini_set("default_socket_timeout", 900);
+ini_set("max_execution_time", 900);
+ini_set("max_input_time", 600);
+ini_set("max_input_vars", 250);
+ini_set("memory_limit", -1);
+ini_set("post_max_size", "256M");
+ini_set("upload_max_filesize", "256M");
+ini_set("max_file_uploads", 300);
+
 
 /**
  * Bootstrap
@@ -22,6 +33,8 @@ init_set("short_open_tag", 1);
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
+
+define('BASE_PATH', __DIR__);
 
 require 'vendor/autoload.php';
 require_once './MicroFrame/Core.php';
