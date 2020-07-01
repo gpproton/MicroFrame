@@ -1,5 +1,5 @@
 <?php
-
+defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Strings helper class
  *
@@ -22,32 +22,107 @@
 
 namespace MicroFrame\Core;
 
-final class Request
+use MicroFrame\Interfaces\IRequest;
+
+final class Request implements IRequest
 {
+    private static $cookie;
+    private static $env;
+    private static $files;
+    private static $get;
+    private static $post;
+    private static $request;
+    private static $server;
+    private static $session;
 
     public function __construct()
     {
 
     }
 
+
+    /**
+     * Get request method type in plain string
+     * @return mixed
+     */
+    public function method()
+    {
+        if (!empty(self::$server['REQUEST_METHOD'])) return self::$server['REQUEST_METHOD'];
+        return null;
+    }
+
+    /**
+     *Get all request variable values
+     */
     Public function all()
     {
 
     }
 
-    Public function get($string = null)
-    {
 
+    /**
+     * @param null $string filter for desired get value
+     * @param bool $multiple option for return an array
+     * @return array|mixed|null
+     */
+    Public function get($string = null, $multiple = false)
+    {
+        $query  = explode('&', self::$server['QUERY_STRING']);
+        if(count($query) > 0 && !empty($query[0]))
+        {
+            $params = array();
+            $finalParams = null;
+            foreach( $query as $param )
+            {
+                // prevent notice on explode() if $param has no '='
+                if (strpos($param, '=') === false) $param += '=';
+                list($name, $value) = explode('=', $param, 2);
+                $params[urldecode($name)][] = urldecode($value);
+            }
+            if(is_null($string) && !$multiple) {
+                return $params;
+            } else if(!is_null($string) && $multiple) {
+                $finalParams = isset($params[$string]) ? $params[$string] : null;
+            } else if(!is_null($string) && !$multiple) {
+            $finalParams = isset($params[$string]) ? $params[$string][0] : null;
+            }
+            else {
+                $finalParams = array();
+            }
+            return $finalParams;
+        }
     }
 
+    /**
+     * @param null $string  filter for desired post value
+     * @return mixed|null
+     */
     Public function post($string = null)
     {
-
+        $post = self::$post;
+        if(is_null($string)) return $post;
+        else {
+            if(isset($post[$string])) return $post[$string];
+            return null;
+        }
     }
 
+    /**
+     * @param null $string filter for desired header value
+     * @return array|false|mixed|null
+     */
     Public function header($string = null)
     {
-
+        if (empty($string)) { return getallheaders(); }
+        else {
+            $string = strtoupper($string);
+            $header = self::$server['HTTP_' . $string];
+            if(is_null($header)){
+                return null;
+            }
+            /** @var mixed $header */
+            return $header;
+        }
     }
 
     Public function session($string = null)
@@ -58,6 +133,40 @@ final class Request
     Public function cookie($string = null)
     {
 
+    }
+
+    /**
+     * Reference location for commonly used super globals
+     */
+    public static function initializeGlobals()
+    {
+        self::$cookie = $_COOKIE;
+        self::$env = $_ENV;
+        self::$files = $_FILES;
+        self::$get = $_GET;
+        self::$post = $_POST;
+        self::$request = $_REQUEST;
+        self::$server = $_SERVER;
+        self::$session = $_SESSION;
+
+        return self::flushGlobals();
+    }
+
+    /**
+     * Clear original contents for commonly used globals after initialization
+     */
+    private static function flushGlobals()
+    {
+        $_COOKIE = null;
+        $_ENV = null;
+        $_FILES = null;
+        $_GET = null;
+        $_POST = null;
+        $_REQUEST = null;
+        $_SERVER = null;
+        $_SESSION = null;
+
+        return true;
     }
 
 }

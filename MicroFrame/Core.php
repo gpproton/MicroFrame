@@ -22,7 +22,8 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame;
 
-use \MicroFrame\Helpers\Config as config;
+use MicroFrame\Core\Request as request;
+use MicroFrame\Helpers\Config as config;
 use MicroFrame\Handlers\Routes as route;
 
 final class Core {
@@ -44,8 +45,11 @@ final class Core {
     public function Run()
     {
         // Bootstrap all defined configurations
-        config::Load();
-        // Trigger actions and filters on HTTP request
-        route::Boot();
+        if (!request::initializeGlobals()) die('Request can bot be routed!');
+        else {
+            config::Load();
+            // Trigger actions and filters on HTTP request
+            route::Boot();
+        }
     }
 }
