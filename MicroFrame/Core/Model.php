@@ -25,4 +25,23 @@ namespace MicroFrame\Core;
 final class Model
 {
 
+    protected function setParams()
+    {
+
+    }
+
+    protected function setQuery()
+    {
+
+    }
+
+    protected function execute()
+    {
+
+    }
+
+    protected function result()
+    {
+
+    }
 }
