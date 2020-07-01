@@ -1,5 +1,8 @@
 <?php
 
+// TODO: Set all default php ini params here.
+init_set("short_open_tag", 1);
+
 /**
  * Bootstrap
  * 
