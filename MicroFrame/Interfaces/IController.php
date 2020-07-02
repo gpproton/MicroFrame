@@ -25,5 +25,24 @@ namespace MicroFrame\Interfaces;
 interface IController
 {
 
+    /**
+     * @param IRequest $request
+     * @param IResponse $response
+     * @param IModel $model
+     * @return mixed
+     */
+    public function build(IRequest $request, IResponse $response, IModel $model);
+
+    /**
+     * @param IMiddleware $middleware
+     * @return mixed
+     */
+    public function middleware(IMiddleware $middleware);
+
+    /**
+     * @return mixed
+     */
+    public function start();
+
 }
 

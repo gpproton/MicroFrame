@@ -22,12 +22,13 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace Microframe\Core;
 
+use MicroFrame\Interfaces\IController;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
 
-class Controller
+class Controller implements IController
 {
 
     // TODO: Completely define all output and input methods.
@@ -43,7 +44,7 @@ class Controller
         $this->middlewareState = false;
     }
 
-    protected function build(IRequest $request, IResponse $response, IModel $model)
+    public function build(IRequest $request, IResponse $response, IModel $model)
     {
         $this->request = $request;
         $this->response = $response;
@@ -51,12 +52,12 @@ class Controller
         return;
     }
 
-    protected function middleware(IMiddleware $middleware)
+    public function middleware(IMiddleware $middleware)
     {
         $this->middlewareState = $middleware->handle() && $this->middlewareState;
     }
 
-    protected function start()
+    public function start()
     {
         if ($this->middlewareState && isset($this->response))
         {
