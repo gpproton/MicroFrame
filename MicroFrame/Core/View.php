@@ -22,16 +22,18 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace Microframe\Core;
 
-use Middleware;
-use Model;
-use Request;
-use Response;
+use MicroFrame\Interfaces\IView;
 
-class View
+class View implements IView
 {
 
     protected $request;
     protected $response;
     protected $model;
+
+    public function __construct()
+    {
+
+    }
 
 }
