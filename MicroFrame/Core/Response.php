@@ -23,8 +23,9 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
+use MicroFrame\Interfaces\IResponse;
 
-final class Response
+final class Response implements IResponse
 {
     private $request;
     private $proceed;
@@ -48,12 +49,12 @@ final class Response
         $this->contentArray = $this->Errors['204'];
     }
 
-    Public function format($formatType)
+    Public function format($type)
     {
 
     }
 
-    Public function getFormat($formatType)
+    Public function getFormat($type)
     {
 
     }
@@ -70,9 +71,9 @@ final class Response
         $this->proceed = false;
     }
 
-    Public function content($contentArray)
+    Public function content($array)
     {
-        $this->contentArray = $contentArray;
+        $this->contentArray = $array;
     }
 
     Public function header($key, $value)
@@ -90,7 +91,7 @@ final class Response
 
     }
 
-    public function render($viewClass)
+    public function render($class)
     {
 
     }

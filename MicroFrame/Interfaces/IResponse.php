@@ -24,6 +24,61 @@ namespace MicroFrame\Interfaces;
 
 interface IResponse
 {
+    /**
+     * @param $type
+     * @return void
+     */
+    Public function format($type);
 
+    /**
+     * @param $type
+     * @return string
+     */
+    Public function getFormat($type);
+
+    /**
+     * @param array $selected
+     * @return void
+     */
+    public function methods($selected = ['get']);
+
+    /**
+     * @param $array
+     * @return void
+     */
+    Public function content($array);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return void
+     */
+    Public function header($key, $value);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return void
+     */
+    Public function cookie($key, $value);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return void
+     */
+    Public function session($key, $value);
+
+    /**
+     * @param $class
+     * @return void
+     */
+    public function render($class);
+
+    /**
+     * @param $class
+     * @return void
+     */
+    public function send();
 }
 
