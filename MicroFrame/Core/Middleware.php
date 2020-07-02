@@ -22,10 +22,14 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace Microframe\Core;
 
-abstract class Middleware
-{
+use MicroFrame\Interfaces\IMiddleware;
 
-    abstract public function handle(): boolean;
+class Middleware implements IMiddleware
+{
+    public function handle()
+    {
+
+    }
 
 
 }

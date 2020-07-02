@@ -25,6 +25,6 @@ namespace MicroFrame\Interfaces;
 
 interface IMiddleware
 {
-
+    public function handle();
 }
 
