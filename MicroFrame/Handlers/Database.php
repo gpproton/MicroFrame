@@ -22,19 +22,18 @@
 
 namespace MicroFrame\Handlers;
 
-class Database {
+use MicroFrame\Interfaces\IDatabase;
+
+class Database implements IDatabase {
 
     // TODO: Rewrite for more dynamic usage
     protected static $Connection;
     private static $SLASH = '/';
     private static $COLUMN = ':';
 
-    public function __construct()
-    { }
-
     // echo var_dump(\MicroFrame\Helpers\Config::$DATA_SOURCE->default->host);
 
-    public static function Initialize()
+    public function __construct($type = null)
     {
         $Options = [
             PDO::ATTR_PERSISTENT         => true,
