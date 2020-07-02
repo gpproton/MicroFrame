@@ -37,12 +37,9 @@ final class Routes
 
     public static function Boot()
     {
-        
-    }
+        $test = new Request();
+        var_dump($test->query());
 
-//    public static function Boot(Request $request, Response $response)
-//    {
-//        $request->all();
-//    }
+    }
 
 }
