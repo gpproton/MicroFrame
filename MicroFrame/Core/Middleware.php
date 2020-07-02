@@ -26,10 +26,14 @@ use MicroFrame\Interfaces\IMiddleware;
 
 class Middleware implements IMiddleware
 {
-    public function handle()
+    public function __construct()
     {
 
     }
 
+    public function handle()
+    {
+        return false;
+    }
 
 }
