@@ -22,26 +22,37 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Core;
 
-final class Model
+use MicroFrame\Interfaces\IModel;
+
+final class Model implements IModel
 {
-
-    protected function setParams()
+    public function initialize()
     {
-
+        // TODO: Implement initialize() method.
     }
 
-    protected function setQuery()
+    public function params()
     {
-
+        // TODO: Implement params() method.
     }
 
-    protected function execute()
+    public function query()
     {
-
+        // TODO: Implement query() method.
     }
 
-    protected function result()
+    public function execute()
     {
+        // TODO: Implement execute() method.
+    }
 
+    public function result()
+    {
+        // TODO: Implement result() method.
+    }
+
+    public function loader()
+    {
+        // TODO: Implement loader() method.
     }
 }

@@ -24,6 +24,38 @@ namespace MicroFrame\Interfaces;
 
 interface IModel
 {
+    /**
+     * @param IDatabase $database
+     * @return void
+     */
+    public function initialize(IDatabase $database);
+
+    /**
+     * @param array $array
+     * @return void
+     */
+    public function params($array = []);
+
+    /**
+     * @param $string
+     * @return void
+     */
+    public function query($string);
+
+    /**
+     * @return void
+     */
+    public function execute();
+
+    /**
+     * @return array
+     */
+    public function result();
+
+    /**
+     * @return void
+     */
+    public function loader();
 
 }
 
