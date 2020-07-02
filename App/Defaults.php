@@ -24,6 +24,14 @@
 
 class Defaults {
 
+    public $route;
+    public $middleware;
+
+    public function __construct()
+    {
+
+    }
+
     //TODO: Add default middlewares, header and routing structure here.
 
 }
