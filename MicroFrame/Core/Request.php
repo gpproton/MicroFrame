@@ -65,7 +65,7 @@ final class Request implements IRequest
      * @param bool $multiple option for return an array
      * @return array|mixed|null
      */
-    Public function get($string = null, $multiple = false)
+    Public function query($string = null, $multiple = false)
     {
         $query  = explode('&', self::$server['QUERY_STRING']);
         if(count($query) > 0 && !empty($query[0]))
@@ -125,20 +125,30 @@ final class Request implements IRequest
         }
     }
 
+    /**
+     * @param null $string
+     * @return mixed
+     */
     Public function session($string = null)
     {
-
+        if (!is_null($string)) return self::$session[$string];
+        return self::$session;
     }
 
+    /**
+     * @param null $string
+     * @return mixed
+     */
     Public function cookie($string = null)
     {
-
+        if (!is_null($string)) return self::$cookie[$string];
+        return self::$cookie;
     }
 
     /**
      * Reference location for commonly used super globals
      */
-    public static function initializeGlobals()
+    public static function overrideGlobals()
     {
         self::$cookie = $_COOKIE;
         self::$env = $_ENV;
@@ -169,4 +179,11 @@ final class Request implements IRequest
         return true;
     }
 
+    /**
+     * @return string
+     */
+    public function format()
+    {
+        // TODO: Implement format() method.
+    }
 }

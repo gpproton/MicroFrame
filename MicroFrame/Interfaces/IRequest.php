@@ -25,18 +25,50 @@ namespace MicroFrame\Interfaces;
 interface IRequest
 {
 
+    /**
+     * @return string
+     */
     public function method();
 
+    /**
+     * @return string
+     */
+    public function format();
+
+    /**
+     * @return array
+     */
     Public function all();
 
-    Public function get($string = null, $multiple = false);
+    /**
+     * @param null $string
+     * @param bool $multiple
+     * @return mixed
+     */
+    Public function query($string = null, $multiple = false);
 
+    /**
+     * @param null $string
+     * @return mixed
+     */
     Public function post($string = null);
 
+    /**
+     * @param null $string
+     * @return mixed
+     */
     Public function header($string = null);
 
+    /**
+     * @param null $string
+     * @return mixed
+     */
     Public function session($string = null);
 
+    /**
+     * @param null $string
+     * @return mixed
+     */
     Public function cookie($string = null);
 
 }

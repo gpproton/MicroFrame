@@ -45,7 +45,7 @@ final class Core {
     public function Run()
     {
         // Bootstrap all defined configurations
-        if (!request::initializeGlobals()) die('Request can bot be routed!');
+        if (!request::overrideGlobals()) die('Request can bot be routed!');
         else {
             config::Load();
             // Trigger actions and filters on HTTP request
