@@ -24,53 +24,53 @@ namespace MicroFrame\Helpers;
 
 final class Config {
 
-    // Query string parameters key
-    public static $PRODUCTION_MODE;
-    public static $ROUTE_MODE;
-    public static $SITE_TITLE;
-    public static $PASS_KEY;
-    public static $AUTH_TYPE;
-    public static $AUTH_TIMEOUT;
-    public static $SESSION_KEY;
-
-    public static $DATA_SOURCE;
-    public static $STORAGE_PATH;
-    public static $CACHE_PATH;
-
     /**
      * Initialize configurations values
      */
     public static function Load()
     {
-        // Load env file on project path..
-        $BASE_REAL_PATH = BASE_PATH;
-        $dotEnv = \Dotenv\Dotenv::createImmutable($BASE_REAL_PATH);
-        $dotEnv->load();
+        $dotEnv = \Dotenv\Dotenv::createImmutable(BASE_PATH)->load();
 
         /**
-         * Variable configurations
+         * Auto config object builder
+         * @param $array
+         * @return array
          */
-        self::$PRODUCTION_MODE = getenv('PRODUCTION_MODE') === 'true';
+        $AppConfig = function ($array) {
+            $newarray = array();
+            foreach ($array as $key => $value) {
+                if (strpos($key, 'APP_') !== false) $newarray[$key] = $value;
+            }
+            return $newarray;
+        };
+        define('APPLICATION_CONFIG', $AppConfig($dotEnv));
 
-        self::$ROUTE_MODE = getenv('ROUTE_MODE');
+        /**
+         * System configurations constants
+         */
 
-        self::$SITE_TITLE = getenv('SITE_TITLE');
+        define('SYS_PRODUCTION_MODE', getenv('SYS_PRODUCTION_MODE') === 'true');
 
-        self::$PASS_KEY = getenv('PASS_KEY');
+        define('SYS_ROUTE_MODE', getenv('SYS_ROUTE_MODE'));
 
-        self::$AUTH_TYPE = getenv('AUTH_TYPE');
+        define('SYS_SITE_TITLE', getenv('SYS_SITE_TITLE'));
 
-        self::$AUTH_TIMEOUT = getenv('AUTH_TIMEOUT');
+        define('SYS_PASS_KEY', getenv('SYS_PASS_KEY'));
 
-        self::$SESSION_KEY = getenv('SESSION_KEY');
+        define('SYS_AUTH_TYPE', getenv('SYS_AUTH_TYPE'));
+
+        define('SYS_AUTH_TIMEOUT', getenv('SYS_AUTH_TIMEOUT'));
+
+        define('SYS_SESSION_KEY', getenv('SYS_SESSION_KEY'));
 
 
-        self::$DATA_SOURCE = json_decode(str_replace("'", "\"", getenv('DATA_SOURCE')), false);
+        define('SYS_DATA_SOURCE', json_decode(str_replace("'", "\"", getenv('SYS_DATA_SOURCE')), true));
 
-        self::$STORAGE_PATH = getenv('STORAGE_PATH');
+        define('SYS_STORAGE_PATH', getenv('SYS_STORAGE_PATH'));
 
-        self::$CACHE_PATH = getenv('CACHE_PATH');
+        define('SYS_CACHE_PATH', getenv('SYS_CACHE_PATH'));
 
     }
+
 }
 
