@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/bhn_mcpl_invoicepdf.iml" filepath="$PROJECT_DIR$/.idea/bhn_mcpl_invoicepdf.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/MicroFrame.iml" filepath="$PROJECT_DIR$/.idea/MicroFrame.iml" />
     </modules>
   </component>
 </project>
