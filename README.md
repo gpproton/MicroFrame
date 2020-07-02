@@ -1,2 +1,3 @@
-# bhn_mcpl_invoicepdf
- Inter company invoice comparison...
+# MicroFrame
+
+    A simplistic micro plain framework with a little touch of MVC.
