@@ -4,31 +4,14 @@
 ##
 ##############################
 
+<IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteCond $1 !^(index\.php)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond $1 !^(templates|plugins)
+RewriteRule ^(.*)$ index.php?controller=$1 [NC,L,QSA]
+RewriteRule (.+) index.php?controller=$1 [QSA,L]
+</IfModule>
 
-RedirectMatch 403 ^/vendor/?$
 IndexIgnore *
 Options All -Indexes
-
-<FilesMatch "composer\.*|.\env|nginx\.conf|.\htaccess">
-    Order allow,deny
-    Deny from all
-    Allow From 127.0.0.1
-</FilesMatch>
-
-<FilesMatch "\.php$">
-    Order Allow,Deny
-    Deny from all
-</FilesMatch>
-
-<FilesMatch "index[0-9]?\.php$">
-    Order Allow,Deny
-    Allow from all
-</FilesMatch>
-
-<Files .git*>
-    Order allow,deny
-    Deny from all
-    Allow From 127.0.0.1
-</Files>
