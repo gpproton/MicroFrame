@@ -186,4 +186,13 @@ final class Request implements IRequest
     {
         // TODO: Implement format() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    Public function server($string = null)
+    {
+        if (is_null($string)) return self::$server;
+        return is_null(self::$server[$string]) ? null : self::$server[$string];
+    }
 }

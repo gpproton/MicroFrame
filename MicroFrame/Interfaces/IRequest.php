@@ -57,6 +57,12 @@ interface IRequest
      * @param null $string
      * @return mixed
      */
+    Public function server($string = null);
+
+    /**
+     * @param null $string
+     * @return mixed
+     */
     Public function header($string = null);
 
     /**
