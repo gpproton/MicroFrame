@@ -24,6 +24,7 @@ namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Interfaces\IResponse;
+use MicroFrame\Interfaces\IView;
 
 final class Response implements IResponse
 {
@@ -91,7 +92,7 @@ final class Response implements IResponse
 
     }
 
-    public function render($class)
+    public function render(IView $view)
     {
 
     }

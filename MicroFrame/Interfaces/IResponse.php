@@ -70,13 +70,12 @@ interface IResponse
     Public function session($key, $value);
 
     /**
-     * @param $class
+     * @param IView $view
      * @return void
      */
-    public function render($class);
+    public function render(IView $view);
 
     /**
-     * @param $class
      * @return void
      */
     public function send();
