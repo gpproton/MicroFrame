@@ -26,10 +26,6 @@ use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
-use Middleware;
-use Model;
-use Request;
-use Response;
 
 class Controller
 {
