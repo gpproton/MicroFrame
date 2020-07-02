@@ -28,6 +28,7 @@ class Database implements IDatabase {
 
     // TODO: Rewrite for more dynamic usage
     protected static $Connection;
+    private $datasource = (object) SYS_DATA_SOURCE;
     private static $SLASH = '/';
     private static $COLUMN = ':';
 
