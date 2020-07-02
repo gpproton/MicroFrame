@@ -23,13 +23,15 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
+use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Interfaces\IView;
 
 final class Response implements IResponse
 {
     private $request;
-    private $proceed;
+    private $view;
+    public $proceed;
     private $contentArray;
     public $formats = array('json', 'xml', 'txt', 'html');
     public $format = 'json';
@@ -50,56 +52,66 @@ final class Response implements IResponse
         $this->contentArray = $this->Errors['204'];
     }
 
-    Public function format($type)
+    Public function format($type = 'json')
     {
-
+        return $this;
     }
 
     Public function getFormat($type)
     {
-
+        return $this;
     }
 
     public function methods($selected = ['get'])
     {
-        if(in_array($this->request->method(), $selected))
-        {
+        if(in_array($this->request->method(), $selected)) {
             $this->proceed = true;
-            return;
+            $this->header(201);
+            return $this;
         }
+        $this->header(405);
         $this->content($this->Errors['405']);
-//        http_response_code($this->Errors['405']['code']);
         $this->proceed = false;
+        return $this;
     }
 
-    Public function content($array)
+    Public function data($array = null)
     {
         $this->contentArray = $array;
+        return $this;
     }
 
-    Public function header($key, $value)
+    Public function header($key = 200, $value = null)
     {
+        if (gettype($key) == 'integer') {
+            http_response_code($key);
+            return;
+        } else if(!is_null($value)) {
 
+        }
+        return $this;
     }
 
     Public function cookie($key, $value)
     {
-
+        return $this;
     }
 
     Public function session($key, $value)
     {
-
+        return $this;
     }
 
-    public function render(IView $view)
+    public function render(IView $view, IModel $model = null, $data = [])
     {
-
+        // TODO: create view loader
+        return $this;
     }
 
     public function send()
     {
-
+        if (is_null($this->view)) echo json_encode($this->contentArray);
+        return;
     }
 
 }

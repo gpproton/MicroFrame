@@ -26,54 +26,56 @@ interface IResponse
 {
     /**
      * @param $type
-     * @return void
+     * @return self
      */
-    Public function format($type);
+    Public function format($type = 'json');
 
     /**
      * @param $type
-     * @return string
+     * @return self
      */
     Public function getFormat($type);
 
     /**
      * @param array $selected
-     * @return void
+     * @return self
      */
     public function methods($selected = ['get']);
 
     /**
      * @param $array
-     * @return void
+     * @return self
      */
-    Public function content($array);
+    Public function data($array);
 
     /**
      * @param $key
      * @param $value
-     * @return void
+     * @return self
      */
-    Public function header($key, $value);
+    Public function header($key, $value = null);
 
     /**
      * @param $key
      * @param $value
-     * @return void
+     * @return self
      */
     Public function cookie($key, $value);
 
     /**
      * @param $key
      * @param $value
-     * @return void
+     * @return self
      */
     Public function session($key, $value);
 
     /**
      * @param IView $view
+     * @param IModel $model
+     * @param array $data
      * @return void
      */
-    public function render(IView $view);
+    public function render(IView $view, IModel $model, $data = []);
 
     /**
      * @return void
