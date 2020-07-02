@@ -32,37 +32,50 @@ class Controller implements IController
 {
 
     // TODO: Completely define all output and input methods.
-
-
+    protected $config;
     protected $request;
     protected $response;
     protected $model;
     protected $middlewareState;
 
-    protected function __construct()
+    public function __construct()
     {
-        $this->middlewareState = false;
+        $this->middlewareState = true;
     }
 
-    public function build(IRequest $request, IResponse $response, IModel $model)
+    public function build(IResponse $response = null, IRequest $request = null, IModel $model = null)
     {
-        $this->request = $request;
-        $this->response = $response;
-        $this->model = $model;
-        return;
+        $this->config = (object) APPLICATION_CONFIG;
+        if(!is_null($response)) $this->response = $response;
+        if(!is_null($request)) $this->request = $request;
+        if(!is_null($model)) $this->model = $model;
+        return $this;
     }
 
-    public function middleware(IMiddleware $middleware)
+    public function middleware(IMiddleware $middleware = null)
     {
-        $this->middlewareState = $middleware->handle() && $this->middlewareState;
+        if (!is_null($middleware)) {
+            $this->middlewareState = $middleware->handle() && $this->middlewareState;
+        }
+        return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function index()
+    {
+        // Implement index() method from child class.
+    }
+
+    /**
+     * @return void
+     */
     public function start()
     {
-        if ($this->middlewareState && isset($this->response))
-        {
-
-        }
+        /** @var IController $this */
+        if ($this->middlewareState && !is_null($this->response)) $this->response->proceed = true;
+        $this->index();
     }
 
     public function __destruct()

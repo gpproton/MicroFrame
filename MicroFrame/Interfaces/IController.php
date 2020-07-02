@@ -31,13 +31,18 @@ interface IController
      * @param IModel $model
      * @return mixed
      */
-    public function build(IRequest $request, IResponse $response, IModel $model);
+    public function build(IResponse $response = null, IRequest $request = null, IModel $model = null);
 
     /**
      * @param IMiddleware $middleware
      * @return mixed
      */
-    public function middleware(IMiddleware $middleware);
+    public function middleware(IMiddleware $middleware = null);
+
+    /**
+     * @return void
+     */
+    public function index();
 
     /**
      * @return mixed
