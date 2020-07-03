@@ -23,6 +23,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
+use MicroFrame\Helpers\Convert;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
@@ -32,35 +33,24 @@ final class Response implements IResponse
 {
     private $request;
     private $view;
-    private $contentArray;
+    private $content;
+    private $format;
     public $proceed;
-    public $formats = array('json', 'xml', 'txt', 'html');
-    public $format = 'json';
     public $Errors = [
-        '200' => array('status' => 1, 'code' => 200, 'message' => 'Completed Successfully'),
-        '204' => array('status' => 0, 'code' => 204, 'message' => 'No content found'),
-        '401' => array('status' => 0, 'code' => 401, 'message' => 'Request unauthorised'),
-        '405' => array('status' => 0, 'code' => 405, 'message' => 'HTTP method not allowed'),
-        '404' => array('status' => 0, 'code' => 404, 'message' => 'Requested resource not found'),
-        '500' => array('status' => 0, 'code' => 500, 'message' => 'Some magic error occurred')
+        '200' => array('status' => 1, 'code' => 200, 'message' => 'Completed Successfully', 'data' => array()),
+        '204' => array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array()),
+        '401' => array('status' => 0, 'code' => 401, 'message' => 'Request unauthorised', 'data' => array()),
+        '405' => array('status' => 0, 'code' => 405, 'message' => 'HTTP method not allowed', 'data' => array()),
+        '404' => array('status' => 0, 'code' => 404, 'message' => 'Requested resource not found', 'data' => array()),
+        '500' => array('status' => 0, 'code' => 500, 'message' => 'Some magic error occurred', 'data' => array())
     ];
-
 
     public function __construct()
     {
         $this->request = new request();
         $this->proceed = false;
-        $this->contentArray = $this->Errors['204'];
-    }
-
-    Public function format($type = 'json')
-    {
-        return $this;
-    }
-
-    Public function getFormat($type)
-    {
-        return $this;
+        $this->format = 'json';
+        $this->content = $this->Errors['204'];
     }
 
     public function methods($selected = ['get'])
@@ -76,9 +66,25 @@ final class Response implements IResponse
         return $this;
     }
 
+    Public function format($types = array('json', 'xml', 'text'))
+    {
+        $this->format = $this->request->format();
+        if (in_array($this->format, $types)) {
+            $this->proceed = true;
+        } else {
+            $this->proceed = false;
+        }
+        return $this;
+    }
+
+    Public function getFormat($type)
+    {
+        return $this;
+    }
+
     Public function data($array = null)
     {
-        $this->contentArray = $array;
+        $this->content = $array;
         return $this;
     }
 
@@ -123,12 +129,14 @@ final class Response implements IResponse
     public function send()
     {
         if (is_null($this->view)) {
-            if (!$this->proceed && $this->contentArray['code'] !== 405) {
+            if ($this->content['data'])
+            if (!$this->proceed && $this->content['code'] !== 405) {
                 $this->header(401);
                 $this->data($this->Errors['401']);
             }
-            // TODO: Create proper output format
-            echo json_encode($this->contentArray);
+
+            if ($this->format === 'json') $this->format();
+            echo Convert::arrays($this->content, $this->format);
         }
         return;
     }
