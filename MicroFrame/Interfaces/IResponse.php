@@ -76,11 +76,11 @@ interface IResponse
     Public function cookie($key, $value);
 
     /**
-     * @param $key
+     * @param $state
      * @param $value
      * @return self
      */
-    Public function session($key, $value);
+    Public function session($state, $value = null);
 
     /**
      * @param IMiddleware $middleware

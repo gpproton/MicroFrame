@@ -146,8 +146,12 @@ final class Response implements IResponse
         return $this;
     }
 
-    Public function session($key, $value)
+    Public function session($state, $value = null)
     {
+        // session_start(); started already at request session method.
+        // TODO: review all these
+        // Then starts.
+        // Then set $_SESSION with check on allowed list at the end of controller state.
         return $this;
     }
 

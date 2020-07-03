@@ -206,6 +206,8 @@ final class Request implements IRequest
         $_SERVER = null;
         $_SESSION = null;
 
+        // TODO: Test new session initialization.
+        session_start();
         return true;
     }
 
