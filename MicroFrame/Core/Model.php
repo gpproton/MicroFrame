@@ -22,35 +22,55 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Core;
 
+use MicroFrame\Interfaces\IDatabase;
 use MicroFrame\Interfaces\IModel;
 
 final class Model implements IModel
 {
-    public function initialize()
+
+    /**
+     * @inheritDoc
+     */
+    public function initialize(IDatabase $database)
     {
         // TODO: Implement initialize() method.
     }
 
-    public function params()
+    /**
+     * @inheritDoc
+     */
+    public function params($array = [])
     {
         // TODO: Implement params() method.
     }
 
-    public function query()
+    /**
+     * @inheritDoc
+     */
+    public function query($string)
     {
         // TODO: Implement query() method.
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
         // TODO: Implement execute() method.
     }
 
+    /**
+     * @inheritDoc
+     */
     public function result()
     {
         // TODO: Implement result() method.
     }
 
+    /**
+     * @inheritDoc
+     */
     public function loader()
     {
         // TODO: Implement loader() method.
