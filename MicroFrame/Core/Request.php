@@ -47,7 +47,7 @@ final class Request implements IRequest
      */
     public function method()
     {
-        if (!empty(self::$server['REQUEST_METHOD'])) return self::$server['REQUEST_METHOD'];
+        if (!empty(self::$server['REQUEST_METHOD'])) return strtolower(self::$server['REQUEST_METHOD']);
         return null;
     }
 
