@@ -124,11 +124,11 @@ final class Request implements IRequest
             switch ($string) {
                 case 'accept':
                     if (strpos($header, 'json') !== false) {
-                        $header = 'json';
+//                        $header = 'json';
                     } else if(strpos($header, 'xml') !== false) {
-                        $header = 'xml';
+//                        $header = 'xml';
                     } else if(strpos($header, 'multi') !== false) {
-                        $header = 'multi';
+//                        $header = 'multi';
                     }
                     break;
                 default:
