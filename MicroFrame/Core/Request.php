@@ -56,7 +56,7 @@ final class Request implements IRequest
      */
     Public function all()
     {
-
+        return array_merge($this->query(), $this->post());
     }
 
 
