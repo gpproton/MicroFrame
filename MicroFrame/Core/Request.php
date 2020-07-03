@@ -129,12 +129,9 @@ final class Request implements IRequest
                         $header = 'xml';
                     } else if(strpos($header, 'multi') !== false) {
                         $header = 'multi';
-                    } else {
-                        $header = 'text';
                     }
                     break;
                 default:
-                    $header = 'text';
                     break;
             }
             /** @var mixed $header */
