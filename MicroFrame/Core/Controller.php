@@ -74,7 +74,11 @@ class Controller implements IController
     public function start()
     {
         /** @var IController $this */
-        if ($this->middlewareState && !is_null($this->response)) $this->response->proceed = true;
+        if ($this->middlewareState && !is_null($this->response)) {
+            $this->response->proceed = true;
+        } else {
+            $this->response->proceed = false;
+        }
         $this->index();
     }
 
