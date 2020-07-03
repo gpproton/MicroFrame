@@ -35,7 +35,8 @@ final class Response implements IResponse
     private $request;
     private $view;
     private $content;
-    private $format;
+    private $formats;
+    private $methods;
     public $proceed;
     public $States = [
         '200' => array('status' => 1, 'code' => 200, 'message' => 'Completed Successfully', 'data' => array()),
@@ -50,27 +51,30 @@ final class Response implements IResponse
     {
         $this->request = new request();
         $this->proceed = false;
-        $this->format = 'json';
         $this->content = $this->States['204'];
     }
 
-    public function methods($selected = ['get'])
+    public function methods($selected = ['get'], $return = null)
     {
+        $this->methods = $selected;
+
         if(in_array($this->request->method(), $selected)) {
             $this->proceed = true;
             $this->header(200);
+            if(!is_null($return)) return true;
             return $this;
         }
         $this->header(405);
         $this->data($this->States['405']);
         $this->proceed = false;
+        if(!is_null($return)) return false;
         return $this;
     }
 
     Public function format($types = array('application/json', 'application/xml', 'text/plain'))
     {
-        $this->format = $this->request->format();
-        $format = $this->format;
+        $this->formats = $types;
+        $format = $this->request->format();
         $found = function() use ($types, $format) {
             $count = 0;
             foreach ($types as $type) {
@@ -180,9 +184,19 @@ final class Response implements IResponse
                 $this->data($this->States['401']);
             }
 
-            if (strpos($this->format,'json') !== false) $this->format();
-            $this->header('content-type', $this->format);
-            echo Convert::arrays($this->content, $this->format);
+            /**
+             * Extra check if format is not called.
+             * and setting content type with requested type.
+             */
+            if (!isset($this->formats)) $this->format();
+            $this->header('content-type', $this->request->format());
+
+            /**
+             * Extra check if methods is not called.
+             */
+            if (!isset($this->methods)) $this->methods();
+
+            echo Convert::arrays($this->content, $this->request->format());
         } else if (is_null($this->view) && gettype($this->content) !== 'array') {
             echo $this->content;
         }

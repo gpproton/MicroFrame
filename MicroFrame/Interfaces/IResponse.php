@@ -32,9 +32,10 @@ interface IResponse
 
     /**
      * @param array $selected
+     * @param null $return
      * @return self
      */
-    public function methods($selected = ['get']);
+    public function methods($selected = ['get'], $return = null);
 
     /**
      * @param $content
