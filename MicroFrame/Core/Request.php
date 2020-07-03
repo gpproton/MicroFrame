@@ -115,14 +115,47 @@ final class Request implements IRequest
     {
         if (empty($string)) { return getallheaders(); }
         else {
-            $string = strtoupper($string);
-            $header = self::$server['HTTP_' . $string];
+            $string = str_replace('-', '_', $string);
+            $header = self::$server['HTTP_' . strtoupper($string)];
             if(is_null($header)){
                 return null;
+            }
+
+            switch ($string) {
+                case 'accept':
+                    if (strpos($header, 'json') !== false) {
+                        $header = 'json';
+                    } else if(strpos($header, 'xml') !== false) {
+                        $header = 'xml';
+                    } else if(strpos($header, 'multi') !== false) {
+                        $header = 'multi';
+                    } else {
+                        $header = 'text';
+                    }
+                    break;
+                default:
+                    $header = 'text';
+                    break;
             }
             /** @var mixed $header */
             return $header;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function format()
+    {
+        return $this->header('accept');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function contentType()
+    {
+        return $this->header('content-type');
     }
 
     /**
@@ -180,14 +213,6 @@ final class Request implements IRequest
     }
 
     /**
-     * @return string
-     */
-    public function format()
-    {
-        // TODO: Implement format() method.
-    }
-
-    /**
      * @inheritDoc
      */
     Public function server($string = null)
@@ -195,4 +220,5 @@ final class Request implements IRequest
         if (is_null($string)) return self::$server;
         return is_null(self::$server[$string]) ? null : self::$server[$string];
     }
+
 }

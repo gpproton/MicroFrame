@@ -36,6 +36,11 @@ interface IRequest
     public function format();
 
     /**
+     * @return string
+     */
+    public function contentType();
+
+    /**
      * @return array
      */
     Public function all();
