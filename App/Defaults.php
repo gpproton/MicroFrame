@@ -23,8 +23,9 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  namespace App;
 
 class Defaults {
-
+// TODO: route point to related path with dot note, and an array of required middleware
     public $route;
+    // TODO: Defualt app middleware for all controllers with pattern match
     public $middleware;
 
     public function __construct()
@@ -32,6 +33,6 @@ class Defaults {
 
     }
 
-    //TODO: Add default middlewares, header and routing structure here.
+    //TODO: Add default middleware, header and routing structure here.
 
 }

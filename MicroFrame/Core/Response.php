@@ -27,7 +27,7 @@ use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Interfaces\IView;
-
+// TODO: Implement all methods
 final class Response implements IResponse
 {
     private $request;
