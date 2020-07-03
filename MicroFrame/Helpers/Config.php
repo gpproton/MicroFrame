@@ -39,7 +39,7 @@ final class Config {
         $AppConfig = function ($array) {
             $newarray = array();
             foreach ($array as $key => $value) {
-                if (strpos($key, 'APP_') !== false) $newarray[$key] = $value;
+                if (strpos($key, 'APP_') !== false) $newarray[strtoupper($key)] = $value;
             }
             return $newarray;
         };
