@@ -61,9 +61,12 @@ class Controller implements IController
     /**
      * @inheritDoc
      */
-    public function index()
+    public function index(IResponse $response, IRequest $request = null, IModel $model = null)
     {
         // Implement index() method from child class.
+        $response = $this->response;
+        $request = $this->request;
+        $model = $this->model;
     }
 
     /**
@@ -77,7 +80,7 @@ class Controller implements IController
         } else {
             $this->response->proceed = false;
         }
-        $this->index();
+        $this->index($this->response, $this->request, $this->model);
     }
 
     public function __destruct()

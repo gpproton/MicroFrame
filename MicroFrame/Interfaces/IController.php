@@ -40,9 +40,12 @@ interface IController
     public function middleware(IMiddleware $middleware = null);
 
     /**
+     * @param IResponse $response
+     * @param IRequest $request
+     * @param IModel|null $model
      * @return void
      */
-    public function index();
+    public function index(IResponse $response, IRequest $request = null, IModel $model = null);
 
     /**
      * @return mixed

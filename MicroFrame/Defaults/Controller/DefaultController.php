@@ -23,12 +23,16 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace Microframe\Defaults\Controller;
 
 use \Microframe\Core\Controller;
+use MicroFrame\Interfaces\IModel;
+use MicroFrame\Interfaces\IRequest;
+use MicroFrame\Interfaces\IResponse;
 
 final class DefaultController extends Controller
 {
-    public function index()
+    public function index(IResponse $response, IRequest $request = null, IModel $model = null)
     {
-        $this->response
+        $response
+            ->data($request->header())
             ->send();
     }
 
