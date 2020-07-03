@@ -123,7 +123,7 @@ final class Response implements IResponse
     public function send()
     {
         if (is_null($this->view)) {
-            if (!$this->proceed) {
+            if (!$this->proceed && $this->contentArray['code'] !== 405) {
                 $this->header(401);
                 $this->data($this->Errors['401']);
             }
