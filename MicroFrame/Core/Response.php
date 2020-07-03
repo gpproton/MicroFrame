@@ -28,6 +28,7 @@ use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Interfaces\IView;
+
 // TODO: Implement all methods
 final class Response implements IResponse
 {
@@ -36,7 +37,7 @@ final class Response implements IResponse
     private $content;
     private $format;
     public $proceed;
-    public $Errors = [
+    public $States = [
         '200' => array('status' => 1, 'code' => 200, 'message' => 'Completed Successfully', 'data' => array()),
         '204' => array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array()),
         '401' => array('status' => 0, 'code' => 401, 'message' => 'Request unauthorised', 'data' => array()),
@@ -50,7 +51,7 @@ final class Response implements IResponse
         $this->request = new request();
         $this->proceed = false;
         $this->format = 'json';
-        $this->content = $this->Errors['204'];
+        $this->content = $this->States['204'];
     }
 
     public function methods($selected = ['get'])
@@ -61,41 +62,82 @@ final class Response implements IResponse
             return $this;
         }
         $this->header(405);
-        $this->data($this->Errors['405']);
+        $this->data($this->States['405']);
         $this->proceed = false;
         return $this;
     }
 
-    Public function format($types = array('json', 'xml', 'text'))
+    Public function format($types = array('application/json', 'application/xml', 'text/plain'))
     {
         $this->format = $this->request->format();
-        if (in_array($this->format, $types)) {
+        $format = $this->format;
+        $found = function() use ($types, $format) {
+            $count = 0;
+            foreach ($types as $type) {
+                $count++;
+                if (strpos($type, $format) !== false) {
+                    return true;
+                } else if($count === count($types) - 1) {
+                    return false;
+                }
+            }
+        };
+        if ($found()) {
             $this->proceed = true;
         } else {
+            $this->content['message'] = $this->content['message'] . ' | Accept header not set';
             $this->proceed = false;
         }
         return $this;
     }
 
-    Public function getFormat($type)
+    Public function data($content = null)
     {
-        return $this;
-    }
-
-    Public function data($array = null)
-    {
-        $this->content = $array;
+        $this->content = $this->States['200'];
+        $this->content['data'] = $content;
+        if ($this->proceed && !empty($this->content['data'])) {
+            $this->header(200);
+        }
         return $this;
     }
 
     Public function header($key = 200, $value = null)
     {
-        if (gettype($key) == 'integer') {
+        if (is_numeric(gettype($key))) {
             http_response_code($key);
-            return $this;
-        } else if(!is_null($value)) {
-            return $this;
+        } else if(!is_null($value) && $key == 'redirect') {
+            header("Location: {$value}");
+        } else if(!is_null($value) && $key == 'content-type') {
+            header("Content-Type: {$value}; charset=utf-8");
         }
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    Public function status($value = null)
+    {
+        if(is_null($value)) $this->header(200);
+        $this->header($value);
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    Public function redirect($path = null)
+    {
+        $this->header('redirect', $path);
+        return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    Public function refresh($path = 5, $time = null)
+    {
+        header("Refresh: {$time}; url={$path}");
         return $this;
     }
 
@@ -128,17 +170,27 @@ final class Response implements IResponse
 
     public function send()
     {
-        if (is_null($this->view)) {
-            if ($this->content['data'])
+        if (is_null($this->view) && gettype($this->content) === 'array') {
             if (!$this->proceed && $this->content['code'] !== 405) {
                 $this->header(401);
-                $this->data($this->Errors['401']);
+                $this->data($this->States['401']);
             }
 
-            if ($this->format === 'json') $this->format();
+            if (strpos($this->format,'json') !== false) $this->format();
+            $this->header('content-type', $this->format);
             echo Convert::arrays($this->content, $this->format);
+        } else if (is_null($this->view) && gettype($this->content) !== 'array') {
+            echo $this->content;
         }
         return;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    Public function download($path)
+    {
+        // TODO: Implement download() method.
     }
 
 }

@@ -31,22 +31,16 @@ interface IResponse
     Public function format($type = 'json');
 
     /**
-     * @param $type
-     * @return self
-     */
-    Public function getFormat($type);
-
-    /**
      * @param array $selected
      * @return self
      */
     public function methods($selected = ['get']);
 
     /**
-     * @param $array
+     * @param $content
      * @return self
      */
-    Public function data($array);
+    Public function data($content);
 
     /**
      * @param $key
@@ -54,6 +48,25 @@ interface IResponse
      * @return self
      */
     Public function header($key, $value = null);
+
+    /**
+     * @param null $value
+     * @return mixed
+     */
+    Public function status($value = null);
+
+    /**
+     * @param null $path
+     * @return mixed
+     */
+    Public function redirect($path = null);
+
+    /**
+     * @param null $time
+     * @param null $path
+     * @return mixed
+     */
+    Public function refresh($path = null, $time = null);
 
     /**
      * @param $key
@@ -87,5 +100,11 @@ interface IResponse
      * @return void
      */
     public function send();
+
+    /**
+     * @param $path
+     * @return mixed
+     */
+    Public function download($path);
 }
 
