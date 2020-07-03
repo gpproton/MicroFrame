@@ -30,8 +30,6 @@ use MicroFrame\Interfaces\IResponse;
 
 class Controller implements IController
 {
-
-    // TODO: Completely define all output and input methods.
     protected $config;
     protected $request;
     protected $response;
@@ -84,7 +82,7 @@ class Controller implements IController
 
     public function __destruct()
     {
-        // TODO: Implement __destruct() method.
+
     }
 
 }
