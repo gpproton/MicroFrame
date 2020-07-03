@@ -29,7 +29,6 @@ final class DefaultController extends Controller
     public function index()
     {
         $this->response
-            ->methods(['get'])
             ->send();
     }
 
