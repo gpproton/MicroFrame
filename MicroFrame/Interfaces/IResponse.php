@@ -70,12 +70,18 @@ interface IResponse
     Public function session($key, $value);
 
     /**
-     * @param IView $view
-     * @param IModel $model
+     * @param IMiddleware $middleware
+     * @return self
+     */
+    public function middleware(IMiddleware $middleware = null);
+
+    /**
+     * @param IView|null $view
+     * @param IModel|null $model
      * @param array $data
      * @return void
      */
-    public function render(IView $view, IModel $model, $data = []);
+    public function render(IView $view = null, IModel $model = null, $data = []);
 
     /**
      * @return void

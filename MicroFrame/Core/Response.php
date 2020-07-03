@@ -23,6 +23,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
+use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Interfaces\IView;
@@ -31,8 +32,8 @@ final class Response implements IResponse
 {
     private $request;
     private $view;
-    public $proceed;
     private $contentArray;
+    public $proceed;
     public $formats = array('json', 'xml', 'txt', 'html');
     public $format = 'json';
     public $Errors = [
@@ -66,11 +67,11 @@ final class Response implements IResponse
     {
         if(in_array($this->request->method(), $selected)) {
             $this->proceed = true;
-            $this->header(201);
+            $this->header(200);
             return $this;
         }
         $this->header(405);
-        $this->content($this->Errors['405']);
+        $this->data($this->Errors['405']);
         $this->proceed = false;
         return $this;
     }
@@ -85,9 +86,9 @@ final class Response implements IResponse
     {
         if (gettype($key) == 'integer') {
             http_response_code($key);
-            return;
+            return $this;
         } else if(!is_null($value)) {
-
+            return $this;
         }
         return $this;
     }
@@ -102,15 +103,33 @@ final class Response implements IResponse
         return $this;
     }
 
-    public function render(IView $view, IModel $model = null, $data = [])
+    public function render(IView $view = null, IModel $model = null, $data = [])
     {
         // TODO: create view loader
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function middleware(IMiddleware $middleware = null)
+    {
+        if (!is_null($middleware)) {
+            $this->proceed = $middleware->handle() && $this->proceed;
+        }
+        return $this;
+    }
+
     public function send()
     {
-        if (is_null($this->view)) echo json_encode($this->contentArray);
+        if (is_null($this->view)) {
+            if (!$this->proceed) {
+                $this->header(401);
+                $this->data($this->Errors['401']);
+            }
+            // TODO: Create proper output format
+            echo json_encode($this->contentArray);
+        }
         return;
     }
 
