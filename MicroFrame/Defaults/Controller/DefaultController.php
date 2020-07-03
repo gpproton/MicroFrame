@@ -23,18 +23,14 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace Microframe\Defaults\Controller;
 
 use \Microframe\Core\Controller;
-use MicroFrame\Interfaces\IResponse;
 
 final class DefaultController extends Controller
 {
     public function index()
     {
-        $this->response->method(['get', 'post'])
-            ->middleware()
-            ->content()
+        $this->response
+            ->methods(['get'])
             ->send();
-
-//        echo var_dump($this->response->formats);
     }
 
 }
