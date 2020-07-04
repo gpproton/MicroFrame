@@ -82,6 +82,12 @@ interface IRequest
     Public function session($string = null);
 
     /**
+     * @param null $option
+     * @return mixed
+     */
+    Public function auth($option = null);
+
+    /**
      * @param null $string
      * @return mixed
      */
