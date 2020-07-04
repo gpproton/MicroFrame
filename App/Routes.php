@@ -22,7 +22,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
  namespace App;
 
-class Defaults {
+class Routes {
 // TODO: route point to related path with dot note, and an array of required middleware
     public $route;
     // TODO: Defualt app middleware for all controllers with pattern match
