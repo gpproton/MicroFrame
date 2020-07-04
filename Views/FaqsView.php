@@ -9,11 +9,26 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-require './helpers/Injector.php';
+Injector::loadClass('Views_BaseView');
 
-// Base class injection
-Injector::loadClass('Main');
+final class FaqsView extends BaseView {
 
-// Initialize processes..
-$baseApp = new Main;
-$baseApp->Run();
+    protected static function Content()
+    {
+?>
+
+    <div>
+        <div class="tlr_horizontal_center">
+            <span class="tlr_header_text">Frequently asked questions?</span>
+
+            <div class="tlr_status_icon" style="margin-top: 35px;">
+                <span class="material-icons tlr_status_icon_done">360</span>
+            </div>
+        </div>
+    </div>
+
+<?php
+    return '';
+    }
+
+}

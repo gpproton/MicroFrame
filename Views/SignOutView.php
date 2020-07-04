@@ -11,7 +11,7 @@
 
 Injector::loadClass('Views_BaseView');
 
-final class ErrorView extends BaseView{
+final class SignOutView extends BaseView{
 
     protected static function Content()
     {
@@ -19,12 +19,18 @@ final class ErrorView extends BaseView{
 
     <div>
         <div class="tlr_horizontal_center">
-            <span class="tlr_header_text">Error encountered</span>
+            <span class="tlr_header_text">Signing Out..</span>
 
             <div class="tlr_status_icon" style="margin-top: 35px;">
-                <span class="material-icons tlr_status_icon_error">error</span>
+                <div class="mdl-spinner mdl-js-spinner is-active" style="width: 95px; height: 95px;"></div>
             </div>
         </div>
+
+        <script type="text/JavaScript">
+            setTimeout(function () {
+            window.location.href = "<?php echo Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[2]) ?>";
+            }, 2000);
+        </script>
     </div>
 
 <?php

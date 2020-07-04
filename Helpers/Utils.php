@@ -1,5 +1,14 @@
 <?php
 
+/* 
+ * MIT License
+ * Copyright 2020 - Godwin peter .O (me@godwin.dev)
+ * Tolaram Group Nigeria
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
+ * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish
+ * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
+ */
+
 final class Utils {
 
     public function __construct()
@@ -8,6 +17,36 @@ final class Utils {
     public static function urlIllegalCheckr($urlPath)
     {
         return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $urlPath) == 0;
+    }
+
+    public static function getLocalStatus()
+    {
+        $ipaddress = 'UNKNOWN';
+        $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
+        foreach($keys as $k)
+        {
+            if (isset($_SERVER[$k]) && !empty($_SERVER[$k]) && filter_var($_SERVER[$k], FILTER_VALIDATE_IP))
+            {
+                $ipaddress = $_SERVER[$k];
+                break;
+            }
+        }
+        return (
+            $ipaddress == '::1'
+            || $ipaddress == '127.0.0.1'
+            || $ipaddress == '0.0.0.0'
+        );
+    }
+
+    public static function errorHandler($option)
+    {
+        if(Utils::getLocalStatus())
+        {
+            echo json_encode($option);
+            return false;
+        }
+        
+        Routes::RedirectQuery(Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[4]));
     }
 
     public static function mimeType($filename)
@@ -102,6 +141,39 @@ final class Utils {
         Injector::loadClass($classString);
 
         return $classString;
+    }
+
+    public static function nullCheck($type, $data)
+    {
+        if($type == 'date')
+        {
+            if(!empty($data))
+            {
+                return $data;
+            }
+            return 'Pending';
+        }
+        else if($type == 'download')
+        {
+            if(strpos($data, 'NIL') === false)
+            {
+                $fileHTTPUrl = Config::$UPLOAD_BASE_URL . $data;
+                return "<a href='$fileHTTPUrl' target='_blank' class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored'>
+                        <span id='dl_icon' class='material-icons' style='color: green;'>vertical_align_bottom</span>
+                        </a>
+                        <div class='mdl-tooltip' for='dl_icon'>
+                        Click to download <br> attached document.
+                        </div>";
+            }
+            return "<a class='mdl-button mdl-js-button mdl-button--icon mdl-button--colored'>
+                    <span id='dl_icon' class='material-icons' style='color: red;'>not_interested</span>
+                    </a>
+                    <div class='mdl-tooltip' for='dl_icon'>
+                    Attached document is <br> unavailable.
+                    </div>";
+        }
+
+        return 'Not Data';
     }
 
 }

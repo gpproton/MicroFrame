@@ -1,14 +1,23 @@
 <?php
 
+/* 
+ * MIT License
+ * Copyright 2020 - Godwin peter .O (me@godwin.dev)
+ * Tolaram Group Nigeria
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files
+ * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish
+ * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
+ */
+
 require 'vendor/autoload.php';
 
 final class Main {
 
-    private $HandlerConfig = 'Handlers_Config';
+    private $HandlersConfig = 'Handlers_Config';
+    private $HandlersDatabase = 'Handlers_Database';
+    private $HelpersModel = 'Helpers_Model';
     private $HandlersQuery = 'Handlers_Query';
-    private $HandlerStream = 'Handlers_Stream';
-    private $HelpersPath = 'Helpers_Path';
-    private $HandlerRoutes = 'Handlers_Routes';
+    private $HandlersRoutes = 'Handlers_Routes';
 
     private $HelpersUtils = 'Helpers_Utils';
     private $HandlersSession = 'Handlers_Session';
@@ -16,17 +25,20 @@ final class Main {
 
     public function __construct()
     {
+        ////////
         // Class Injections..
+        ///////
 
-        Injector::loadClass($this->HandlerConfig);
+        // Priority
+        Injector::loadClass($this->HandlersConfig);
+        Injector::loadClass($this->HandlersDatabase);
+        Injector::loadClass($this->HelpersModel);
+
         Injector::loadClass($this->HandlersQuery);
-        Injector::loadClass($this->HandlerStream);
-        Injector::loadClass($this->HelpersPath);
-        Injector::loadClass($this->HandlerRoutes);
+        Injector::loadClass($this->HandlersRoutes);
 
         // Auto loads required classes
         Config::Load();
-        Path::Load();
 
     }
 
@@ -37,6 +49,11 @@ final class Main {
         Injector::loadClass($this->HandlersSession);
         Injector::loadClass($this->HandlersAuth);
 
-        Routes::Initialize();
+        // Boot Database
+        if(Database::Initialize())
+        {
+            Routes::Initialize();
+        }
+
     }
 }

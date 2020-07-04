@@ -9,11 +9,16 @@
  * distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-require './helpers/Injector.php';
 
-// Base class injection
-Injector::loadClass('Main');
+require_once 'vendor/autoload.php';
 
-// Initialize processes..
-$baseApp = new Main;
-$baseApp->Run();
+class Test {
+
+    public static function Run()
+    {
+        
+    }
+}
+
+Test::Run();
+
