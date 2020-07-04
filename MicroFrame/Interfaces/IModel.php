@@ -25,10 +25,10 @@ namespace MicroFrame\Interfaces;
 interface IModel
 {
     /**
-     * @param IDatabase $database
-     * @return void
+     * IModel constructor.
+     * @param IDatabase $source
      */
-    public function initialize(IDatabase $database);
+    public function __construct(IDatabase $source = null);
 
     /**
      * @param array $array

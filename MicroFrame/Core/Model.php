@@ -29,11 +29,12 @@ final class Model implements IModel
 {
 
     /**
-     * @inheritDoc
+     * Model constructor.
+     * @param IDatabase $source
      */
-    public function initialize(IDatabase $database)
+    public function __construct(IDatabase $source = null)
     {
-        // TODO: Implement initialize() method.
+
     }
 
     /**
