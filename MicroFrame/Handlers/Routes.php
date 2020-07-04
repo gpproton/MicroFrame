@@ -25,11 +25,11 @@ namespace MicroFrame\Handlers;
 use MicroFrame\Core\Request;
 use MicroFrame\Core\Response;
 use Microframe\Defaults\Middleware\DefaultMiddleware;
+use MicroFrame\Helpers\Utils;
 
 
 final class Routes
 {
-    //TODO: Advance ideas on the routing strategies and place consideration for the query and slashed routing types.
 
     public function __construct()
     {
@@ -39,11 +39,9 @@ final class Routes
     public static function Boot()
     {
 
-        $controllerIdentity = "Microframe\Defaults\Controller\DefaultController";
-        $controllerArgs = array(new Response(), new Request());
-        $controllerBuilder = new \ReflectionClass($controllerIdentity);
-        $controllerInstance = $controllerBuilder->newInstanceArgs($controllerArgs);
-        $controllerInstance->middleware(new DefaultMiddleware)
+        // TODO: Include conditions based on the route and request state.
+        Utils::classLoader('SYSController', 'Default', array(new Response(), new Request()))
+        ->middleware(new DefaultMiddleware)
             ->start();
     }
 
