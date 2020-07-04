@@ -34,7 +34,7 @@ final class Model implements IModel
      */
     public function __construct(IDatabase $source = null)
     {
-
+        return $this;
     }
 
     /**
@@ -43,6 +43,7 @@ final class Model implements IModel
     public function params($array = [])
     {
         // TODO: Implement params() method.
+        return $this;
     }
 
     /**
@@ -51,6 +52,7 @@ final class Model implements IModel
     public function query($string)
     {
         // TODO: Implement query() method.
+        return $this;
     }
 
     /**
@@ -59,6 +61,7 @@ final class Model implements IModel
     public function execute()
     {
         // TODO: Implement execute() method.
+        return $this;
     }
 
     /**
@@ -67,6 +70,7 @@ final class Model implements IModel
     public function result()
     {
         // TODO: Implement result() method.
+        return array();
     }
 
     /**
