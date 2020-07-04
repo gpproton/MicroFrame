@@ -195,9 +195,10 @@ final class Response implements IResponse
             if (!isset($this->formats)) $this->format();
             $contentType = $this->request->contentType();
             $multipart = strpos($contentType, 'multi') !== false;
-            if (strlen($this->request->contentType()) <= 5 || $multipart) {
-                if ($multipart) $contentType = $this->request->format();
-                if (!$multipart) $contentType = $this->request->format() == '*/*' ? 'application/json' : $this->request->format();
+            $reqFormat = $this->request->format();
+            if (strlen($contentType) <= 5 || $multipart) {
+                if ($multipart) $contentType = $reqFormat;
+                if (!$multipart) $contentType = $reqFormat == '*/*' ? 'application/json' : $reqFormat;
             }
             $this->header('content-type', $contentType);
 

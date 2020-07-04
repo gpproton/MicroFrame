@@ -61,7 +61,7 @@ class Controller implements IController
     /**
      * @inheritDoc
      */
-    public function index(IResponse $response, IRequest $request, IModel $model)
+    public function index(IResponse $response, IRequest $request)
     {
         // Implement index() method from child class.
         $response->send();
@@ -86,4 +86,9 @@ class Controller implements IController
 
     }
 
+    public static function Model($source =  null)
+    {
+        if (is_null($source)) return new Model();
+        return new Model($source);
+    }
 }

@@ -29,10 +29,10 @@ use MicroFrame\Interfaces\IResponse;
 
 final class DefaultController extends Controller
 {
-    public function index(IResponse $response, IRequest $request, IModel $model )
+    public function index(IResponse $response, IRequest $request)
     {
         $response
-            ->data($request->post())
+            ->data($request->query())
             ->send();
     }
 
