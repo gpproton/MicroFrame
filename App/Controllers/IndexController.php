@@ -1,7 +1,7 @@
 <?php
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * View default controller class
+ * Strings helper class
  *
  * PHP Version 5
  *
@@ -20,11 +20,11 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace App\Controllers\Page;
+namespace App\Controllers;
 
- use MicroFrame\Core\Controller as Core;
+use \MicroFrame\Core\Controller as Core;
 
-class DefaultController extends Core {
+class IndexController extends Core {
 
-    
+
 }
