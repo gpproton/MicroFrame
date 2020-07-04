@@ -59,6 +59,11 @@ interface IRequest
     Public function post($string = null);
 
     /**
+     * @return string
+     */
+    Public function raw();
+
+    /**
      * @param null $string
      * @return mixed
      */
