@@ -24,7 +24,7 @@ namespace App\Middleware;
 
 use \Microframe\Core\Middleware;
 
-class TestMiddleware extends Middleware
+class AuthMiddleware extends Middleware
 {
     public function handle()
     {
