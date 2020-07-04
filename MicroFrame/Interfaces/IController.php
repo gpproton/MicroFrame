@@ -28,10 +28,9 @@ interface IController
     /**
      * @param IRequest $request
      * @param IResponse $response
-     * @param IModel $model
      * @return mixed
      */
-    public function build(IResponse $response, IRequest $request, IModel $model);
+    public function __construct(IResponse $response, IRequest $request);
 
     /**
      * @param IMiddleware $middleware

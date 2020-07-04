@@ -24,7 +24,6 @@ namespace Microframe\Core;
 
 use MicroFrame\Interfaces\IController;
 use MicroFrame\Interfaces\IMiddleware;
-use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
 
@@ -33,20 +32,14 @@ class Controller implements IController
     protected $config;
     protected $request;
     protected $response;
-    protected $model;
     protected $middlewareState;
 
-    public function __construct()
+    public function __construct(IResponse $response, IRequest $request)
     {
         $this->middlewareState = true;
-    }
-
-    public function build(IResponse $response, IRequest $request, IModel $model)
-    {
         $this->config = (object) APPLICATION_CONFIG;
         if(!is_null($response)) $this->response = $response;
         if(!is_null($request)) $this->request = $request;
-        if(!is_null($model)) $this->model = $model;
         return $this;
     }
 
@@ -78,7 +71,7 @@ class Controller implements IController
         } else {
             $this->response->proceed = false;
         }
-        $this->index($this->response, $this->request, $this->model);
+        $this->index($this->response, $this->request);
     }
 
     public function __destruct()
