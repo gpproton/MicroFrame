@@ -1,12 +1,12 @@
 <?php
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * View default controller class
+ * View Index controller class
  *
  * PHP Version 5
  *
  * @category  Controller
- * @package   MicroFrame
+ * @package   App
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
