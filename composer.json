@@ -1,17 +1,20 @@
 {
-    "name": "gpproton/bhn_mcpl_invoicepdf",
-    "description": "An internal invoice listing and download system",
+    "name": "gpproton/MicroFrame",
+    "description": "A simplistic micro-plain framework with a little touch of MVC",
     "type": "project",
     "license": "MIT",
     "authors": [
         {
             "name": "Godwin peter .O",
-            "email": "me@godwin.dev"
+            "email": "me@godwin.dev",
+            "homepage": "https://godwin.dev",
+            "role": "Developer"
         }
     ],
     "require": {
         "vlucas/phpdotenv": "^4.1",
-        "taq/pdooci": "^1.0"
+        "taq/pdooci": "^1.0",
+      "ext-json": "*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*"
