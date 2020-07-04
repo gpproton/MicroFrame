@@ -64,9 +64,7 @@ class Controller implements IController
     public function index(IResponse $response, IRequest $request, IModel $model)
     {
         // Implement index() method from child class.
-        $response = $this->response;
-        $request = $this->request;
-        $model = $this->model;
+        $response->send();
     }
 
     /**
