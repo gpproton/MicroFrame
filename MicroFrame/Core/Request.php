@@ -221,7 +221,8 @@ final class Request implements IRequest
     }
 
     /**
-     * @inheritDoc
+     * @param null $string
+     * @return mixed|null
      */
     Public function server($string = null)
     {
@@ -229,4 +230,13 @@ final class Request implements IRequest
         return is_null(self::$server[$string]) ? null : self::$server[$string];
     }
 
+    /**
+     * @param null $option
+     * @return mixed|void
+     */
+    Public function auth($option = null)
+    {
+        header('HTTP/1.1 401 Unauthorized');
+        header('WWW-Authenticate: Basic realm="MicroFrame basic auth"');
+    }
 }
