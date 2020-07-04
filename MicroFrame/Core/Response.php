@@ -89,6 +89,7 @@ final class Response implements IResponse
         if ($found()) {
             $this->proceed = true;
         } else {
+            $this->content = $this->States['401'];
             $this->content['message'] = $this->content['message'] . ' | Accept header not set';
             $this->proceed = false;
         }
@@ -110,9 +111,11 @@ final class Response implements IResponse
         if (is_numeric(gettype($key))) {
             http_response_code($key);
         } else if(!is_null($value) && $key == 'redirect') {
-            header("Location: {$value}");
+            header("Location: {$value}", true);
         } else if(!is_null($value) && $key == 'content-type') {
-            header("Content-Type: {$value}; charset=utf-8");
+            header("Content-Type: {$value}; charset=utf-8", true);
+        } else if(!is_null($value) && $key == 'accept') {
+            // header("Content-Type: {$value}; charset=utf-8", true);
         }
         return $this;
     }
@@ -185,20 +188,27 @@ final class Response implements IResponse
             }
 
             /**
-             * Extra check if format is not called.
-             * and setting content type with requested type.
+             * Extra check if format is not called
+             * and setting content type with requested type
+             * accept header must be set or error is sent in json.
              */
             if (!isset($this->formats)) $this->format();
-            $this->header('content-type', $this->request->format());
+            $contentType = $this->request->contentType();
+            $multipart = strpos($contentType, 'multi') !== false;
+            if (strlen($this->request->contentType()) <= 5 || $multipart) {
+                if ($multipart) $contentType = $this->request->format();
+                if (!$multipart) $contentType = $this->request->format() == '*/*' ? 'application/json' : $this->request->format();
+            }
+            $this->header('content-type', $contentType);
 
             /**
              * Extra check if methods is not called.
              */
             if (!isset($this->methods)) $this->methods();
 
-            echo Convert::arrays($this->content, $this->request->format());
+            exit(Convert::arrays($this->content, $contentType));
         } else if (is_null($this->view) && gettype($this->content) !== 'array') {
-            echo $this->content;
+            exit($this->content);
         }
         return;
     }
