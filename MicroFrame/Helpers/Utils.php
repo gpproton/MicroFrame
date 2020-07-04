@@ -22,10 +22,13 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Helpers;
 
+use ReflectionClass;
+use ReflectionException;
+
 final class Utils {
 
     
-    public static function getLocalStatus()
+    public static function local()
     {
         $ipaddress = 'UNKNOWN';
         $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
@@ -47,13 +50,51 @@ final class Utils {
 
     public static function errorHandler($option)
     {
-        if(Utils::getLocalStatus())
+        if(Utils::local())
         {
             echo json_encode($option);
             return false;
         }
         // TODO: Fix future redirection logic
         // Routes::RedirectQuery(Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[4]));
+    }
+
+    /**
+     * @param $data
+     */
+    public static function debug($data) {
+        ob_start();
+        echo "DEBUG:----------\n";
+        print_r($data);
+        echo "\nEND-DEBUG:----------";
+        error_log(ob_get_clean(), 4);
+    }
+
+    /**
+     * @param $type
+     * @param $path
+     * @param $args
+     * @return object
+     * @throws ReflectionException
+     */
+    public static function classLoader($type, $path, $args = array()) {
+
+        // TODO: Complete implementation for App | SYS view/Controller/Models/Middleware
+
+        $path = str_replace(".", "\\", $path);
+        $path = str_replace("/", "\\", $path);
+        $path = str_replace("-", "\\", $path);
+
+        switch ($type) {
+            case 'SYSController':
+                $path = "Microframe\Defaults\Controller\\" . $path . "Controller";
+                break;
+            default:
+                break;
+        }
+
+        $classBuilder = new ReflectionClass($path);
+        return $classBuilder->newInstanceArgs($args);
     }
 
 }
