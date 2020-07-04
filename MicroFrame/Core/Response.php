@@ -207,9 +207,12 @@ final class Response implements IResponse
              */
             if (!isset($this->methods)) $this->methods();
 
-            exit(Convert::arrays($this->content, $contentType));
+            /**
+             * Only echo to allow for destructor use for after operations.
+             */
+            echo(Convert::arrays($this->content, $contentType));
         } else if (is_null($this->view) && gettype($this->content) !== 'array') {
-            exit($this->content);
+            echo($this->content);
         }
         return;
     }
