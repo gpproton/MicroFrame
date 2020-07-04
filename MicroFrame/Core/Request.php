@@ -108,6 +108,15 @@ final class Request implements IRequest
     }
 
     /**
+     * @return false|string
+     */
+    Public function raw()
+    {
+        $data = file_get_contents('php://input');
+        return !empty($data) ? $data : null;
+    }
+
+    /**
      * @param null $string filter for desired header value
      * @return array|false|mixed|null
      */
