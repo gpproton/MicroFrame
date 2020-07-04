@@ -24,6 +24,7 @@ namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Helpers\Convert;
+use MicroFrame\Helpers\Utils;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
@@ -116,7 +117,10 @@ final class Response implements IResponse
             header("Content-Type: {$value}; charset=utf-8", true);
         } else if(!is_null($value) && $key == 'accept') {
             // header("Content-Type: {$value}; charset=utf-8", true);
+        } else {
+            header("{$key}: {$value}", true);
         }
+
         return $this;
     }
 
@@ -193,13 +197,25 @@ final class Response implements IResponse
              * accept header must be set or error is sent in json.
              */
             if (!isset($this->formats)) $this->format();
-            $contentType = $this->request->contentType();
+            $queryFormat = $this->request->query('format');
+            if (!is_null($queryFormat)) {
+                $contentType = $queryFormat;
+            } else {
+                $contentType = $this->request->contentType();
+            }
+
+
             $multipart = strpos($contentType, 'multi') !== false;
             $reqFormat = $this->request->format();
             if (strlen($contentType) <= 5 || $multipart) {
                 if ($multipart) $contentType = $reqFormat;
                 if (!$multipart) $contentType = $reqFormat == '*/*' ? 'application/json' : $reqFormat;
             }
+
+            /**
+             * Handle browsers request
+             */
+            if (strpos($contentType, 'signed') !== false) $contentType = '*/*';
             $this->header('content-type', $contentType);
 
             /**
