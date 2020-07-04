@@ -25,6 +25,15 @@ namespace MicroFrame\Interfaces;
 
 interface IMiddleware
 {
+    /**
+     * @return mixed
+     */
     public function handle();
+
+    /**
+     * @param null $source
+     * @return IModel
+     */
+    public static function model($source = null);
 }
 

@@ -23,17 +23,37 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace Microframe\Core;
 
 use MicroFrame\Interfaces\IMiddleware;
+use MicroFrame\Interfaces\IModel;
 
 class Middleware implements IMiddleware
 {
+    protected $request;
+    protected $model;
+
+    /**
+     * Middleware constructor.
+     */
     public function __construct()
     {
-
+        $this->request = new Request();
+        $this->model = new Model();
     }
 
+    /**
+     * @return bool|mixed
+     */
     public function handle()
     {
         return false;
     }
 
+    /**
+     * @param null $source
+     * @return Model|IModel
+     */
+    public static function model($source =  null)
+    {
+        if (is_null($source)) return new Model();
+        return new Model($source);
+    }
 }

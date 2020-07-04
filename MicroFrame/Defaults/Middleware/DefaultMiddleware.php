@@ -28,6 +28,37 @@ class DefaultMiddleware extends Middleware
 {
     public function handle()
     {
+
+        /**
+         * All available request methods are accessible through this
+         * $this->request;
+         */
+
+
+        /**
+         * Sample auth call for
+         * $this->request->auth();
+         */
+
+        /**
+         *
+         * Sample data call with default instance
+         *
+         * $data = $this->model->query('select 1 from dual')
+         * ->execute()
+         * ->result();
+         */
+
+        /**
+         *
+         * Sample data call with custom database instance
+         *
+         * $data = parent::model('oracle2x')->query('select 1 from dual')
+         * ->execute()
+         * ->result();
+         */
+
+
         return true;
     }
 
