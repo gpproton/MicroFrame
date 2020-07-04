@@ -24,6 +24,7 @@ namespace MicroFrame\Handlers;
 
 use MicroFrame\Core\Request;
 use MicroFrame\Core\Response;
+use Microframe\Defaults\Middleware\DefaultMiddleware;
 
 
 final class Routes
@@ -37,9 +38,17 @@ final class Routes
 
     public static function Boot()
     {
-        $test = new Request();
-        var_dump($test->query());
 
+        $controllerIdentity = "Microframe\Defaults\Controller\DefaultController";
+        $controllerArgs = array(new Response(), new Request());
+        $controllerBuilder = new \ReflectionClass($controllerIdentity);
+        $controllerInstance = $controllerBuilder->newInstanceArgs($controllerArgs);
+        $controllerInstance->middleware(new DefaultMiddleware)
+            ->start();
     }
 
+
+
 }
+
+
