@@ -79,7 +79,7 @@ class Controller implements IController
 
     }
 
-    public static function Model($source =  null)
+    public static function model($source =  null)
     {
         if (is_null($source)) return new Model();
         return new Model($source);

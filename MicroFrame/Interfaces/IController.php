@@ -42,7 +42,7 @@ interface IController
      * @param null $source
      * @return IModel
      */
-    public static function Model($source = null);
+    public static function model($source = null);
 
     /**
      * @param IResponse $response
