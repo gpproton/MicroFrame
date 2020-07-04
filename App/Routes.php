@@ -22,10 +22,11 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
  namespace App;
 
-class Routes {
-// TODO: route point to related path with dot note, and an array of required middleware
+final class Routes {
+
+// TODO: route point to related path with dot note, and an array of required middleware, check notes
     public $route;
-    // TODO: Defualt app middleware for all controllers with pattern match
+    // TODO: Defualt app middleware config for all controllers with pattern match
     public $middleware;
 
     public function __construct()

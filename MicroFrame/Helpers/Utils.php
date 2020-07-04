@@ -30,33 +30,23 @@ final class Utils {
     
     public static function local()
     {
-        $ipaddress = 'UNKNOWN';
+        $ipAddress = 'UNKNOWN';
         $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
         foreach($keys as $k)
         {
-            if (isset($_SERVER[$k]) && !empty($_SERVER[$k]) && filter_var($_SERVER[$k], FILTER_VALIDATE_IP))
+            if (isset($_SERVER[$k]) && !empty($_SERVER[$k])
+                && filter_var($_SERVER[$k], FILTER_VALIDATE_IP))
             {
-                $ipaddress = $_SERVER[$k];
+                $ipAddress = $_SERVER[$k];
                 break;
             }
         }
         return (
-            ($ipaddress == '::1'
-            || $ipaddress == '127.0.0.1'
-            || $ipaddress == '0.0.0.0')
-            && !Config::$PRODUCTION_MODE
+            ($ipAddress == '::1'
+            || $ipAddress == '127.0.0.1'
+            || $ipAddress == '0.0.0.0')
+            && SYS_PRODUCTION_MODE
         );
-    }
-
-    public static function errorHandler($option)
-    {
-        if(Utils::local())
-        {
-            echo json_encode($option);
-            return false;
-        }
-        // TODO: Fix future redirection logic
-        // Routes::RedirectQuery(Routes::PageActualUrl(Config::ALLOWED_QUERY_STRINGS[4]));
     }
 
     /**

@@ -24,16 +24,32 @@ namespace MicroFrame\Helpers;
 
 final class Strings
 {
+
+    /**
+     * Strings constructor.
+     */
+    public function __construct()
+    {
+
+    }
+
+    /**
+     * @param null $string
+     */
+    public static function filter($string = null) {
+
+        new self();
+    }
+
     /**
      * Registers stuffs.
      *
-     * @param string $urlPath Get current full URL path
-     * 
-     * @return string
+     * @param $url
+     * @return bool
      */
-    public static function urlIllegalCheckr($urlPath)
+    public static function urlValidator($url)
     {
-        return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $urlPath) == 0;
+        return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $url) == 0;
     }
     
 }

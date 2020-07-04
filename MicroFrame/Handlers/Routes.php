@@ -1,7 +1,8 @@
 <?php
 defined('BASE_PATH') OR exit('No direct script access allowed');
+
 /**
- * Routes class
+ * Routes Handlers class
  * 
  * PHP Version 5
  * 
