@@ -31,7 +31,7 @@ interface IController
      * @param IModel $model
      * @return mixed
      */
-    public function build(IResponse $response = null, IRequest $request = null, IModel $model = null);
+    public function build(IResponse $response, IRequest $request, IModel $model);
 
     /**
      * @param IMiddleware $middleware
@@ -45,7 +45,7 @@ interface IController
      * @param IModel|null $model
      * @return void
      */
-    public function index(IResponse $response, IRequest $request = null, IModel $model = null);
+    public function index(IResponse $response, IRequest $request, IModel $model);
 
     /**
      * @return mixed

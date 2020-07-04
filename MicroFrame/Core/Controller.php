@@ -41,7 +41,7 @@ class Controller implements IController
         $this->middlewareState = true;
     }
 
-    public function build(IResponse $response = null, IRequest $request = null, IModel $model = null)
+    public function build(IResponse $response, IRequest $request, IModel $model)
     {
         $this->config = (object) APPLICATION_CONFIG;
         if(!is_null($response)) $this->response = $response;
@@ -61,7 +61,7 @@ class Controller implements IController
     /**
      * @inheritDoc
      */
-    public function index(IResponse $response, IRequest $request = null, IModel $model = null)
+    public function index(IResponse $response, IRequest $request, IModel $model)
     {
         // Implement index() method from child class.
         $response = $this->response;
