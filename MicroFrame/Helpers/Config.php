@@ -22,6 +22,8 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Helpers;
 
+use \Dotenv\Dotenv as dotEnv;
+
 final class Config {
 
     /**
@@ -29,7 +31,7 @@ final class Config {
      */
     public static function Load()
     {
-        $dotEnv = \Dotenv\Dotenv::createImmutable(BASE_PATH)->load();
+        $dotEnv = dotEnv::createImmutable(BASE_PATH)->load();
 
         /**
          * Auto config object builder
@@ -64,12 +66,27 @@ final class Config {
         define('SYS_SESSION_KEY', getenv('SYS_SESSION_KEY'));
 
 
-        define('SYS_DATA_SOURCE', json_decode(str_replace("'", "\"", getenv('SYS_DATA_SOURCE')), true));
+        /**
+         * Datasource and paths definations
+         */
+        define('SYS_DATA_SOURCE', self::loadJson(getenv('SYS_DATA_SOURCE')));
 
-        define('SYS_STORAGE_PATH', getenv('SYS_STORAGE_PATH'));
+        define('SYS_DATA_CACHE', self::loadJson(getenv('SYS_DATA_CACHE')));
 
         define('SYS_CACHE_PATH', getenv('SYS_CACHE_PATH'));
 
+        define('SYS_STORAGE_PATH', getenv('SYS_STORAGE_PATH'));
+
+    }
+
+    /**
+     * @param $string
+     * @return mixed
+     */
+    private static function loadJson($string) {
+        return json_decode(
+            str_replace("'", "\"", $string),
+            true);
     }
 
 }
