@@ -24,7 +24,6 @@ namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Helpers\Convert;
-use MicroFrame\Helpers\Utils;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
@@ -58,7 +57,6 @@ final class Response implements IResponse
     public function methods($selected = ['get'], $return = null)
     {
         $this->methods = $selected;
-
         if(in_array($this->request->method(), $selected)) {
             $this->proceed = true;
             $this->header(200);
@@ -66,7 +64,8 @@ final class Response implements IResponse
             return $this;
         }
         $this->header(405);
-        $this->data($this->States['405']);
+        $this->content = $this->States['405'];
+        $this->content['data'] = [];
         $this->proceed = false;
         if(!is_null($return)) return false;
         return $this;
@@ -215,14 +214,13 @@ final class Response implements IResponse
 
             $contentType = $this->request->contentType();
 
-            /** @var void $this */
-            $this->header('content-type', $contentType, true);
-
             /**
              * Extra check if methods is not called, execute.
              */
             if (!isset($this->methods)) $this->methods();
 
+            /** @var void $this */
+            $this->header('content-type', $contentType, true);
             /**
              * Output and kill running scripts.
              */
