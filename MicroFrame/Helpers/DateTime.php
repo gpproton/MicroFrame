@@ -23,4 +23,9 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Helpers;
 
-final class DateTime { }
+final class DateTime {
+
+    public static function format($format, $date = null) {
+
+    }
+}
