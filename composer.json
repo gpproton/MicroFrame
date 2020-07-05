@@ -1,5 +1,5 @@
 {
-    "name": "gpproton/MicroFrame",
+    "name": "gpproton/microframe",
     "description": "A simplistic micro-plain framework with a little touch of MVC",
     "type": "project",
     "license": "MIT",
