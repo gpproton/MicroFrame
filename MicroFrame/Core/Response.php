@@ -72,10 +72,11 @@ final class Response implements IResponse
         return $this;
     }
 
-    Public function format($types = array('application/json', 'application/xml', 'text/plain'))
+    Public function format($format = null, $types = array('application/json', 'application/xml', 'text/plain'))
     {
         $this->formats = $types;
-        $format = $this->request->format();
+        $format = is_null($format) ? $this->request->format() : $this->request->query('accept');
+        Utils::debug($this->request->format());
         $found = function() use ($types, $format) {
             $count = 0;
             foreach ($types as $type) {
@@ -107,14 +108,26 @@ final class Response implements IResponse
         return $this;
     }
 
-    Public function header($key = 200, $value = null)
+    Public function header($key = 200, $value = null, $format = false)
     {
         if (is_numeric(gettype($key))) {
             http_response_code($key);
         } else if(!is_null($value) && $key == 'redirect') {
             header("Location: {$value}", true);
         } else if(!is_null($value) && $key == 'content-type') {
-            header("Content-Type: {$value}; charset=utf-8", true);
+
+            if(!$format) {
+                header("Content-Type: {$value}; charset=utf-8", true);
+            }
+
+            if (strpos($value, 'json') !== false) {
+                header("Content-Type: text/json; charset=utf-8", true);
+            } else if (strpos($value, 'xml') !== false) {
+                header("Content-Type: text/xml; charset=utf-8", true);
+            } else {
+                header("Content-Type: text/json}; charset=utf-8", true);
+            }
+
         } else if(!is_null($value) && $key == 'accept') {
             // header("Content-Type: {$value}; charset=utf-8", true);
         } else {
@@ -144,11 +157,14 @@ final class Response implements IResponse
     }
 
     /**
-     * @inheritDoc
+     * @param int $time
+     * @param null $path
+     * @return $this
      */
-    Public function refresh($path = 5, $time = null)
+    Public function refresh($time = 5, $path = null)
     {
-        header("Refresh: {$time}; url={$path}");
+        $path = is_null($path) ? "" : " url={$path}";
+        header("Refresh: {$time};{$path}");
         return $this;
     }
 
@@ -197,38 +213,23 @@ final class Response implements IResponse
              * accept header must be set or error is sent in json.
              */
             if (!isset($this->formats)) $this->format();
-            $queryFormat = $this->request->query('format');
-            if (!is_null($queryFormat)) {
-                $contentType = $queryFormat;
-            } else {
-                $contentType = $this->request->contentType();
-            }
 
+            $contentType = $this->request->contentType();
 
-            $multipart = strpos($contentType, 'multi') !== false;
-            $reqFormat = $this->request->format();
-            if (strlen($contentType) <= 5 || $multipart) {
-                if ($multipart) $contentType = $reqFormat;
-                if (!$multipart) $contentType = $reqFormat == '*/*' ? 'application/json' : $reqFormat;
-            }
+            /** @var void $this */
+            $this->header('content-type', $contentType, true);
 
             /**
-             * Handle browsers request
-             */
-            if (strpos($contentType, 'signed') !== false) $contentType = '*/*';
-            $this->header('content-type', $contentType);
-
-            /**
-             * Extra check if methods is not called.
+             * Extra check if methods is not called, execute.
              */
             if (!isset($this->methods)) $this->methods();
 
             /**
-             * Only echo to allow for destructor use for after operations.
+             * Output and kill running scripts.
              */
-            echo(Convert::arrays($this->content, $contentType));
+            die(Convert::arrays($this->content, $contentType));
         } else if (is_null($this->view) && gettype($this->content) !== 'array') {
-            echo($this->content);
+            die($this->content);
         }
         return;
     }
