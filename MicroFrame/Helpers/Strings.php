@@ -51,5 +51,21 @@ final class Strings
     {
         return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $url) == 0;
     }
+
+    public function between() {
+
+    }
+
+    public function start() {
+
+    }
+
+    public function end() {
+
+    }
+
+    public function contains() {
+
+    }
     
 }
