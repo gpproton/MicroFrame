@@ -22,6 +22,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Core;
 
+use MicroFrame\Helpers\Utils;
 use MicroFrame\Interfaces\IRequest;
 
 final class Request implements IRequest
@@ -153,7 +154,8 @@ final class Request implements IRequest
      */
     public function format()
     {
-        return $this->header('accept');
+        return !is_null($this->query('accept')) ?
+            $this->query('accept') : $this->header('accept');
     }
 
     /**
@@ -161,7 +163,8 @@ final class Request implements IRequest
      */
     public function contentType()
     {
-        return $this->header('content-type');
+        return !is_null($this->query('accept')) ?
+            $this->query('accept') : $this->header('content-type');
     }
 
     /**
@@ -239,4 +242,21 @@ final class Request implements IRequest
         header('HTTP/1.1 401 Unauthorized');
         header('WWW-Authenticate: Basic realm="MicroFrame basic auth"');
     }
+
+    /**
+     * @return bool
+     */
+    public function browser()
+    {
+        return (strpos($this->format(), 'image/webp') !== false);
+    }
+
+    /**
+     * @return bool
+     */
+    public function formEncoded()
+    {
+        return (strpos($this->format(), 'multi') !== false);
+    }
+
 }

@@ -64,6 +64,16 @@ interface IRequest
     Public function raw();
 
     /**
+     * @return bool
+     */
+    public function browser();
+
+    /**
+     * @return bool
+     */
+    public function formEncoded();
+
+    /**
      * @param null $string
      * @return mixed
      */
