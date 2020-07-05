@@ -2,7 +2,7 @@
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Routes Handlers class
+ * Route Handlers class
  * 
  * PHP Version 5
  * 
@@ -29,7 +29,7 @@ use Microframe\Defaults\Middleware\DefaultMiddleware;
 use MicroFrame\Helpers\Utils;
 
 
-final class Routes
+final class Route
 {
 
     public function __construct()
@@ -41,7 +41,7 @@ final class Routes
     {
 
         // TODO: Include conditions based on the route and request state.
-        Utils::classLoader('SYSController', 'Default', array(new Response(), new Request()))
+        Utils::stateLoader('SYSController', 'Default', array(new Response(), new Request()))
         ->middleware(new DefaultMiddleware)
             ->start();
     }

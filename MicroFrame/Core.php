@@ -24,7 +24,7 @@ namespace MicroFrame;
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Helpers\Config as config;
-use MicroFrame\Handlers\Routes as route;
+use MicroFrame\Handlers\Route as route;
 
 final class Core {
 

@@ -67,7 +67,7 @@ final class Utils {
      * @return object
      * @throws ReflectionException
      */
-    public static function classLoader($type, $path, $args = array()) {
+    public static function stateLoader($type, $path, $args = array()) {
 
         // TODO: Complete implementation for App | SYS view/Controller/Models/Middleware
 
