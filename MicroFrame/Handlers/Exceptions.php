@@ -27,7 +27,7 @@ use \Exception as stockException;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
 
-class Exception extends  stockException
+class Exceptions extends  stockException
 {
 
     public $request;
@@ -37,9 +37,9 @@ class Exception extends  stockException
      * Exception constructor.
      * @param $message
      * @param int $code
-     * @param Exception|null $previous
+     * @param Exceptions $previous
      */
-    public function __construct($message, $code = 0, Exception $previous = null) {
+    public function __construct($message, $code = 0, Exceptions $previous = null) {
 
         $this->request = request::class;
         $this->response = response::class;
