@@ -14,7 +14,8 @@
     "require": {
         "vlucas/phpdotenv": "^4.1",
         "taq/pdooci": "^1.0",
-      "ext-json": "*"
+      "ext-json": "*",
+        "asyncphp/doorman": "^3.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*"
