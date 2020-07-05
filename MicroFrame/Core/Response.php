@@ -76,7 +76,6 @@ final class Response implements IResponse
     {
         $this->formats = $types;
         $format = is_null($format) ? $this->request->format() : $this->request->query('accept');
-        Utils::debug($this->request->format());
         $found = function() use ($types, $format) {
             $count = 0;
             foreach ($types as $type) {
