@@ -259,4 +259,20 @@ final class Request implements IRequest
         return (strpos($this->format(), 'multi') !== false);
     }
 
+    /**
+     * @return string
+     */
+    public function path()
+    {
+        if (!is_null($this->post('route'))) {
+            return $this->post('route');
+        } else if (!is_null($this->query('controller'))) {
+            return $this->query('controller');
+        } else if (!is_null($this->query('route'))) {
+            return $this->query('route');
+        } else {
+            return "";
+        }
+
+    }
 }

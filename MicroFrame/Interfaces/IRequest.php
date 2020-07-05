@@ -103,4 +103,9 @@ interface IRequest
      */
     Public function cookie($string = null);
 
+    /**
+     * @return mixed
+     */
+    public function path();
+
 }
