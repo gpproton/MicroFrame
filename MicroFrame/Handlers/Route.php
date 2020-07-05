@@ -39,14 +39,11 @@ final class Route
 
     public static function Boot()
     {
-
         // TODO: Include conditions based on the route and request state.
         Utils::stateLoader('SYSController', 'Default', array(new Response(), new Request()))
         ->middleware(new DefaultMiddleware)
             ->start();
     }
-
-
 
 }
 
