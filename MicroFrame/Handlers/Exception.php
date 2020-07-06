@@ -26,25 +26,29 @@ namespace MicroFrame\Handlers;
 use \Exception as stockException;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
+use MicroFrame\Helpers\ClassAssist;
 
-class MicroExceptions extends  stockException
+class Exception extends  stockException
 {
 
     public $request;
     public $response;
+    public $errorCode;
+    public $message;
+    private $source;
 
     /**
      * Exception constructor.
      * @param $message
      * @param int $code
-     * @param MicroExceptions $previous
+     * @param Exception $previous
      */
-    public function __construct($message, $code = 0, MicroExceptions $previous = null) {
-
-        $this->request = request::class;
-        $this->response = response::class;
+    public function __construct($message, $code = 0, Exception $previous = null) {
+        $this->request = new request();
+        $this->response = new response();
+        $this->errorCode = 500;
+        $this->source = ClassAssist::check()->getClassFullNameFromFile(debug_backtrace()[0]['file']);
         parent::__construct($message, $code, $previous);
-
     }
 
     /**
@@ -55,44 +59,36 @@ class MicroExceptions extends  stockException
     }
 
     /**
+     * Log to console and file with no output to response
+     *
      * @param null $message
      */
     public function log($message = null) {
-
-        // TODO: Console error output
+        if(is_null($message)) $message = self::getMessage();
+        Logger::warn($message, $this->source);
     }
 
     /**
      * @param null $message
+     * @return void
      */
     public function output($message = null) {
-
-        // TODO: Generalized error output
-
-    }
-
-    /**
-     * @param null $message
-     */
-    public function send($message = null) {
-
-        // TODO: API type error output
+        if(is_null($message)) $message = self::getMessage();
+        Logger::error($message, $this->source);
+        $this->response->methods(['get', 'post', 'put', 'delete', 'options']);
+        $this->response->setOutput(0, $this->errorCode, $message);
+        $this->response->send();
     }
 
     /**
      * @param null $message
      */
     public function render($message = null) {
-
-        // TODO: HTML or view based error output
-    }
-
-    /**
-     * @param null $message
-     */
-    private function format($message = null) {
-
-        // TODO: Error type formatter between string and arrays
+        // TODO: Write error type to default error data array
+        if(is_null($message)) $message = self::getMessage();
+        Logger::error($message, $this->source);
+        $this->response->setOutput(0, $this->errorCode, $message);
+        $this->response->render();
     }
 
 }
