@@ -163,6 +163,7 @@ final class Request implements IRequest
      */
     public function contentType()
     {
+        if ($this->formEncoded()) return $this->format();
         return !is_null($this->query('accept')) ?
             $this->query('accept') : $this->header('content-type');
     }
@@ -248,7 +249,7 @@ final class Request implements IRequest
      */
     public function browser()
     {
-        return (strpos($this->format(), 'image/webp') !== false);
+        return (strpos($this->header('content-type'), 'image/webp') !== false);
     }
 
     /**
@@ -256,7 +257,7 @@ final class Request implements IRequest
      */
     public function formEncoded()
     {
-        return (strpos($this->format(), 'multi') !== false);
+        return (strpos($this->header('content-type'), 'multi') !== false);
     }
 
     /**
