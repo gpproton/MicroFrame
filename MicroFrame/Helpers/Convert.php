@@ -45,7 +45,7 @@ class Convert
                 }
             }
         }
-        $xmlElement = new \SimpleXMLElement("<?xml version=\"1.0\"?><root></root>");
+        $xmlElement = new \SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root></root>");
         xmlParser($array,$xmlElement);
         return $xmlElement->asXML();
     }
