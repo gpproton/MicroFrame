@@ -22,7 +22,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace Microframe\Core;
 
-use AsyncPHP\Doorman\Task;
+use \AsyncPHP\Doorman\Task;
+use \AsyncPHP\Doorman\Manager\ProcessManager;
+use \AsyncPHP\Doorman\Rule\InMemoryRule;
+use \AsyncPHP\Doorman\Task\ProcessCallbackTask;
 
 // TODO: This will extend external library task class.
 class MicroTask
@@ -30,7 +33,7 @@ class MicroTask
 
     public $timeout;
     public $name;
-    public $processCount;
+    public $count;
     public $minLoad;
     public $maxLoad;
 
@@ -40,6 +43,22 @@ class MicroTask
 
     public function getConfig() {
 
+    }
+
+    public function add() {
+
+    }
+
+    /**
+     * Use closure for method capture
+     *
+     * @param $closure
+     * @param $args
+     */
+    public function loop($closure, $args = []) {
+        foreach ($args as $arg) {
+            $closure($arg);
+        }
     }
 
 }
