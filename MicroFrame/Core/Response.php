@@ -262,15 +262,19 @@ final class Response implements IResponse
              * accept header must be set or error is sent in json.
              */
             if (!isset($this->formats)) $this->format();
-
             $contentType = $this->request->contentType();
+
             /**
              * Extra check if methods is not called, execute.
              */
             if (!isset($this->methods)) $this->methods(['get'], true);
+            
             /** @var void $this */
             $this->header('content-type', $contentType, true);
             $this->header($this->content['code']);
+            header("Access-Control-Allow-Origin: *");
+            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+
             /**
              * Output and kill running scripts.
              */
