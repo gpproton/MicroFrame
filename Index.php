@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Bootstrap
+ * Bootstrapping class
  * 
  * PHP Version 5
  * 
