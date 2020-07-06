@@ -24,12 +24,15 @@ namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Helpers\Convert;
+use MicroFrame\Helpers\Utils;
+use MicroFrame\Helpers\Value;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Interfaces\IView;
 
 // TODO: Implement all methods
+
 final class Response implements IResponse
 {
     private $request;
@@ -38,39 +41,51 @@ final class Response implements IResponse
     private $formats;
     private $methods;
     public $proceed;
-    public $States = [
-        '200' => array('status' => 1, 'code' => 200, 'message' => 'Completed Successfully', 'data' => array()),
-        '204' => array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array()),
-        '401' => array('status' => 0, 'code' => 401, 'message' => 'Request unauthorised', 'data' => array()),
-        '405' => array('status' => 0, 'code' => 405, 'message' => 'HTTP method not allowed', 'data' => array()),
-        '404' => array('status' => 0, 'code' => 404, 'message' => 'Requested resource not found', 'data' => array()),
-        '500' => array('status' => 0, 'code' => 500, 'message' => 'Some magic error occurred', 'data' => array())
-    ];
 
+    /**
+     * Response constructor.
+     */
     public function __construct()
     {
         $this->request = new request();
         $this->proceed = false;
-        $this->content = $this->States['204'];
+        $this->content = array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array());
     }
 
-    public function methods($selected = ['get'], $return = null)
+    /**
+     * @param array $selected
+     * @param bool $return
+     * @return $this|bool|IResponse
+     */
+    public function methods($selected = ['get'], $return = false)
     {
         $this->methods = $selected;
-        if(in_array($this->request->method(), $selected)) {
+        $state = !in_array($this->request->method(), $selected);
+
+        if($state) {
+            $this->proceed = false;
+            $this->content['status'] = 0;
+            $this->content['code'] = 405;
+            $this->content['message'] = Value::get()->HttpCodes(405)->text;
+            $this->content['data'] = [];
+            if($return) return false;
+            return $this;
+        } else if (!$state && !$return) {
             $this->proceed = true;
-            $this->header(200);
-            if(!is_null($return)) return true;
+            $this->content['status'] = 1;
+            $this->content['code'] = 200;
+            $this->content['message'] = Value::get()->HttpCodes(200)->text;
+            if($return) return true;
             return $this;
         }
-        $this->header(405);
-        $this->content = $this->States['405'];
-        $this->content['data'] = [];
-        $this->proceed = false;
-        if(!is_null($return)) return false;
-        return $this;
+
     }
 
+    /**
+     * @param null $format
+     * @param array $types
+     * @return $this|IResponse
+     */
     Public function format($format = null, $types = array('application/json', 'application/xml', 'text/plain'))
     {
         $this->formats = $types;
@@ -89,41 +104,54 @@ final class Response implements IResponse
         if ($found()) {
             $this->proceed = true;
         } else {
-            $this->content = $this->States['401'];
-            $this->content['message'] = $this->content['message'] . ' | Accept header not set';
+            $this->content['status'] = 0;
+            $this->content['code'] = 401;
+            $this->content['message'] = Value::get()->HttpCodes(401)->text;
+            $this->content['data'] = [];
             $this->proceed = false;
         }
         return $this;
     }
 
+    /**
+     * @param null $content
+     * @return $this|IResponse
+     */
     Public function data($content = null)
     {
-        $this->content = $this->States['200'];
+        $this->content['status'] = 1;
+        $this->content['code'] = 200;
+        $this->content['message'] = Value::get()->HttpCodes(200)->text;
         $this->content['data'] = $content;
-        if ($this->proceed && !empty($this->content['data'])) {
-            $this->header(200);
+        if ($this->proceed && empty($this->content['data'])) {
+            $this->content['status'] = 1;
+            $this->content['code'] = 204;
+            $this->content['message'] = Value::get()->HttpCodes(204)->text;
         }
         return $this;
     }
 
+    /**
+     * @param int $key
+     * @param null $value
+     * @param bool $format
+     * @return $this|IResponse
+     */
     Public function header($key = 200, $value = null, $format = false)
     {
-        if (is_numeric(gettype($key))) {
-            http_response_code($key);
+        $charset = "charset=utf-8";
+        if (is_numeric($key)) {
+            header(Value::get()->HttpCodes($key)->full, true);
         } else if(!is_null($value) && $key == 'redirect') {
             header("Location: {$value}", true);
         } else if(!is_null($value) && $key == 'content-type') {
 
-            if(!$format) {
-                header("Content-Type: {$value}; charset=utf-8", true);
-            }
-
             if (strpos($value, 'json') !== false) {
-                header("Content-Type: text/json; charset=utf-8", true);
+                header("Content-Type: text/json; ($charset)", true);
             } else if (strpos($value, 'xml') !== false) {
-                header("Content-Type: text/xml; charset=utf-8", true);
+                header("Content-Type: text/xml; ($charset)", true);
             } else {
-                header("Content-Type: text/json}; charset=utf-8", true);
+                header("Content-Type: text/json}; ($charset)", true);
             }
 
         } else if(!is_null($value) && $key == 'accept') {
@@ -136,17 +164,19 @@ final class Response implements IResponse
     }
 
     /**
-     * @inheritDoc
+     * @param null $value
+     * @return $this|mixed
      */
     Public function status($value = null)
     {
-        if(is_null($value)) $this->header(200);
-        $this->header($value);
+        if(is_null($value)) $this->content['code'] = 200;
+        $this->content['code'] = $value;
         return $this;
     }
 
     /**
-     * @inheritDoc
+     * @param null $path
+     * @return mixed|void
      */
     Public function redirect($path = null)
     {
@@ -166,11 +196,21 @@ final class Response implements IResponse
         return $this;
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @return $this|IResponse
+     */
     Public function cookie($key, $value)
     {
         return $this;
     }
 
+    /**
+     * @param $state
+     * @param null $value
+     * @return $this|IResponse
+     */
     Public function session($state, $value = null)
     {
         // session_start(); started already at request session method.
@@ -180,6 +220,12 @@ final class Response implements IResponse
         return $this;
     }
 
+    /**
+     * @param IView|null $view
+     * @param IModel|null $model
+     * @param array $data
+     * @return $this|void
+     */
     public function render(IView $view = null, IModel $model = null, $data = [])
     {
         // TODO: create view loader
@@ -187,7 +233,8 @@ final class Response implements IResponse
     }
 
     /**
-     * @inheritDoc
+     * @param IMiddleware|null $middleware
+     * @return $this|IResponse
      */
     public function middleware(IMiddleware $middleware = null)
     {
@@ -197,12 +244,16 @@ final class Response implements IResponse
         return $this;
     }
 
+    /**
+     *
+     */
     public function send()
     {
         if (is_null($this->view) && gettype($this->content) === 'array') {
             if (!$this->proceed && $this->content['code'] !== 405) {
-                $this->header(401);
-                $this->data($this->States['401']);
+                $this->content['status'] = 0;
+                $this->content['code'] = 401;
+                $this->content['message'] = Value::get()->HttpCodes(401)->text;
             }
 
             /**
@@ -213,14 +264,13 @@ final class Response implements IResponse
             if (!isset($this->formats)) $this->format();
 
             $contentType = $this->request->contentType();
-
             /**
              * Extra check if methods is not called, execute.
              */
-            if (!isset($this->methods)) $this->methods();
-
+            if (!isset($this->methods)) $this->methods(['get'], true);
             /** @var void $this */
             $this->header('content-type', $contentType, true);
+            $this->header($this->content['code']);
             /**
              * Output and kill running scripts.
              */
@@ -232,7 +282,8 @@ final class Response implements IResponse
     }
 
     /**
-     * @inheritDoc
+     * @param $path
+     * @return mixed|void
      */
     Public function download($path)
     {
