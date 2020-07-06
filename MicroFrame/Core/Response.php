@@ -52,6 +52,13 @@ final class Response implements IResponse
         $this->content = array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array());
     }
 
+    private function setOutput($status = 0, $code = 204, $message = "", $data = []) {
+        $this->content['status'] = $status;
+        $this->content['code'] = $code;
+        $this->content['message'] = $message;
+        $this->content['data'] = $data;
+    }
+
     /**
      * @param array $selected
      * @param bool $return
@@ -64,17 +71,12 @@ final class Response implements IResponse
 
         if($state) {
             $this->proceed = false;
-            $this->content['status'] = 0;
-            $this->content['code'] = 405;
-            $this->content['message'] = Value::get()->HttpCodes(405)->text;
-            $this->content['data'] = [];
+            $this->setOutput(0, 405, Value::get()->HttpCodes(405)->text, []);
             if($return) return false;
             return $this;
         } else if (!$state && !$return) {
             $this->proceed = true;
-            $this->content['status'] = 1;
-            $this->content['code'] = 200;
-            $this->content['message'] = Value::get()->HttpCodes(200)->text;
+            $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, []);
             if($return) return true;
             return $this;
         }
@@ -104,10 +106,7 @@ final class Response implements IResponse
         if ($found()) {
             $this->proceed = true;
         } else {
-            $this->content['status'] = 0;
-            $this->content['code'] = 401;
-            $this->content['message'] = Value::get()->HttpCodes(401)->text;
-            $this->content['data'] = [];
+            $this->setOutput(0, 401, Value::get()->HttpCodes(401)->text, []);
             $this->proceed = false;
         }
         return $this;
@@ -119,10 +118,7 @@ final class Response implements IResponse
      */
     Public function data($content = null)
     {
-        $this->content['status'] = 1;
-        $this->content['code'] = 200;
-        $this->content['message'] = Value::get()->HttpCodes(200)->text;
-        $this->content['data'] = $content;
+        $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, $content);
         if ($this->proceed && empty($this->content['data'])) {
             $this->content['status'] = 1;
             $this->content['code'] = 204;
@@ -140,8 +136,10 @@ final class Response implements IResponse
     Public function header($key = 200, $value = null, $format = false)
     {
         $charset = "charset=utf-8";
+        $accessControl = strtoupper(implode(", ", $this->methods));
         if (is_numeric($key)) {
             header(Value::get()->HttpCodes($key)->full, true);
+            header("Access-Control-Allow-Methods: {$accessControl}", true);
         } else if(!is_null($value) && $key == 'redirect') {
             header("Location: {$value}", true);
         } else if(!is_null($value) && $key == 'content-type') {
@@ -159,7 +157,7 @@ final class Response implements IResponse
         } else {
             header("{$key}: {$value}", true);
         }
-
+        header("Access-Control-Allow-Origin: *", true);
         return $this;
     }
 
@@ -250,10 +248,9 @@ final class Response implements IResponse
     public function send()
     {
         if (is_null($this->view) && gettype($this->content) === 'array') {
-            if (!$this->proceed && $this->content['code'] !== 405) {
-                $this->content['status'] = 0;
-                $this->content['code'] = 401;
-                $this->content['message'] = Value::get()->HttpCodes(401)->text;
+
+            if (!$this->proceed && ($this->content['code'] !== 405)) {
+                $this->setOutput(0, 401, Value::get()->HttpCodes(401)->text, []);
             }
 
             /**
@@ -268,12 +265,10 @@ final class Response implements IResponse
              * Extra check if methods is not called, execute.
              */
             if (!isset($this->methods)) $this->methods(['get'], true);
-            
+
             /** @var void $this */
             $this->header('content-type', $contentType, true);
             $this->header($this->content['code']);
-            header("Access-Control-Allow-Origin: *");
-            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 
             /**
              * Output and kill running scripts.
