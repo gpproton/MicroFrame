@@ -24,6 +24,7 @@ namespace MicroFrame\Core;
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Helpers\Convert;
+use MicroFrame\Helpers\Strings;
 use MicroFrame\Helpers\Utils;
 use MicroFrame\Helpers\Value;
 use MicroFrame\Interfaces\IMiddleware;
@@ -286,35 +287,34 @@ final class Response implements IResponse
      */
     Public function download($path)
     {
-        // TODO: Implement download() method.
-
-        //     if(Utils::urlIllegalCheckr(Path::$filePath)){
-        //         $filepath = Path::$filePath;
-        //         $filename = basename($filepath);
-        //         $filesize = filesize($filepath);
-
-        //         // Process download
-        //         if(file_exists($filepath)) {
-        //             header('Content-Description: File Transfer');
-        //             header('Content-Type: ' . Utils::mimeType($filename));
-        //             header('Content-Disposition: attachment; filename="'. $filename .'"');
-        //             header('Content-Transfer-Encoding: binary');
-        //             header('Expires: 0');
-        //             header('Cache-Control: must-revalidate');
-        //             header('Pragma: public');
-        //             header('Content-Length: ' . $filesize);
-
-        //             ob_clean();
-        //             flush();
-        //             readfile($filepath);
-        //             die();
-        //         } else {
-        //             http_response_code(404);
-        //             die();
-        //         }
-        //     } else {
-        //         die("Invalid file name!");
-        //     }
+        // TODO: Test and complete Implement method.
+             if(Strings::urlValidator($path)){
+                 $filepath = $path;
+                 $filename = basename($filepath);
+                 $filesize = filesize($filepath);
+                 $contentType = Value::get()->mimeType($filename);
+                 if(file_exists($filepath)) {
+                     $this->header('Content-Description', 'File Transfer');
+                     $this->header('Content-Type', $contentType);
+                     $this->header('Content-Disposition', 'attachment; filename="'. $filename .'"');
+                     $this->header('Content-Transfer-Encoding', 'binary');
+                     $this->header('Expires', '0');
+                     $this->header('Cache-Control', 'must-revalidate');
+                     $this->header('Pragma', 'public');
+                     $this->header('Content-Length', $filesize);
+                     ob_clean();
+                     flush();
+                     readfile($filepath);
+                     $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, []);
+                     die(Convert::arrays($this->content, $this->request->contentType()));
+                 } else {
+                     $this->setOutput(0, 404, Value::get()->HttpCodes(404)->text, []);
+                     die(Convert::arrays($this->content, $this->request->contentType()));
+                 }
+             } else {
+                 $this->setOutput(0, 404, Value::get()->HttpCodes(404)->text, []);
+                 die(Convert::arrays($this->content, $this->request->contentType()));
+             }
     }
 
 }
