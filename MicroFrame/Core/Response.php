@@ -38,9 +38,9 @@ final class Response implements IResponse
 {
     private $request;
     private $view;
-    private $content;
     private $formats;
     private $methods;
+    public $content;
     public $proceed;
 
     /**
@@ -53,11 +53,12 @@ final class Response implements IResponse
         $this->content = array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array());
     }
 
-    private function setOutput($status = 0, $code = 204, $message = "", $data = []) {
+    public function setOutput($status = 0, $code = 204, $message = "", $data = []) {
         $this->content['status'] = $status;
         $this->content['code'] = $code;
         $this->content['message'] = $message;
         $this->content['data'] = $data;
+        return $this;
     }
 
     /**
@@ -220,18 +221,6 @@ final class Response implements IResponse
     }
 
     /**
-     * @param IView|null $view
-     * @param IModel|null $model
-     * @param array $data
-     * @return $this|void
-     */
-    public function render(IView $view = null, IModel $model = null, $data = [])
-    {
-        // TODO: create view loader
-        return $this;
-    }
-
-    /**
      * @param IMiddleware|null $middleware
      * @return $this|IResponse
      */
@@ -279,6 +268,17 @@ final class Response implements IResponse
             die($this->content);
         }
         return;
+    }
+
+    /**
+     * @param IView|null $view
+     * @param IModel|null $model
+     * @param array $data
+     * @return $this|void
+     */
+    public function render(IView $view = null, IModel $model = null, $data = [])
+    {
+        // TODO: create view loader
     }
 
     /**
