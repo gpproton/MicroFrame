@@ -133,14 +133,6 @@ final class Request implements IRequest
 
             switch ($string) {
                 case 'accept':
-                    if (strpos($header, 'json') !== false) {
-//                        $header = 'json';
-                    } else if(strpos($header, 'xml') !== false) {
-//                        $header = 'xml';
-                    } else if(strpos($header, 'multi') !== false) {
-//                        $header = 'multi';
-                    }
-                    break;
                 default:
                     break;
             }
