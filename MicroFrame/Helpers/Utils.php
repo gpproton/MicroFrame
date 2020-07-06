@@ -52,11 +52,9 @@ final class Utils {
     /**
      * @param $data
      */
-    public static function debug($data) {
+    public static function console($data) {
         ob_start();
-        echo "DEBUG:----------\n";
-        print_r($data);
-        echo "\nEND-DEBUG:----------";
+        print_r("\n" . $data);
         error_log(ob_get_clean(), 4);
     }
 
@@ -85,6 +83,15 @@ final class Utils {
 
         $classBuilder = new ReflectionClass($path);
         return $classBuilder->newInstanceArgs($args);
+    }
+
+    /**
+     * @param $path
+     * @return mixed
+     */
+    public static function dirChecks($path) {
+        if (!is_dir($path)) mkdir($path, 777);
+        return $path;
     }
 
 }

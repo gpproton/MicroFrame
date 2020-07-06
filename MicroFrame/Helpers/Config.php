@@ -67,15 +67,17 @@ final class Config {
 
 
         /**
-         * Datasource and paths definations
+         * Datasource and paths definition
          */
         define('SYS_DATA_SOURCE', self::loadJson(getenv('SYS_DATA_SOURCE')));
 
         define('SYS_DATA_CACHE', self::loadJson(getenv('SYS_DATA_CACHE')));
 
-        define('SYS_CACHE_PATH', getenv('SYS_CACHE_PATH'));
+        define('SYS_LOG_PATH', Utils::dirChecks(BASE_PATH . "/" . getenv('SYS_LOG_PATH')));
 
-        define('SYS_STORAGE_PATH', getenv('SYS_STORAGE_PATH'));
+        define('SYS_CACHE_PATH', Utils::dirChecks(BASE_PATH . "/" . getenv('SYS_CACHE_PATH')));
+
+        define('SYS_STORAGE_PATH', Utils::dirChecks(BASE_PATH . "/" . getenv('SYS_STORAGE_PATH')));
 
     }
 
