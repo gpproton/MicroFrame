@@ -265,15 +265,17 @@ final class Request implements IRequest
      */
     public function path()
     {
+        $final = "";
         if (!is_null($this->post('route'))) {
-            return $this->post('route');
+            $final = $this->post('route');
         } else if (!is_null($this->query('controller'))) {
-            return $this->query('controller');
+            $final = $this->query('controller');
         } else if (!is_null($this->query('route'))) {
-            return $this->query('route');
+            $final = $this->query('route');
         } else {
-            return "";
+            $final = "";
         }
-
+        $final = str_replace("/", ".", $final);
+        return preg_replace('/[^A-Za-z.\-]/', '', $final);
     }
 }
