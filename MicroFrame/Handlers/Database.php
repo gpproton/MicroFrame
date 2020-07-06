@@ -34,6 +34,14 @@ class Database implements IDatabase {
 
     // echo var_dump(\MicroFrame\Helpers\Config::$DATA_SOURCE->default->host);
 
+    //        try {
+    //            throw new Exception('Divide by zero');
+    //        } catch (Exception $exception) {
+    //            $exception
+    //                ->output();
+    //        }
+
+
     public function __construct($type = null)
     {
         $Options = [
