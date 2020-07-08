@@ -14,3 +14,7 @@ RewriteRule ^(.*)$ index.php?controller=$1 [NC,L,QSA]
 
 IndexIgnore *
 Options All -Indexes
+
+
+# Set a default PHP version
+#AddHandler application/x-httpd-php74 .php
