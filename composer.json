@@ -11,12 +11,18 @@
             "role": "Developer"
         }
     ],
+    "config": {
+        "platform": {
+            "php": ">=7.0"
+        }
+    },
     "require": {
+        "php": ">=7.0",
+        "ext-json": "*",
+        "ext-fileinfo": "*",
         "vlucas/phpdotenv": "^4.1",
         "taq/pdooci": "^1.0",
-      "ext-json": "*",
-        "asyncphp/doorman": "^3.1",
-      "ext-fileinfo": "*"
+        "asyncphp/doorman": "^3.1"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*"
