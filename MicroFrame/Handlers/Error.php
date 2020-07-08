@@ -2,7 +2,7 @@
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Exception Handlers  class
+ * Error Handlers  class
  *
  * PHP Version 5
  *
@@ -23,12 +23,12 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Handlers;
 
-use \Exception as stockException;
+use \Error as stockError;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
 use MicroFrame\Helpers\ClassAssist;
 
-class Exception extends  stockException
+class Error extends  stockError
 {
 
     public $request;
@@ -38,12 +38,12 @@ class Exception extends  stockException
     private $source;
 
     /**
-     * Exception constructor.
+     * Error constructor.
      * @param $message
      * @param int $code
-     * @param Exception $previous
+     * @param Error $previous
      */
-    public function __construct($message, $code = 0, Exception $previous = null) {
+    public function __construct($message, $code = 0, Error $previous = null) {
         $this->request = new request();
         $this->response = new response();
         $this->errorCode = 500;
