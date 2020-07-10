@@ -1,7 +1,7 @@
 <?php
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * Strings helper class
+ * Request Core class
  *
  * PHP Version 7
  *

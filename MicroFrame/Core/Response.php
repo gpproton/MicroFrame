@@ -1,7 +1,7 @@
 <?php
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * Strings helper class
+ * Response Core class
  *
  * PHP Version 7
  *
@@ -288,7 +288,8 @@ final class Response implements IResponse
     Public function download($path)
     {
         // TODO: Test and complete Implement method.
-             if(Strings::urlValidator($path)){
+        /** @var string $path */
+        if(Strings::filter($path)->url()){
                  $filepath = $path;
                  $filename = basename($filepath);
                  $filesize = filesize($filepath);

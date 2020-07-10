@@ -1,7 +1,7 @@
 <?php
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * Middleware core class
+ * Middleware Core class
  *
  * PHP Version 7
  *
