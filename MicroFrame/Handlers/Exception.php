@@ -2,9 +2,9 @@
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Error Handlers  class
+ * Exception Handlers  class
  *
- * PHP Version 5
+ * PHP Version 7
  *
  * @category  Handlers
  * @package   MicroFrame
@@ -12,7 +12,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
- * @link      https://github.com/gpproton/bhn_mcpl_invoicepdf
+ * @link      https://github.com/gpproton/microframe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -23,12 +23,12 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Handlers;
 
-use \Error as stockError;
+use \Exception as stockError;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
 use MicroFrame\Helpers\ClassAssist;
 
-class Error extends  stockError
+class Exception extends  stockError
 {
 
     public $request;
@@ -38,12 +38,12 @@ class Error extends  stockError
     private $source;
 
     /**
-     * Error constructor.
+     * Exception constructor.
      * @param $message
      * @param int $code
-     * @param Error $previous
+     * @param Exception $previous
      */
-    public function __construct($message, $code = 0, Error $previous = null) {
+    public function __construct($message, $code = 0, Exception $previous = null) {
         $this->request = new request();
         $this->response = new response();
         $this->errorCode = 500;

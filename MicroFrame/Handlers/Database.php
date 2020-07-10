@@ -3,7 +3,7 @@
 /**
  * Strings helper class
  * 
- * PHP Version 5
+ * PHP Version 7
  * 
  * @category  Handlers
  * @package   MicroFrame
@@ -11,7 +11,7 @@
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
- * @link      https://github.com/gpproton/bhn_mcpl_invoicepdf
+ * @link      https://github.com/gpproton/microframe
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -35,8 +35,8 @@ class Database implements IDatabase {
     // echo var_dump(\MicroFrame\Helpers\Config::$DATA_SOURCE->default->host);
 
     //        try {
-    //            throw new Error('Divide by zero');
-    //        } catch (Error $exception) {
+    //            throw new Exception('Divide by zero');
+    //        } catch (Exception $exception) {
     //            $exception
     //                ->output();
     //        }
@@ -120,7 +120,7 @@ class Database implements IDatabase {
     
                 $jsonMsg = array(
                     'status' => 0,
-                    'type' => 'Database Error',
+                    'type' => 'Database Exception',
                     'message' => 'error: ' . $e->getMessage()
                 );
 
@@ -165,7 +165,7 @@ class Database implements IDatabase {
     {
         $jsonMsg = array(
             'status' => 0,
-            'type' => 'Database Error',
+            'type' => 'Database Exception',
             'message' => 'error: Database pdo driver is not installed'
         );
 

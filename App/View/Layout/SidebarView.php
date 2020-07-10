@@ -3,7 +3,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Layout Sidebar view class
  *
- * PHP Version 5
+ * PHP Version 7
  *
  * @category  View/Layout
  * @package   App
@@ -11,7 +11,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
- * @link      https://github.com/gpproton/bhn_mcpl_invoicepdf
+ * @link      https://github.com/gpproton/microframe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in

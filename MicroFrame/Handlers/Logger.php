@@ -3,7 +3,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Logger Handlers class
  *
- * PHP Version 5
+ * PHP Version 7
  *
  * @category  Handlers
  * @package   MicroFrame
@@ -11,7 +11,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
- * @link      https://github.com/gpproton/bhn_mcpl_invoicepdf
+ * @link      https://github.com/gpproton/microframe
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -112,6 +112,8 @@ final class Logger {
         if (is_null($path)) $path = SYS_LOG_PATH .'/App.log';
         $oldDate =  date("d-m-Y", filemtime($path));
         $oldFile = SYS_LOG_PATH ."/{$oldDate}.app.log";
+
+        // TODO: Maintenance for an auto delete for logs.
 
         if (date("d-m-Y") > $oldDate) rename($path, $oldFile);
         file_put_contents($path, $string, FILE_APPEND);
