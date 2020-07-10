@@ -51,7 +51,7 @@ final class Config {
          * System configurations constants
          */
 
-        define('SYS_PRODUCTION_MODE', getenv('SYS_PRODUCTION_MODE') === 'true');
+        define('SYS_DEBUG', getenv('SYS_DEBUG') === 'true');
 
         define('SYS_ROUTE_MODE', getenv('SYS_ROUTE_MODE'));
 
