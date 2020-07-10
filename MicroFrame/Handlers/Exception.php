@@ -26,7 +26,7 @@ namespace MicroFrame\Handlers;
 use \Exception as stockError;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
-use MicroFrame\Helpers\ClassAssist;
+use MicroFrame\Helpers\Reflect;
 
 class Exception extends  stockError
 {
@@ -47,7 +47,7 @@ class Exception extends  stockError
         $this->request = new request();
         $this->response = new response();
         $this->errorCode = 500;
-        $this->source = ClassAssist::check()->getClassFullNameFromFile(debug_backtrace()[0]['file']);
+        $this->source = Reflect::check()->getClassFullNameFromFile(debug_backtrace()[0]['file']);
         parent::__construct($message, $code, $previous);
     }
 
