@@ -25,47 +25,156 @@ namespace MicroFrame\Helpers;
 final class Strings
 {
 
+    private $value;
+
     /**
      * Strings constructor.
+     * @param null $string
      */
-    public function __construct()
+    public function __construct($string = null)
     {
+        $this->value = $string;
+    }
 
+    /**
+     * @return bool
+     */
+    private function validate() {
+        return (getType($this->value) === 'string');
+    }
+
+    /**
+     * @return int|void
+     */
+    private function count() {
+        return count($this->value);
+    }
+
+    /**
+     * @param string $string
+     * @return Strings
+     */
+    public static function filter($string = null) {
+
+        return new self($string);
+    }
+
+    /**
+     * @param null $search
+     * @param null $replace
+     * @return Strings
+     */
+    public function replace($search = null, $replace = null) {
+        $this->value = str_replace($search, $replace, $this->value);
+        return $this;
     }
 
     /**
      * @param null $string
+     * @return boolean|$this
      */
-    public static function filter($string = null) {
+    public function contains($string = null) {
+        if (!$this->validate()) return $this;
 
-        new self();
+        return strpos($this->value, $string) !== false;
     }
 
     /**
-     * Registers stuffs.
-     *
-     * @param $url
-     * @return bool
+     * @param null $start
+     * @param null $end
+     * @return $this
      */
-    public static function urlValidator($url)
+    public function between($start = null, $end = null) {
+        $string  = $this->value;
+        if (empty($string)) return $this;
+        $ini = strpos($string, $start);
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        $this->value = substr($string, $ini, $len);
+
+        return $this;
+    }
+
+    /**
+     * @param null $search
+     * @param bool $startRight
+     * @param bool $leftTrim
+     * @param int $length
+     * @return $this
+     */
+    public function range($search = null, $leftTrim = false, $startRight = false, $length = 0) {
+        if (empty($search)) return $this;
+        $string  = $this->value;
+        /** @var boolean $startRight */
+        $position = $startRight ? strrpos($string, $search) : strpos($string, $search);
+        $string = $leftTrim ? substr($string, (count($string) - $position)) : substr($string, $position);
+        $string = $length > 0 ? substr($string, 0, $length) : $string;
+        $this->value = $string;
+
+        return $this;
+    }
+
+    /**
+     * @param bool $all
+     * @return $this
+     */
+    public function upperCaseWords($all = true) {
+        $string = $this->value;
+        $string = $all ? ucwords($string) : ucfirst($string);
+        $this->value = $string;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function upperCaseAll() {
+        $this->value = strtoupper($this->value);
+
+        return $this;
+    }
+
+    /**
+     * @param bool $first
+     * @return $this
+     */
+    public function lowerCase($first = false) {
+
+        $this->value = $first ? lcfirst($this->value) : strtolower($this->value);
+
+        return $this;
+    }
+
+    /**
+     * Filters url contents.
+     *
+     * @return bool|$this|null
+     */
+    public function url()
     {
-        return preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i', $url) == 0;
+        if (!$this->validate()) return $this;
+
+        $this->value = preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i',
+                $this->value) == 0;
+        return $this->value;
     }
 
-    public function between() {
-
+    /**
+     * @return $this
+     */
+    public function dotted()
+    {
+        $this->value = preg_replace('/[^A-Za-z.\-]/', '',
+            str_replace("/", ".", $this->value));
+        return $this;
     }
 
-    public function start() {
-
-    }
-
-    public function end() {
-
-    }
-
-    public function contains() {
-
+    /**
+     * @return null | string | boolean
+     */
+    public function value() {
+        return $this->value;
     }
     
 }
