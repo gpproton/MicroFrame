@@ -1,7 +1,7 @@
 <?php
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * ClassAssist helper class
+ * Reflect helper class
  *
  * PHP Version 7
  *
@@ -23,13 +23,47 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace MicroFrame\Helpers;
 
 
-class ClassAssist
+use ReflectionClass;
+
+class Reflect
 {
     /**
-     * ClassAssist constructor.
+     * Reflect constructor.
      */
     public function __construct()
     {
+    }
+
+    /**
+     * @param $type
+     * @param $path
+     * @param $args
+     * @return bool|object
+     * @throws ReflectionException
+     */
+    public function stateLoader($type, $path, $args = array()) {
+
+        // TODO: Complete implementation for App | SYS view/Controller/Models/Middleware
+
+        $path = str_replace(".", "\\", $path);
+        $path = str_replace("/", "\\", $path);
+        $path = str_replace("-", "\\", $path);
+
+        switch ($type) {
+            case 'SYSController':
+                $path = "MicroFrame\Defaults\Controller\\" . $path . "Controller";
+                break;
+            default:
+                break;
+        }
+
+        if (!class_exists($path)) return false;
+        try {
+            $classBuilder = new ReflectionClass($path);
+        } catch (\ReflectionException $e) {
+        }
+        /** @var ReflectionClass $classBuilder */
+        return $classBuilder->newInstanceArgs($args);
     }
 
     /**
