@@ -25,4 +25,12 @@ namespace Microframe\Core;
 class Application
 {
 
+    public function __construct() {
+
+    }
+
+    public function start() {
+
+    }
+
 }
