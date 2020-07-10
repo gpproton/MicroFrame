@@ -23,8 +23,6 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace Microframe\Defaults\Controller;
 
 use \Microframe\Core\Controller;
-use MicroFrame\Core\Model;
-use MicroFrame\Handlers\Error;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
 
