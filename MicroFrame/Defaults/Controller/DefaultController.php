@@ -23,6 +23,8 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 namespace Microframe\Defaults\Controller;
 
 use \Microframe\Core\Controller;
+use MicroFrame\Core\Model;
+use MicroFrame\Handlers\Error;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
 
@@ -30,8 +32,10 @@ final class DefaultController extends Controller
 {
     public function index(IResponse $response, IRequest $request)
     {
+
         $response
-            ->data($request->query())
+            ->methods(['post', 'get'])
+            ->data($this->reques('test', true))
             ->send();
     }
 
