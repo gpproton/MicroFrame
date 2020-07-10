@@ -86,10 +86,11 @@ final class Strings
      */
     public function between($start = null, $end = null) {
         $string  = $this->value;
-        if (empty($string)) return $this;
         $ini = strpos($string, $start);
+        echo $ini;
+        if (empty($string) || $ini == 0) return $this;
         $ini += strlen($start);
-        $len = strpos($string, $end, $ini) - $ini;
+        $len = strrpos($string, $end, $ini) - $ini;
         $this->value = substr($string, $ini, $len);
 
         return $this;
@@ -106,8 +107,8 @@ final class Strings
         if (empty($search)) return $this;
         $string  = $this->value;
         /** @var boolean $startRight */
-        $position = $startRight ? strrpos($string, $search) : strpos($string, $search);
-        $string = $leftTrim ? substr($string, (count($string) - $position)) : substr($string, $position);
+        $position = $startRight ? strrpos($string, $search) : strpos($string, $search) + strlen($search);
+        $string = $leftTrim ? substr($string, (strlen($string) - $position)) : substr($string, $position);
         $string = $length > 0 ? substr($string, 0, $length) : $string;
         $this->value = $string;
 
