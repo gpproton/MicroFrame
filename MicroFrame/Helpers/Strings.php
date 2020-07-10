@@ -47,7 +47,7 @@ final class Strings
      * @return int|void
      */
     private function count() {
-        return count($this->value);
+        return strlen($this->value);
     }
 
     /**
