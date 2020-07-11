@@ -20,8 +20,8 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-require 'vendor/autoload.php';
-require_once './MicroFrame/Core.php';
+require '../vendor/autoload.php';
+require_once '../MicroFrame/Core.php';
 
 // Initialize processes..
 $baseApp = new MicroFrame\Core;
