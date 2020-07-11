@@ -9,7 +9,12 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond $1 !^(templates|plugins)
-RewriteRule ^(.*)$ index.php?controller=$1 [NC,L,QSA]
+
+#TODO: Fix query issues.
+#RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L]
+RewriteRule ^(.*)$ public/index.php?controller=$1 [NC,L,QSA]
+
 </IfModule>
 
 IndexIgnore *
