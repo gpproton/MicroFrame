@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Response Core class
  *
  * PHP Version 7
  *
  * @category  Core
- * @package   MicroFrame
+ * @package   MicroFrame\Core
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,6 +20,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Core;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Helpers\Convert;
@@ -34,6 +34,10 @@ use MicroFrame\Interfaces\IView;
 
 // TODO: Implement all methods
 
+/**
+ * Class Response
+ * @package MicroFrame\Core
+ */
 final class Response implements IResponse
 {
     private $request;
@@ -53,6 +57,13 @@ final class Response implements IResponse
         $this->content = array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array());
     }
 
+    /**
+     * @param int $status
+     * @param int $code
+     * @param string $message
+     * @param array $data
+     * @return $this
+     */
     public function setOutput($status = 0, $code = 204, $message = "", $data = []) {
         $this->content['status'] = $status;
         $this->content['code'] = $code;

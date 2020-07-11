@@ -1,4 +1,5 @@
 <?php
+namespace App\Controllers\Api;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * API Error controller class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  * 
  * @category  App
- * @package   MicroFrame
+ * @package   App\Controllers\Api
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,10 +21,12 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace App\Controllers\Api;
-
  use \MicroFrame\Core\Controller as Core;
 
+/**
+ * Class ErrorController
+ * @package App\Controllers\Api
+ */
 class ErrorController extends Core {
 
     

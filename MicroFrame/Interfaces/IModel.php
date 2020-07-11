@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * App model interface
  *
  * PHP Version 7
  *
  * @category  Interfaces
- * @package   MicroFrame
+ * @package   MicroFrame\Interfaces
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,7 +20,12 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Interfaces;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
+/**
+ * Interface IModel
+ * @package MicroFrame\Interfaces
+ */
 interface IModel
 {
     /**

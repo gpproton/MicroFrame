@@ -1,4 +1,5 @@
 <?php
+namespace App\Controllers\Page;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * View Error controller class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  *
  * @category  Controller
- * @package   App
+ * @package   App\Controllers\Page
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,10 +21,12 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace App\Controllers\Page;
-
  use \MicroFrame\Core\Controller as Core;
 
+/**
+ * Class ErrorController
+ * @package App\Controllers\Page
+ */
 class ErrorController extends Core {
 
     

@@ -1,4 +1,5 @@
 <?php
+namespace App\Middleware;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Test Middleware class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  *
  * @category  Middleware
- * @package   App
+ * @package   App\Middleware
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,12 +21,17 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\Middleware;
-
 use \Microframe\Core\Middleware;
 
+/**
+ * Class AuthMiddleware
+ * @package App\Middleware
+ */
 class AuthMiddleware extends Middleware
 {
+    /**
+     * @return bool|mixed
+     */
     public function handle()
     {
         /**

@@ -1,13 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
-
 /**
  * Exception Handlers  class
  *
  * PHP Version 7
  *
  * @category  Handlers
- * @package   MicroFrame
+ * @package   MicroFrame\Handlers
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -22,12 +20,17 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Handlers;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use \Exception as stockError;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
 use MicroFrame\Helpers\Reflect;
 
+/**
+ * Class Exception
+ * @package MicroFrame\Handlers
+ */
 class Exception extends  stockError
 {
 

@@ -1,4 +1,5 @@
 <?php
+namespace App\View\Layout;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Layout Sidebar view class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  *
  * @category  View/Layout
- * @package   App
+ * @package   App\View\Layout
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,10 +21,15 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\View\Layout;
-
+/**
+ * Class SidebarView
+ * @package App\View\Layout
+ */
 final class SidebarView {
 
+    /**
+     * SidebarView constructor.
+     */
     public function __construct()
     {
 

@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Conversion helper class
  *
  * PHP Version 7
  *
  * @category  Helpers
- * @package   MicroFrame
+ * @package   MicroFrame\Helpers
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,14 +20,26 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Helpers;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
+/**
+ * Class Convert
+ * @package MicroFrame\Helpers
+ */
 class Convert
 {
-
+    /**
+     * @param $array
+     * @return false|string
+     */
     private static function arrayJson($array) {
         return json_encode($array);
     }
 
+    /**
+     * @param $array
+     * @return mixed
+     */
     private static function arrayXml($array) {
         function xmlParser($array, &$xmlElement) {
             foreach($array as $key => $value) {
@@ -50,6 +61,11 @@ class Convert
         return $xmlElement->asXML();
     }
 
+    /**
+     * @param $array
+     * @param string $type
+     * @return false|mixed|string
+     */
     public static function arrays($array, $type = 'json') {
         if (strpos($type, 'xml') !== false) {
             return self::arrayXml($array);

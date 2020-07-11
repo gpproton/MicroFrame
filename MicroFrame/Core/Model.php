@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Model Core class
  *
  * PHP Version 7
  *
  * @category  Core
- * @package   MicroFrame
+ * @package   MicroFrame\Core
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,10 +20,15 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Core;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IDatabase;
 use MicroFrame\Interfaces\IModel;
 
+/**
+ * Class Model
+ * @package MicroFrame\Core
+ */
 final class Model implements IModel
 {
 
@@ -38,7 +42,8 @@ final class Model implements IModel
     }
 
     /**
-     * @inheritDoc
+     * @param array $array
+     * @return $this|void
      */
     public function params($array = [])
     {
@@ -47,7 +52,8 @@ final class Model implements IModel
     }
 
     /**
-     * @inheritDoc
+     * @param $string
+     * @return $this|void
      */
     public function query($string)
     {
@@ -56,7 +62,7 @@ final class Model implements IModel
     }
 
     /**
-     * @inheritDoc
+     * @return $this|void
      */
     public function execute()
     {
@@ -65,7 +71,7 @@ final class Model implements IModel
     }
 
     /**
-     * @inheritDoc
+     * @return array
      */
     public function result()
     {
@@ -74,7 +80,7 @@ final class Model implements IModel
     }
 
     /**
-     * @inheritDoc
+     *
      */
     public function loader()
     {

@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Request Core class
  *
  * PHP Version 7
  *
  * @category  Core
- * @package   MicroFrame
+ * @package   MicroFrame\Core
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,10 +20,15 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Core;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Helpers\Utils;
 use MicroFrame\Interfaces\IRequest;
 
+/**
+ * Class Request
+ * @package MicroFrame\Core
+ */
 final class Request implements IRequest
 {
     private static $cookie;
@@ -182,6 +186,8 @@ final class Request implements IRequest
 
     /**
      * Reference location for commonly used super globals
+     *
+     * @return boolean
      */
     public static function overrideGlobals()
     {
@@ -199,6 +205,7 @@ final class Request implements IRequest
 
     /**
      * Clear original contents for commonly used globals after initialization
+     * @return boolean
      */
     private static function flushGlobals()
     {

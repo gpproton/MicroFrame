@@ -1,11 +1,13 @@
 <?php
+namespace App\Task;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * Console Core class
+ * Sample Task class
  *
  * PHP Version 7
  *
- * @category  Core
- * @package   MicroFrame\Core
+ * @category  Task
+ * @package   App\Task
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -19,14 +21,11 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace MicroFrame\Core;
-defined('BASE_PATH') OR exit('No direct script access allowed');
-
 /**
- * Class Console
- * @package MicroFrame\Core
+ * Class SampleTask
+ * @package App\Task
  */
-class Console
+class SampleTask
 {
 
 }

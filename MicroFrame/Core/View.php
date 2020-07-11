@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * View Core class
  *
  * PHP Version 7
  *
  * @category  Core
- * @package   MicroFrame
+ * @package   MicroFrame\Core
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,10 +19,15 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace Microframe\Core;
+namespace MicroFrame\Core;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IView;
 
+/**
+ * Class View
+ * @package MicroFrame\Core
+ */
 class View implements IView
 {
 
@@ -31,6 +35,9 @@ class View implements IView
     protected $response;
     protected $model;
 
+    /**
+     * View constructor.
+     */
     public function __construct()
     {
 

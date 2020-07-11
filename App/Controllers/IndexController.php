@@ -1,4 +1,5 @@
 <?php
+namespace App\Controllers;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Index Controller class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  *
  * @category  Controller
- * @package   App
+ * @package   App\Controllers
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,10 +21,12 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\Controllers;
-
 use \MicroFrame\Core\Controller as Core;
 
+/**
+ * Class IndexController
+ * @package App\Controllers
+ */
 class IndexController extends Core {
 
 

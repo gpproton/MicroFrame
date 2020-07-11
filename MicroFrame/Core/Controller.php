@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Core Controller class
  *
  * PHP Version 7
  *
  * @category  Core
- * @package   MicroFrame
+ * @package   MicroFrame\Core
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,13 +19,19 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace Microframe\Core;
+namespace MicroFrame\Core;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IController;
 use MicroFrame\Interfaces\IMiddleware;
+use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
 
+/**
+ * Class Controller
+ * @package MicroFrame\Core
+ */
 class Controller implements IController
 {
     protected $config;
@@ -34,6 +39,11 @@ class Controller implements IController
     protected $response;
     protected $middlewareState;
 
+    /**
+     * Controller constructor.
+     * @param IResponse $response
+     * @param IRequest $request
+     */
     public function __construct(IResponse $response, IRequest $request)
     {
         $this->middlewareState = true;
@@ -43,6 +53,10 @@ class Controller implements IController
         return $this;
     }
 
+    /**
+     * @param IMiddleware|null $middleware
+     * @return $this|mixed
+     */
     public function middleware(IMiddleware $middleware = null)
     {
         if (!is_null($middleware)) {
@@ -52,7 +66,8 @@ class Controller implements IController
     }
 
     /**
-     * @inheritDoc
+     * @param IResponse $response
+     * @param IRequest $request
      */
     public function index(IResponse $response, IRequest $request)
     {
@@ -74,14 +89,21 @@ class Controller implements IController
         $this->index($this->response, $this->request);
     }
 
-    public function __destruct()
-    {
-
-    }
-
+    /**
+     * @param null $source
+     * @return Model|IModel
+     */
     public static function model($source =  null)
     {
         if (is_null($source)) return new Model();
         return new Model($source);
+    }
+
+    /**
+     *
+     */
+    public function __destruct()
+    {
+
     }
 }

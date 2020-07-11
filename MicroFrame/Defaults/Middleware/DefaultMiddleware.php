@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Default Middleware class
  *
  * PHP Version 7
  *
  * @category  DefaultMiddleware
- * @package   MicroFrame
+ * @package   MicroFrame\Defaults\Middleware
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,12 +19,20 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace Microframe\Defaults\Middleware;
+namespace MicroFrame\Defaults\Middleware;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use \Microframe\Core\Middleware;
+use \MicroFrame\Core\Middleware;
 
+/**
+ * Class DefaultMiddleware
+ * @package MicroFrame\Defaults\Middleware
+ */
 class DefaultMiddleware extends Middleware
 {
+    /**
+     * @return bool|mixed
+     */
     public function handle()
     {
         return true;

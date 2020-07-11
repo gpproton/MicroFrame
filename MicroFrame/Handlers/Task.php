@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
- * Strings helper class
+ * Task Handler class
  *
  * PHP Version 7
  *
  * @category  Core
- * @package   MicroFrame
+ * @package   MicroFrame\Handlers
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,8 +20,14 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Handlers;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 // TODO: Search Tasks namespace and loop over all class to execute tasks if ran from a CLI
+
+/**
+ * Class Task
+ * @package MicroFrame\Handlers
+ */
 class Task
 {
 

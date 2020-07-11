@@ -1,4 +1,5 @@
 <?php
+namespace App;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Default options class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  * 
  * @category  App
- * @package   MicroFrame
+ * @package   App
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,8 +21,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- namespace App;
-
+/**
+ * Class Routes
+ * @package App
+ */
 final class Routes {
 
 // TODO: route point to related path with dot note, and an array of required middleware, check notes
@@ -29,6 +32,9 @@ final class Routes {
     // TODO: Defualt app middleware config for all controllers with pattern match
     public $middleware;
 
+    /**
+     * Routes constructor.
+     */
     public function __construct()
     {
 

@@ -1,29 +1,33 @@
 <?php
-
 /**
  * Strings helper class
- * 
+ *
  * PHP Version 7
- * 
+ *
  * @category  Handlers
- * @package   MicroFrame
+ * @package   MicroFrame\Handlers
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
  * @link      https://github.com/gpproton/microframe
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to 
+ * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
 namespace MicroFrame\Handlers;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IDatabase;
 
+/**
+ * Class Database
+ * @package MicroFrame\Handlers
+ */
 class Database implements IDatabase {
 
     // TODO: Rewrite for more dynamic usage
@@ -42,6 +46,10 @@ class Database implements IDatabase {
     //        }
 
 
+    /**
+     * Database constructor.
+     * @param null $type
+     */
     public function __construct($type = null)
     {
         $Options = [
@@ -135,11 +143,17 @@ class Database implements IDatabase {
         return self::$Connection;
     }
 
+    /**
+     * @return string
+     */
     private static function SQLiteConnectionStr()
     {
         return "";
     }
 
+    /**
+     * @return string
+     */
     private static function OracleConnectionStr()
     {
         // DSN Sample
@@ -151,16 +165,25 @@ class Database implements IDatabase {
         . self::$SLASH . Config::$DATABASE_EXTRA;
     }
 
+    /**
+     * @return string
+     */
     private static function MysqlConnectionStr()
     {
         return "";
     }
 
+    /**
+     * @return string
+     */
     private static function PGConnectionStr()
     {
         return "";
     }
 
+    /**
+     * @param $text
+     */
     private static function checkPDODriver($text)
     {
         $jsonMsg = array(

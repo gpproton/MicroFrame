@@ -1,4 +1,5 @@
 <?php
+namespace App\View\Component;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Layout Sidebar component class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  *
  * @category  View/Component
- * @package   App
+ * @package   App\View\Component
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,9 +21,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\View\Component;
-
-
+/**
+ * Class DateRangeComponent
+ * @package App\View\Component
+ */
 class DateRangeComponent
 {
 

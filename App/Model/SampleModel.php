@@ -1,4 +1,5 @@
 <?php
+namespace App\Model;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Sample Model class
@@ -6,7 +7,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * PHP Version 7
  *
  * @category  Model
- * @package   MicroFrame
+ * @package   App\Model
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,8 +21,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\Model;
-
+/**
+ * Class SampleModel
+ * @package App\Model
+ */
 class SampleModel
 {
 

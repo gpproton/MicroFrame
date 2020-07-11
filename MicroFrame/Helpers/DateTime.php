@@ -1,13 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
-
 /**
  * DateTime class
  *
  * PHP Version 7
  *
  * @category  Helpers
- * @package   MicroFrame
+ * @package   MicroFrame\Helpers
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -22,9 +20,18 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Helpers;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
+/**
+ * Class DateTime
+ * @package MicroFrame\Helpers
+ */
 final class DateTime {
 
+    /**
+     * @param $format
+     * @param null $date
+     */
     public static function format($format, $date = null) {
 
     }

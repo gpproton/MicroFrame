@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Error Controller class
  *
  * PHP Version 7
  *
  * @category  DefaultController
- * @package   MicroFrame
+ * @package   MicroFrame\Defaults\Controller
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,11 +19,27 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace Microframe\Defaults\Controller;
+namespace MicroFrame\Defaults\Controller;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use \Microframe\Core\Controller;
+use \MicroFrame\Core\Controller;
+use MicroFrame\Interfaces\IRequest;
+use MicroFrame\Interfaces\IResponse;
 
+/**
+ * Class ErrorController
+ * @package MicroFrame\Defaults\Controller
+ */
 final class ErrorController extends Controller
 {
+    /**
+     * ErrorController constructor.
+     * @param IResponse $response
+     * @param IRequest $request
+     */
+    public function __construct(IResponse $response, IRequest $request)
+    {
+        parent::__construct($response, $request);
+    }
 
 }
