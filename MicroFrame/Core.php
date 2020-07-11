@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Core class
  *
@@ -12,6 +11,7 @@
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
  * @link      https://github.com/gpproton/microframe
+ * @summary A file for testing docs
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
  * this software and associated documentation files (the "Software"), to deal in
@@ -21,8 +21,7 @@
  */
 
 namespace MicroFrame;
-
-define('BASE_PATH', realpath(__DIR__.'/..'));
+define('BASE_PATH', realpath(__DIR__ .'/..'));
 
 /**
  * Set default PHP configurations.
@@ -37,26 +36,40 @@ ini_set("post_max_size", "256M");
 ini_set("upload_max_filesize", "256M");
 ini_set("max_file_uploads", 300);
 
-use MicroFrame\Core\Request as request;
-use MicroFrame\Helpers\Config as config;
-use MicroFrame\Handlers\Route as route;
+use \MicroFrame\Core\Request as request;
+use \MicroFrame\Helpers\Config as config;
+use \MicroFrame\Handlers\Route as route;
 
+/**
+ * Class Core
+ * @package MicroFrame
+ * @summary MicroFrame core bootstrapper for application.
+ */
 final class Core {
 
+    /**
+     * Core constructor.
+     * @summary A construct for testing docs
+     */
     public function __construct()
     {
-        // Auto loader class injection.
+        /**
+         * Auto loading class files
+         *
+         * @param $class
+         * @return void
+         */
         spl_autoload_register(function ($class)
         {
-            $nameSpacePath = str_replace('\\', '/', $class) . '.php';
-            if(is_file($nameSpacePath))
-            {
-                /** @var string $nameSpacePath */
-                require_once $nameSpacePath;
-            }
+            $nameSpacePath = "../" . str_replace('\\', '/', $class) . '.php';
+            if(is_file($nameSpacePath)) require_once $nameSpacePath;
         });
     }
 
+    /**
+     *
+     * @summary A called func for testing docs
+     */
     public function Run()
     {
         // Bootstrap all defined configurations
