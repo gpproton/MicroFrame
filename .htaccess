@@ -4,22 +4,21 @@
 ##
 ##############################
 
-<IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond $1 !^(templates|plugins)
-
-#TODO: Fix query issues.
-#RewriteCond %{REQUEST_URI} !^public
-RewriteRule ^(.*)$ public/$1 [L]
-RewriteRule ^(.*)$ public/index.php?controller=$1 [NC,L,QSA]
-
-</IfModule>
-
 IndexIgnore *
 Options All -Indexes
 
+<IfModule mod_rewrite.c>
+# Send Requests To Front Controller...
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/index.php?controller=$1 [NC,L,QSA]
+
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+</IfModule>
 
 # Set a default PHP version
 #AddHandler application/x-httpd-php74 .php
