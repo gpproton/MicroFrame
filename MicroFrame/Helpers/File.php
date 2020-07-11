@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * File helper class
  *
  * PHP Version 7
  *
  * @category  Helpers
- * @package   MicroFrame
+ * @package   MicroFrame\Helpers
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,9 +20,18 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 namespace MicroFrame\Helpers;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
-final class File { 
+/**
+ * Class File
+ * @package MicroFrame\Helpers
+ */
+final class File {
 
+    /**
+     * @param $filename
+     * @return mixed|string
+     */
     public static function mimeType($filename)
     {
         if(!function_exists('mime_content_type')) {
