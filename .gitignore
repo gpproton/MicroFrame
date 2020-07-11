@@ -3,6 +3,8 @@
 /vendor/
 /Logs/
 /Cache/
+/bin/
+/Docs/
 
 ##Composer rules
 composer.lock

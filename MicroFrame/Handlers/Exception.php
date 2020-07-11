@@ -65,7 +65,8 @@ class Exception extends  stockError
      */
     public function log($message = null) {
         if(is_null($message)) $message = self::getMessage();
-        Logger::warn($message, $this->source);
+//        Logger::warn($message, $this->source);
+        Logger::set($message, $this->source)->warn();
     }
 
     /**
@@ -74,7 +75,8 @@ class Exception extends  stockError
      */
     public function output($message = null) {
         if(is_null($message)) $message = self::getMessage();
-        Logger::error($message, $this->source);
+//        Logger::error($message, $this->source);
+        Logger::set($message, $this->source)->error();
         $this->response->methods(['get', 'post', 'put', 'delete', 'options']);
         $this->response->setOutput(0, $this->errorCode, $message);
         $this->response->send();
@@ -86,7 +88,8 @@ class Exception extends  stockError
     public function render($message = null) {
         // TODO: Write error type to default error data array
         if(is_null($message)) $message = self::getMessage();
-        Logger::error($message, $this->source);
+//        Logger::error($message, $this->source);
+        Logger::set($message, $this->source)->error();
         $this->response->setOutput(0, $this->errorCode, $message);
         $this->response->render();
     }

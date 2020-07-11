@@ -22,42 +22,55 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 namespace MicroFrame\Handlers;
 
+use MicroFrame\Helpers\Reflect;
 use MicroFrame\Helpers\Utils;
 
 final class Logger {
 
-    public function __construct()
-    {
+    private $source;
+    private $text;
 
+    public function __construct($text = null, $source = null) {
+        
+        $this->text = $text;
+        $this->source = $source;
     }
 
-    public static function info($output = null, $classPath = __CLASS__)
-    {
-        self::output("Info", $output, $classPath);
+    public static function set($text = null, $source = null) {
+        
+        return new self($text, $source);
     }
 
-    public static function warn($output = null, $classPath = __CLASS__)
+    public function info()
     {
-        self::output("Warn", $output, $classPath);
+        $this->output(__FUNCTION__);
     }
 
-    public static function error($output = null, $classPath = __CLASS__)
+    public function warn()
     {
-        return self::output("Error", $output, $classPath);
+        $this->output(__FUNCTION__);
     }
 
-    public static function debug($output = null, $classPath = __CLASS__)
+    public function error()
     {
-        self::output("Debug", $output, $classPath);
+        return $this->output(__FUNCTION__);
     }
 
-    public static function fatal($output = null, $classPath = __CLASS__)
+    public function debug()
     {
-        return self::output("Fatal", $output, $classPath);
+        $this->output(__FUNCTION__);
     }
 
-    private static function output($type, $output, $classExec)
+    public function fatal()
     {
+        return $this->output(__FUNCTION__);
+    }
+
+    private function output($type)
+    {
+        if (!isset($this->source)) $this->source = Reflect::check()->getClassFullNameFromFile(debug_backtrace()[1]['file']);
+        $output = $this->text;
+
         switch (gettype($output)) {
             case 'array':
                 $output =  json_encode($output);
@@ -72,42 +85,42 @@ final class Logger {
                 break;
         }
         $output = date("[Y-m-d H:i:s]") . "\t[". $type
-            ."]\t[". $classExec ."]\t"
+            ."]\t[". $this->source ."]\t"
             . $output ."\n";
 
         switch ($type) {
-            case 'Info':
-                self::console($output);
+            case 'info':
+                $this->console($output);
                 break;
-            case 'Warn':
-                self::console($output);
-                self::file($output);
+            case 'warn':
+                $this->console($output);
+                $this->file($output);
                 break;
-            case 'Error':
-                self::console($output);
-                self::file($output);
-                return self::web();
-            case 'Debug':
-                self::console($output);
+            case 'error':
+                $this->console($output);
+                $this->file($output);
+                return $this->web();
+            case 'debug':
+                $this->console($output);
                 return $output;
             default:
-                self::console($output);
-                self::file($output);
-                self::email($output);
-                return self::web();
+                $this->console($output);
+                $this->file($output);
+                $this->email($output);
+                return $this->web();
         }
 
     }
 
-    private static function console($string =  null) {
+    private function console($string =  null) {
         Utils::console($string);
     }
 
-    private static function web($string =  null) {
+    private function web($string =  null) {
         return $string;
     }
 
-    private static function file($string =  null, $path = null) {
+    private function file($string =  null, $path = null) {
 
         if (is_null($path)) $path = SYS_LOG_PATH .'/App.log';
         $oldDate =  date("d-m-Y", filemtime($path));
@@ -124,7 +137,7 @@ final class Logger {
      * TODO: Future use case
      * @param null $string
      */
-    private static function email($string =  null) {
+    private function email($string =  null) {
 
     }
 
