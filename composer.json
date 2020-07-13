@@ -1,6 +1,6 @@
 {
     "name": "gpproton/microframe",
-    "description": "A simplistic micro-plain framework with a little touch of MVC",
+    "description": "A simplistic micro-plain framework with a little touch of MVC without the pains of models",
     "type": "project",
     "license": "MIT",
     "authors": [
@@ -15,15 +15,27 @@
         "platform": {
         }
     },
+    "autoload": {
+        "psr-4": {
+            "MicroFrame\\": "MicroFrame",
+            "App\\": "App"
+        }
+    },
     "require": {
         "ext-json": "*",
         "ext-fileinfo": "*",
         "vlucas/phpdotenv": "^4.1",
         "taq/pdooci": "^1.0",
-        "asyncphp/doorman": "^3.1"
+        "asyncphp/doorman": "^3.1",
+        "zircote/swagger-php": "^3.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "apigen/apigen": "^4.1",
+        "phpunit/phpunit": "^9.2"
+    },
+    "scripts": {
+        "clearCache": "rm -rf cache/*",
+        "start": "php -S localhost:4567 -t public"
     }
 }

@@ -53,17 +53,7 @@ final class Core {
      */
     public function __construct()
     {
-        /**
-         * Auto loading class files
-         *
-         * @param $class
-         * @return void
-         */
-        spl_autoload_register(function ($class)
-        {
-            $nameSpacePath = "../" . str_replace('\\', '/', $class) . '.php';
-            if(is_file($nameSpacePath)) require_once $nameSpacePath;
-        });
+
     }
 
     /**
@@ -75,9 +65,9 @@ final class Core {
         // Bootstrap all defined configurations
         if (!request::overrideGlobals()) die('Request can bot be routed!');
         else {
-            config::Load();
+             config::Load();
             // Trigger actions and filters on HTTP request
-            route::Boot();
+             route::Boot();
         }
     }
 }
