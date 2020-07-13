@@ -30,20 +30,68 @@ use MicroFrame\Helpers\Reflect;
  * Default resource references
  */
 use MicroFrame\Defaults\Middleware\DefaultMiddleware;
+use MicroFrame\Interfaces\IMiddleware;
 
 /**
  * Class Route
  * @package MicroFrame\Handlers
  */
-final class Route
+class Route
 {
+
+    protected $request;
+    private $response;
+    public $routes = array();
 
     /**
      * Route constructor.
      */
     public function __construct()
     {
+        $this->request = new Request();
+        $this->response = new Response();
+    }
 
+    public static function set() {
+        return new self();
+    }
+
+    /**
+     * @param array $methods
+     * @param string $path
+     * @param string $functions
+     * @param array $middleware
+     * @param int $status
+     */
+    public function map($path = "index", $methods = array('get'), $functions = "Default", $middleware = array(), $status = 200) {
+        $this->routes[$path]['methods'] = $methods;
+        $this->routes[$path]['functions'] = $functions;
+        $this->routes[$path]['middleware'] = $middleware;
+        $this->routes[$path]['status'] = $status;
+
+        // TODO: First check if $path class or method exist.
+        if (false) {
+            $this->route();
+        }
+
+    }
+
+    private function route() {
+        foreach ($this->routes as $route => $func) {
+
+            $response = $this->response;
+            $response->status($func['status']);
+            $response->methods($func['methods']);
+            foreach ($func['middleware'] as $middleKey) {
+                $response->middleware($middleKey);
+            }
+            ob_start();
+            if (gettype($func['functions']) == 'closure') $response->data($func['functions']());
+            $response->data($func['functions']);
+            ob_clean();
+
+            $response->send();
+        }
     }
 
     /**
