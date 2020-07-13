@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Helpers;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use ReflectionClass;
@@ -35,6 +36,14 @@ class Reflect
      */
     public function __construct()
     {
+
+    }
+
+    /**
+     * @summary Statically initialize class object
+     */
+    public static function check() {
+        return new self();
     }
 
     /**
@@ -46,7 +55,9 @@ class Reflect
      */
     public function stateLoader($type, $path, $args = array()) {
 
-        // TODO: Complete implementation for App | SYS view/Controller/Models/Middleware
+        // TODO: Complete implementation for SYSController | AppController | AppControllerFunc | AppModel | AppModelFunc | SYSView | App View | AppViewLayout | AppViewComponents
+
+        // TODO: Implement class and method filtering here.
 
         $path = str_replace(".", "\\", $path);
         $path = str_replace("/", "\\", $path);
@@ -54,6 +65,7 @@ class Reflect
 
         switch ($type) {
             case 'SYSController':
+                $args[3] = "";
                 $path = "MicroFrame\Defaults\Controller\\" . $path . "Controller";
                 break;
             default:
@@ -70,11 +82,18 @@ class Reflect
     }
 
     /**
-     *
+     * @param $classInstance
+     * @param $methodName
+     * @param $paramArrays
+     * @return mixed
      */
-    public static function check() {
-        return new self();
+    public function methodLoader($classInstance, $methodName, $paramArrays = array()) {
+        return call_user_func_array(
+            array($classInstance, $methodName)
+            , $paramArrays
+        );
     }
+
 
     /**
      * get the full name (name \ namespace) of a class from its file path

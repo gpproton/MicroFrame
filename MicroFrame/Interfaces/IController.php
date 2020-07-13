@@ -30,11 +30,11 @@ interface IController
 {
 
     /**
-     * @param IRequest $request
      * @param IResponse $response
-     * @return mixed
+     * @param IRequest $request
+     * @param string $method
      */
-    public function __construct(IResponse $response, IRequest $request);
+    public function __construct(IResponse $response, IRequest $request, $method = "");
 
     /**
      * @param IMiddleware $middleware

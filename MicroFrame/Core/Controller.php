@@ -37,19 +37,23 @@ class Controller implements IController
     protected $config;
     protected $request;
     protected $response;
+    protected $method;
     protected $middlewareState;
 
     /**
      * Controller constructor.
      * @param IResponse $response
      * @param IRequest $request
+     * @param string $method
      */
-    public function __construct(IResponse $response, IRequest $request)
+    public function __construct(IResponse $response, IRequest $request, $method = "")
     {
         $this->middlewareState = true;
         $this->config = (object) APPLICATION_CONFIG;
-        if(!is_null($response)) $this->response = $response;
-        if(!is_null($request)) $this->request = $request;
+
+        $this->request = $request;
+        $this->response = $response;
+        $this->method = $method;
 
         return $this;
     }
@@ -71,11 +75,13 @@ class Controller implements IController
      */
     public function index()
     {
-        // Implement index() method from child class.
+        // Implement index method from children class if required.
         $this->response->send();
     }
 
     /**
+     * @summery Run controller instance
+     *
      * @return void
      */
     public function start()
@@ -86,10 +92,20 @@ class Controller implements IController
         } else {
             $this->response->proceed = false;
         }
-        $this->index($this->response, $this->request);
+
+        if (empty($this->method)) {
+            $this->index();
+        } else {
+
+            //TODO: call_user_func_array Call method with string approach.
+        }
+
     }
 
     /**
+     *
+     * @summary Model static instance initializer.
+     *
      * @param null $source
      * @return Model|IModel
      */
