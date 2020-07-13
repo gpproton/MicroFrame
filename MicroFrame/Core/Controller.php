@@ -50,6 +50,7 @@ class Controller implements IController
         $this->config = (object) APPLICATION_CONFIG;
         if(!is_null($response)) $this->response = $response;
         if(!is_null($request)) $this->request = $request;
+
         return $this;
     }
 
@@ -66,13 +67,12 @@ class Controller implements IController
     }
 
     /**
-     * @param IResponse $response
-     * @param IRequest $request
+     * @summary Index/Default controller method
      */
-    public function index(IResponse $response, IRequest $request)
+    public function index()
     {
         // Implement index() method from child class.
-        $response->send();
+        $this->response->send();
     }
 
     /**

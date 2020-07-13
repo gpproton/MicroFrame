@@ -49,11 +49,9 @@ interface IController
     public static function model($source = null);
 
     /**
-     * @param IResponse $response
-     * @param IRequest $request
      * @return void
      */
-    public function index(IResponse $response, IRequest $request);
+    public function index();
 
     /**
      * @return mixed
