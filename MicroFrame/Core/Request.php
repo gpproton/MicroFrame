@@ -45,6 +45,10 @@ final class Request implements IRequest
 
     }
 
+    public static function get() {
+        return new self();
+    }
+
 
     /**
      * Get request method type in plain string
