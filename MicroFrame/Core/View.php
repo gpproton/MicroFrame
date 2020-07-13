@@ -40,7 +40,13 @@ class View implements IView
      */
     public function __construct()
     {
+        $this->request = new Request();
+        $this->response = new Response();
+        $this->model = new Model();
+    }
 
+    public static function model() {
+        return new Model();
     }
 
 }

@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Defaults\Controller;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use \MicroFrame\Core\Controller;
@@ -32,14 +33,5 @@ use MicroFrame\Interfaces\IResponse;
  */
 final class ErrorController extends Controller
 {
-    /**
-     * ErrorController constructor.
-     * @param IResponse $response
-     * @param IRequest $request
-     */
-    public function __construct(IResponse $response, IRequest $request)
-    {
-        parent::__construct($response, $request);
-    }
 
 }
