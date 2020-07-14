@@ -74,8 +74,6 @@ final class Core {
 
             $handler->bootstrap(new app);
 
-            // Trigger actions and filters on HTTP request
-            // route::Boot();
         }
     }
 }
