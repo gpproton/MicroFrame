@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Core;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -28,5 +29,72 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class Console
 {
+
+    private $raw;
+
+    public static function init() {
+        return new self();
+    }
+
+    private function getRaws() {
+        /**
+         * Allowed short keys
+         */
+        $shortInput = "t:";
+        $shortInput .= "c::";
+        $shortInput .= "v::";
+        $shortInput .= "phq";
+
+        /**
+         * Allowed long keys
+         */
+        $longInput  = array(
+            "task:",
+            "timeout::",
+            "variables::",
+            "persist",
+            "help",
+            "quiet",
+            "verbose"
+        );
+
+        $this->raw = getopt($shortInput, $longInput);
+
+    }
+
+    private function formatList() {
+        // TODO: Format comma separated values
+
+    }
+
+    private function formatArray() {
+        // TODO: Format string defined key array separated values
+
+    }
+
+    public function getFormatted() {
+
+    }
+
+    /**
+     *
+     */
+    private function response() {
+        // TODO: Defines response for commands that require no task calls or are not variables
+
+    }
+
+    private function state() {
+        // TODO: Set
+    }
+
+    public function execute() {
+
+        $this->getRaws();
+
+        // TODO: Set what's neXt
+        var_dump($this->raw);
+    }
+
 
 }

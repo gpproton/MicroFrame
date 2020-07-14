@@ -55,7 +55,13 @@ class Application
      */
     public function start() {
 
-        // TODO: Set route initialization here.
+        if (SYS_CONSOLE) {
+            Console::init()->execute();
+        } else {
+            // TODO: Set web route initialization here.
+            // Trigger actions and filters on HTTP request
+            // route::Boot();
+        }
     }
 
 }
