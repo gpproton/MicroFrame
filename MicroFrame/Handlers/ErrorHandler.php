@@ -23,7 +23,6 @@ namespace MicroFrame\Handlers;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use ErrorException;
 use MicroFrame\Core\Application;
 use Throwable;
 
@@ -90,6 +89,8 @@ final class ErrorHandler extends \Error implements Throwable
     }
 
     /**
+     * Handling the actual errors.
+     *
      * @param Throwable $e
      */
     public function handleException(Throwable $e)
@@ -102,7 +103,7 @@ final class ErrorHandler extends \Error implements Throwable
     }
 
     /**
-     *
+     * Handle errors during the shutdown process.
      */
     public function handleShutdown()
     {
@@ -112,6 +113,8 @@ final class ErrorHandler extends \Error implements Throwable
     }
 
     /**
+     * Check PHP fatal errors and return an error instance.
+     *
      * @param array $error
      * @param null $traceOffset
      * @return ErrorHandler
@@ -121,5 +124,14 @@ final class ErrorHandler extends \Error implements Throwable
         return new ErrorHandler($error['message'], 0, $traceOffset);
     }
 
+    /**
+     * Check PHP error if it's fatal.
+     *
+     * @param $type
+     * @return bool
+     */
+    protected function isFatal($type) {
+        return in_array($type, [E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE]);
+    }
 
 }

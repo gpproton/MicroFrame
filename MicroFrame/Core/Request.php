@@ -196,13 +196,14 @@ final class Request implements IRequest
     public static function overrideGlobals()
     {
         self::$cookie = $_COOKIE;
-        self::$env = $_ENV;
         self::$files = $_FILES;
         self::$get = $_GET;
         self::$post = $_POST;
         self::$request = $_REQUEST;
         self::$server = $_SERVER;
-        self::$session = $_SESSION;
+
+//        self::$env = $_ENV;
+//        self::$session = $_SESSION;
 
         return self::flushGlobals();
     }
@@ -213,14 +214,15 @@ final class Request implements IRequest
      */
     private static function flushGlobals()
     {
-        $_COOKIE = null;
-        $_ENV = null;
-        $_FILES = null;
-        $_GET = null;
-        $_POST = null;
-        $_REQUEST = null;
-        $_SERVER = null;
-        $_SESSION = null;
+        $_COOKIE = [];
+        $_FILES = [];
+        $_GET = [];
+        $_POST = [];
+        $_REQUEST = [];
+        $_SERVER = [];
+
+//        $_ENV = [];
+//        $_SESSION = [];
 
         // TODO: Test new session initialization.
         session_start();

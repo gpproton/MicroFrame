@@ -54,7 +54,8 @@ class Application
      *
      */
     public function start() {
-        $hdbhsd;
+
+        // TODO: Set route initialization here.
     }
 
 }
