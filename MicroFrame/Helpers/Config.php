@@ -67,6 +67,11 @@ final class Config {
         define('SYS_DEBUG', getenv('SYS_DEBUG') === 'true');
 
         /**
+         * @summary Application runtime check if it's console or web.
+         */
+        define('SYS_CONSOLE', php_sapi_name() === 'cli');
+
+        /**
          * @summary Fixed routing mode.
          */
         define('SYS_ROUTE_MODE', getenv('SYS_ROUTE_MODE'));
