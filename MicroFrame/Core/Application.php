@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Application class
  *
@@ -20,6 +21,7 @@
  */
 
 namespace MicroFrame\Core;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -36,11 +38,23 @@ class Application
 
     }
 
+
     /**
+     * Check debug settings and set error checking.
+     *
+     * @param bool $debug
+     * @return bool
+     */
+    public function environment($debug = false) {
+        return $debug && SYS_DEBUG;
+    }
+
+    /**
+     * Boot up application
      *
      */
     public function start() {
-
+        $hdbhsd;
     }
 
 }

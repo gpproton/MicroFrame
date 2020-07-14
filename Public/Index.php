@@ -22,6 +22,10 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Initialize processes..
-$baseApp = new MicroFrame\Core;
-$baseApp->Run();
+/**
+ * Initialize processes..
+ *
+ */
+$app = new MicroFrame\Core;
+
+$app->Run(new MicroFrame\Handlers\ErrorHandler());

@@ -36,9 +36,10 @@ ini_set("post_max_size", "256M");
 ini_set("upload_max_filesize", "256M");
 ini_set("max_file_uploads", 300);
 
-use \MicroFrame\Core\Request as request;
-use \MicroFrame\Helpers\Config as config;
-use \MicroFrame\Handlers\Route as route;
+use MicroFrame\Core\Request as request;
+use MicroFrame\Helpers\Config as config;
+use MicroFrame\Handlers\ErrorHandler as handler;
+use MicroFrame\Core\Application as app;
 
 /**
  * Class Core
@@ -59,15 +60,22 @@ final class Core {
     /**
      *
      * @summary A called func for testing docs
+     *
+     * @param handler $handler
      */
-    public function Run()
+    public function Run(handler $handler)
     {
-        // Bootstrap all defined configurations
+        /**
+         * Bootstrap all defined configurations
+         */
         if (!request::overrideGlobals()) die('Request can bot be routed!');
         else {
-             config::Load();
+            config::Load();
+
+            $handler->bootstrap(new app);
+
             // Trigger actions and filters on HTTP request
-             route::Boot();
+            // route::Boot();
         }
     }
 }
