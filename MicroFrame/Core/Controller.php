@@ -27,6 +27,7 @@ use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
+use MicroFrame\Helpers\Reflect;
 
 /**
  * Class Controller

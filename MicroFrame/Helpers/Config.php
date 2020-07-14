@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Helpers;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use \Dotenv\Dotenv as dotEnv;
