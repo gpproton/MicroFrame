@@ -22,6 +22,7 @@
 namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use MicroFrame\Helpers\Strings;
 use MicroFrame\Helpers\Utils;
 use MicroFrame\Interfaces\IRequest;
 
@@ -76,7 +77,8 @@ final class Request implements IRequest
      */
     Public function query($string = null, $multiple = false)
     {
-        $query  = explode('&', self::$server['QUERY_STRING']);
+        $query = array();
+        if (!empty(self::$server['QUERY_STRING'])) $query  = explode('&', self::$server['QUERY_STRING']);
         if(count($query) > 0 && !empty($query[0]))
         {
             $params = array();
@@ -280,7 +282,7 @@ final class Request implements IRequest
         } else {
             $final = "";
         }
-        $final = str_replace("/", ".", $final);
-        return preg_replace('/[^A-Za-z.\-]/', '', $final);
+        
+        return Strings::filter($final)->dotted()->value();
     }
 }
