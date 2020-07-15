@@ -133,19 +133,14 @@ final class Request implements IRequest
      */
     Public function header($string = null)
     {
-        if (empty($string)) { return getallheaders(); }
+        if (is_null($string)) { return getallheaders(); }
         else {
+            $header = null;
             $string = str_replace('-', '_', $string);
-            $header = self::$server['HTTP_' . strtoupper($string)];
-            if(is_null($header)){
-                return null;
+            if(isset(self::$server['HTTP_' . strtoupper($string)])) {
+                $header = self::$server['HTTP_' . strtoupper($string)];
             }
 
-            switch ($string) {
-                case 'accept':
-                default:
-                    break;
-            }
             /** @var mixed $header */
             return $header;
         }
