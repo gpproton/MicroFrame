@@ -25,10 +25,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 use MicroFrame\Interfaces\IDatabase;
 
 /**
- * Class Database
+ * Class DataSource
  * @package MicroFrame\Handlers
  */
-class Database implements IDatabase {
+class DataSource implements IDatabase {
 
     // TODO: Rewrite for more dynamic usage
     protected static $Connection;
@@ -47,7 +47,7 @@ class Database implements IDatabase {
 
 
     /**
-     * Database constructor.
+     * DataSource constructor.
      * @param null $type
      */
     public function __construct($type = null)
@@ -128,7 +128,7 @@ class Database implements IDatabase {
     
                 $jsonMsg = array(
                     'status' => 0,
-                    'type' => 'Database Exception',
+                    'type' => 'DataSource Exception',
                     'message' => 'error: ' . $e->getMessage()
                 );
 
@@ -188,8 +188,8 @@ class Database implements IDatabase {
     {
         $jsonMsg = array(
             'status' => 0,
-            'type' => 'Database Exception',
-            'message' => 'error: Database pdo driver is not installed'
+            'type' => 'DataSource Exception',
+            'message' => 'error: DataSource pdo driver is not installed'
         );
 
         if (!in_array($text, PDO::getAvailableDrivers(),TRUE))
