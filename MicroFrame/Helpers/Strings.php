@@ -65,10 +65,10 @@ final class Strings
 
     /**
      * @param null $search
-     * @param null $replace
+     * @param string $replace
      * @return Strings
      */
-    public function replace($search = null, $replace = null) {
+    public function replace($search = null, $replace = "") {
         $this->value = str_replace($search, $replace, $this->value);
         return $this;
     }
