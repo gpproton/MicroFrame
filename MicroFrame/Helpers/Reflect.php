@@ -31,6 +31,9 @@ use ReflectionClass;
  */
 class Reflect
 {
+
+    private static $sysPath = "MicroFrame\Defaults\\";
+    private static $appPath = "App\\";
     /**
      * Reflect constructor.
      */
@@ -55,24 +58,33 @@ class Reflect
      */
     public function stateLoader($type, $path, $args = array()) {
 
-        // TODO: Complete implementation for SYSController | AppController | AppControllerFunc | AppModel | AppModelFunc | SYSView | App View | AppViewLayout | AppViewComponents
-
         // TODO: Implement class and method filtering here.
+        $base = "";
+        $path = Strings::filter($path)
+            ->dotted()
+            ->replace(".", "\\")
+            ->value();
 
-        $path = str_replace(".", "\\", $path);
-        $path = str_replace("/", "\\", $path);
-        $path = str_replace("-", "\\", $path);
+        $core = Strings::filter($type)
+            ->replace("sys.")
+            ->replace("app.")
+            ->value();
 
-        switch ($type) {
-            case 'SYSController':
-                $args[3] = "";
-                $path = "MicroFrame\Defaults\Controller\\" . $path . "Controller";
-                break;
-            default:
-                break;
+        $pathHandler = function ($base) use ($core, $path) {
+            return "$base{$core}\\{$path}{$core}";
+        };
+
+        if (Strings::filter($type)->contains("sys")) {
+            $path = $pathHandler(self::$sysPath);
+
+        } else if ((Strings::filter($type)->contains("app"))) {
+            $path = $pathHandler(self::$appPath);
+
         }
 
-        if (!class_exists($path)) return false;
+        if (!class_exists($path)) {
+            // TODO: Implement method calling here, with a class a step down.
+        }
         try {
             $classBuilder = new ReflectionClass($path);
         } catch (\ReflectionException $e) {
