@@ -31,7 +31,7 @@ use MicroFrame\Helpers\Reflect;
  * Class Exception
  * @package MicroFrame\Handlers
  */
-class Exception extends  stockError
+class Exception extends  stockError implements \Throwable
 {
 
     public $request;
