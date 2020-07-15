@@ -1,6 +1,6 @@
 <?php
 /**
- * App Database interface
+ * App DataSource interface
  *
  * PHP Version 7
  *
