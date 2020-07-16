@@ -102,17 +102,17 @@ final class Strings
 
     /**
      * @param null $search
-     * @param bool $startRight
-     * @param bool $leftTrim
+     * @param bool $startRight if true picks position last occurring character.
+     * @param bool $leftSelect If true selects text to the left of search text.
      * @param int $length
      * @return $this
      */
-    public function range($search = null, $leftTrim = false, $startRight = false, $length = 0) {
+    public function range($search = null, $startRight = false, $leftSelect = false, $length = 0) {
         if (empty($search)) return $this;
         $string  = $this->value;
         /** @var boolean $startRight */
-        $position = $startRight ? strrpos($string, $search) : strpos($string, $search) + strlen($search);
-        $string = $leftTrim ? substr($string, (strlen($string) - $position)) : substr($string, $position);
+        $position = $startRight ? strrpos($string, $search) + 1 : strpos($string, $search) + strlen($search);
+        $string = $leftSelect ? substr($string, 0, $position - strlen($search)) : substr($string, $position);
         $string = $length > 0 ? substr($string, 0, $length) : $string;
         $this->value = $string;
 
