@@ -101,17 +101,23 @@ final class Strings
     }
 
     /**
-     * @param null $search
-     * @param bool $startRight if true picks position last occurring character.
+     * @param null $search The string to mark as start point.
+     * @param bool $startRight if true picks position last occurring character or the particular count the char repeated.
      * @param bool $leftSelect If true selects text to the left of search text.
-     * @param int $length
+     * @param int $length The length of string to return.
      * @return $this
      */
     public function range($search = null, $startRight = false, $leftSelect = false, $length = 0) {
         if (empty($search)) return $this;
         $string  = $this->value;
         /** @var boolean $startRight */
-        $position = $startRight ? strrpos($string, $search) + 1 : strpos($string, $search) + strlen($search);
+        $position = 0;
+        if (gettype($startRight) === 'boolean') {
+            $position = $startRight ? strrpos($string, $search) + 1 : strpos($string, $search) + strlen($search);
+        } else if (gettype($startRight) === 'integer') {
+            $position = $this->charPosition($this->value, $search, $startRight);
+        }
+
         $string = $leftSelect ? substr($string, 0, $position - strlen($search)) : substr($string, $position);
         $string = $length > 0 ? substr($string, 0, $length) : $string;
         $this->value = $string;
@@ -149,6 +155,23 @@ final class Strings
         $this->value = $first ? lcfirst($this->value) : strtolower($this->value);
 
         return $this;
+    }
+
+    /**
+     * Get exact position of character or words in string on the repeat instance.
+     *
+     * @param $haystack
+     * @param $needle
+     * @param $number
+     * @return false|int
+     */
+    public function charPosition($haystack, $needle, $number){
+        if($number == '1') {
+            return strpos($haystack, $needle);
+        } else if($number > '1'){
+            return strpos($haystack, $needle, $this->charPosition($haystack, $needle, $number - 1) + strlen($needle));
+        }
+        return 0;
     }
 
     /**
