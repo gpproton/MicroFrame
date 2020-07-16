@@ -1,12 +1,11 @@
 <?php
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Default controller class
  *
  * PHP Version 7
  *
  * @category  DefaultController
- * @package   MicroFrame
+ * @package   MicroFrame\Defaults\Controller
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,20 +19,28 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace Microframe\Defaults\Controller;
+namespace MicroFrame\Defaults\Controller;
 
-use \Microframe\Core\Controller;
-use MicroFrame\Interfaces\IRequest;
-use MicroFrame\Interfaces\IResponse;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use \MicroFrame\Core\Controller;
+
+/**
+ * Class DefaultController
+ * @package MicroFrame\Defaults\Controller
+ */
 final class DefaultController extends Controller
 {
-    public function index(IResponse $response, IRequest $request)
-    {
 
-        $response
-            ->methods(['post', 'get'])
-            ->data(["data-test" => 0])
+    /**
+     *
+     * @summary Default controller index method
+     */
+    public function index()
+    {
+        $this->response
+            ->methods(['get', 'post', 'put', 'delete', 'option'])
+            ->setOutput(0, 404, "Requested resource not found..")
             ->send();
     }
 
