@@ -165,7 +165,7 @@ final class Strings
      * @param $number
      * @return false|int
      */
-    public function charPosition($haystack, $needle, $number){
+    public function charPosition($haystack, $needle, $number) {
         if($number == '1') {
             return strpos($haystack, $needle);
         } else if($number > '1'){
