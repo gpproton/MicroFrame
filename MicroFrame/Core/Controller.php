@@ -100,7 +100,17 @@ class Controller implements IController
             $this->index();
         } else {
 
-            //TODO: call_user_func_array Call method with string approach.
+            /**
+             * String based method call.
+             */
+            $methodName = strtolower($this->method);
+
+            if (method_exists($this, $methodName)) {
+                Reflect::check()->methodLoader($this, $methodName, array());
+            } else {
+                $this->index();
+            }
+
         }
 
     }
