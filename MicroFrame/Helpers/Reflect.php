@@ -106,12 +106,13 @@ class Reflect
 
         switch ($core) {
             case 'Controller':
-                if (class_exists($classUpper)) $args[3] = $classMethod;
+                if (class_exists($classUpper) && gettype($args) === 'array') $args[2] = $classMethod;
                 break;
             default:
                 break;
         }
 
+        if (gettype($args) !== 'array' && class_exists($path)) return true;
         if ($checkMethod && class_exists($path)) return $classMethod;
         if (class_exists($path)) {
             try {
