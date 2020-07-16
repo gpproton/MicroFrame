@@ -24,6 +24,11 @@ namespace MicroFrame\Core;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use MicroFrame\Handlers\Route;
+use MicroFrame\Helpers\Utils;
+
+
+
 /**
  * Class Application
  * @package MicroFrame\Core
@@ -57,10 +62,21 @@ class Application
 
         if (SYS_CONSOLE) {
             Console::init()->execute();
+
         } else {
-            // TODO: Set web route initialization here.
-            // Trigger actions and filters on HTTP request
-            // route::Boot();
+            /**
+             * Load defined routes to request
+             */
+//            $injected = Utils::get()->injectRoutes();
+            /**
+             * If
+             */
+//            if (!empty($injected) && gettype($injected) === 'object') $injected->send();
+
+            /**
+             * Load only request route
+             */
+            Route::Boot();
         }
     }
 
