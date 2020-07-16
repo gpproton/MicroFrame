@@ -23,6 +23,8 @@ namespace MicroFrame\Helpers;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use MicroFrame\Handlers\Exception;
+use MicroFrame\Handlers\Logger;
 use ReflectionClass;
 
 /**
@@ -50,15 +52,16 @@ class Reflect
     }
 
     /**
+     * Dynamically get classes and method based on filtered strings
+     *
      * @param $type
      * @param $path
-     * @param $args
-     * @return bool|object
-     * @throws ReflectionException
+     * @param array $args
+     * @param bool $checkMethod
+     * @return mixed
      */
-    public function stateLoader($type, $path, $args = array()) {
+    public function stateLoader($type, $path, $args = array(), $checkMethod = false) {
 
-        // TODO: Implement class and method filtering here.
         $base = "";
         $path = Strings::filter($path)
             ->dotted()
@@ -71,26 +74,58 @@ class Reflect
             ->value();
 
         $pathHandler = function ($base) use ($core, $path) {
-            return "$base{$core}\\{$path}{$core}";
+            return "$base{$core}\\{$path}";
         };
 
-        if (Strings::filter($type)->contains("sys")) {
-            $path = $pathHandler(self::$sysPath);
-
-        } else if ((Strings::filter($type)->contains("app"))) {
+        if (Strings::filter($type)->contains("sys")) $path = $pathHandler(self::$sysPath);
+        else if ((Strings::filter($type)->contains("app"))) {
             $path = $pathHandler(self::$appPath);
-
         }
 
-        if (!class_exists($path)) {
-            // TODO: Implement method calling here, with a class a step down.
+        $classDirect = Strings::filter($path)
+            ->append($core)
+            ->upperCaseWords()
+            ->value();
+
+        $classUpper = Strings::filter($path)
+            ->range("\\", true, true)
+            ->append($core)
+            ->upperCaseWords()
+            ->value();
+
+        $classMethod = Strings::filter($path)
+            ->range("\\", true, false)
+            ->upperCaseWords()
+            ->value();
+
+        if (class_exists($classDirect)) {
+            $path = $classDirect;
+        } else if (class_exists($classUpper)) {
+            $path = $classUpper;
         }
-        try {
-            $classBuilder = new ReflectionClass($path);
-        } catch (\ReflectionException $e) {
+
+        switch ($core) {
+            case 'Controller':
+                if (class_exists($classUpper)) $args[3] = $classMethod;
+                break;
+            default:
+                break;
         }
-        /** @var ReflectionClass $classBuilder */
-        return $classBuilder->newInstanceArgs($args);
+
+        if ($checkMethod && class_exists($path)) return $classMethod;
+        if (class_exists($path)) {
+            try {
+                $classBuilder = new ReflectionClass($path);
+            } catch (\ReflectionException $e) {
+                Logger::set($e->getMessage())->error();
+            }
+            /** @var ReflectionClass $classBuilder */
+            return $classBuilder->newInstanceArgs($args);
+        } else {
+            return false;
+        }
+
+
     }
 
     /**
