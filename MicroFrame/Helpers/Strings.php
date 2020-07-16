@@ -204,6 +204,28 @@ final class Strings
     }
 
     /**
+     * @param null $string
+     * @return $this
+     */
+    public function leftTrim($string = null) {
+        if (is_null($string))$this->value = ltrim($this->value);
+        $this->value = ltrim($this->value, $string);
+
+        return $this;
+    }
+
+    /**
+     * @param null $string
+     * @return $this
+     */
+    public function rightTrim($string = null) {
+        if (is_null($string))$this->value = rtrim($this->value);
+        $this->value = rtrim($this->value, $string);
+
+        return $this;
+    }
+
+    /**
      * @return null | string | boolean
      */
     public function value() {
