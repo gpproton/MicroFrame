@@ -30,5 +30,10 @@ use \MicroFrame\Core\Controller as Core;
  */
 class IndexController extends Core {
 
-
+    public function index()
+    {
+        $this->response
+            ->data("Welcome, please write nice codes...")
+            ->send();
+    }
 }
