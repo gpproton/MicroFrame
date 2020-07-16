@@ -25,8 +25,8 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Handlers\Route;
-use MicroFrame\Helpers\Utils;
-
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 
 /**
@@ -59,6 +59,11 @@ class Application
      *
      */
     public function start() {
+
+        $whoops = new Run;
+        $whoops->pushHandler(new PrettyPageHandler);
+
+        if (SYS_DEBUG) $whoops->register();
 
         if (SYS_CONSOLE) {
             Console::init()->execute();
