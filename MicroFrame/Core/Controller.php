@@ -40,17 +40,20 @@ class Controller implements IController
     protected $response;
     protected $method;
     protected $middlewareState;
+    private $auto;
 
     /**
      * Controller constructor.
      * @param IResponse $response
      * @param IRequest $request
      * @param string $method
+     * @param bool $auto
      */
-    public function __construct(IResponse $response, IRequest $request, $method = "")
+    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true)
     {
         $this->middlewareState = true;
         $this->config = (object) APPLICATION_CONFIG;
+        $this->auto = $auto;
 
         $this->request = $request;
         $this->response = $response;
@@ -80,6 +83,19 @@ class Controller implements IController
          * Implement index method from children class if required.
          */
         $this->response->send();
+    }
+
+    /**
+     * @param bool $state
+     * @return mixed|void
+     */
+    public function auto($state = true)
+    {
+        if (!$state && gettype($this->auto) === 'boolean') {
+            $this->response->notFound();
+        } else if (!$state) {
+            $this->response->notFound();
+        }
     }
 
     /**

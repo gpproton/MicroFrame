@@ -33,8 +33,9 @@ interface IController
      * @param IResponse $response
      * @param IRequest $request
      * @param string $method
+     * @param bool|mixed $auto
      */
-    public function __construct(IResponse $response, IRequest $request, $method = "");
+    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true);
 
     /**
      * @param IMiddleware $middleware
@@ -52,6 +53,12 @@ interface IController
      * @return void
      */
     public function index();
+
+    /**
+     * @param bool $state
+     * @return mixed
+     */
+    public function auto($state = true);
 
     /**
      * @return mixed

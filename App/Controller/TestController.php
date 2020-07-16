@@ -32,8 +32,10 @@ class TestController extends Core {
 
     public function index()
     {
+        $this->auto(false);
+
         $this->response
             ->data("Test part..")
-            ->sen();
+            ->send();
     }
 }
