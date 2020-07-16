@@ -76,7 +76,7 @@ class Application
             /**
              * Load only request route
              */
-            Route::Boot();
+            Route::set()->boot();
         }
     }
 

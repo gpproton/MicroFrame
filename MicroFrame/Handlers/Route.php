@@ -20,17 +20,17 @@
  */
 
 namespace MicroFrame\Handlers;
-defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use MicroFrame\Core\Request;
-use MicroFrame\Core\Response;
-use MicroFrame\Helpers\Reflect;
+defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
  * Default resource references
  */
+use MicroFrame\Core\Request;
+use MicroFrame\Core\Response;
+use MicroFrame\Helpers\Reflect;
 use MicroFrame\Defaults\Middleware\DefaultMiddleware;
-use MicroFrame\Interfaces\IMiddleware;
+use MicroFrame\Helpers\Strings;
 
 /**
  * Class Route
@@ -39,9 +39,8 @@ use MicroFrame\Interfaces\IMiddleware;
 class Route
 {
 
-    protected $request;
+    private $request;
     private $response;
-    public $routes = array();
 
     /**
      * Route constructor.
@@ -52,8 +51,29 @@ class Route
         $this->response = new Response();
     }
 
+    /**
+     * @return Route
+     */
     public static function set() {
         return new self();
+    }
+
+    /**
+     * @param $path
+     * @param string $type
+     * @param bool $check
+     * @param null $response
+     * @param null $request
+     * @return mixed
+     */
+    private function initialize($path, $type = "app.Controller", $check = true, $response = null, $request = null) {
+        if ($check) return Reflect::check()->stateLoader($type, $path, $check);
+        Reflect::check()->stateLoader($type, $path, array($response, $request))
+            /**
+             * Default middleware left here just for extra capability.
+             */
+            ->middleware(new DefaultMiddleware)
+            ->start();
     }
 
     /**
@@ -62,48 +82,62 @@ class Route
      * @param string $functions
      * @param array $middleware
      * @param int $status
+     * @return Response
      */
-    public function map($path = "index", $methods = array('get'), $functions = "Default", $middleware = array(), $status = 200) {
-        $this->routes[$path]['methods'] = $methods;
-        $this->routes[$path]['functions'] = $functions;
-        $this->routes[$path]['middleware'] = $middleware;
-        $this->routes[$path]['status'] = $status;
+    public static function map($path = "index", $methods = array('get'), $functions = "Default", $middleware = array(), $status = 200) {
 
-        // TODO: First check if $path class or method exist.
-        if (false) {
-            $this->route();
-        }
+        $clazz = new self();
+        $path = Strings::filter($path)
+            ->replace("/", ".")
+            ->replace("\\", ".")
+            ->replace("-", ".")
+            ->replace("_", ".")
+            ->value();
 
-    }
+        if ($path === $clazz->request->path()) {
+            // TODO: First check if $path class or method exist, and it's matches with request path.
 
-    private function route() {
-        foreach ($this->routes as $route => $func) {
-
-            $response = $this->response;
-            $response->status($func['status']);
-            $response->methods($func['methods']);
-            foreach ($func['middleware'] as $middleKey) {
-                $response->middleware($middleKey);
+            $clazz->response->status($status);
+            $clazz->response->methods($methods);
+            foreach ($middleware as $middleKey) {
+                $clazz->response->middleware($middleKey);
             }
+
             ob_start();
-            if (gettype($func['functions']) == 'closure') $response->data($func['functions']());
-            $response->data($func['functions']);
+            if (gettype($functions) === 'closure') $clazz->response->data($functions());
+            $clazz->response->data($functions);
             ob_clean();
 
-            $response->send();
+            return $clazz->response;
         }
+
     }
 
     /**
      *
+     * @param string $path
      */
-    public static function Boot()
+    public function boot($path = null)
     {
-        // TODO: Include conditions based on the route and request state.
-        // SYSController | AppController | AppControllerFunc | AppModel | AppModelFunc | SYSView | App View | AppViewLayout | AppViewComponents
-        Reflect::check()->stateLoader('SYSController', 'Default', array(new Response(), new Request()))
-        ->middleware(new DefaultMiddleware)
-            ->start();
+        if (is_null($path)) $path = $this->request->path();
+        /**
+         * Call Index if route is not set.
+         */
+        if (empty($path) && $this->initialize("index")) {
+            $this->initialize("index", "app.Controller", false, $this->response, $this->request);
+        }
+        /**
+         * Try calling specified route if the controller exist.
+         */
+        else if ($this->initialize($path)) {
+            $this->initialize($path, "app.Controller", false, $this->response, $this->request);
+        }
+        /**
+         * Call default controller if all fail.
+         */
+        else {
+            $this->initialize("default", "sys.Controller", false, $this->response, $this->request);
+        }
     }
 
 }
