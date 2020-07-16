@@ -25,6 +25,7 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Handlers\Route;
+use MicroFrame\Helpers\Utils;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -82,11 +83,7 @@ class Application
             /**
              * Load defined routes to request
              */
-//            $injected = Utils::get()->injectRoutes();
-            /**
-             * If
-             */
-//            if (!empty($injected) && gettype($injected) === 'object') $injected->send();
+            Utils::get()->injectRoutes();
 
             /**
              * Load only request route

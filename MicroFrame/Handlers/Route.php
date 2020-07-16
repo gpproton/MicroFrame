@@ -41,6 +41,7 @@ class Route
 
     private $request;
     private $response;
+    private $proceed;
 
     /**
      * Route constructor.
@@ -49,6 +50,7 @@ class Route
     {
         $this->request = new Request();
         $this->response = new Response();
+        $this->proceed = false;
     }
 
     /**
@@ -77,38 +79,63 @@ class Route
     }
 
     /**
-     * @param array $methods
      * @param string $path
+     * @param array $methods
      * @param string $functions
      * @param array $middleware
      * @param int $status
-     * @return Response
+     * @return void
      */
     public static function map($path = "index", $methods = array('get'), $functions = "Default", $middleware = array(), $status = 200) {
 
         $clazz = new self();
+
+        $wildCard  = Strings::filter($path)->contains("*");
+
+        /**
+         * Path filtering for illegal chars.
+         */
+        // TODO: handle filesystem path first
         $path = Strings::filter($path)
             ->replace("/", ".")
             ->replace("\\", ".")
+            ->replace(" ", "")
             ->replace("-", ".")
             ->replace("_", ".")
+            ->range("*", false, true)
+            ->leftTrim()
+            ->rightTrim()
+            ->leftTrim(".")
+            ->rightTrim(".")
             ->value();
 
-        if ($path === $clazz->request->path()) {
+        if ($wildCard && Strings::filter($clazz->request->path())->contains($path)) {
+            $clazz->proceed = true;
+        } else if ($path === $clazz->request->path()) {
+            $clazz->proceed = true;
+        }
+
+
+        if ($clazz->proceed) {
+
             // TODO: First check if $path class or method exist, and it's matches with request path.
+            // initialize($path, $type = "app.Controller", $check = true, $response = null, $request = null)
 
             $clazz->response->status($status);
             $clazz->response->methods($methods);
+
             foreach ($middleware as $middleKey) {
                 $clazz->response->middleware($middleKey);
             }
 
-            ob_start();
-            if (gettype($functions) === 'closure') $clazz->response->data($functions());
+            if (gettype($functions) === 'closure') {
+                $clazz->response->data($functions());
+            } else if ($clazz->initialize($functions)) {
+                $clazz->initialize($path, "app.Controller", false, $clazz->response, $clazz->request);
+            }
+
             $clazz->response->data($functions);
             ob_clean();
-
-            return $clazz->response;
         }
 
     }
