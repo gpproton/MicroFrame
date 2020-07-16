@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Helpers;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use ReflectionClass;
@@ -30,6 +31,10 @@ use ReflectionException;
  * @package MicroFrame\Helpers
  */
 final class Utils {
+
+    public static function get() {
+        return new self();
+    }
 
     // TODO: Redefine this for more accuracy
     public static function local() {
@@ -68,6 +73,12 @@ final class Utils {
     public static function dirChecks($path) {
         if (!is_dir($path)) mkdir($path, 777);
         return $path;
+    }
+
+    public function injectRoutes() {
+        ob_start();
+        $sentValues = ob_get_contents();
+        return require_once ( "./../App/Routes.php" );
     }
 
 }
