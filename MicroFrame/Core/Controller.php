@@ -76,7 +76,9 @@ class Controller implements IController
      */
     public function index()
     {
-        // Implement index method from children class if required.
+        /**
+         * Implement index method from children class if required.
+         */
         $this->response->send();
     }
 
