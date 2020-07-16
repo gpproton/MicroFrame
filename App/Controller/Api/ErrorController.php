@@ -1,5 +1,6 @@
 <?php
-namespace App\Controllers\Api;
+namespace App\Controller\Api;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * API Error controller class
@@ -25,7 +26,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
  * Class ErrorController
- * @package App\Controllers\Api
+ * @package App\Controller\Api
  */
 class ErrorController extends Core {
 

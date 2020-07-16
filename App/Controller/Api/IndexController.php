@@ -1,5 +1,5 @@
 <?php
-namespace App\Controllers\Api;
+namespace App\Controller\Api;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
@@ -26,7 +26,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
  * Class IndexController
- * @package App\Controllers\Api
+ * @package App\Controller\Api
  */
 class IndexController extends Core {
 

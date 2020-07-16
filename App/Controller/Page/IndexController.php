@@ -1,5 +1,6 @@
 <?php
-namespace App\Controllers\Page;
+namespace App\Controller\Page;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * View Index controller class
@@ -25,7 +26,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
  * Class IndexController
- * @package App\Controllers\Page
+ * @package App\Controller\Page
  */
 class IndexController extends Core {
 

@@ -1,5 +1,6 @@
 <?php
-namespace App\Controllers;
+namespace App\Controller;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Index Controller class
@@ -25,7 +26,7 @@ use \MicroFrame\Core\Controller as Core;
 
 /**
  * Class IndexController
- * @package App\Controllers
+ * @package App\Controller
  */
 class IndexController extends Core {
 
