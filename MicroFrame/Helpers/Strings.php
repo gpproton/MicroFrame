@@ -191,10 +191,15 @@ final class Strings
     /**
      * @return $this
      */
-    public function dotted()
-    {
+    public function dotted() {
         $this->value = preg_replace('/[^A-Za-z.\-]/', '',
             str_replace("/", ".", $this->value));
+        return $this;
+    }
+
+    public function append($string) {
+        $this->value .= $string;
+
         return $this;
     }
 
