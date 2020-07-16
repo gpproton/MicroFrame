@@ -38,10 +38,7 @@ final class DefaultController extends Controller
      */
     public function index()
     {
-        $this->response
-            ->methods(['get', 'post', 'put', 'delete', 'option'])
-            ->setOutput(0, 404, "Requested resource not found..")
-            ->send();
+        $this->response->notFound();
     }
 
 }

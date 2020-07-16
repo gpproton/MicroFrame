@@ -72,6 +72,12 @@ final class Response implements IResponse
         return $this;
     }
 
+    public function notFound() {
+        $this->methods(['get', 'post', 'put', 'delete', 'option'])
+            ->setOutput(0, 404, "Requested resource not found..")
+            ->send();
+    }
+
     /**
      * @param array $selected
      * @param bool $return

@@ -28,6 +28,21 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 interface IResponse
 {
+
+    /**
+     * @param int $status
+     * @param int $code
+     * @param string $message
+     * @param array $data
+     * @return mixed
+     */
+    public function setOutput($status = 0, $code = 204, $message = "", $data = []);
+
+    /**
+     * @return mixed
+     */
+    public function notFound();
+
     /**
      * @param $type
      * @return self
