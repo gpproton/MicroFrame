@@ -73,9 +73,16 @@ final class Response implements IResponse
     }
 
     public function notFound() {
-        $this->methods(['get', 'post', 'put', 'delete', 'option'])
-            ->setOutput(0, 404, "Requested resource not found..")
-            ->send();
+        if (is_null($this->view)) {
+            $this->methods(['get', 'post', 'put', 'delete', 'option'])
+                ->setOutput(0, 404, "Requested resource not found..")
+                ->send();
+        } else {
+            $this->methods(['get', 'post', 'put', 'delete', 'option'])
+                // TODO: Add 404 view.
+                ->render();
+        }
+
     }
 
     /**
@@ -93,7 +100,7 @@ final class Response implements IResponse
             $this->proceed = false;
             $this->setOutput(0, 405, Value::get()->HttpCodes(405)->text, []);
             if($return) return false;
-            $halt && is_null($this->view) ? $this->send() : $this->render();
+            $halt && is_null($this->view) ? $this->send() : $this->render(); // TODO: Add 404 view.
             return $this;
         } else if (!$state && !$return) {
             $this->proceed = true;
