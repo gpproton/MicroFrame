@@ -18,6 +18,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 |
 */
 
+//Route::map("/", ['get', 'post'], "api.index", []);
+
+//Route::map("/api/index", ['get', 'post'], "api.index", []);
+
 //Route::map("/api/index/*", ['get', 'post'], function () {return "Test cls";}, []);
 
 //Route::map("/api/index/*", ['get', 'post'], "Hahahahahaa!!!", []);

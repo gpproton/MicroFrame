@@ -88,7 +88,7 @@ class Route
      * @param int $status
      * @return void
      */
-    public static function map($path = "index", $methods = array('get'), $functions = "Default", $middleware = array(), $status = 200) {
+    public static function map($path = "index", $methods = array('get'), $functions = "index", $middleware = array(), $status = 200) {
 
         $clazz = new self();
         $wildCard  = Strings::filter($path)->contains("*");
@@ -108,16 +108,17 @@ class Route
             $clazz->proceed = true;
         } else if ($path === $clazz->request->path()) {
             $clazz->proceed = true;
+        } else if (empty($path)) {
+            $clazz->proceed = true;
         }
 
         if ($clazz->proceed) {
-
-            $clazz->initialize($path, "app.Controller", false, $clazz->response, $clazz->request, false);
             $clazz->response->methods($methods);
             if (gettype($functions) === 'object') {
                 $clazz->response->data($functions());
             } else if ($clazz->initialize($functions)) {
                 $clazz->response->methods($methods, false, true);
+                $clazz->initialize($functions, "app.Controller", false, $clazz->response, $clazz->request, false);
             } else {
                 $clazz->response->data($functions);
             }
