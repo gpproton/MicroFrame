@@ -15,9 +15,13 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 | Here is where you can register routes for your application if they're
 | not to be automatically routed via the controller path.
 |
-| NOTE: Avoid any string or character output here it would break rendering for now.
 |
 */
 
-Route::map("/api/index/*");
+//Route::map("/api/index/*", ['get', 'post'], function () {return "Test cls";}, []);
+
+//Route::map("/api/index/*", ['get', 'post'], "Hahahahahaa!!!", []);
+
+//Route::map("/api/index/*", ['get', 'post'], "api.index", []);
+
 
