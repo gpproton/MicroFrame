@@ -93,8 +93,6 @@ class Controller implements IController
     {
         if (!$state && gettype($this->auto) === 'boolean') {
             $this->response->notFound();
-        } else if (!$state) {
-            $this->response->notFound();
         }
     }
 
