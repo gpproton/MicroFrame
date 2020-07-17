@@ -52,9 +52,10 @@ interface IResponse
     /**
      * @param array $selected
      * @param null $return
+     * @param bool $halt
      * @return self
      */
-    public function methods($selected = ['get'], $return = null);
+    public function methods($selected = ['get'], $return = null,  $halt = false);
 
     /**
      * @param $content

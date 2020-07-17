@@ -81,9 +81,10 @@ final class Response implements IResponse
     /**
      * @param array $selected
      * @param bool $return
+     * @param bool $halt
      * @return $this|bool|IResponse
      */
-    public function methods($selected = ['get'], $return = false)
+    public function methods($selected = ['get'], $return = false, $halt = false)
     {
         $this->methods = $selected;
         $state = !in_array($this->request->method(), $selected);
@@ -92,13 +93,17 @@ final class Response implements IResponse
             $this->proceed = false;
             $this->setOutput(0, 405, Value::get()->HttpCodes(405)->text, []);
             if($return) return false;
+            $halt && is_null($this->view) ? $this->send() : $this->render();
             return $this;
         } else if (!$state && !$return) {
             $this->proceed = true;
             $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, []);
             if($return) return true;
+            if ($halt) $this->send();
             return $this;
         }
+
+        return $this;
 
     }
 
