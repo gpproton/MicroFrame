@@ -69,7 +69,16 @@ final class Strings
      * @return Strings
      */
     public function replace($search = null, $replace = "") {
-        $this->value = str_replace($search, $replace, $this->value);
+        if (gettype($search) === 'array' && gettype($replace) === 'array') {
+            $cnt = 0;
+            foreach ($search as $val) {
+                $this->value = str_replace($val, $replace[$cnt], $this->value);
+                $cnt++;
+            }
+        } else {
+            $this->value = str_replace($search, $replace, $this->value);
+        }
+
         return $this;
     }
 
@@ -208,8 +217,15 @@ final class Strings
      * @return $this
      */
     public function leftTrim($string = null) {
-        if (is_null($string))$this->value = ltrim($this->value);
-        $this->value = ltrim($this->value, $string);
+        if (is_null($string)) {
+            $this->value = ltrim($this->value);
+        } else if(gettype($string) === 'array') {
+            foreach ($string as $val) {
+                $this->value = ltrim($this->value, $val);
+            }
+        } else {
+            $this->value = ltrim($this->value, $string);
+        }
 
         return $this;
     }
@@ -219,8 +235,29 @@ final class Strings
      * @return $this
      */
     public function rightTrim($string = null) {
-        if (is_null($string))$this->value = rtrim($this->value);
-        $this->value = rtrim($this->value, $string);
+        if (is_null($string)) {
+            $this->value = rtrim($this->value);
+        } else if(gettype($string) === 'array') {
+            foreach ($string as $val) {
+                $this->value = rtrim($this->value, $val);
+            }
+        } else {
+            $this->value = rtrim($this->value, $string);
+        }
+
+        return $this;
+    }
+
+    public function trim($string = null) {
+        if (is_null($string)) {
+            $this->value = trim($this->value);
+        } else if(gettype($string) === 'array') {
+            foreach ($string as $val) {
+                $this->value = trim($this->value, $val);
+            }
+        } else {
+            $this->value = trim($this->value, $string);
+        }
 
         return $this;
     }

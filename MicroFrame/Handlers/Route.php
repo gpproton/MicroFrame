@@ -97,16 +97,9 @@ class Route
          */
         // TODO: handle filesystem path first
         $path = Strings::filter($path)
-            ->replace("/", ".")
-            ->replace("\\", ".")
-            ->replace(" ", "")
-            ->replace("-", ".")
-            ->replace("_", ".")
+            ->replace(["/", "\\", "-", "_", " "], [".", ".", ".", ".", ""])
             ->range("*", false, true)
-            ->leftTrim()
-            ->rightTrim()
-            ->leftTrim(".")
-            ->rightTrim(".")
+            ->trim([" ", "."])
             ->value();
 
         if ($wildCard && Strings::filter($clazz->request->path())->contains($path)) {
