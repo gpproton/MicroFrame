@@ -102,7 +102,7 @@ final class Response implements IResponse
             if($return) return false;
             $halt && is_null($this->view) ? $this->send() : $this->render(); // TODO: Add 404 view.
             return $this;
-        } else if (!$state && !$return) {
+        } else if (!$state && !$return && !$halt) {
             $this->proceed = true;
             $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, []);
             if($return) return true;
