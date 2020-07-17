@@ -24,6 +24,7 @@
     "require": {
         "ext-json": "*",
         "ext-fileinfo": "*",
+        "ext-curl": "*",
         "vlucas/phpdotenv": "^4.1",
         "taq/pdooci": "^1.0",
         "asyncphp/doorman": "^3.1",
