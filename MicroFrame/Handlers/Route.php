@@ -66,11 +66,13 @@ class Route
      * @param bool $check
      * @param null $response
      * @param null $request
+     * @param bool $auto
      * @return mixed
      */
-    private function initialize($path, $type = "app.Controller", $check = true, $response = null, $request = null) {
+    private function initialize($path, $type = "app.Controller", $check = true, $response = null, $request = null, $auto = true) {
         if ($check) return Reflect::check()->stateLoader($type, $path, $check);
-        Reflect::check()->stateLoader($type, $path, array($response, $request))
+        $auto = !$auto ? "static" : $auto;
+        Reflect::check()->stateLoader($type, $path, array($response, $request, "", $auto))
             /**
              * Default middleware left here just for extra capability.
              */
@@ -89,13 +91,13 @@ class Route
     public static function map($path = "index", $methods = array('get'), $functions = "Default", $middleware = array(), $status = 200) {
 
         $clazz = new self();
-
         $wildCard  = Strings::filter($path)->contains("*");
-
         /**
          * Path filtering for illegal chars.
          */
         // TODO: handle filesystem path first
+        // TODO: First check if $path class or method exist, and it's matches with request path.
+
         $path = Strings::filter($path)
             ->replace(["/", "\\", "-", "_", " "], [".", ".", ".", ".", ""])
             ->range("*", false, true)
@@ -108,27 +110,32 @@ class Route
             $clazz->proceed = true;
         }
 
-
         if ($clazz->proceed) {
 
-            // TODO: First check if $path class or method exist, and it's matches with request path.
-            // initialize($path, $type = "app.Controller", $check = true, $response = null, $request = null)
-
-            $clazz->response->status($status);
+            $clazz->initialize($path, "app.Controller", false, $clazz->response, $clazz->request, false);
             $clazz->response->methods($methods);
+            if (gettype($functions) === 'object') {
+                $clazz->response->data($functions());
+            } else if ($clazz->initialize($functions)) {
+                $clazz->response->methods($methods, false, true);
+            } else {
+                $clazz->response->data($functions);
+            }
 
             foreach ($middleware as $middleKey) {
                 $clazz->response->middleware($middleKey);
             }
 
-            if (gettype($functions) === 'closure') {
-                $clazz->response->data($functions());
-            } else if ($clazz->initialize($functions)) {
-                $clazz->initialize($path, "app.Controller", false, $clazz->response, $clazz->request);
-            }
-
-            $clazz->response->data($functions);
+            /**
+             * Filter out unintended string output
+             */
             ob_clean();
+
+            $clazz->response->status($status);
+            /**
+             * Send structured output.
+             */
+            $clazz->response->send();
         }
 
     }
