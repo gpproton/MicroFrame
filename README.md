@@ -78,7 +78,6 @@ In case you still not getting the q[M]VC it's query and parameters in a fancy fi
 NOTE: I can never dream for now this can replace your laravel, fuelPhp or codeIgniter4 as i love those PHP framework especially codeIgniter4 but MicroFrame exist to for a different purpose.
 
 * First make me less bored
-
 * Secondly I get to write my name on stuff, try it "FEELS GOOD".
+* Serious reason -> Do lot stuff super quick, except models [not everyone use models, i know lot of old systems] again with the need reiterate, simple task, simple async, caching, openAPI tags auto rendering, auto code documentation based on tags, etc.
 
-Serious reason -> Do lot stuff super quick, except models [not everyone use models, i know lot of old systems] again with the need reiterate, 
