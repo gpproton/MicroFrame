@@ -55,6 +55,8 @@ final class Response implements IResponse
         $this->request = new request();
         $this->proceed = false;
         $this->content = array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array());
+
+        ob_start();
     }
 
     /**
@@ -316,7 +318,7 @@ final class Response implements IResponse
          * Filter out unintended string output
          */
         ob_clean();
-        
+
         // TODO: create view loader
     }
 
