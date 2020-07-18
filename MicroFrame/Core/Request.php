@@ -302,7 +302,7 @@ final class Request implements IRequest
             ->leftTrim("/")
             ->rightTrim("/")
             ->value();
-        
+
         return Strings::filter($final)->dotted()->value();
     }
 }
