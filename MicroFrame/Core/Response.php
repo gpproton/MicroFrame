@@ -266,6 +266,11 @@ final class Response implements IResponse
      */
     public function send()
     {
+        /**
+         * Filter out unintended string output
+         */
+        ob_clean();
+
         if (is_null($this->view) && gettype($this->content) === 'array') {
 
             if (!$this->proceed && ($this->content['code'] !== 405)) {
@@ -307,6 +312,11 @@ final class Response implements IResponse
      */
     public function render(IView $view = null, IModel $model = null, $data = [])
     {
+        /**
+         * Filter out unintended string output
+         */
+        ob_clean();
+        
         // TODO: create view loader
     }
 
