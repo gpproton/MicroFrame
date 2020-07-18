@@ -188,21 +188,40 @@ final class Request implements IRequest
     /**
      * Reference location for commonly used super globals
      *
+     * @param bool $done
      * @return boolean
      */
-    public static function overrideGlobals()
+    public static function overrideGlobals($done = true)
     {
-        self::$cookie = $_COOKIE;
-        self::$files = $_FILES;
-        self::$get = $_GET;
-        self::$post = $_POST;
-        self::$request = $_REQUEST;
-        self::$server = $_SERVER;
+        if ($done) {
+            /**
+             * For initialization and flushing defaults.
+             */
+            self::$cookie = $_COOKIE;
+            self::$files = $_FILES;
+            self::$get = $_GET;
+            self::$post = $_POST;
+            self::$request = $_REQUEST;
+            self::$server = $_SERVER;
+
+            return self::flushGlobals();
+        } else {
+            /**
+             * Return removed defaults.
+             */
+            $_COOKIE = self::$cookie;
+            $_FILES = self::$files;
+            $_GET = self::$get;
+            $_POST = self::$post;
+            $_REQUEST = self::$request;
+            $_SERVER = self::$server;
+
+        }
 
 //        self::$env = $_ENV;
 //        self::$session = $_SESSION;
 
-        return self::flushGlobals();
+
     }
 
     /**
