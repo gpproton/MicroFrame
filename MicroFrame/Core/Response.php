@@ -124,7 +124,13 @@ final class Response implements IResponse
     Public function format($format = null, $types = array('application/json', 'application/xml', 'text/plain'))
     {
         $this->formats = $types;
-        $format = is_null($format) ? $this->request->format() : $this->request->query('accept');
+        if (is_null($format)) {
+            $format = is_null($format) ? $this->request->format() : $this->request->query('accept');
+        } else {
+            $this->proceed = true;
+            return $this;
+        }
+
         $found = function() use ($types, $format) {
             $count = 0;
             foreach ($types as $type) {

@@ -34,6 +34,7 @@ class IndexController extends Core {
     {
         $this->response
             ->data("Welcome, please write nice codes...")
+            ->format("application/json")
             ->send();
     }
 }
