@@ -90,14 +90,25 @@ class Route
      */
     public static function map($path = "index", $methods = array('get'), $functions = "index", $middleware = array(), $status = 200) {
 
-        $clazz = new self();
-        $wildCard  = Strings::filter($path)->contains("*");
         /**
-         * Path filtering for illegal chars.
+         * Filter out unintended string output
          */
+        ob_clean();
+
+        $clazz = new self();
+        $wildCard = Strings::filter($path)->contains("*");
+        $customPath = "./../App/Custom";
         // TODO: handle filesystem path first
         // TODO: First check if $path class or method exist, and it's matches with request path.
 
+//        var_dump(is_dir($customPath));
+//        chdir($customPath);
+//        scandir("/");
+//        die();
+
+        /**
+         * Path filtering for illegal chars.
+         */
         $path = Strings::filter($path)
             ->replace(["/", "\\", "-", "_", " "], [".", ".", ".", ".", ""])
             ->range("*", false, true)
@@ -126,11 +137,6 @@ class Route
             foreach ($middleware as $middleKey) {
                 $clazz->response->middleware($middleKey);
             }
-
-            /**
-             * Filter out unintended string output
-             */
-            ob_clean();
 
             $clazz->response->status($status);
             /**
