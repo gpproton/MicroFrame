@@ -3,7 +3,7 @@
 /vendor/
 /Logs/
 /Cache/
-/bin/
+#/bin/
 /Docs/
 
 ##Composer rules
