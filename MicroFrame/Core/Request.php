@@ -252,7 +252,7 @@ final class Request implements IRequest
     Public function server($string = null)
     {
         if (is_null($string)) return self::$server;
-        return is_null(self::$server[$string]) ? null : self::$server[$string];
+        return isset(self::$server[$string]) ? self::$server[$string] : null;
     }
 
     /**
@@ -293,6 +293,8 @@ final class Request implements IRequest
             $final = $this->query('controller');
         } else if (!is_null($this->query('route'))) {
             $final = $this->query('route');
+        } else if (!is_null($this->server("PATH_INFO"))) {
+            $final = Strings::filter($this->server("PATH_INFO"))->leftTrim("/")->value();
         } else {
             $final = "";
         }
