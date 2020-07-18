@@ -1,6 +1,30 @@
 # Quick parts
 
-`use \MicroFrame\Core\Controller as Core;
+```bash
+composer create-project gpproton/microframe testApp --no-dev
+```
+
+### Simple controller usage
+
+```php
+<?php
+use \MicroFrame\Core\Controller as Core;
+
+class TestController extends Core {
+    public function index()
+    {
+        $this->response
+            ->data("Keeping it short...")
+            ->send();
+    }
+}
+```
+
+### The longer story
+
+```php
+<?php
+use \MicroFrame\Core\Controller as Core;
 
 /**
  * Class TestController
@@ -26,13 +50,20 @@ class TestController extends Core {
             // Set optional formats application/json | application/xml no etc for now.
             ->format("application/xml")
             // Hmm, yeah optional middleware, nothing magical I guess if they all return true.
-            ->middleware(['default', 'companya.easyAuth', 'customApp.validation'])
+            ->middleware(['default', 'companyA.easyAuth', 'customApp.validation'])
+            // Set session stuffs for only this response
+            ->session("key", "value")
+            // Optional redirection
+            ->redirect("index")
+            // Optional time response refresh in seconds.
+            ->refresh(60, "index")
             // Optional status stuff
             ->status(200)
             // Required.
             ->send();
     }
-}`
+}
+```
 
 ## Why Bother with MicroFrame
 
@@ -44,8 +75,8 @@ In case you still not getting the q[M]VC it's query and parameters in a fancy fi
 
 NOTE: I can never dream for now this can replace your laravel, fuelPhp or codeIgniter4 as i love those PHP framework especially codeIgniter4 but MicroFrame exist to for a different purpose.
 
-**First make me less bored
+* First make me less bored
 
-**Secondly I get to write my name on stuff, try it "FEELS GOOD".
+* Secondly I get to write my name on stuff, try it "FEELS GOOD".
 
 Serious reason -> Do lot stuff super quick, except models [not everyone use models, i know lot of old systems] again with the need reiterate, 
