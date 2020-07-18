@@ -64,17 +64,18 @@ class Application
         /**
          * Implement pretty error display.
          */
-        $whoops = new Run;
-        $page = new PrettyPageHandler();
-        $protectArray = array('_ENV', '_SERVER');
+        if (SYS_DEBUG) {
+            $whoops = new Run;
+            $page = new PrettyPageHandler();
+            $protectArray = array('_ENV', '_SERVER');
 
-        foreach ($protectArray as $pat) {
-            foreach ($GLOBALS[$pat] as $offKey => $offValue) {
-                $page->blacklist($pat, $offKey);
+            foreach ($protectArray as $pat) {
+                foreach ($GLOBALS[$pat] as $offKey => $offValue) {
+                    $page->blacklist($pat, $offKey);
+                }
             }
+            $whoops->pushHandler($page)->register();
         }
-
-        if (SYS_DEBUG) $whoops->pushHandler($page)->register();
 
         if (SYS_CONSOLE) {
             Console::init()->execute();
