@@ -31,6 +31,7 @@ use MicroFrame\Core\Response;
 use MicroFrame\Helpers\Reflect;
 use MicroFrame\Defaults\Middleware\DefaultMiddleware;
 use MicroFrame\Helpers\Strings;
+use function OpenApi\scan;
 
 /**
  * Class Route
@@ -81,6 +82,8 @@ class Route
     }
 
     /**
+     * @summary Custom route mapping method for assigning to controller, closure, string & paths
+     *
      * @param string $path
      * @param array $methods
      * @param string $functions
@@ -97,15 +100,6 @@ class Route
 
         $clazz = new self();
         $wildCard = Strings::filter($path)->contains("*");
-        $customPath = "./../App/Custom";
-        // TODO: handle filesystem path first
-        // TODO: First check if $path class or method exist, and it's matches with request path.
-
-//        var_dump(is_dir($customPath));
-//        chdir($customPath);
-//        scandir("/");
-//        die();
-
         /**
          * Path filtering for illegal chars.
          */
@@ -114,21 +108,66 @@ class Route
             ->range("*", false, true)
             ->trim([" ", "."])
             ->value();
+        $customScriptsPath = "./../App/Custom/";
 
+        /**
+         * Path validation logic
+         */
         if ($wildCard && Strings::filter($clazz->request->path())->contains($path)) {
             $clazz->proceed = true;
         } else if ($path === $clazz->request->path()) {
             $clazz->proceed = true;
-        } else if (empty($path)) {
+        } else if (empty($path) && empty($clazz->request->path())) {
+            /**
+             * Extra index check, may be redundant but for assurance.
+             */
             $clazz->proceed = true;
         }
 
         if ($clazz->proceed) {
-            $clazz->response->methods($methods);
+            /**
+             * handle request method mismatch
+             */
+            $clazz->response->methods($methods, false, true);
+
+            /**
+             * Directory and script mapping
+             */
+            if (Strings::filter($functions)->contains("./")
+                || is_file($functions)) {
+                $reqPath = $customScriptsPath . Strings::filter($functions)->replace("./")->value();
+
+                if (is_file($functions) && Strings::filter($functions)->contains(".php")) {
+                    include_once ($functions);
+                    die();
+                } else if(is_dir($reqPath)) {
+                    chdir($reqPath);
+                    $dirContents = scandir("./");
+                    if (in_array("index.html", $dirContents)) {
+                        /**
+                         * HTML index item inclusion.
+                         */
+                        echo file_get_contents("./index.html");
+                    } else if (in_array("index.php", $dirContents)) {
+                        /**
+                         * PHP index script inclusion.
+                         */
+                        include_once ("index.php");
+                    } else {
+                        $clazz->response->notFound();
+                    }
+                } else {
+                    $clazz->response->notFound();
+                }
+                die();
+            }
+
+            /**
+             * Firstly check closure and then execute with return.
+             */
             if (gettype($functions) === 'object') {
                 $clazz->response->data($functions());
             } else if ($clazz->initialize($functions)) {
-                $clazz->response->methods($methods, false, true);
                 $clazz->initialize($functions, "app.Controller", false, $clazz->response, $clazz->request, false);
             } else {
                 $clazz->response->data($functions);
@@ -151,8 +190,15 @@ class Route
      *
      * @param string $path
      */
-    public function boot($path = null)
-    {
+    public function boot($path = null) {
+        /**
+         * Define custom system routes here with $this->map() method
+         * E.g General Swagger | Docs | Wiki
+         */
+        // Find option for sys.Controller
+        // self::map("/help/docs", ['get'], "api.index", []);
+        // self::map("/help/docs", ['get'], "api.index", []);
+
         if (is_null($path)) $path = $this->request->path();
         /**
          * Call Index if route is not set.
