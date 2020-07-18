@@ -119,17 +119,21 @@ final class Strings
     public function range($search = null, $startRight = false, $leftSelect = false, $length = 0) {
         if (empty($search)) return $this;
         $string  = $this->value;
-        /** @var boolean $startRight */
         $position = 0;
         if (gettype($startRight) === 'boolean') {
-            $position = $startRight ? strrpos($string, $search) + 1 : strpos($string, $search) + strlen($search);
+            $left = strrpos($string, $search);
+            $right = strpos($string, $search);
+            gettype($left) === 'boolean' ? $position = 0 : $position = $startRight ? ($left + 1) : ($right + strlen($search));
         } else if (gettype($startRight) === 'integer') {
             $position = $this->charPosition($this->value, $search, $startRight);
+            $position = $position === false ? 0 : $position;
         }
 
-        $string = $leftSelect ? substr($string, 0, $position - strlen($search)) : substr($string, $position);
-        $string = $length > 0 ? substr($string, 0, $length) : $string;
-        $this->value = $string;
+        if ($position !== 0) {
+            $string = $leftSelect ? substr($string, 0, $position - strlen($search)) : substr($string, $position);
+            $string = $length > 0 ? substr($string, 0, $length) : $string;
+            $this->value = $string;
+        }
 
         return $this;
     }
