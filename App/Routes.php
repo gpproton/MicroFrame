@@ -15,17 +15,21 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 | Here is where you can register routes for your application if they're
 | not to be automatically routed via the controller path.
 |
+| path, request methods array(), ( function | closure | string | file system path | controller array() ), middleware, status
 |
+| NOTE: Status does not function for controllers routing only within the controller codes.
 */
 
-//Route::map("/", ['get', 'post'], "api.index", []);
+//Route::map("/", ['get', 'post'], "test", []);
 
 //Route::map("/api/index", ['get', 'post'], "api.index", []);
 
-//Route::map("/api/index/*", ['get', 'post'], function () {return "Test cls";}, []);
+//Route::map("/api/index/*", ['get', 'post'], function () {return "Test routes...";}, []);
 
-//Route::map("/api/index/*", ['get', 'post'], "Hahahahahaa!!!", []);
+//Route::map("/api/test/*", ['get', 'post'], "Testing!!!", []);
 
-//Route::map("/api/index/*", ['get', 'post'], "api.index", []);
+//Route::map("/api/", ['get', 'post', 'put'], "api.index", []);
+
+Route::map("/test", ['get', 'post'], "test", []);
 
 
