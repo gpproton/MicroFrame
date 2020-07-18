@@ -294,10 +294,14 @@ final class Request implements IRequest
         } else if (!is_null($this->query('route'))) {
             $final = $this->query('route');
         } else if (!is_null($this->server("PATH_INFO"))) {
-            $final = Strings::filter($this->server("PATH_INFO"))->leftTrim("/")->value();
+            $final = $this->server("PATH_INFO");
         } else {
             $final = "";
         }
+        $final = Strings::filter($final)
+            ->leftTrim("/")
+            ->rightTrim("/")
+            ->value();
         
         return Strings::filter($final)->dotted()->value();
     }
