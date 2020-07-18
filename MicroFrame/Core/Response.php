@@ -208,6 +208,7 @@ final class Response implements IResponse
     {
         if(is_null($value)) $this->content['code'] = 200;
         $this->content['code'] = $value;
+
         return $this;
     }
 

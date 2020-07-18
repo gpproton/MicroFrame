@@ -44,10 +44,11 @@ interface IResponse
     public function notFound();
 
     /**
-     * @param $type
+     * @param string $type
+     * @param array $types
      * @return self
      */
-    Public function format($type = 'json');
+    Public function format($type = 'json', $types = array('application/json', 'application/xml', 'text/plain'));
 
     /**
      * @param array $selected
@@ -72,7 +73,7 @@ interface IResponse
 
     /**
      * @param null $value
-     * @return mixed
+     * @return self
      */
     Public function status($value = null);
 
@@ -113,7 +114,7 @@ interface IResponse
      * @param IView|null $view
      * @param IModel|null $model
      * @param array $data
-     * @return void
+     * @return self
      */
     public function render(IView $view = null, IModel $model = null, $data = []);
 
