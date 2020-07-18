@@ -214,23 +214,31 @@ final class Response implements IResponse
 
     /**
      * @param null $path
-     * @return mixed|void
+     * @param bool $proceed
+     * @return self
      */
-    Public function redirect($path = null)
+    Public function redirect($path = null, $proceed = true)
     {
-        $this->header('redirect', $path);
-        return;
+        if ($proceed) {
+            $this->header('redirect', $path);
+        }
+
+        return $this;
     }
 
     /**
      * @param int $time
      * @param null $path
-     * @return $this
+     * @param bool $proceed
+     * @return self
      */
-    Public function refresh($time = 5, $path = null)
+    Public function refresh($time = 5, $path = null, $proceed = true)
     {
-        $path = is_null($path) ? "" : " url={$path}";
-        header("Refresh: {$time};{$path}");
+        if ($proceed) {
+            $path = is_null($path) ? "" : " url={$path}";
+            header("Refresh: {$time};{$path}");
+        }
+
         return $this;
     }
 

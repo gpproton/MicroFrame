@@ -79,16 +79,18 @@ interface IResponse
 
     /**
      * @param null $path
-     * @return mixed
+     * @param bool $proceed
+     * @return self
      */
-    Public function redirect($path = null);
+    Public function redirect($path = null, $proceed = true);
 
     /**
-     * @param null $time
      * @param null $path
-     * @return mixed
+     * @param null $time
+     * @param bool $proceed
+     * @return self
      */
-    Public function refresh($path = null, $time = null);
+    Public function refresh($path = null, $time = null, $proceed = true);
 
     /**
      * @param $key
