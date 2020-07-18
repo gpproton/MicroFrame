@@ -6,6 +6,8 @@ composer create-project gpproton/microframe testApp --no-dev
 
 ### Simple controller usage
 
+##### NOTE: For micro service header accept must be set before response can be received.
+
 ```php
 <?php
 use \MicroFrame\Core\Controller as Core;
