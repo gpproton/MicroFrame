@@ -30,6 +30,8 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 //Route::map("/api/", ['get', 'post', 'put'], "api.index", []);
 
-Route::map("/test", ['get', 'post'], "test", []);
+//Route::map("/test", ['get', 'post'], "test", []);
+
+//Route::map("/testing", ['get', 'post'], "./CustomApp", []);
 
 
