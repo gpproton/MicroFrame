@@ -136,6 +136,10 @@ class Route
             if (Strings::filter($functions)->contains("./")
                 || is_file($functions)) {
                 $reqPath = $customScriptsPath . Strings::filter($functions)->replace("./")->value();
+                /**
+                 * Restore cleaned globals
+                 */
+                Request::overrideGlobals(false);
 
                 if (is_file($functions) && Strings::filter($functions)->contains(".php")) {
                     include_once ($functions);
