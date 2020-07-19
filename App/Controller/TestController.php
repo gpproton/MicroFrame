@@ -30,12 +30,21 @@ use \MicroFrame\Core\Controller as Core;
  */
 class TestController extends Core {
 
+    /**
+     * Controller index method, normal.
+     */
     public function index()
     {
-        $this->auto(false);
+        /**
+         * Set if controller should auto or not via it's path.
+         */
+//        $this->auto(false);
 
         $this->response
-            ->data("Test part..")
+            // Optional set method
+            ->methods(['get', 'post'])
+            ->data(['OnePieceVillains' => ['Black Beard', 'Douglass Bullet', 'D Rocks', 'Im Sama'],
+            'address' => $this->request->url()])
             ->send();
     }
 }
