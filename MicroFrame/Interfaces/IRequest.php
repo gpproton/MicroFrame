@@ -108,8 +108,16 @@ interface IRequest
     Public function cookie($string = null);
 
     /**
-     * @return mixed
+     * @return string
      */
     public function path();
+
+    /**
+     * Get current request URL actual address
+     *
+     * @param bool $full
+     * @return string
+     */
+    public function url($full = false);
 
 }

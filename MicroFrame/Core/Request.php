@@ -215,9 +215,7 @@ final class Request implements IRequest
             $_POST = self::$post;
             $_REQUEST = self::$request;
             $_SERVER = self::$server;
-
         }
-
 //        self::$env = $_ENV;
 //        self::$session = $_SESSION;
 
@@ -236,7 +234,6 @@ final class Request implements IRequest
         $_POST = [];
         $_REQUEST = [];
         $_SERVER = [];
-
 //        $_ENV = [];
 //        $_SESSION = [];
 
@@ -286,23 +283,38 @@ final class Request implements IRequest
      */
     public function path()
     {
-        $final = "";
         if (!is_null($this->post('route'))) {
             $final = $this->post('route');
         } else if (!is_null($this->query('controller'))) {
             $final = $this->query('controller');
-        } else if (!is_null($this->query('route'))) {
-            $final = $this->query('route');
         } else if (!is_null($this->server("PATH_INFO"))) {
             $final = $this->server("PATH_INFO");
+        } else if (!is_null($this->query('route'))) {
+            $final = $this->query('route');
         } else {
             $final = "";
         }
-        $final = Strings::filter($final)
+
+        return Strings::filter($final)
             ->leftTrim("/")
             ->rightTrim("/")
+            ->dotted()
             ->value();
+    }
 
-        return Strings::filter($final)->dotted()->value();
+    /**
+     * Get current request URL actual address
+     *
+     * @param bool $full
+     * @return string
+     */
+   public function url($full = false)
+    {
+        $current = (isset(self::$server['HTTPS'])
+            && self::$server['HTTPS'] === 'on' ? "https" : "http")
+            . "://" . self::$server['HTTP_HOST'] . self::$server['REQUEST_URI'];
+
+        if(!$full) return Strings::filter($current)->range("?", false, true)->value();
+        return $current;
     }
 }
