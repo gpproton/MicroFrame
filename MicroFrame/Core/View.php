@@ -59,4 +59,11 @@ class View implements IView
         return new Model($source);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function loader($source = null)
+    {
+        // TODO: Implement loader() method.
+    }
 }

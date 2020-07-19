@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Interfaces;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -30,9 +31,9 @@ interface IModel
 {
     /**
      * IModel constructor.
-     * @param IDataSource $source
+     * @param string $source
      */
-    public function __construct(IDataSource $source = null);
+    public function __construct($source = null);
 
     /**
      * @param array $array

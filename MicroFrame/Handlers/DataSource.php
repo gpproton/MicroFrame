@@ -1,6 +1,6 @@
 <?php
 /**
- * Strings helper class
+ * Datasource Handler class
  *
  * PHP Version 7
  *
@@ -33,8 +33,7 @@ use PDO;
 class DataSource implements IDataSource {
 
     private $source = SYS_DATA_SOURCE;
-
-    // echo var_dump($datasource['default']);
+    private $options;
 
     /**
      * DataSource constructor.
@@ -42,8 +41,19 @@ class DataSource implements IDataSource {
      */
     public function __construct($string = "default")
     {
+
         if (!empty($this->source) && isset($this->source[$string])) {
             $this->source = (object) $this->source[$string];
+
+            $timeout = isset($this->source->timeout) ? $this->source->timeout : 250;
+            $this->options = [
+                PDO::ATTR_PERSISTENT => true,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_TIMEOUT => $timeout,
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            ];
+
         }
     }
 
@@ -53,13 +63,6 @@ class DataSource implements IDataSource {
 
 //    public function __construct($type = null)
 //    {
-//        $Options = [
-//            PDO::ATTR_PERSISTENT         => true,
-//            PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
-//            PDO::ATTR_TIMEOUT => 5, // PDO timeout for queries
-//            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
-//            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array,
-//          ];
 //
 //        if(empty(self::$Connection))
 //        {

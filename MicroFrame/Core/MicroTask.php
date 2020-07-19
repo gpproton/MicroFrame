@@ -88,4 +88,12 @@ class MicroTask
         return new Model($source);
     }
 
+    /**
+     *
+     */
+    public function loader()
+    {
+        // TODO: Implement loader() method.
+    }
+
 }

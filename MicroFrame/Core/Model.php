@@ -31,33 +31,40 @@ use MicroFrame\Interfaces\IModel;
  */
 final class Model implements IModel
 {
+    private $query;
+    private $params;
 
     /**
      * Model constructor.
-     * @param IDataSource $source
+     * @param string $source
      */
-    public function __construct(IDataSource $source = null)
+    public function __construct($source = null)
     {
+        return $this;
+    }
+
+
+    /**
+     * @param $string
+     * @return $this
+     */
+    public function query($string)
+    {
+        // TODO: Implement query() method.
+        if (gettype($string) === 'array') {
+
+        }
         return $this;
     }
 
     /**
      * @param array $array
-     * @return $this|void
+     * @return $this
      */
     public function params($array = [])
     {
         // TODO: Implement params() method.
-        return $this;
-    }
 
-    /**
-     * @param $string
-     * @return $this|void
-     */
-    public function query($string)
-    {
-        // TODO: Implement query() method.
         return $this;
     }
 

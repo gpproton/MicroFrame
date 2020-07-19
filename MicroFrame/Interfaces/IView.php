@@ -36,5 +36,11 @@ interface IView
      */
     public function model($source = null);
 
+    /**
+     * @param null $source
+     * @return mixed
+     */
+    public function loader($source = null);
+
 }
 
