@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Interfaces;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -28,6 +29,12 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 interface IView
 {
+
+    /**
+     * @param null $source
+     * @return IModel
+     */
+    public function model($source = null);
 
 }
 
