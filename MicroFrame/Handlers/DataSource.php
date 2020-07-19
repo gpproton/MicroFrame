@@ -20,181 +20,209 @@
  */
 
 namespace MicroFrame\Handlers;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use MicroFrame\Interfaces\IDatabase;
+use MicroFrame\Interfaces\IDataSource;
+use PDO;
 
 /**
  * Class DataSource
  * @package MicroFrame\Handlers
  */
-class DataSource implements IDatabase {
+class DataSource implements IDataSource {
 
-    // TODO: Rewrite for more dynamic usage
-    protected static $Connection;
-    private $datasource = (object) SYS_DATA_SOURCE;
-    private static $SLASH = '/';
-    private static $COLUMN = ':';
+    private $source = SYS_DATA_SOURCE;
 
-    // echo var_dump(\MicroFrame\Helpers\Config::$DATA_SOURCE->default->host);
-
-    //        try {
-    //            throw new Exception('Divide by zero');
-    //        } catch (Exception $exception) {
-    //            $exception
-    //                ->output();
-    //        }
-
+    // echo var_dump($datasource['default']);
 
     /**
      * DataSource constructor.
-     * @param null $type
+     * @param string $string
      */
-    public function __construct($type = null)
+    public function __construct($string = "default")
     {
-        $Options = [
-            PDO::ATTR_PERSISTENT         => true,
-            PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
-            PDO::ATTR_TIMEOUT => 5, // PDO timeout for queries
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array,
-          ];
-
-        if(empty(self::$Connection))
-        {
-            try {
-
-                switch(Config::$DATABASE_TYPE)
-                {
-                    case 'oracle':
-                        if (self::checkPDODriver('oci'))
-                        {
-                            self::$Connection = new PDO(
-                                self::OracleConnectionStr(),
-                                Config::$DATABASE_USER,
-                                Config::$DATABASE_PASS,
-                                $Options
-                            ); 
-                        }
-                        else
-                        {
-                            self::$Connection = new PDOOCI\PDO(
-                                self::OracleConnectionStr(),
-                                Config::$DATABASE_USER,
-                                Config::$DATABASE_PASS,
-                                $Options
-                            );
-                        }
-                    break;
-                    case 'postgres':
-                        if (self::checkPDODriver('pgsql'))
-                        {
-                            self::$Connection = new PDO(
-                                self::PGConnectionStr(),
-                                Config::$DATABASE_USER,
-                                Config::$DATABASE_PASS,
-                                $Options
-                            ); 
-                        }
-                    break;
-                    case 'mysql':
-                        if (self::checkPDODriver('mysql'))
-                        {
-                            self::$Connection = new PDO(
-                                self::MysqlConnectionStr(),
-                                Config::$DATABASE_USER,
-                                Config::$DATABASE_PASS,
-                                $Options
-                            ); 
-                        }
-                    break;
-                    case 'sqlite':
-                        if (self::checkPDODriver('sqlite'))
-                        {
-                            self::$Connection = new PDO(
-                                self::SQLiteConnectionStr(),
-                                Config::$DATABASE_USER,
-                                Config::$DATABASE_PASS,
-                                $Options
-                            ); 
-                        }
-                    break;
-                    default:
-                        //self::$Connection = new PDO("", "", "", $Options);
-                        return false;
-                }
-
-            } catch(PDOException $e) {
-    
-                $jsonMsg = array(
-                    'status' => 0,
-                    'type' => 'DataSource Exception',
-                    'message' => 'error: ' . $e->getMessage()
-                );
-
-                if(!Utils::getLocalStatus())
-                {
-                    Utils::errorHandler($jsonMsg);
-                }
-                
-            }
+        if (!empty($this->source) && isset($this->source[$string])) {
+            $this->source = (object) $this->source[$string];
         }
-
-        return self::$Connection;
     }
+
+    public static function get($string = null) {
+        return is_null($string) ? new self() : new self($string);
+    }
+
+//    public function __construct($type = null)
+//    {
+//        $Options = [
+//            PDO::ATTR_PERSISTENT         => true,
+//            PDO::ATTR_EMULATE_PREPARES   => false, // turn off emulation mode for "real" prepared statements
+//            PDO::ATTR_TIMEOUT => 5, // PDO timeout for queries
+//            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, //turn on errors in the form of exceptions
+//            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC, //make the default fetch be an associative array,
+//          ];
+//
+//        if(empty(self::$Connection))
+//        {
+//            try {
+//
+//                switch(Config::$DATABASE_TYPE)
+//                {
+//                    case 'oracle':
+//                        if (self::checkPDODriver('oci'))
+//                        {
+//                            self::$Connection = new PDO(
+//                                self::OracleConnectionStr(),
+//                                Config::$DATABASE_USER,
+//                                Config::$DATABASE_PASS,
+//                                $Options
+//                            );
+//                        }
+//                        else
+//                        {
+//                            self::$Connection = new PDOOCI\PDO(
+//                                self::OracleConnectionStr(),
+//                                Config::$DATABASE_USER,
+//                                Config::$DATABASE_PASS,
+//                                $Options
+//                            );
+//                        }
+//                    break;
+//                    case 'postgres':
+//                        if (self::checkPDODriver('pgsql'))
+//                        {
+//                            self::$Connection = new PDO(
+//                                self::PGConnectionStr(),
+//                                Config::$DATABASE_USER,
+//                                Config::$DATABASE_PASS,
+//                                $Options
+//                            );
+//                        }
+//                    break;
+//                    case 'mysql':
+//                        if (self::checkPDODriver('mysql'))
+//                        {
+//                            self::$Connection = new PDO(
+//                                self::MysqlConnectionStr(),
+//                                Config::$DATABASE_USER,
+//                                Config::$DATABASE_PASS,
+//                                $Options
+//                            );
+//                        }
+//                    break;
+//                    case 'sqlite':
+//                        if (self::checkPDODriver('sqlite'))
+//                        {
+//                            self::$Connection = new PDO(
+//                                self::SQLiteConnectionStr(),
+//                                Config::$DATABASE_USER,
+//                                Config::$DATABASE_PASS,
+//                                $Options
+//                            );
+//                        }
+//                    break;
+//                    default:
+//                        //self::$Connection = new PDO("", "", "", $Options);
+//                        return false;
+//                }
+//
+//            } catch(PDOException $e) {
+//
+//                $jsonMsg = array(
+//                    'status' => 0,
+//                    'type' => 'DataSource Exception',
+//                    'message' => 'error: ' . $e->getMessage()
+//                );
+//
+//                if(!Utils::getLocalStatus())
+//                {
+//                    Utils::errorHandler($jsonMsg);
+//                }
+//
+//            }
+//        }
+//
+//        return self::$Connection;
+//    }
+//
 
     /**
      * @return string
      */
-    private static function SQLiteConnectionStr()
+    private function SQLite()
     {
+        /**
+         *
+         */
         return "";
     }
 
     /**
      * @return string
      */
-    private static function OracleConnectionStr()
+    private function Oracle()
     {
-        // DSN Sample
-        // oci:dbname=//127.0.0.1:1521/ORCL
-        return "oci:dbname="
-        . self::$SLASH . self::$SLASH
+        /**
+         * oci:dbname=//127.0.0.1:1521/ORCL
+         */
+        return "oci:dbname=//"
         . Config::$DATABASE_HOST
-        . self::$COLUMN . Config::$DATABASE_PORT
-        . self::$SLASH . Config::$DATABASE_EXTRA;
+        . ":" . Config::$DATABASE_PORT
+        . "/". Config::$DATABASE_EXTRA;
     }
 
     /**
      * @return string
      */
-    private static function MysqlConnectionStr()
+    private function MSSql()
     {
+        /**
+         *
+         */
         return "";
     }
 
     /**
      * @return string
      */
-    private static function PGConnectionStr()
+    private function Mysql()
     {
+        /**
+         *
+         */
+        return "";
+    }
+
+    /**
+     * @return string
+     */
+    private function Postgres()
+    {
+        /**
+         *
+         */
+        return "";
+    }
+
+    /**
+     * @return string
+     */
+    private function Redis()
+    {
+        /**
+         *
+         */
         return "";
     }
 
     /**
      * @param $text
+     * @throws Exception
      */
-    private static function checkPDODriver($text)
+    private function checkPDO($text)
     {
-        $jsonMsg = array(
-            'status' => 0,
-            'type' => 'DataSource Exception',
-            'message' => 'error: DataSource pdo driver is not installed'
-        );
-
         if (!in_array($text, PDO::getAvailableDrivers(),TRUE))
         {
-            Utils::errorHandler($jsonMsg);
+            throw new Exception("PDO driver is missing");
         }
     }
 
