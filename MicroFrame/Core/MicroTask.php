@@ -20,14 +20,14 @@
  */
 
 namespace MicroFrame\Core;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use \AsyncPHP\Doorman\Task;
 use \AsyncPHP\Doorman\Manager\ProcessManager;
 use \AsyncPHP\Doorman\Rule\InMemoryRule;
 use \AsyncPHP\Doorman\Task\ProcessCallbackTask;
-
-// TODO: This will extend external library task class.
+use MicroFrame\Interfaces\IModel;
 
 /**
  * Class MicroTask
@@ -73,6 +73,19 @@ class MicroTask
         foreach ($args as $arg) {
             $closure($arg);
         }
+    }
+
+    /**
+     *
+     * @summary Model static instance initializer.
+     *
+     * @param null $source
+     * @return Model|IModel
+     */
+    public function model($source =  null)
+    {
+        if (is_null($source)) return new Model();
+        return new Model($source);
     }
 
 }

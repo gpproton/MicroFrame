@@ -22,6 +22,7 @@
 namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IView;
 
 /**
@@ -45,8 +46,17 @@ class View implements IView
         $this->model = new Model();
     }
 
-    public static function model() {
-        return new Model();
+    /**
+     *
+     * @summary Model static instance initializer.
+     *
+     * @param null $source
+     * @return Model|IModel
+     */
+    public function model($source =  null)
+    {
+        if (is_null($source)) return new Model();
+        return new Model($source);
     }
 
 }

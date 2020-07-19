@@ -47,7 +47,7 @@ interface IController
      * @param null $source
      * @return IModel
      */
-    public static function model($source = null);
+    public function model($source = null);
 
     /**
      * @return void

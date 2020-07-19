@@ -136,7 +136,7 @@ class Controller implements IController
      * @param null $source
      * @return Model|IModel
      */
-    public static function model($source =  null)
+    public function model($source =  null)
     {
         if (is_null($source)) return new Model();
         return new Model($source);
