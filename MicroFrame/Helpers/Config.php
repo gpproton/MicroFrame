@@ -23,7 +23,9 @@ namespace MicroFrame\Helpers;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use \Dotenv\Dotenv as dotEnv;
+use Dotenv\Dotenv as dotEnv;
+use Dotenv\Exception\InvalidPathException;
+use MicroFrame\Handlers\Exception;
 
 /**
  * Class Config
@@ -37,7 +39,11 @@ final class Config {
      */
     public static function Load()
     {
-        $dotEnv = dotEnv::createImmutable(BASE_PATH)->load();
+        try {
+            $dotEnv = dotEnv::createImmutable(BASE_PATH)->load();
+        } catch (InvalidPathException $exception) {
+            Exception::call($exception->getMessage())->output();
+        }
 
         // TODO: Set config defaults.
         /**
