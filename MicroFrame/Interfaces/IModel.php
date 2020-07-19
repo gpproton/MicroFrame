@@ -30,9 +30,9 @@ interface IModel
 {
     /**
      * IModel constructor.
-     * @param IDatabase $source
+     * @param IDataSource $source
      */
-    public function __construct(IDatabase $source = null);
+    public function __construct(IDataSource $source = null);
 
     /**
      * @param array $array

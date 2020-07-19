@@ -22,7 +22,7 @@
 namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use MicroFrame\Interfaces\IDatabase;
+use MicroFrame\Interfaces\IDataSource;
 use MicroFrame\Interfaces\IModel;
 
 /**
@@ -34,9 +34,9 @@ final class Model implements IModel
 
     /**
      * Model constructor.
-     * @param IDatabase $source
+     * @param IDataSource $source
      */
-    public function __construct(IDatabase $source = null)
+    public function __construct(IDataSource $source = null)
     {
         return $this;
     }
