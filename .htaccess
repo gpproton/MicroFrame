@@ -10,10 +10,12 @@ Options All -Indexes
 <IfModule mod_rewrite.c>
 # Send Requests To Front Controller...
 RewriteEngine On
+
+#RewriteRule /Docs/Core/(.*)$ /core/docs/$1 [R=301,NC,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_URI} !^public
-RewriteRule ^(.*)$ public/index.php?controller=$1 [NC,L,QSA]
-
+RewriteRule ^(.*)$ public/Index.php?controller=$1 [NC,L,QSA]
 # Handle Authorization Header
 RewriteCond %{HTTP:Authorization} .
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
