@@ -39,6 +39,7 @@ final class Config {
     {
         $dotEnv = dotEnv::createImmutable(BASE_PATH)->load();
 
+        // TODO: Set config defaults.
         /**
          * Auto config object builder
          * @param $array
@@ -70,6 +71,11 @@ final class Config {
          * @summary Application runtime check if it's console or web.
          */
         define('SYS_CONSOLE', php_sapi_name() === 'cli');
+
+        /**
+         * @summary Sets application page title.
+         */
+        define('SYS_APP_KEY', getenv('SYS_APP_KEY'));
 
         /**
          * @summary Fixed routing mode.
