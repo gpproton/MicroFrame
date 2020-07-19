@@ -5,7 +5,7 @@
 /Cache/
 #/bin/
 /Docs/
-
+.env
 ##Composer rules
 composer.lock
 composer.phar
