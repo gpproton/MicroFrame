@@ -9,7 +9,6 @@
 ##Composer rules
 composer.lock
 composer.phar
-composer.lock
 
 .DS_Store
 desktop.ini
