@@ -23,11 +23,15 @@ namespace MicroFrame\Interfaces;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Interface IDatabase
+ * Interface IDataSource
  * @package MicroFrame\Interfaces
  */
-interface IDatabase
+interface IDataSource
 {
+    /**
+     * IDataSource constructor.
+     * @param string $string
+     */
     public function __construct($string = null);
 
 }
