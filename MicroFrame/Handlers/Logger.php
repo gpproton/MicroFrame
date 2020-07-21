@@ -22,8 +22,8 @@
 namespace MicroFrame\Handlers;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use MicroFrame\Helpers\Reflect;
-use MicroFrame\Helpers\Utils;
+use MicroFrame\Library\Reflect;
+use MicroFrame\Library\Utils;
 
 /**
  * Class Logger

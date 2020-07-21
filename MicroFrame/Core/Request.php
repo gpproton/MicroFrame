@@ -22,8 +22,8 @@
 namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use MicroFrame\Helpers\Strings;
-use MicroFrame\Helpers\Utils;
+use MicroFrame\Library\Strings;
+use MicroFrame\Library\Utils;
 use MicroFrame\Interfaces\IRequest;
 
 /**

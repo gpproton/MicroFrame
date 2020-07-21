@@ -25,7 +25,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 use \Exception as stockError;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
-use MicroFrame\Helpers\Reflect;
+use MicroFrame\Library\Reflect;
 
 /**
  * Class Exception

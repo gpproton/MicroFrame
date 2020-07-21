@@ -23,10 +23,10 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Core\Request as request;
-use MicroFrame\Helpers\Convert;
-use MicroFrame\Helpers\Strings;
-use MicroFrame\Helpers\Utils;
-use MicroFrame\Helpers\Value;
+use MicroFrame\Library\Convert;
+use MicroFrame\Library\Strings;
+use MicroFrame\Library\Utils;
+use MicroFrame\Library\Value;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;

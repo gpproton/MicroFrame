@@ -37,7 +37,7 @@ ini_set("upload_max_filesize", "256M");
 ini_set("max_file_uploads", 300);
 
 use MicroFrame\Core\Request as request;
-use MicroFrame\Helpers\Config as config;
+use MicroFrame\Library\Config as config;
 use MicroFrame\Handlers\ErrorHandler as handler;
 use MicroFrame\Core\Application as app;
 

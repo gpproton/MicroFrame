@@ -1,11 +1,11 @@
 <?php
 /**
- * CallBack helper class
+ * CallBack Library class
  *
  * PHP Version 7
  *
- * @category  Helpers
- * @package   MicroFrame\Helpers
+ * @category  Library
+ * @package   MicroFrame\Library
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -19,7 +19,7 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace MicroFrame\Helpers;
+namespace MicroFrame\Library;
 
 use MicroFrame\Handlers\Exception;
 
@@ -27,7 +27,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
  * Class Callback
- * @package MicroFrame\Helpers
+ * @package MicroFrame\Library
  */
 class Callback
 {

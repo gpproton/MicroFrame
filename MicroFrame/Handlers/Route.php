@@ -28,9 +28,9 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 use MicroFrame\Core\Request;
 use MicroFrame\Core\Response;
-use MicroFrame\Helpers\Reflect;
+use MicroFrame\Library\Reflect;
 use MicroFrame\Defaults\Middleware\DefaultMiddleware;
-use MicroFrame\Helpers\Strings;
+use MicroFrame\Library\Strings;
 use function OpenApi\scan;
 
 /**

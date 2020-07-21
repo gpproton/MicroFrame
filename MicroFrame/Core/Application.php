@@ -25,7 +25,7 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Handlers\Route;
-use MicroFrame\Helpers\Utils;
+use MicroFrame\Library\Utils;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
