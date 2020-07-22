@@ -21,20 +21,11 @@
  */
 
 namespace MicroFrame;
-define('BASE_PATH', realpath(__DIR__ .'/..'));
 
-/**
- * Set default PHP configurations.
- */
-ini_set("short_open_tag", 1);
-ini_set("default_socket_timeout", 900);
-ini_set("max_execution_time", 900);
-ini_set("max_input_time", 600);
-ini_set("max_input_vars", 250);
-ini_set("memory_limit", -1);
-ini_set("post_max_size", "256M");
-ini_set("upload_max_filesize", "256M");
-ini_set("max_file_uploads", 300);
+define('BASE_PATH', realpath(__DIR__ .'/..'));
+define('CORE_PATH', realpath(__DIR__ .'/../MicroFrame'));
+define('APP_PATH', realpath(__DIR__ .'/../App'));
+define('CONFIG_PATH', realpath(__DIR__ .'/../App/Config'));
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Library\Config as config;

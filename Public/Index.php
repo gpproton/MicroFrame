@@ -20,12 +20,25 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+/**
+ * Set default PHP configurations.
+ * TODO: Move to final location...
+ */
+ini_set("default_socket_timeout", 900);
+ini_set("max_execution_time", 900);
+ini_set("max_input_time", 600);
+ini_set("max_input_vars", 250);
+ini_set("memory_limit", -1);
+ini_set("post_max_size", "256M");
+ini_set("upload_max_filesize", "256M");
+ini_set("max_file_uploads", 300);
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-/**
- * Initialize processes..
- *
- */
+
 $app = new MicroFrame\Core;
 
+/**
+ * Bootstrap application with error handling..
+ */
 $app->Run(new MicroFrame\Handlers\ErrorHandler());
