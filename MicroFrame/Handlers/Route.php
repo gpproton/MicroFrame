@@ -43,6 +43,8 @@ class Route
     private $request;
     private $response;
     private $proceed;
+    const appPath = "app.Controller.";
+    const sysPath = "sys.Controller.";
 
     /**
      * Route constructor.
@@ -63,17 +65,16 @@ class Route
 
     /**
      * @param $path
-     * @param string $type
      * @param bool $check
      * @param null $response
      * @param null $request
      * @param bool $auto
      * @return mixed
      */
-    private function initialize($path, $type = "app.Controller", $check = true, $response = null, $request = null, $auto = true) {
-        if ($check) return Reflect::check()->stateLoader($type, $path, $check);
+    private function initialize($path, $check = true, $response = null, $request = null, $auto = true) {
+        if ($check) return Reflect::check()->stateLoader($path, $check);
         $auto = !$auto ? "static" : $auto;
-        Reflect::check()->stateLoader($type, $path, array($response, $request, "", $auto))
+        Reflect::check()->stateLoader($path, array($response, $request, "", $auto))
             /**
              * Default middleware left here just for extra capability.
              */
@@ -171,8 +172,8 @@ class Route
              */
             if (gettype($functions) === 'object') {
                 $clazz->response->data($functions());
-            } else if ($clazz->initialize($functions)) {
-                $clazz->initialize($functions, "app.Controller", false, $clazz->response, $clazz->request, false);
+            } else if ($clazz->initialize(self::appPath . $functions)) {
+                $clazz->initialize(self::appPath . $functions, false, $clazz->response, $clazz->request, false);
             } else {
                 $clazz->response->data($functions);
             }
@@ -199,7 +200,7 @@ class Route
          * Define custom system routes here with $this->map() method
          * E.g General Swagger | Docs | Wiki
          */
-        // Find option for sys.Controller
+        // Find option for sys.Controller TODO: Add map option for sys.
         // self::map("/help/docs", ['get'], "api.index", []);
         // self::map("/help/docs", ['get'], "api.index", []);
 
@@ -207,20 +208,20 @@ class Route
         /**
          * Call Index if route is not set.
          */
-        if (empty($path) && $this->initialize("index")) {
-            $this->initialize("index", "app.Controller", false, $this->response, $this->request);
+        if (empty($path) && $this->initialize(self::appPath . "index")) {
+            $this->initialize(self::appPath . "index", false, $this->response, $this->request);
         }
         /**
          * Try calling specified route if the controller exist.
          */
-        else if ($this->initialize($path)) {
-            $this->initialize($path, "app.Controller", false, $this->response, $this->request);
+        else if ($this->initialize(self::appPath .  $path)) {
+            $this->initialize(self::appPath . $path, false, $this->response, $this->request);
         }
         /**
          * Call default controller if all fail.
          */
         else {
-            $this->initialize("default", "sys.Controller", false, $this->response, $this->request);
+            $this->initialize(self::sysPath . "default", false, $this->response, $this->request);
         }
     }
 

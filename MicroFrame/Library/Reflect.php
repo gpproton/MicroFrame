@@ -54,23 +54,33 @@ class Reflect
     /**
      * Dynamically get classes and method based on filtered strings
      *
-     * @param $type
      * @param $path
      * @param array $args
      * @param bool $checkMethod
      * @return mixed
      */
-    public function stateLoader($type, $path, $args = array(), $checkMethod = false) {
+    public function stateLoader($path, $args = array(), $checkMethod = false) {
 
-        $base = "";
-        $path = Strings::filter($path)
-            ->dotted()
-            ->replace(".", "\\")
+        /**
+         * Get base namespace
+         */
+        $type = Strings::filter($path)
+            ->range(".", 1, true)->value();
+
+        /**
+         * Get core class
+         */
+        $core = Strings::filter($path)
+            ->range(".", 2, true)
+            ->range(".", 1)
             ->value();
 
-        $core = Strings::filter($type)
-            ->replace("sys.")
-            ->replace("app.")
+        /**
+         * Get requested resource path
+         */
+        $path = Strings::filter($path)
+            ->range(".", 2, false)
+            ->replace(".", "\\")
             ->value();
 
         $pathHandler = function ($base) use ($core, $path) {
@@ -105,6 +115,7 @@ class Reflect
         }
 
         switch ($core) {
+            case 'Model':
             case 'Controller':
                 if (class_exists($classUpper) && gettype($args) === 'array') $args[2] = $classMethod;
                 break;
