@@ -31,11 +31,10 @@
         "asyncphp/doorman": "^3.1",
         "zircote/swagger-php": "^3.0",
         "hassankhan/config": "^2.1",
-        "symfony/yaml": "3.3.*"
+        "symfony/yaml": "^3.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
-        "phpdocumentor/phpdocumentor": "2.*",
         "filp/whoops": "^2.7",
         "phpunit/phpunit": "^9.2"
     },
