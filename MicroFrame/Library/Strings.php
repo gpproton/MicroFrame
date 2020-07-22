@@ -126,7 +126,7 @@ final class Strings
             gettype($left) === 'boolean' ? $position = 0 : $position = $startRight ? ($left + 1) : ($right + strlen($search));
         } else if (gettype($startRight) === 'integer') {
             $position = $this->charPosition($this->value, $search, $startRight);
-            $position = $position === false ? 0 : $position;
+            $position = $position === false ? 0 : $position + 1;
         }
 
         if ($position !== 0) {
