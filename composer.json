@@ -26,15 +26,16 @@
         "ext-fileinfo": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
-        "vlucas/phpdotenv": "^4.1",
         "taq/pdooci": "^1.0",
+        "vlucas/phpdotenv": "^4.1",
         "asyncphp/doorman": "^3.1",
         "zircote/swagger-php": "^3.0",
-        "hassankhan/config": "^2.1"
+        "hassankhan/config": "^2.1",
+        "symfony/yaml": "3.3.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
-        "apigen/apigen": "^4.1",
+        "phpdocumentor/phpdocumentor": "2.*",
         "filp/whoops": "^2.7",
         "phpunit/phpunit": "^9.2"
     },
