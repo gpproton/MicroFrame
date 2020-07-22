@@ -31,7 +31,6 @@ use MicroFrame\Core\Response;
 use MicroFrame\Library\Reflect;
 use MicroFrame\Defaults\Middleware\DefaultMiddleware;
 use MicroFrame\Library\Strings;
-use function OpenApi\scan;
 
 /**
  * Class Route
