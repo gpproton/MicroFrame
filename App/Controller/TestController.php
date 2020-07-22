@@ -23,6 +23,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Library\Strings;
 
 /**
  * Class TestController
@@ -37,8 +38,9 @@ class TestController extends Core {
     {
         /**
          * Set if controller should auto or not via it's path.
+         *
+         * $this->auto(false);
          */
-//        $this->auto(false);
 
         $this->response
             // Optional set method
