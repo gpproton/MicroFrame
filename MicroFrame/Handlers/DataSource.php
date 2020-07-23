@@ -27,7 +27,7 @@ use MicroFrame\Interfaces\IDataSource;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Reflect;
 use PDO;
-use PDOOCI\PDO as oraclePdo;
+use PDOOCI\PDO as fallbackOraclePDO;
 
 /**
  * Class DataSource
@@ -44,13 +44,13 @@ class DataSource implements IDataSource {
      * @param string $string
      * @param bool $cache
      */
-    public function __construct($string = "default", $cache = false)
-    {
+    public function __construct($string = "default", $cache = false) {
 
         $this->source = $cache ? $this->config("cache.{$string}") : $this->config("data.{$string}");
         $connectStringParams = array(
             'config' => $this->source
         );
+
         if ($cache) $connectStringParams['cache'] = true;
 
         if (isset($this->source) && is_null($this->connection)) {
@@ -64,29 +64,54 @@ class DataSource implements IDataSource {
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ];
 
-            $connectionString = Reflect::check()->methodLoader($this, $this->source['type'], $connectStringParams);
-
             try {
-                if ($this->source['type'] === "sqlite") {
-                    $this->connection = new PDO($connectionString);
-                } elseif (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
-                    $this->connection = new oraclePdo($connectionString, $this->source['user'], $this->source['password']);
+                /**
+                 * @summary Reflect method for connection string generation.
+                 */
+                $connectionString = Reflect::check()->methodLoader($this, $this->source['type'], $connectStringParams);
+
+                /**
+                 * @summary check if PDO OCI is not available then use work around.
+                 */
+                if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
+                    $this->connection = new fallbackOraclePDO($connectionString, $this->source['user'], $this->source['password']);
                 } else if ($this->source['type'] === "redis") {
                     //TODO: Declare redis initialisation...
+                    /**
+                     * @summary Initialize redis caching connection
+                     */
+
                 } else if ($this->validate($this->source['type'])) {
-                    $this->connection = new PDO($connectionString, $this->source['user'], $this->source['password']);
+                    /**
+                     * @summary Initialize standard PDO connection.
+                     */
+
+                    if (($this->source['type'] === 'sqlite')) {
+                        $this->connection = new PDO($connectionString);
+                    } else {
+                        $this->connection = new PDO($connectionString, $this->source['user'], $this->source['password']);
+
+                    }
                 }
             } catch (\PDOException $exception) {
+                /**
+                 * handle PDo exceptions...
+                 */
                 Exception::call()->output($exception->getMessage());
             }
-            var_dump($this->connection);
-            die();
 
             return $this->connection;
 
+        } else {
+            /**
+             * Manually throw exception...
+             */
+            try {
+                throw new Exception("Requested data source does not exist...");
+            } catch (Exception $exception) {
+                $exception->output();
+            }
         }
-
-        return $this->connection;
     }
 
     /**
@@ -104,7 +129,7 @@ class DataSource implements IDataSource {
      * @return DataSource
      */
     public static function get($string = null, $cache = false) {
-        return is_null($string) ? new self() : new self($string, $cache);
+        return empty($string) ? new self() : new self($string, $cache);
     }
 
     /**
