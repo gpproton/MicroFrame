@@ -25,7 +25,9 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IDataSource;
 use MicroFrame\Library\Config;
+use MicroFrame\Library\Reflect;
 use PDO;
+use PDOOCI\PDO as oraclePdo;
 
 /**
  * Class DataSource
@@ -33,20 +35,27 @@ use PDO;
  */
 class DataSource implements IDataSource {
 
-    private $source = SYS_DATA_SOURCE;
+    private $source;
     private $options;
+    private $connection;
 
     /**
      * DataSource constructor.
      * @param string $string
+     * @param bool $cache
      */
-    public function __construct($string = "default")
+    public function __construct($string = "default", $cache = false)
     {
 
-        if (!empty($this->source) && isset($this->source[$string])) {
-            $this->source = (object) $this->source[$string];
+        $this->source = $cache ? $this->config("cache.{$string}") : $this->config("data.{$string}");
+        $connectStringParams = array(
+            'config' => $this->source
+        );
+        if ($cache) $connectStringParams['cache'] = true;
 
-            $timeout = isset($this->source->timeout) ? $this->source->timeout : 250;
+        if (isset($this->source) && is_null($this->connection)) {
+
+            $timeout = isset($this->source['timeout']) ? $this->source['timeout'] : 150;
             $this->options = [
                 PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_EMULATE_PREPARES => false,
@@ -55,7 +64,29 @@ class DataSource implements IDataSource {
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ];
 
+            $connectionString = Reflect::check()->methodLoader($this, $this->source['type'], $connectStringParams);
+
+            try {
+                if ($this->source['type'] === "sqlite") {
+                    $this->connection = new PDO($connectionString);
+                } elseif (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
+                    $this->connection = new oraclePdo($connectionString, $this->source['user'], $this->source['password']);
+                } else if ($this->source['type'] === "redis") {
+                    //TODO: Declare redis initialisation...
+                } else if ($this->validate($this->source['type'])) {
+                    $this->connection = new PDO($connectionString, $this->source['user'], $this->source['password']);
+                }
+            } catch (\PDOException $exception) {
+                Exception::call()->output($exception->getMessage());
+            }
+            var_dump($this->connection);
+            die();
+
+            return $this->connection;
+
         }
+
+        return $this->connection;
     }
 
     /**
@@ -67,103 +98,21 @@ class DataSource implements IDataSource {
         return Config::fetch($name);
     }
 
-    public static function get($string = null) {
-        return is_null($string) ? new self() : new self($string);
+    /**
+     * @param null $string
+     * @param bool $cache
+     * @return DataSource
+     */
+    public static function get($string = null, $cache = false) {
+        return is_null($string) ? new self() : new self($string, $cache);
     }
-
-//    public function __construct($type = null)
-//    {
-//
-//        if(empty(self::$Connection))
-//        {
-//            try {
-//
-//                switch(Config::$DATABASE_TYPE)
-//                {
-//                    case 'oracle':
-//                        if (self::checkPDODriver('oci'))
-//                        {
-//                            self::$Connection = new PDO(
-//                                self::OracleConnectionStr(),
-//                                Config::$DATABASE_USER,
-//                                Config::$DATABASE_PASS,
-//                                $Options
-//                            );
-//                        }
-//                        else
-//                        {
-//                            self::$Connection = new PDOOCI\PDO(
-//                                self::OracleConnectionStr(),
-//                                Config::$DATABASE_USER,
-//                                Config::$DATABASE_PASS,
-//                                $Options
-//                            );
-//                        }
-//                    break;
-//                    case 'postgres':
-//                        if (self::checkPDODriver('pgsql'))
-//                        {
-//                            self::$Connection = new PDO(
-//                                self::PGConnectionStr(),
-//                                Config::$DATABASE_USER,
-//                                Config::$DATABASE_PASS,
-//                                $Options
-//                            );
-//                        }
-//                    break;
-//                    case 'mysql':
-//                        if (self::checkPDODriver('mysql'))
-//                        {
-//                            self::$Connection = new PDO(
-//                                self::MysqlConnectionStr(),
-//                                Config::$DATABASE_USER,
-//                                Config::$DATABASE_PASS,
-//                                $Options
-//                            );
-//                        }
-//                    break;
-//                    case 'sqlite':
-//                        if (self::checkPDODriver('sqlite'))
-//                        {
-//                            self::$Connection = new PDO(
-//                                self::SQLiteConnectionStr(),
-//                                Config::$DATABASE_USER,
-//                                Config::$DATABASE_PASS,
-//                                $Options
-//                            );
-//                        }
-//                    break;
-//                    default:
-//                        //self::$Connection = new PDO("", "", "", $Options);
-//                        return false;
-//                }
-//
-//            } catch(PDOException $e) {
-//
-//                $jsonMsg = array(
-//                    'status' => 0,
-//                    'type' => 'DataSource Exception',
-//                    'message' => 'error: ' . $e->getMessage()
-//                );
-//
-//                if(!Utils::getLocalStatus())
-//                {
-//                    Utils::errorHandler($jsonMsg);
-//                }
-//
-//            }
-//        }
-//
-//        return self::$Connection;
-//    }
-//
 
     /**
      * @param null $config
      * @param bool $cache
      * @return string
      */
-    private function sqlite($config = null, $cache = false)
+    public function sqlite($config = null, $cache = false)
     {
         /**
          * sqlite:/path/to/sqlite/file.sq3
@@ -182,7 +131,7 @@ class DataSource implements IDataSource {
      * @param null $config
      * @return string
      */
-    private function oracle($config = null)
+    public function oracle($config = null)
     {
         /**
          * oci:dbname=//hostname:port/ORCL
@@ -196,7 +145,7 @@ class DataSource implements IDataSource {
      * @param null $config
      * @return string
      */
-    private function mssql($config = null)
+    public function mssql($config = null)
     {
         /**
          * mssql:host=hostname:port;dbname=database
@@ -210,7 +159,7 @@ class DataSource implements IDataSource {
      * @param null $config
      * @return string
      */
-    private function mysql($config = null)
+    public function mysql($config = null)
     {
         /**
          * mysql:host=hostname;port=3306;dbname=dbname
@@ -224,7 +173,7 @@ class DataSource implements IDataSource {
      * @param null $config
      * @return string
      */
-    private function postgres($config = null)
+    public function postgres($config = null)
     {
         /**
          * pgsql:host=hostname;port=5432;dbname=testdb
@@ -238,7 +187,7 @@ class DataSource implements IDataSource {
      * @param null $config
      * @return string
      */
-    private function redis($config = null)
+    public function redis($config = null)
     {
         /**
          *
@@ -249,13 +198,28 @@ class DataSource implements IDataSource {
 
     /**
      * @param $text
-     * @throws Exception
+     * @param bool $checkOnly
+     * @return bool
      */
-    private function checkPDO($text)
+    private function validate($text, $checkOnly = false)
     {
-        if (!in_array($text, PDO::getAvailableDrivers(),TRUE))
-        {
-            throw new Exception("PDO driver is missing");
+        $drivers = array(
+            'sqlite' => 'sqlite',
+            'mysql' => 'mysql',
+            'mssql' => 'mssql',
+            'postgres' => 'pgsql',
+            'oracle' => 'oci',
+            'redis' => 'redis'
+        );
+        if ($drivers[$text] === "redis") return true; elseif (!in_array($drivers[$text], PDO::getAvailableDrivers(), TRUE) && !$checkOnly) {
+            try {
+                throw new Exception("Required driver is not installed...");
+            } catch (Exception $exception) {
+                $exception->output();
+            }
+        } elseif (!in_array($drivers[$text], PDO::getAvailableDrivers(), TRUE) && $checkOnly) return false;
+        else {
+            return true;
         }
     }
 
