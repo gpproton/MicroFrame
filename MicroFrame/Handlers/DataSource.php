@@ -100,7 +100,7 @@ class DataSource implements IDataSource {
                 Exception::call()->output($exception->getMessage());
             }
 
-            return $this->connection;
+            return $this;
 
         } else {
             /**
@@ -126,10 +126,10 @@ class DataSource implements IDataSource {
     /**
      * @param null $string
      * @param bool $cache
-     * @return DataSource
+     * @return PDO
      */
     public static function get($string = null, $cache = false) {
-        return empty($string) ? new self() : new self($string, $cache);
+        return empty($string) ? (new self())->connection : (new self($string, $cache))->connection;
     }
 
     /**
