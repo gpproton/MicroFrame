@@ -41,4 +41,4 @@ $app = new MicroFrame\Core;
 /**
  * Bootstrap application with error handling..
  */
-$app->Run(new MicroFrame\Handlers\ErrorHandler());
+$app->run(new MicroFrame\Handlers\ErrorHandler());
