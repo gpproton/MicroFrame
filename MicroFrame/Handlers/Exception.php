@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Handlers;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use \Exception as stockError;
