@@ -6,6 +6,9 @@ system:
     logs: 'Logs'
     cache: 'Cache'
     storage: 'Storage'
+  retention:
+    logs: 10
+    cache: 3
 
 site:
   title: ''
