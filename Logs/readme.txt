@@ -1,1 +1,0 @@
-** Placeholder for possible folder contents **
