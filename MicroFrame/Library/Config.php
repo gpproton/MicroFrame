@@ -105,16 +105,23 @@ final class Config extends configAbstractModule {
         $basePath = DATA_PATH . "/";
         if(!is_null($paths)) {
 
-            if (!is_dir($basePath . $paths['logs'])) {
-                $this->set('system.path.logs', Utils::get()->dirChecks($basePath . $paths['logs']));
+            if (is_dir($paths['logs'])) $this->set('system.path.logs', $paths['logs']); else {
+                $this->set('system.path.logs', $this->dirCheck($basePath . $paths['logs']));
             }
-            if (!is_dir($basePath . $paths['cache'])) {
-                $this->set('system.path.cache', Utils::get()->dirChecks($basePath . $paths['cache']));
+
+            if (is_dir($paths['cache'])) $this->set('system.path.cache', $paths['cache']); else {
+                $this->set('system.path.cache', $this->dirCheck($basePath . $paths['cache']));
             }
-            if (!is_dir($basePath . $paths['storage'])) {
-                $this->set('system.path.storage', Utils::get()->dirChecks($basePath . $paths['storage']));
+
+            if (is_dir($paths['storage'])) $this->set('system.path.storage', $paths['storage']); else {
+                $this->set('system.path.storage', $this->dirCheck($basePath . $paths['storage']));
             }
+
         }
+    }
+    private function dirCheck($path) {
+        if (!is_dir($path)) mkdir($path, 777, true);
+        return $path;
     }
 
 }
