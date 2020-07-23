@@ -63,7 +63,7 @@ final class ErrorHandler extends \Error implements Throwable
 
         register_shutdown_function([$this, 'handleShutdown']);
 
-        if (! $this->app->environment(true)) {
+        if (! $this->app->environment()) {
             ini_set('display_errors', 'Off');
         }
 
