@@ -20,8 +20,11 @@
  */
 
 namespace MicroFrame\Handlers;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use MicroFrame\Library\Config;
+use MicroFrame\Library\File;
 use MicroFrame\Library\Reflect;
 use MicroFrame\Library\Utils;
 
@@ -33,6 +36,7 @@ final class Logger {
 
     private $source;
     private $text;
+    private $config;
 
     /**
      * Logger constructor.
@@ -47,12 +51,14 @@ final class Logger {
 
     /**
      * @param null $text
-     * @param null $source
+     * @param null $class
      * @return Logger
      */
-    public static function set($text = null, $source = null) {
-        
-        return new self($text, $source);
+    public static function set($text = null, $class = null) {
+        $instance = new self($text, $class);
+        $instance->config = Config::fetch();
+
+        return $instance;
     }
 
     /**
@@ -149,7 +155,7 @@ final class Logger {
      * @param null $string
      */
     private function console($string =  null) {
-        Utils::console($string);
+        Utils::get()->console($string);
     }
 
     /**
@@ -166,18 +172,31 @@ final class Logger {
      */
     private function file($string =  null, $path = null) {
 
-        if (is_null($path)) $path = SYS_LOG_PATH .'/App.log';
-        $oldDate =  date("d-m-Y", filemtime($path));
-        $oldFile = SYS_LOG_PATH ."/{$oldDate}.app.log";
+        $logPath = $this->config['system']['path']['logs'];
 
-        // TODO: Maintenance for an auto delete for logs.
-        if (date("d-m-Y") > $oldDate) rename($path, $oldFile);
+        if (is_null($path)) $path = $logPath . '/app.log';
+
+        if (is_file($path)) {
+            $oldDate =  date("d-m-Y", filemtime($path));
+            $oldFile = $logPath . "/{$oldDate}.app.log";
+
+            /**
+             * Move old logs file
+             */
+            if (date("d-m-Y") > $oldDate) rename($path, $oldFile);
+
+            /**
+             * Discard log files above retention period
+             */
+            File::init()->clearOld($logPath, $this->config['system']['retention']['logs']);
+        }
+
         file_put_contents($path, $string, FILE_APPEND);
 
     }
 
     /**
-     * TODO: Future use case
+     * TODO: Future use case for email error log
      * @param null $string
      */
     private function email($string =  null) {
