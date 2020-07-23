@@ -2,6 +2,7 @@
 ## Folders Ignore
 /vendor/
 /Data/Logs/*.log
+/Data/Local/*
 /Build/*
 
 ## Composer rules
