@@ -20,9 +20,10 @@ auth:
   session_key: 'MicroFrame_Session'
   passkey: pass@123
 
+# DataSource types sqlite | redis
 cache:
   default:
-    type: local
+    type: sqlite
     dbname: cache.sq3
     timeout: 10
   redis:
