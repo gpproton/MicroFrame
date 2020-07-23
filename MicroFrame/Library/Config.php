@@ -38,18 +38,19 @@ final class Config extends configAbstractModule {
      */
     protected function getDefaults() {
 
-        try {
-            /**
-             * @summary
-             */
-            $defaults = array(
-                'console' => php_sapi_name() === 'cli'
-            );
+        /**
+         * @summary
+         */
+        $defaults = array(
+            'console' => php_sapi_name() === 'cli'
+        );
 
-            /**
-             * @summary Retrieve from core configuration yaml file
-             */
-            $confSys = configModule::load(CORE_PATH . "/config.default.yaml");
+        /**
+         * @summary Retrieve from core configuration yaml file
+         */
+        $confSys = configModule::load(CORE_PATH . "/config.default.yaml");
+
+        try {
             /**
              * @summary Retrieve from all compatible file type in app config
              * directory.
@@ -61,58 +62,59 @@ final class Config extends configAbstractModule {
              */
             $confSys->merge($confApp);
 
-            /**
-             * Return merged configs as abstract defaults.
-             */
-            return array_merge($confSys->all(), $defaults);
-
-        } catch (Exception $exception) {
-
+        } catch (\Exception $exception) {
             Exception::call($exception->getMessage())->output();
-
         }
-        return [];
-    }
 
-    public static function find($key = "debug") {
-
+        /**
+         * @summary Return merged configs as abstract defaults.
+         */
+        return array_merge($confSys->all(), $defaults);
     }
 
     /**
-     * @summary Initialize configurations values and set to constants.
+     * @summary Initialize instance of the configuration retrieval.
      *
+     * @param null $key
+     * @return array|mixed|null
      */
-    public static function Load()
-    {
+    public static function fetch($key = null) {
+        $instance = new self([]);
 
-        var_dump((new self(array())));
-        die();
-        /**
-         * @summary Application debug state.
-         */
-        define('SYS_DEBUG', getenv('SYS_DEBUG') === 'true');
+        try {
+            $instance->validate();
+        } catch (\Exception $exception) {
+            Exception::call($exception->getMessage())->output();
+        }
 
-        /**
-         * @summary Configure application user space config.
-         */
-        define('APPLICATION_CONFIG', []);
+        if (is_null($key)) return $instance->all();
 
+        return $instance->get($key);
+    }
 
-        /**
-         * @summary Configure logger path for application.
-         */
-        define('SYS_LOG_PATH', Utils::dirChecks(BASE_PATH . "/" . getenv('SYS_LOG_PATH')));
+    /**
+     * @summary Configuration validation...
+     */
+    private function validate() {
 
         /**
-         * @summary Configure file based cache path for application.
+         * @summary paths validation...
+         *
          */
-        define('SYS_CACHE_PATH', Utils::dirChecks(BASE_PATH . "/" . getenv('SYS_CACHE_PATH')));
+        $paths = $this->get('system.path');
+        $basePath = DATA_PATH . "/";
+        if(!is_null($paths)) {
 
-        /**
-         * @summary Configure application storage path for application.
-         */
-        define('SYS_STORAGE_PATH', Utils::dirChecks(BASE_PATH . "/" . getenv('SYS_STORAGE_PATH')));
-
+            if (!is_dir($basePath . $paths['logs'])) {
+                $this->set('system.path.logs', Utils::get()->dirChecks($basePath . $paths['logs']));
+            }
+            if (!is_dir($basePath . $paths['cache'])) {
+                $this->set('system.path.cache', Utils::get()->dirChecks($basePath . $paths['cache']));
+            }
+            if (!is_dir($basePath . $paths['storage'])) {
+                $this->set('system.path.storage', Utils::get()->dirChecks($basePath . $paths['storage']));
+            }
+        }
     }
 
 }
