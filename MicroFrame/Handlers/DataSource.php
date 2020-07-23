@@ -159,72 +159,92 @@ class DataSource implements IDataSource {
 //
 
     /**
+     * @param null $config
+     * @param bool $cache
      * @return string
      */
-    private function SQLite()
+    private function sqlite($config = null, $cache = false)
+    {
+        /**
+         * sqlite:/path/to/sqlite/file.sq3
+         */
+        if (is_file($config['dbname'])) {
+            $filePath = $config['dbname'];
+        } else {
+            $filePath = $cache ? DATA_PATH . "/Cache/" . $config['dbname'] : DATA_PATH . "/Local/" . $config['dbname'];
+        }
+        if (!is_null($config)) return "sqlite:{$filePath}";
+
+        return null;
+    }
+
+    /**
+     * @param null $config
+     * @return string
+     */
+    private function oracle($config = null)
+    {
+        /**
+         * oci:dbname=//hostname:port/ORCL
+         */
+        if (!is_null($config)) return "oci:dbname=//{$config['host']}:{$config['port']}/{$config['dbname']}";
+
+        return null;
+    }
+
+    /**
+     * @param null $config
+     * @return string
+     */
+    private function mssql($config = null)
+    {
+        /**
+         * mssql:host=hostname:port;dbname=database
+         */
+        if (!is_null($config)) return "mssql:host={$config['host']}:{$config['port']};dbname={$config['dbname']}";
+
+        return null;
+    }
+
+    /**
+     * @param null $config
+     * @return string
+     */
+    private function mysql($config = null)
+    {
+        /**
+         * mysql:host=hostname;port=3306;dbname=dbname
+         */
+        if (!is_null($config)) return "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+
+        return null;
+    }
+
+    /**
+     * @param null $config
+     * @return string
+     */
+    private function postgres($config = null)
+    {
+        /**
+         * pgsql:host=hostname;port=5432;dbname=testdb
+         */
+        if (!is_null($config)) return "pgsql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+
+        return null;
+    }
+
+    /**
+     * @param null $config
+     * @return string
+     */
+    private function redis($config = null)
     {
         /**
          *
          */
-        return "";
-    }
 
-    /**
-     * @return string
-     */
-    private function Oracle()
-    {
-        /**
-         * oci:dbname=//127.0.0.1:1521/ORCL
-         */
-        return "oci:dbname=//"
-        . Config::$DATABASE_HOST
-        . ":" . Config::$DATABASE_PORT
-        . "/". Config::$DATABASE_EXTRA;
-    }
-
-    /**
-     * @return string
-     */
-    private function MSSql()
-    {
-        /**
-         *
-         */
-        return "";
-    }
-
-    /**
-     * @return string
-     */
-    private function Mysql()
-    {
-        /**
-         *
-         */
-        return "";
-    }
-
-    /**
-     * @return string
-     */
-    private function Postgres()
-    {
-        /**
-         *
-         */
-        return "";
-    }
-
-    /**
-     * @return string
-     */
-    private function Redis()
-    {
-        /**
-         *
-         */
-        return "";
+        return null;
     }
 
     /**
