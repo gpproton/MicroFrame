@@ -28,13 +28,32 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 final class File {
 
-    /**
-     * @param $filename
-     * @return mixed|string
-     */
-    public static function test($filename)
-    {
 
+    /**
+     * @return File
+     */
+    public static function init() {
+        return new self();
+    }
+
+    /**
+     * @summary Clears old files in a directory above the number of days specified
+     *
+     * @param $path
+     * @param int $days
+     * @return void
+     */
+    public function clearOld($path, $days = 3) {
+        $files = glob($path ."/*");
+        $now   = time();
+
+        foreach ($files as $file) {
+            if (is_file($file)) {
+                if ($now - filemtime($file) >= 60 * 60 * 24 * $days) {
+                    unlink($file);
+                }
+            }
+        }
     }
     
 }
