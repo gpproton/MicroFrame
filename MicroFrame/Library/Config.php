@@ -23,15 +23,60 @@ namespace MicroFrame\Library;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use Dotenv\Dotenv as dotEnv;
-use Dotenv\Exception\InvalidPathException;
 use MicroFrame\Handlers\Exception;
+use Noodlehaus\Config as configModule;
+use Noodlehaus\AbstractConfig as configAbstractModule;
 
 /**
  * Class Config
  * @package MicroFrame\Library
  */
-final class Config {
+final class Config extends configAbstractModule {
+
+    /**
+     * @return array
+     */
+    protected function getDefaults() {
+
+        try {
+            /**
+             * @summary
+             */
+            $defaults = array(
+                'console' => php_sapi_name() === 'cli'
+            );
+
+            /**
+             * @summary Retrieve from core configuration yaml file
+             */
+            $confSys = configModule::load(CORE_PATH . "/config.default.yaml");
+            /**
+             * @summary Retrieve from all compatible file type in app config
+             * directory.
+             */
+            $confPath = realpath('./../App/Config');
+            $confApp = new configModule($confPath);
+            /**
+             * @summary Merge all retrieved configurations.
+             */
+            $confSys->merge($confApp);
+
+            /**
+             * Return merged configs as abstract defaults.
+             */
+            return array_merge($confSys->all(), $defaults);
+
+        } catch (Exception $exception) {
+
+            Exception::call($exception->getMessage())->output();
+
+        }
+        return [];
+    }
+
+    public static function find($key = "debug") {
+
+    }
 
     /**
      * @summary Initialize configurations values and set to constants.
@@ -39,94 +84,19 @@ final class Config {
      */
     public static function Load()
     {
-        try {
-            $dotEnv = dotEnv::createImmutable(BASE_PATH)->load();
-        } catch (InvalidPathException $exception) {
-            Exception::call($exception->getMessage())->output();
-        }
 
-        // TODO: Set config defaults.
-        /**
-         * Auto config object builder
-         * @param $array
-         * @return array
-         */
-        $AppConfig = function ($array) {
-            $newarray = array();
-            foreach ($array as $key => $value) {
-                if (strpos($key, 'APP_') !== false) $newarray[strtoupper($key)] = $value;
-            }
-            return $newarray;
-        };
-
-        /**
-         * @summary Configure application user space config.
-         */
-        define('APPLICATION_CONFIG', $AppConfig($dotEnv));
-
-        /**
-         * System configurations constants.
-         */
-
+        var_dump((new self(array())));
+        die();
         /**
          * @summary Application debug state.
          */
         define('SYS_DEBUG', getenv('SYS_DEBUG') === 'true');
 
         /**
-         * @summary Application runtime check if it's console or web.
+         * @summary Configure application user space config.
          */
-        define('SYS_CONSOLE', php_sapi_name() === 'cli');
+        define('APPLICATION_CONFIG', []);
 
-        /**
-         * @summary Sets application page title.
-         */
-        define('SYS_APP_KEY', getenv('SYS_APP_KEY'));
-
-        /**
-         * @summary Fixed routing mode.
-         */
-        define('SYS_ROUTE_MODE', getenv('SYS_ROUTE_MODE'));
-
-        /**
-         * @summary Sets application page title.
-         */
-        define('SYS_SITE_TITLE', getenv('SYS_SITE_TITLE'));
-
-        /**
-         * @summary Selects authentication mode for application.
-         */
-        define('SYS_AUTH_TYPE', getenv('SYS_AUTH_TYPE'));
-
-        /**
-         * @summary Simple auth passkey.
-         */
-        define('SYS_PASS_KEY', getenv('SYS_PASS_KEY'));
-
-        /**
-         * @summary Authentication timeout config.
-         */
-        define('SYS_AUTH_TIMEOUT', getenv('SYS_AUTH_TIMEOUT'));
-
-        /**
-         * @summary Authentication session key.
-         */
-        define('SYS_SESSION_KEY', getenv('SYS_SESSION_KEY'));
-
-
-        /**
-         * Datasource and paths definition.
-         */
-
-        /**
-         * @summary A JSON data source config.
-         */
-        define('SYS_DATA_SOURCE', self::loadJson(getenv('SYS_DATA_SOURCE')));
-
-        /**
-         * @summary A JSON data cache config.
-         */
-        define('SYS_DATA_CACHE', self::loadJson(getenv('SYS_DATA_CACHE')));
 
         /**
          * @summary Configure logger path for application.
@@ -143,16 +113,6 @@ final class Config {
          */
         define('SYS_STORAGE_PATH', Utils::dirChecks(BASE_PATH . "/" . getenv('SYS_STORAGE_PATH')));
 
-    }
-
-    /**
-     * @param $string
-     * @return mixed
-     */
-    private static function loadJson($string) {
-        return json_decode(
-            str_replace("'", "\"", $string),
-            true);
     }
 
 }
