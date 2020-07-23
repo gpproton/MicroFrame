@@ -24,6 +24,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IDataSource;
 use MicroFrame\Interfaces\IModel;
+use MicroFrame\Library\Config;
 
 /**
  * Class Model
@@ -43,6 +44,14 @@ final class Model implements IModel
         return $this;
     }
 
+    /**
+     * @param $name
+     * @return array|mixed|null
+     */
+    public function config($name)
+    {
+        return Config::fetch($name);
+    }
 
     /**
      * @param $string

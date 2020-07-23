@@ -29,5 +29,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 interface ICache
 {
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function config($name);
 
 }

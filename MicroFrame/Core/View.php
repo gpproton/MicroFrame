@@ -24,6 +24,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IView;
+use MicroFrame\Library\Config;
 
 /**
  * Class View
@@ -44,6 +45,15 @@ class View implements IView
         $this->request = new Request();
         $this->response = new Response();
         $this->model = new Model();
+    }
+
+    /**
+     * @param $name
+     * @return array|mixed|null
+     */
+    public function config($name)
+    {
+        return Config::fetch($name);
     }
 
     /**

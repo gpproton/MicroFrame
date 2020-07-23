@@ -27,6 +27,7 @@ use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
+use MicroFrame\Library\Config;
 use MicroFrame\Library\Reflect;
 
 /**
@@ -35,7 +36,6 @@ use MicroFrame\Library\Reflect;
  */
 class Controller implements IController
 {
-    protected $config;
     protected $request;
     protected $response;
     protected $method;
@@ -52,7 +52,6 @@ class Controller implements IController
     public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true)
     {
         $this->middlewareState = true;
-        $this->config = (object) APPLICATION_CONFIG;
         $this->auto = $auto;
 
         $this->request = $request;
@@ -60,6 +59,15 @@ class Controller implements IController
         $this->method = $method;
 
         return $this;
+    }
+
+    /**
+     * @param $name
+     * @return array|mixed|null
+     */
+    public function config($name)
+    {
+        return Config::fetch($name);
     }
 
     /**

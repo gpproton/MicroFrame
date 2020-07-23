@@ -38,6 +38,12 @@ interface IController
     public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true);
 
     /**
+     * @param $name
+     * @return mixed
+     */
+    public function config($name);
+
+    /**
      * @param IMiddleware $middleware
      * @return mixed
      */

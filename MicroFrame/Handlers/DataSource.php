@@ -24,6 +24,7 @@ namespace MicroFrame\Handlers;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IDataSource;
+use MicroFrame\Library\Config;
 use PDO;
 
 /**
@@ -55,6 +56,15 @@ class DataSource implements IDataSource {
             ];
 
         }
+    }
+
+    /**
+     * @param $name
+     * @return array|mixed|null
+     */
+    public function config($name)
+    {
+        return Config::fetch($name);
     }
 
     public static function get($string = null) {

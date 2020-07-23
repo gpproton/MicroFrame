@@ -28,6 +28,7 @@ use \AsyncPHP\Doorman\Manager\ProcessManager;
 use \AsyncPHP\Doorman\Rule\InMemoryRule;
 use \AsyncPHP\Doorman\Task\ProcessCallbackTask;
 use MicroFrame\Interfaces\IModel;
+use MicroFrame\Library\Config;
 
 /**
  * Class MicroTask
@@ -41,6 +42,15 @@ class MicroTask
     public $count;
     public $minLoad;
     public $maxLoad;
+
+    /**
+     * @param $name
+     * @return array|mixed|null
+     */
+    public function config($name)
+    {
+        return Config::fetch($name);
+    }
 
     /**
      *

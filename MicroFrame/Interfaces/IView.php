@@ -31,6 +31,12 @@ interface IView
 {
 
     /**
+     * @param $name
+     * @return mixed
+     */
+    public function config($name);
+
+    /**
      * @param null $source
      * @return IModel
      */

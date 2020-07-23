@@ -24,6 +24,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
+use MicroFrame\Library\Config;
 
 /**
  * Class Middleware
@@ -41,6 +42,15 @@ class Middleware implements IMiddleware
     {
         $this->request = new Request();
         $this->model = new Model();
+    }
+
+    /**
+     * @param $name
+     * @return array|mixed|null
+     */
+    public function config($name)
+    {
+        return Config::fetch($name);
     }
 
     /**
