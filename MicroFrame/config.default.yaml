@@ -1,0 +1,43 @@
+---
+system:
+  debug: true
+  key: no_key
+  path:
+    logs: ''
+    cache: ''
+    storage: ''
+site:
+  title: ''
+  root: index
+auth:
+  type: ''
+  timeout: ''
+  session_key: ''
+  passkey: pass@123
+source:
+  cache:
+    default:
+      type: local
+      host: cache.db
+      port:
+      extra: ''
+      timeout: 10
+    redis:
+      type: redis
+      host: 127.0.0.1
+      port: 6279
+      extra: ''
+      timeout: 10
+  data:
+    default:
+      type: sqlite
+      file: default.db
+      timeout: 10
+    sampledb:
+      type: postgres
+      host: 127.0.0.1
+      port: 5432
+      extra:
+      user: root
+      password: ''
+      timeout: 10
