@@ -22,13 +22,12 @@
 
 namespace MicroFrame;
 
+/**
+ * @summary Framework root path.
+ */
 define('BASE_PATH', realpath(__DIR__ .'/..'));
-define('CORE_PATH', realpath(__DIR__ .'/../MicroFrame'));
-define('APP_PATH', realpath(__DIR__ .'/../App'));
-define('CONFIG_PATH', realpath(__DIR__ .'/../App/Config'));
 
 use MicroFrame\Core\Request as request;
-use MicroFrame\Library\Config as config;
 use MicroFrame\Handlers\ErrorHandler as handler;
 use MicroFrame\Core\Application as app;
 
@@ -40,31 +39,32 @@ use MicroFrame\Core\Application as app;
 final class Core {
 
     /**
-     * Core constructor.
-     * @summary A construct for testing docs
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
-     *
-     * @summary A called func for testing docs
+     * @summary Core initialization method.
      *
      * @param handler $handler
      */
-    public function Run(handler $handler)
+    public function run(handler $handler)
     {
+
         /**
-         * Bootstrap all defined configurations
+         * @summary Framework internals path.
          */
-        if (!request::overrideGlobals()) die('Request can bot be routed!');
+        define('CORE_PATH', realpath(__DIR__ .'/../MicroFrame'));
+        /**
+         * @summary Framework app code path.
+         */
+        define('APP_PATH', realpath(__DIR__ .'/../App'));
+        /**
+         * @summary Framework base data path.
+         */
+        define('DATA_PATH', realpath(__DIR__ .'/../Data'));
+
+        /**
+         * @summary Initialize PHP request and globals modification.
+         */
+        if (!request::overrideGlobals()) die('Request can bot be routed!!!');
         else {
-            config::Load();
-
             $handler->bootstrap(new app);
-
         }
     }
 }
