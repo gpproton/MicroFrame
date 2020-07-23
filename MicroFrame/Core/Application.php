@@ -25,6 +25,7 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use MicroFrame\Handlers\Route;
+use MicroFrame\Library\Config;
 use MicroFrame\Library\Utils;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -36,23 +37,23 @@ use Whoops\Run;
  */
 class Application
 {
+    private $config;
 
     /**
      * Application constructor.
      */
     public function __construct() {
-
+        $this->config = Config::fetch();
     }
 
 
     /**
      * Check debug settings and set error checking.
      *
-     * @param bool $debug
      * @return bool
      */
-    public function environment($debug = false) {
-        return $debug && SYS_DEBUG;
+    public function environment() {
+        return $this->config['system']['debug'];
     }
 
     /**
@@ -64,7 +65,7 @@ class Application
         /**
          * Implement pretty error display.
          */
-        if (SYS_DEBUG) {
+        if ($this->config['system']['debug']) {
             $whoops = new Run;
             $page = new PrettyPageHandler();
             $protectArray = array('_ENV', '_SERVER');
@@ -77,7 +78,7 @@ class Application
             $whoops->pushHandler($page)->register();
         }
 
-        if (SYS_CONSOLE) {
+        if ($this->config['console']) {
             Console::init()->execute();
 
         } else {
