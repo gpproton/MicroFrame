@@ -28,6 +28,7 @@ use MicroFrame\Library\Config;
 use MicroFrame\Library\Reflect;
 use PDO;
 use PDOOCI\PDO as fallbackOraclePDO;
+use Predis\Client as redisClient;
 
 /**
  * Class DataSource
@@ -40,9 +41,11 @@ class DataSource implements IDataSource {
     private $connection;
 
     /**
-     * DataSource constructor.
+     * DataSource constructor and data source connection initializer.
      * @param string $string
      * @param bool $cache
+     *
+     * @return mixed
      */
     public function __construct($string = "default", $cache = false) {
 
@@ -73,15 +76,21 @@ class DataSource implements IDataSource {
                 /**
                  * @summary check if PDO OCI is not available then use work around.
                  */
-                if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
-                    $this->connection = new fallbackOraclePDO($connectionString, $this->source['user'], $this->source['password']);
-                } else if ($this->source['type'] === "redis") {
-                    //TODO: Declare redis initialisation...
+                if ($this->source['type'] === "redis") {
                     /**
                      * @summary Initialize redis caching connection
                      */
+                    $this->connection = new redisClient([
+                        'scheme' => 'tcp',
+                        'host'   => $this->source['host'],
+                        'port'   => $this->source['port'],
+                        ]);
+                }
+                else if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
+                    $this->connection = new fallbackOraclePDO($connectionString, $this->source['user'], $this->source['password']);
+                }
 
-                } else if ($this->validate($this->source['type'])) {
+                else if ($this->validate($this->source['type'])) {
                     /**
                      * @summary Initialize standard PDO connection.
                      */
@@ -93,9 +102,9 @@ class DataSource implements IDataSource {
 
                     }
                 }
-            } catch (\PDOException $exception) {
+            } catch (\Exception $exception) {
                 /**
-                 * handle PDo exceptions...
+                 * handle all data source exceptions...
                  */
                 Exception::call()->output($exception->getMessage());
             }
