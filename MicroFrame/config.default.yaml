@@ -23,7 +23,7 @@ auth:
 cache:
   default:
     type: local
-    file: cache.db
+    dbname: cache.sq3
     timeout: 10
   redis:
     type: redis
@@ -31,16 +31,18 @@ cache:
     port: 6279
     extra: ''
     timeout: 10
+
+# DataSource types sqlite | mysql | postgres | oracle | mssql
 data:
   default:
     type: sqlite
-    file: default.db
+    dbname: default.sq3
     timeout: 10
   sampledb:
     type: postgres
     host: 127.0.0.1
     port: 5432
-    extra:
+    dbname: pgdefault
     user: root
     password: ''
     timeout: 10
