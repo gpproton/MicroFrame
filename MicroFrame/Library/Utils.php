@@ -32,12 +32,18 @@ use ReflectionException;
  */
 final class Utils {
 
+    private $debug;
+
     public static function get() {
-        return new self();
+
+        $instance = new self();
+        $instance->debug = Config::fetch("debug");
+
+        return $instance;
     }
 
     // TODO: Redefine this for more accuracy
-    public static function local() {
+    public function local() {
         $ipAddress = 'UNKNOWN';
         $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
         foreach($keys as $k)
@@ -53,14 +59,14 @@ final class Utils {
             ($ipAddress == '::1'
             || $ipAddress == '127.0.0.1'
             || $ipAddress == '0.0.0.0')
-            && SYS_DEBUG
+            && $this->debug
         );
     }
 
     /**
      * @param $data
      */
-    public static function console($data) {
+    public function console($data) {
         ob_start();
         print_r("\n" . $data);
         error_log(ob_get_clean(), 4);
@@ -70,14 +76,17 @@ final class Utils {
      * @param $path
      * @return mixed
      */
-    public static function dirChecks($path) {
-        if (!is_dir($path)) mkdir($path, 777);
+    public function dirChecks($path) {
+        if (!is_dir($path)) mkdir($path, 777, true);
         return $path;
     }
 
     public function injectRoutes() {
         ob_start();
         $sentValues = ob_get_contents();
+        /**
+         * TODO: Make more elaborate...
+         */
         return require_once ( "./../App/Routes.php" );
     }
 
