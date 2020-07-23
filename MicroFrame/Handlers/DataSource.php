@@ -126,10 +126,16 @@ class DataSource implements IDataSource {
     /**
      * @param null $string
      * @param bool $cache
-     * @return PDO
+     * @param bool $status
+     * @return PDO | mixed
      */
-    public static function get($string = null, $cache = false) {
-        return empty($string) ? (new self())->connection : (new self($string, $cache))->connection;
+    public static function get($string = null, $cache = false, $status = false) {
+        if (!$status) {
+            return empty($string) ? (new self())->connection : (new self($string, $cache))->connection;
+        } else {
+            return empty($string) ? (new self())->source : (new self($string, $cache))->source;
+        }
+
     }
 
     /**
