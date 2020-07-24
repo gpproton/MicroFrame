@@ -45,7 +45,7 @@ class Reflect
     }
 
     /**
-     * @summary Statically initialize class object
+     * Statically initialize class object
      */
     public static function check() {
         return new self();
