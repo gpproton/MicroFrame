@@ -1,24 +1,25 @@
 
 ## Folders Ignore
-/vendor/
-/Data/Logs/*.log
-/Data/Local/*
-/Build/*
+vendor/
+Data/Logs/*.log
+Data/Local/*
+Build/*
 
 ## Composer rules
 composer.lock
-composer.phar
+bin/composer.phar
 
 ## Extra phar files
-phpdoc.phar
+bin/phpdoc.phar
+bin/apigen.phar
 
 ## OS metadata files
 .DS_Store
 desktop.ini
 
 ## Config files exclusion
-/App/Config/*.json*
-/App/Config/*.yaml*
-/App/Config/*.yml*
-/App/Config/*.ini*
-/App/Config/*.xml*
+App/Config/*.json*
+App/Config/*.yaml*
+App/Config/*.yml*
+App/Config/*.ini*
+App/Config/*.xml*
