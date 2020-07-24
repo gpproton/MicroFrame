@@ -9,6 +9,9 @@
 composer.lock
 composer.phar
 
+## Extra phar files
+phpdoc.phar
+
 ## OS metadata files
 .DS_Store
 desktop.ini
