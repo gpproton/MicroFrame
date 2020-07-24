@@ -19,3 +19,7 @@ rmdir /S /Q vendor
 ECHO "Installing composer packages..."
 php composer.phar install
 ECHO "Completed composer setup..."
+
+ECHO "Start Code documentation generation..."
+php bin/phpdoc.phar
+ECHO "Completed composer setup..."

@@ -16,8 +16,12 @@ echo "PHPDocumentor download completed..."
 cd ..
 
 echo "Removing old packages.."
-rm -rf vendor\
+rm -rf vendor
 
 echo "Installing composer packages..."
 php bin/composer.phar install
+echo "Completed composer setup..."
+
+echo "Start Code documentation generation..."
+php bin/phpdoc.phar
 echo "Completed composer setup..."
