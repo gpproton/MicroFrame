@@ -95,9 +95,10 @@ final class Model implements IModel
     public function execute()
     {
         $level = 0;
-
-
         try {
+            /**
+             * Call to database with current parameters and query strings
+             */
             foreach ($this->query as $value) {
                 if (isset($this->params[$level])) {
                     $param = $this->params[$level];
