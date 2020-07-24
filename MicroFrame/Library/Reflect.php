@@ -56,7 +56,7 @@ class Reflect
      *
      * @param $path
      * @param array $args
-     * @param bool $checkMethod
+     * @param bool $checkMethod A condition to see if there's a matching class index or a class method
      * @return mixed
      */
     public function stateLoader($path, $args = array(), $checkMethod = false) {
@@ -115,9 +115,17 @@ class Reflect
         }
 
         switch ($core) {
-            case 'Model':
             case 'Controller':
+                /**
+                 * $args[2] hold the name method to be called.
+                 */
                 if (class_exists($classUpper) && gettype($args) === 'array') $args[2] = $classMethod;
+                break;
+            case 'Model':
+                /**
+                 * $args[0] hold the name method to be called.
+                 */
+                if (class_exists($classUpper) && gettype($args) === 'array') $args[0] = $classMethod;
                 break;
             default:
                 break;
