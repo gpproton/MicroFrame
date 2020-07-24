@@ -1,11 +1,11 @@
 <?php
 /**
- * Sample Model class
+ * Core Model Query class
  *
  * PHP Version 7
  *
- * @category  Model
- * @package   App\Model
+ * @category  Core
+ * @package   MicroFrame\Core
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -19,38 +19,39 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace App\Model;
 
-use MicroFrame\Core\ModelQuery;
+namespace MicroFrame\Core;
+
+use MicroFrame\Library\Config;
+use MicroFrame\Library\Reflect;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-/**
- * Class SampleModel
- * @package App\Model
- */
-class SampleModel extends ModelQuery
+class ModelQuery
 {
 
-    /**
-     * Default for classes extending
-     *
-     * @return string
-     */
-    public function default() {
-        return <<<SQL
-            SELECT 1 FROM DUAL
-SQL;
+    public $query;
+
+    public function __construct($method = "default")
+    {
+        $this->query = method_exists($this, $method) ? Reflect::check()->methodLoader($this, $method, array()) : $this->default();
+
+        return $this;
     }
 
     /**
-     * Test case
-     *
-     * @return string
+     * @param $name
+     * @return array|mixed|null
      */
-    public function sample() {
+    public function config($name)
+    {
+        return Config::fetch($name);
+    }
+
+    public function default() {
         return <<<SQL
-            SELECT 'test' FROM DUAL
+            SELECT 'No', 'Query', 'Check', 'Call' FROM DUAL;
 SQL;
+
     }
 }
