@@ -50,11 +50,7 @@ final class Model implements IModel
      */
     public function __construct($source = null)
     {
-        try {
-            $this->instance = DataSource::get($source, false);
-        } catch (\Exception $e) {
-            Exception::call()->output($e);
-        }
+        $this->instance = $this->initialize($source);
 
         return $this;
     }
@@ -63,7 +59,6 @@ final class Model implements IModel
      * @param array|string $content
      * @return $this
      *
-     * TODO: Optional query connection instance in array query | params | instance...
      */
     public function query($content)
     {
@@ -90,6 +85,8 @@ final class Model implements IModel
     }
 
     /**
+     * Start actual database query for any QModel specified.
+     *
      * @return $this|void
      */
     public function execute()
@@ -100,13 +97,26 @@ final class Model implements IModel
              * Call to database with current parameters and query strings
              */
             foreach ($this->query as $value) {
-                if (isset($this->params[$level])) {
+                $prepare = null;
+                if (sizeof($value) === 3) {
+                    /**
+                     * Allow for multiple datasource queries in single method call.
+                     */
+                    $prepare = $this->initialize($value['instance'])
+                        ->prepare($this->load($value['model']), array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                    $param = $value['params'];
+
+                } elseif (isset($this->params[$level])) {
                     $param = $this->params[$level];
                 } else {
                     $param = array();
                 }
 
-                $prepare = $this->instance->prepare($this->load($value), array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                /**
+                 * Options for extended array instance | query | param
+                 */
+
+                if(sizeof($value) !== 3) $prepare = $this->instance->prepare($this->load($value), array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
                 $prepare->execute($param);
 
                 $results = array();
@@ -157,5 +167,17 @@ final class Model implements IModel
             return Reflect::check()->stateLoader($path, array())->query;
         }
 
+    }
+
+    /**
+     * @param $source
+     * @return mixed|\PDO
+     */
+    private function initialize($source) {
+        try {
+            return DataSource::get($source, false);
+        } catch (\Exception $e) {
+            Exception::call()->output($e);
+        }
     }
 }
