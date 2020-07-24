@@ -14,6 +14,7 @@ echo "PHPDocumentor download completed..."
 
 # Move back to root
 cd ..
+
 echo "Removing old packages.."
 rm -rf vendor\
 
