@@ -20,11 +20,14 @@
  */
 
 namespace MicroFrame\Core;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use MicroFrame\Interfaces\IDataSource;
+use MicroFrame\Handlers\DataSource;
+use MicroFrame\Handlers\Exception;
 use MicroFrame\Interfaces\IModel;
-use MicroFrame\Library\Config;
+use MicroFrame\Library\Reflect;
+use MicroFrame\Library\Strings;
 
 /**
  * Class Model
@@ -32,8 +35,14 @@ use MicroFrame\Library\Config;
  */
 final class Model implements IModel
 {
-    private $query;
-    private $params;
+    // TODO: Placeholder for possible future requirements
+    private $instance;
+
+    private $query = array();
+    private $params = array();
+    private $result = array();
+    public $completed = false;
+    public $status = "Ok";
 
     /**
      * Model constructor.
@@ -41,28 +50,31 @@ final class Model implements IModel
      */
     public function __construct($source = null)
     {
+        try {
+            $this->instance = DataSource::get($source, false);
+        } catch (\Exception $e) {
+            Exception::call()->output($e);
+        }
+
         return $this;
     }
 
     /**
-     * @param $name
-     * @return array|mixed|null
-     */
-    public function config($name)
-    {
-        return Config::fetch($name);
-    }
-
-    /**
-     * @param $string
+     * @param array|string $content
      * @return $this
+     *
+     * TODO: Optional query connection instance in array query | params | instance...
      */
-    public function query($string)
+    public function query($content)
     {
-        // TODO: Implement query() method.
-        if (gettype($string) === 'array') {
-
+        if (gettype($content) === 'string') {
+            $this->query[] = $content;
+        } else if (gettype($content) === 'array') {
+            foreach ($content as $value) {
+                $this->query[] = $value;
+            }
         }
+
         return $this;
     }
 
@@ -72,7 +84,7 @@ final class Model implements IModel
      */
     public function params($array = [])
     {
-        // TODO: Implement params() method.
+        $this->params[] = $array;
 
         return $this;
     }
@@ -82,7 +94,42 @@ final class Model implements IModel
      */
     public function execute()
     {
-        // TODO: Implement execute() method.
+        $level = 0;
+
+
+        try {
+            foreach ($this->query as $value) {
+                if (isset($this->params[$level])) {
+                    $param = $this->params[$level];
+                } else {
+                    $param = array();
+                }
+
+                $prepare = $this->instance->prepare($this->load($value), array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                $prepare->execute($param);
+
+                $results = array();
+                while ($row =  $prepare->fetch(\PDO::FETCH_ASSOC)) {
+                    $results[] = $row;
+                }
+
+                $this->result[$value] = $results;
+
+                // increment parameters index
+                $level++;
+            }
+        } catch (\Exception $exception) {
+            $this->completed = false;
+            $this->status = $exception;
+        }
+
+        /**
+         * Clear used fields.
+         */
+        $this->query = array();
+        $this->params = array();
+        $this->completed = true;
+
         return $this;
     }
 
@@ -91,15 +138,23 @@ final class Model implements IModel
      */
     public function result()
     {
-        // TODO: Implement result() method.
-        return array();
+        return $this->result;
     }
 
     /**
      *
+     *
+     * @param $path
+     *
+     * @return string
      */
-    public function loader()
+    private function load($path)
     {
-        // TODO: Implement loader() method.
+        if (!Strings::filter($path)->contains("sys.")) {
+            return Reflect::check()->stateLoader("app.Model." . $path, array())->query;
+        } else {
+            return Reflect::check()->stateLoader($path, array())->query;
+        }
+
     }
 }

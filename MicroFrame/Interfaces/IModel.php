@@ -36,12 +36,6 @@ interface IModel
     public function __construct($source = null);
 
     /**
-     * @param $name
-     * @return mixed
-     */
-    public function config($name);
-
-    /**
      * @param array $array
      * @return void
      */
@@ -62,11 +56,6 @@ interface IModel
      * @return array
      */
     public function result();
-
-    /**
-     * @return void
-     */
-    public function loader();
 
 }
 
