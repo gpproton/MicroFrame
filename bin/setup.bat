@@ -14,7 +14,7 @@ REM Move back to root
 cd ..
 
 echo "Removing old packages.."
-RD \S vendor\
+rmdir /S /Q vendor
 
 ECHO "Installing composer packages..."
 php composer.phar install
