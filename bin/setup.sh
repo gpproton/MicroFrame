@@ -22,6 +22,9 @@ echo "Installing composer packages..."
 php bin/composer.phar install
 echo "Completed composer setup..."
 
+echo "Clearing old code documents.."
+rm -rf Build/Docs
+
 echo "Start Code documentation generation..."
 php bin/phpdoc.phar
 echo "Completed composer setup..."
