@@ -74,7 +74,7 @@ class MicroTask
     }
 
     /**
-     * @summary Use closure for method capture
+     * Use closure for method capture
      *
      * @param $closure
      * @param $args
@@ -87,7 +87,7 @@ class MicroTask
 
     /**
      *
-     * @summary Model static instance initializer.
+     * Model static instance initializer.
      *
      * @param null $source
      * @return Model|IModel

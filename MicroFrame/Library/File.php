@@ -37,7 +37,7 @@ final class File {
     }
 
     /**
-     * @summary Clears old files in a directory above the number of days specified
+     * Clears old files in a directory above the number of days specified
      *
      * @param $path
      * @param int $days

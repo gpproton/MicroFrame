@@ -34,7 +34,7 @@ final class DefaultController extends Controller
 
     /**
      *
-     * @summary Default controller index method
+     * Default controller index method
      */
     public function index()
     {

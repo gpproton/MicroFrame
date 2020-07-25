@@ -69,16 +69,16 @@ class DataSource implements IDataSource {
 
             try {
                 /**
-                 * @summary Reflect method for connection string generation.
+                 * Reflect method for connection string generation.
                  */
                 $connectionString = Reflect::check()->methodLoader($this, $this->source['type'], $connectStringParams);
 
                 /**
-                 * @summary check if PDO OCI is not available then use work around.
+                 * check if PDO OCI is not available then use work around.
                  */
                 if ($this->source['type'] === "redis") {
                     /**
-                     * @summary Initialize redis caching connection
+                     * Initialize redis caching connection
                      */
                     $this->connection = new redisClient([
                         'scheme' => 'tcp',
@@ -92,7 +92,7 @@ class DataSource implements IDataSource {
 
                 else if ($this->validate($this->source['type'])) {
                     /**
-                     * @summary Initialize standard PDO connection.
+                     * Initialize standard PDO connection.
                      */
 
                     if (($this->source['type'] === 'sqlite')) {

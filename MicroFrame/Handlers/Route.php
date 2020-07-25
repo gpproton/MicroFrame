@@ -82,7 +82,7 @@ class Route
     }
 
     /**
-     * @summary Custom route mapping method for assigning to controller, closure, string & paths
+     * Custom route mapping method for assigning to controller, closure, string & paths
      *
      * @param string $path
      * @param array $methods

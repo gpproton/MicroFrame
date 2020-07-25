@@ -58,7 +58,7 @@ class View implements IView
 
     /**
      *
-     * @summary Model static instance initializer.
+     * Model static instance initializer.
      *
      * @param null $source
      * @return Model|IModel

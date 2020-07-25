@@ -46,19 +46,19 @@ final class Config extends configAbstractModule {
         );
 
         /**
-         * @summary Retrieve from core configuration yaml file
+         * Retrieve from core configuration yaml file
          */
         $confSys = configModule::load(CORE_PATH . "/config.default.yaml");
 
         try {
             /**
-             * @summary Retrieve from all compatible file type in app config
+             * Retrieve from all compatible file type in app config
              * directory.
              */
             $confPath = realpath('./../App/Config');
             $confApp = new configModule($confPath);
             /**
-             * @summary Merge all retrieved configurations.
+             * Merge all retrieved configurations.
              */
             $confSys->merge($confApp);
 
@@ -67,13 +67,13 @@ final class Config extends configAbstractModule {
         }
 
         /**
-         * @summary Return merged configs as abstract defaults.
+         * Return merged configs as abstract defaults.
          */
         return array_merge($confSys->all(), $defaults);
     }
 
     /**
-     * @summary Initialize instance of the configuration retrieval.
+     * Initialize instance of the configuration retrieval.
      *
      * @param null $key
      * @return array|mixed|null
@@ -93,12 +93,12 @@ final class Config extends configAbstractModule {
     }
 
     /**
-     * @summary Configuration validation...
+     * Configuration validation...
      */
     private function validate() {
 
         /**
-         * @summary paths validation...
+         * paths validation...
          *
          */
         $paths = $this->get('system.path');

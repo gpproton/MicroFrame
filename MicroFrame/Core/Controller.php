@@ -83,7 +83,7 @@ class Controller implements IController
     }
 
     /**
-     * @summary Index/Default controller method
+     * Index/Default controller method
      */
     public function index()
     {
@@ -139,7 +139,7 @@ class Controller implements IController
 
     /**
      *
-     * @summary Model static instance initializer.
+     * Model static instance initializer.
      *
      * @param null $source
      * @return Model|IModel
