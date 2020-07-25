@@ -92,7 +92,6 @@ class Route
      * @return void
      */
     public static function map($path = "index", $methods = array('get'), $functions = "index", $middleware = array(), $status = 200) {
-
         /**
          * Filter out unintended string output
          */
@@ -171,7 +170,17 @@ class Route
              */
             if (gettype($functions) === 'object') {
                 $clazz->response->data($functions());
-            } else if ($clazz->initialize(self::appPath . $functions)) {
+            }
+            /**
+             * Handle System Controller mapping.
+             */
+            else if (Strings::filter($functions)->contains(self::sysPath) && $clazz->initialize($functions)) {
+                $clazz->initialize($functions, false, $clazz->response, $clazz->request, false);
+            }
+            /**
+             * Handle App Controller mapping.
+             */
+            else if ($clazz->initialize(self::appPath . $functions)) {
                 $clazz->initialize(self::appPath . $functions, false, $clazz->response, $clazz->request, false);
             } else {
                 $clazz->response->data($functions);
@@ -198,10 +207,18 @@ class Route
         /**
          * Define custom system routes here with $this->map() method
          * E.g General Swagger | Docs | Wiki
+         *
+         * Find option for sys.Controller TODO: Add map option for sys.
+         * self::map("/help/docs", ['get'], "api.index", []);
+         * self::map("/help/docs", ['get'], "api.index", []);
+         *
          */
-        // Find option for sys.Controller TODO: Add map option for sys.
-        // self::map("/help/docs", ['get'], "api.index", []);
-        // self::map("/help/docs", ['get'], "api.index", []);
+
+        self::map("/api/swagger*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "swagger", []);
+
+        /**
+         * System route path end.
+         */
 
         if (is_null($path)) $path = $this->request->path();
         /**
