@@ -97,6 +97,10 @@ class Reflect
             ->upperCaseWords()
             ->value();
 
+        $classIndex = Strings::filter($classDirect . "\\\\")
+            ->replace($core . "\\\\", "\Index{$core}")
+            ->value();
+
         $classUpper = Strings::filter($path)
             ->range("\\", true, true)
             ->append($core)
@@ -110,6 +114,8 @@ class Reflect
 
         if (class_exists($classDirect)) {
             $path = $classDirect;
+        } else if (class_exists($classIndex)) {
+            $path = $classIndex;
         } else if (class_exists($classUpper)) {
             $path = $classUpper;
         }
