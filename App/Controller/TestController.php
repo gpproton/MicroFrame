@@ -23,7 +23,6 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 use \MicroFrame\Core\Controller as Core;
-use MicroFrame\Library\Strings;
 
 /**
  * Class TestController
