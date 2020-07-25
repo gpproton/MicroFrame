@@ -30,6 +30,42 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class IndexController extends Core {
 
+    /**
+     *
+     * @OA\Info(
+     *   title="Base Framework Sample API DOC",
+     *   version="0.0.1",
+     *   @OA\Contact(
+     *     email="teamerp@tolaram.com"
+     *   )
+     * )
+     *
+     * @OA\Post(
+     *   path="/api/index",
+     *   summary="Index API POST placeholder",
+     *   @OA\Response(
+     *     response=200,
+     *     description="Default base POST swagger API output",
+     *     @OA\MediaType(
+     *         mediaType="application/json"
+     *     )
+     *   )
+     * )
+     *
+     *
+     * @OA\Get(
+     *   path="/api/index",
+     *   summary="Index API GET placeholder",
+     *   @OA\Response(
+     *     response=200,
+     *     description="Default base GET swagger API output",
+     *     @OA\MediaType(
+     *         mediaType="application/json"
+     *     )
+     *   )
+     * )
+     *
+     */
     public function index()
     {
 
