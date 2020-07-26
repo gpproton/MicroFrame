@@ -73,7 +73,7 @@ class Exception extends  stockError implements \Throwable
         Logger::set($message, $this->source)->warn();
     }
 
-    public static function call($message = "") {
+    public static function init($message = "") {
         return new self($message);
     }
 

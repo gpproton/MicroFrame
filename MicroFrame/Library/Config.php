@@ -63,7 +63,7 @@ final class Config extends configAbstractModule {
             $confSys->merge($confApp);
 
         } catch (\Exception $exception) {
-            Exception::call($exception->getMessage())->output();
+            Exception::init($exception->getMessage())->output();
         }
 
         /**
@@ -84,7 +84,7 @@ final class Config extends configAbstractModule {
         try {
             $instance->validate();
         } catch (\Exception $exception) {
-            Exception::call($exception->getMessage())->output();
+            Exception::init($exception->getMessage())->output();
         }
 
         if (is_null($key)) return $instance->all();

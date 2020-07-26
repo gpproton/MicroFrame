@@ -177,7 +177,7 @@ final class Model implements IModel
         try {
             return DataSource::get($source, false);
         } catch (\Exception $e) {
-            Exception::call()->output($e);
+            Exception::init()->output($e);
         }
     }
 }

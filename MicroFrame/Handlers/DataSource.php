@@ -106,7 +106,7 @@ class DataSource implements IDataSource {
                 /**
                  * handle all data source exceptions...
                  */
-                Exception::call()->output($exception->getMessage());
+                Exception::init()->output($exception->getMessage());
             }
 
             return $this;
