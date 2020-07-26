@@ -23,13 +23,13 @@ namespace MicroFrame\Defaults\Controller;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use \MicroFrame\Core\Controller;
+use \MicroFrame\Core\Controller as Core;
 
 /**
  * Class DefaultController
  * @package MicroFrame\Defaults\Controller
  */
-final class DefaultController extends Controller
+final class DefaultController extends Core
 {
 
     /**
