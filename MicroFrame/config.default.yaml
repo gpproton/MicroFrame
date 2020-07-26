@@ -11,10 +11,14 @@ system:
     cache: 3
 
 site:
-  title: ''
+  title: 'MicroFrame 0.0.1'
   root: index
+  api:
+    host: example.com
+
 
 auth:
+# Passkey | DataBase | Auth0 -> Default authentication middleware.
   type: 'passkey'
   timeout: 3600
   session_key: 'MicroFrame_Session'
