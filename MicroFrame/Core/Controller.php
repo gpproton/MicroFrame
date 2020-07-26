@@ -51,6 +51,8 @@ class Controller implements IController
      */
     public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true)
     {
+        define("API_HOST", Config::fetch("system.debug") ? "localhost" : Config::fetch("site.api.host"));
+
         $this->middlewareState = true;
         $this->auto = $auto;
 
