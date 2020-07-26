@@ -31,10 +31,16 @@ use \MicroFrame\Core\Controller as Core;
  *
  * @package MicroFrame\Defaults\Controller
  */
-class SwaggerUIController
+class SwaggerUIController extends Core
 {
 
     // TODO: Implement UI
     // Resources: https://medium.com/@tatianaensslin/how-to-add-swagger-ui-to-php-server-code-f1610c01dc03
+    public function index()
+    {
+        $getTest =  require_once (__DIR__ . "/../View/SwaggerUIView.php");
+        echo $getTest;
+        die();
+    }
 
 }
