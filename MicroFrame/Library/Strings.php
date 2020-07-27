@@ -205,7 +205,7 @@ final class Strings
      * @return $this
      */
     public function dotted() {
-        $this->value = preg_replace('/[^A-Za-z.\-]/', '',
+        $this->value = preg_replace('/[^A-Za-z0-9.\-]/', '',
             str_replace("/", ".", $this->value));
         return $this;
     }
