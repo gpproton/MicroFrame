@@ -70,11 +70,16 @@ class Convert
      * @return false|mixed|string
      */
     public static function arrays($array, $type = 'json') {
+
+        /**
+         * Reformat array to fix object issues.
+         */
+        $array = json_decode(json_encode($array), true);
+
         if (strpos($type, 'xml') !== false) {
             return self::arrayXml($array);
         } elseif (strpos($type, 'yaml') !== false) {
-            $canv = json_decode(json_encode($array), true);
-            return symfonyYaml::dump($canv);
+            return symfonyYaml::dump($array);
         } else {
             return self::arrayJson($array);
         }
