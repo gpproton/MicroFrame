@@ -330,8 +330,7 @@ class SwaggerController extends Core
          */
         $this->response
             ->methods(['get', 'post', 'put', 'delete', 'patch', 'options'])
-            ->dataRaw()
-            ->data($openApi)
+            ->data($openApi, true)
             ->send();
     }
 }

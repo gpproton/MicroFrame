@@ -25,7 +25,6 @@ $basePath = \MicroFrame\Library\Strings::filter($fullUrl)->replace($curPath)->va
 
 $apiPath = \MicroFrame\Library\Strings::filter($fullUrl)
     ->replace("help/swagger", "api/swagger")
-    ->append("?accept=json&format=json")
     ->value();
 
 ob_start();
