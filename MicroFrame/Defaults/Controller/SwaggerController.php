@@ -39,7 +39,7 @@ class SwaggerController extends Core
      *
      * @OA\Info(
      *
-     *   title="Microframe OpenAPI documetation",
+     *   title="Microframe API doc",
      *
      *   version="0.0.1",
      *
@@ -292,8 +292,8 @@ class SwaggerController extends Core
     public function index()
     {
         $apiPath = Strings::filter($this->request->path())
-            ->range(".", true, true)
-            ->replace(["swagger.api", "."], ["", "/"])
+//            ->range(".", true, true)
+            ->replace(["api.swagger", "."], ["", "/"])
             ->upperCaseWords()
             ->value();
 
@@ -312,10 +312,13 @@ class SwaggerController extends Core
             $exception->log($exception->message);
         }
 
+        /**
+         * TODO: Add a route specific middleware for accessing APIs
+         */
         $this->response
-            ->methods(['get', 'post', 'put', 'delete', 'options'])
-            ->data($openApi)
+            ->methods(['get', 'post', 'put', 'delete', 'patch', 'options'])
             ->dataRaw()
+            ->data($openApi)
             ->send();
     }
 }
