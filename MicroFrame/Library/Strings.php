@@ -202,11 +202,13 @@ final class Strings
     }
 
     /**
+     * @param bool $check
      * @return $this
      */
-    public function dotted() {
-        $this->value = preg_replace('/[^A-Za-z0-9.\-]/', '',
+    public function dotted($check = true) {
+        if ($check) $this->value = preg_replace('/[^A-Za-z0-9.\-]/', '',
             str_replace("/", ".", $this->value));
+
         return $this;
     }
 

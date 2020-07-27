@@ -108,9 +108,10 @@ interface IRequest
     Public function cookie($string = null);
 
     /**
+     * @param bool $dotted
      * @return string
      */
-    public function path();
+    public function path($dotted = true);
 
     /**
      * Get current request URL actual address

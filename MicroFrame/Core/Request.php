@@ -279,9 +279,10 @@ final class Request implements IRequest
     }
 
     /**
+     * @param bool $dotted
      * @return string
      */
-    public function path()
+    public function path($dotted = true)
     {
         if (!is_null($this->post('route'))) {
             $final = $this->post('route');
@@ -298,7 +299,7 @@ final class Request implements IRequest
         return Strings::filter($final)
             ->leftTrim("/")
             ->rightTrim("/")
-            ->dotted()
+            ->dotted($dotted ? true : false)
             ->value();
     }
 
