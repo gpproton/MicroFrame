@@ -45,6 +45,7 @@ final class Response implements IResponse
     private $formats;
     private $methods;
     public $content;
+    private $contentRaw = false;
     public $proceed;
 
     /**
@@ -163,6 +164,14 @@ final class Response implements IResponse
             $this->content['code'] = 204;
             $this->content['message'] = Value::get()->HttpCodes(204)->text;
         }
+
+        return $this;
+    }
+
+    Public function DataRaw($content = true) {
+
+        $this->contentRaw = $content ? true : false;
+
         return $this;
     }
 
@@ -314,7 +323,12 @@ final class Response implements IResponse
             /**
              * Output and kill running scripts.
              */
-            die(Convert::arrays($this->content, $contentType));
+            if ($this->contentRaw) {
+                die(Convert::arrays($this->content['data'], $contentType));
+            } else {
+                die(Convert::arrays($this->content, $contentType));
+            }
+
         } else if (is_null($this->view) && gettype($this->content) !== 'array') {
             die($this->content);
         }

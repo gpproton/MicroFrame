@@ -65,6 +65,12 @@ interface IResponse
     Public function data($content);
 
     /**
+     * @param $content
+     * @return self
+     */
+    Public function dataRaw($content = true);
+
+    /**
      * @param $key
      * @param $value
      * @return self
