@@ -74,6 +74,28 @@ class SwaggerController extends Core
      *
      * @OA\PathItem(
      *     path="/yield/",
+     *
+     *     @OA\Parameter(name="id",
+     *     description="Content id",
+     *     required=false,
+     *     in="header",
+     *     @OA\Schema(ref="#/components/schemas/id")
+     *   ),
+     *
+     *   @OA\Parameter(name="name",
+     *     description="Content name",
+     *     required=false,
+     *     in="query",
+     *     @OA\Schema(ref="#/components/schemas/name")
+     *   ),
+     *
+     *  @OA\Parameter(name="check",
+     *     description="Content check mark",
+     *     required=false,
+     *     in="query",
+     *     @OA\Schema(ref="#/components/schemas/check")
+     *   ),
+     *
      *     @OA\Post(
      *      summary="Test Grouped POST paths placeholder",
      *      @OA\Response(
@@ -92,7 +114,7 @@ class SwaggerController extends Core
      *      summary="Test Grouped GET paths placeholder",
      *      @OA\Response(
      *      response=200,
-     *      description="POST swagger API output",
+     *      description="GET swagger API output",
      *      @OA\MediaType(
      *         mediaType="application/json",
      *     @OA\Schema(
@@ -107,7 +129,7 @@ class SwaggerController extends Core
      *      summary="Test Grouped PUT paths placeholder",
      *      @OA\Response(
      *      response=200,
-     *      description="POST swagger API output",
+     *      description="PUT swagger API output",
      *      @OA\MediaType(
      *         mediaType="application/json",
      *     @OA\Schema(
