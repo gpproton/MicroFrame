@@ -33,7 +33,7 @@ class IndexController extends Core {
     /**
      *
      * @OA\Info(
-     *   title="Base Framework Sample API DOC",
+     *   title="Base Sample API DOC",
      *   version="0.0.1",
      *   @OA\Contact(
      *     email="teamerp@tolaram.com"
