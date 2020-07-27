@@ -360,7 +360,6 @@ final class Response implements IResponse
      */
     Public function download($path)
     {
-        // TODO: Test and complete Implement method.
         /** @var string $path */
         if(Strings::filter($path)->url()){
                  $filepath = $path;
@@ -382,12 +381,10 @@ final class Response implements IResponse
                      $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
                      die(Convert::arrays($this->content, $this->request->contentType()));
                  } else {
-                     $this->setOutput(0, 404, Value::init()->HttpCodes(404)->text, []);
-                     die(Convert::arrays($this->content, $this->request->contentType()));
+                     $this->notFound();
                  }
              } else {
-                 $this->setOutput(0, 404, Value::init()->HttpCodes(404)->text, []);
-                 die(Convert::arrays($this->content, $this->request->contentType()));
+                $this->notFound();
              }
     }
 
