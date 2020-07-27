@@ -43,6 +43,7 @@ final class Response implements IResponse
     private $request;
     private $view;
     private $formats;
+    private $format;
     private $methods;
     public $content;
     private $contentRaw = false;
@@ -54,7 +55,7 @@ final class Response implements IResponse
     public function __construct()
     {
         $this->request = new request();
-        $this->proceed = false;
+        $this->proceed = true;
         $this->content = array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array());
 
         ob_start();
@@ -120,44 +121,38 @@ final class Response implements IResponse
     /**
      * @param null $format
      * @param array $types
-     * @return $this|IResponse
+     * @return $this
      */
     Public function format($format = null, $types = array('application/json', 'application/xml', 'application/x-yaml', 'text/plain'))
     {
         $this->formats = $types;
         if (is_null($format)) {
-            $format = is_null($format) ? $this->request->format() : $this->request->query('accept');
-        } else {
-            $this->proceed = true;
-            return $this;
-        }
+            $this->format = is_null($format) ? $this->request->format() : $this->request->query('accept');
 
-        $found = function() use ($types, $format) {
-            $count = 0;
-            foreach ($types as $type) {
-                $count++;
-                if (strpos($type, $format) !== false) {
-                    return true;
-                } else if($count === count($types) - 1) {
-                    return false;
+            if (strlen($this->format) <= 3) {
+                $this->format = $this->request->contentType();
+                if (empty($this->format) || $this->format === "*/*") {
+                    $this->format = 'application/json';
                 }
             }
-        };
-        if ($found()) {
-            $this->proceed = true;
+
+            return $this;
         } else {
-            $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
-            $this->proceed = false;
+            $this->format = $format;
+
+            return $this;
         }
-        return $this;
     }
 
     /**
      * @param null $content
+     * @param bool $raw
      * @return $this|IResponse
      */
-    Public function data($content = null)
+    Public function data($content = null, $raw =  false)
     {
+        $this->dataRaw($raw);
+
         $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, $content);
         if ($this->proceed && empty($this->content['data'])) {
             $this->content['status'] = 1;
@@ -168,7 +163,7 @@ final class Response implements IResponse
         return $this;
     }
 
-    Public function DataRaw($content = true) {
+    Public function dataRaw($content = true) {
 
         $this->contentRaw = $content ? true : false;
 
@@ -312,7 +307,6 @@ final class Response implements IResponse
              * accept header must be set or error is sent in json.
              */
             if (!isset($this->formats)) $this->format();
-            $contentType = $this->request->contentType();
 
             /**
              * Extra check if methods is not called, execute.
@@ -320,16 +314,17 @@ final class Response implements IResponse
             if (!isset($this->methods)) $this->methods(['get'], true);
 
             /** @var void $this */
-            $this->header('content-type', $contentType, true);
+            $this->header('content-type', $this->format, true);
             $this->header($this->content['code']);
 
             /**
              * Output and kill running scripts.
              */
+
             if ($this->contentRaw) {
-                die(Convert::arrays($this->content['data'], $contentType));
+                die(Convert::arrays($this->content['data'], $this->format));
             } else {
-                die(Convert::arrays($this->content, $contentType));
+                die(Convert::arrays($this->content, $this->format));
             }
 
         } else if (is_null($this->view) && gettype($this->content) !== 'array') {

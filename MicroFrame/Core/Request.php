@@ -151,8 +151,9 @@ final class Request implements IRequest
      */
     public function format()
     {
-        return !is_null($this->query('accept')) ?
-            $this->query('accept') : $this->header('accept');
+        $check = !empty($this->query('format')) ?
+            $this->query('format') : $this->header('accept');
+        return !empty($check) ? $check : $this->query('accept');
     }
 
     /**
@@ -161,8 +162,8 @@ final class Request implements IRequest
     public function contentType()
     {
         if ($this->formEncoded()) return $this->format();
-        return !is_null($this->query('accept')) ?
-            $this->query('accept') : $this->header('content-type');
+        return !empty($this->header('content-type')) ?
+            $this->header('content-type') : $this->format();
     }
 
     /**

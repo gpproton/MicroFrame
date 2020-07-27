@@ -60,9 +60,10 @@ interface IResponse
 
     /**
      * @param $content
+     * @param bool $raw
      * @return self
      */
-    Public function data($content);
+    Public function data($content, $raw =  false);
 
     /**
      * @param $content
