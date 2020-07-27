@@ -72,6 +72,14 @@ class SwaggerController extends Core
      *     description="Just to check tags..."
      *   )
      *
+     * @OA\Tag(name="PathTest",
+     *     description="Just to test pathItem organization..."
+     *   )
+     *
+     * @OA\Tag(name="ModelTest",
+     *     description="Just to sample model options..."
+     *   )
+     *
      * @OA\PathItem(
      *     path="/yield/",
      *
@@ -96,8 +104,9 @@ class SwaggerController extends Core
      *     @OA\Schema(ref="#/components/schemas/check")
      *   ),
      *
-     *     @OA\Post(
+     *    @OA\Post(
      *      summary="Test Grouped POST paths placeholder",
+     *      tags={"PathTest"},
      *      @OA\Response(
      *      response=200,
      *      description="POST swagger API output",
@@ -112,6 +121,7 @@ class SwaggerController extends Core
      *      ),
      *     @OA\Get(
      *      summary="Test Grouped GET paths placeholder",
+     *      tags={"PathTest"},
      *      @OA\Response(
      *      response=200,
      *      description="GET swagger API output",
@@ -127,6 +137,7 @@ class SwaggerController extends Core
      *
      *     @OA\Put(
      *      summary="Test Grouped PUT paths placeholder",
+     *      tags={"PathTest"},
      *      @OA\Response(
      *      response=200,
      *      description="PUT swagger API output",
@@ -144,6 +155,7 @@ class SwaggerController extends Core
      *
      * @OA\Get(path="/api/swagger/*",
      *   summary="Swagger Index API placeholder",
+     *   tags={"ModelTest"},
      *   security={
      *         {"api_key": {}}
      *     },
@@ -206,6 +218,7 @@ class SwaggerController extends Core
      *
      * @OA\Post(path="/api/swagger/*",
      *   summary="Index API POST placeholder",
+     *   tags={"ModelTest"},
      *   @OA\Response(
      *     response=200,
      *     description="Default base POST swagger API output",
