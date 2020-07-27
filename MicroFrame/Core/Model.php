@@ -92,6 +92,8 @@ final class Model implements IModel
     public function execute()
     {
         $level = 0;
+        $modelSrc = "select 1 from dual";
+        $modelSample = array('sample' => 'dataX');
         try {
             /**
              * Call to database with current parameters and query strings
@@ -104,13 +106,15 @@ final class Model implements IModel
                      */
                     if (!empty($this->load($value['model'])['query'])) {
                         $modelSrc = $this->load($value['model'])['query'];
-                    } else {
-                        $modelSrc = "select 1 from dual";
                     }
 
                     /**
-                     * TODO: Allow usage of sample data if not connection
+                     * Allow usage of sample data if not connection
                      */
+                    if (!empty($this->load($value['model'])['sample'])) {
+                        $modelSample = $this->load($value['model'])['sample'];
+                    }
+
 
                     $prepare = $this->initialize($value['instance'])
                         ->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
@@ -128,20 +132,21 @@ final class Model implements IModel
 
                 if (!empty($this->load($value)['query'])) {
                     $modelSrc = $this->load($value)['query'];
-                } else {
-                    $modelSrc = "select 1 from dual";
                 }
 
                 /**
-                 * TODO: Allow usage of sample data if not connection
+                 * Allow usage of sample data if not connection
                  */
+                if (!empty($this->load($value)['sample'])) {
+                    $modelSample = $this->load($value)['sample'];
+                }
 
                 if(sizeof($value) !== 3) $prepare = $this->instance->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
                 $prepare->execute($param);
 
                 $results = array();
                 while ($row =  $prepare->fetch(\PDO::FETCH_ASSOC)) {
-                    $results[] = $row;
+                    $results[] = array_change_key_case($row, CASE_LOWER);
                 }
 
                 $this->result[$value] = $results;
@@ -152,6 +157,7 @@ final class Model implements IModel
         } catch (\Exception $exception) {
             $this->completed = false;
             $this->status = $exception;
+            $this->result[$value] = $modelSample;
         }
 
         /**
@@ -169,7 +175,7 @@ final class Model implements IModel
      */
     public function result()
     {
-        return $this->result;
+        return array_change_key_case($this->result, CASE_LOWER);
     }
 
     /**
