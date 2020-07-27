@@ -101,13 +101,13 @@ final class Response implements IResponse
 
         if($state) {
             $this->proceed = false;
-            $this->setOutput(0, 405, Value::get()->HttpCodes(405)->text, []);
+            $this->setOutput(0, 405, Value::init()->HttpCodes(405)->text, []);
             if($return) return false;
             $halt && is_null($this->view) ? $this->send() : $this->render(); // TODO: Add 404 view.
             return $this;
         } else if (!$state && !$return && !$halt) {
             $this->proceed = true;
-            $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, []);
+            $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
             if($return) return true;
             if ($halt) $this->send();
             return $this;
@@ -146,7 +146,7 @@ final class Response implements IResponse
         if ($found()) {
             $this->proceed = true;
         } else {
-            $this->setOutput(0, 401, Value::get()->HttpCodes(401)->text, []);
+            $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
             $this->proceed = false;
         }
         return $this;
@@ -158,11 +158,11 @@ final class Response implements IResponse
      */
     Public function data($content = null)
     {
-        $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, $content);
+        $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, $content);
         if ($this->proceed && empty($this->content['data'])) {
             $this->content['status'] = 1;
             $this->content['code'] = 204;
-            $this->content['message'] = Value::get()->HttpCodes(204)->text;
+            $this->content['message'] = Value::init()->HttpCodes(204)->text;
         }
 
         return $this;
@@ -186,7 +186,7 @@ final class Response implements IResponse
         $charset = "charset=utf-8";
         $accessControl = strtoupper(implode(", ", $this->methods));
         if (is_numeric($key)) {
-            header(Value::get()->HttpCodes($key)->full, true);
+            header(Value::init()->HttpCodes($key)->full, true);
             header("Access-Control-Allow-Methods: {$accessControl}", true);
         } else if(!is_null($value) && $key == 'redirect') {
             header("Location: {$value}", true);
@@ -300,7 +300,7 @@ final class Response implements IResponse
         if (is_null($this->view) && gettype($this->content) === 'array') {
 
             if (!$this->proceed && ($this->content['code'] !== 405)) {
-                $this->setOutput(0, 401, Value::get()->HttpCodes(401)->text, []);
+                $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
             }
 
             /**
@@ -363,7 +363,7 @@ final class Response implements IResponse
                  $filepath = $path;
                  $filename = basename($filepath);
                  $filesize = filesize($filepath);
-                 $contentType = Value::get()->mimeType($filename);
+                 $contentType = Value::init()->mimeType($filename);
                  if(file_exists($filepath)) {
                      $this->header('Content-Description', 'File Transfer');
                      $this->header('Content-Type', $contentType);
@@ -376,14 +376,14 @@ final class Response implements IResponse
                      ob_clean();
                      flush();
                      readfile($filepath);
-                     $this->setOutput(1, 200, Value::get()->HttpCodes(200)->text, []);
+                     $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
                      die(Convert::arrays($this->content, $this->request->contentType()));
                  } else {
-                     $this->setOutput(0, 404, Value::get()->HttpCodes(404)->text, []);
+                     $this->setOutput(0, 404, Value::init()->HttpCodes(404)->text, []);
                      die(Convert::arrays($this->content, $this->request->contentType()));
                  }
              } else {
-                 $this->setOutput(0, 404, Value::get()->HttpCodes(404)->text, []);
+                 $this->setOutput(0, 404, Value::init()->HttpCodes(404)->text, []);
                  die(Convert::arrays($this->content, $this->request->contentType()));
              }
     }

@@ -29,7 +29,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 class Value
 {
 
-    public static function get() {
+    public static function init() {
         return new self();
     }
 
