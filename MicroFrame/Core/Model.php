@@ -102,8 +102,18 @@ final class Model implements IModel
                     /**
                      * Allow for multiple datasource queries in single method call.
                      */
+                    if (!empty($this->load($value['model'])['query'])) {
+                        $modelSrc = $this->load($value['model'])['query'];
+                    } else {
+                        $modelSrc = "select 1 from dual";
+                    }
+
+                    /**
+                     * TODO: Allow usage of sample data if not connection
+                     */
+
                     $prepare = $this->initialize($value['instance'])
-                        ->prepare($this->load($value['model']), array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                        ->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
                     $param = $value['params'];
 
                 } elseif (isset($this->params[$level])) {
@@ -116,7 +126,17 @@ final class Model implements IModel
                  * Options for extended array instance | query | param
                  */
 
-                if(sizeof($value) !== 3) $prepare = $this->instance->prepare($this->load($value), array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                if (!empty($this->load($value)['query'])) {
+                    $modelSrc = $this->load($value)['query'];
+                } else {
+                    $modelSrc = "select 1 from dual";
+                }
+
+                /**
+                 * TODO: Allow usage of sample data if not connection
+                 */
+
+                if(sizeof($value) !== 3) $prepare = $this->instance->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
                 $prepare->execute($param);
 
                 $results = array();

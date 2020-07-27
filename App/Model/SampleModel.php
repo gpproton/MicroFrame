@@ -35,22 +35,35 @@ class SampleModel extends ModelQuery
     /**
      * Default for classes extending
      *
-     * @return string
+     * @return array
      */
     public function default() {
-        return <<<SQL
+
+        $query = <<<SQL
+
             SELECT 1 FROM DUAL
+            
 SQL;
+
+        $sample = array();
+
+        return array( 'query' => $query, 'sample' => $sample);
     }
 
     /**
      * Test case
      *
-     * @return string
+     * @return array
      */
     public function sample() {
-        return <<<SQL
-            SELECT 'test' FROM DUAL
+        $query = <<<SQL
+
+            SELECT 'TEST' FROM DUAL
+            
 SQL;
+
+        $sample = array();
+
+        return array( 'query' => $query, 'sample' => $sample);
     }
 }

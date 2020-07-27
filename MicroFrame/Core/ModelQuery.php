@@ -48,10 +48,19 @@ class ModelQuery
         return Config::fetch($name);
     }
 
+    /**
+     * @return array
+     */
     public function default() {
-        return <<<SQL
-            SELECT 'No', 'Query', 'Check', 'Call' FROM DUAL;
+        $query = <<<SQL
+
+            SELECT 1 FROM DUAL
+            
 SQL;
+
+        $sample = array();
+
+        return array( 'query' => $query, 'sample' => $sample);
 
     }
 }
