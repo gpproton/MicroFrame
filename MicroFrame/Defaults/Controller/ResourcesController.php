@@ -25,12 +25,26 @@ namespace MicroFrame\Defaults\Controller;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Library\Strings;
+use MicroFrame\Library\Value;
 
 /**
- * Class ResourceController
+ * Class ResourcesController
  * @package MicroFrame\Defaults\Controller
  */
-class ResourceController extends Core
+class ResourcesController extends Core
 {
 
+    public function index()
+    {
+        $basePath = "./Resources/";
+        $req = $this->request->path();
+
+        $checkExt = Strings::filter($req)->range(".", true);
+
+        var_dump(Value);
+//        var_dump(scandir("./Resources/"));
+
+        die();
+    }
 }
