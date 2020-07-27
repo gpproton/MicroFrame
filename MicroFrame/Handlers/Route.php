@@ -214,8 +214,9 @@ class Route
          *
          */
 
-        self::map("/api/swagger*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "swagger", []);
-        self::map("/swagger*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "swaggerUI", []);
+        self::map("/api/swagger*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "Swagger", []);
+        self::map("/help/swagger*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "SwaggerUI", []);
+        self::map("/resources/*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "Resources", []);
 
         /**
          * System route path end.
