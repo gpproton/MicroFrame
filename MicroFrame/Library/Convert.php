@@ -20,6 +20,9 @@
  */
 
 namespace MicroFrame\Library;
+
+use \Symfony\Component\Yaml\Yaml as symfonyYaml;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -47,7 +50,7 @@ class Convert
                     if(!is_numeric($key)){
                         $subnode = $xmlElement->addChild("$key");
                         xmlParser($value, $subnode);
-                    }else{
+                    } else {
                         $subnode = $xmlElement->addChild("item$key");
                         xmlParser($value, $subnode);
                     }
@@ -69,6 +72,9 @@ class Convert
     public static function arrays($array, $type = 'json') {
         if (strpos($type, 'xml') !== false) {
             return self::arrayXml($array);
+        } elseif (strpos($type, 'yaml') !== false) {
+            $canv = json_decode(json_encode($array), true);
+            return symfonyYaml::dump($canv);
         } else {
             return self::arrayJson($array);
         }

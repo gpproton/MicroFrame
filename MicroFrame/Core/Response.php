@@ -122,7 +122,7 @@ final class Response implements IResponse
      * @param array $types
      * @return $this|IResponse
      */
-    Public function format($format = null, $types = array('application/json', 'application/xml', 'text/plain'))
+    Public function format($format = null, $types = array('application/json', 'application/xml', 'application/x-yaml', 'text/plain'))
     {
         $this->formats = $types;
         if (is_null($format)) {
@@ -179,7 +179,7 @@ final class Response implements IResponse
      * @param int $key
      * @param null $value
      * @param bool $format
-     * @return $this|IResponse
+     * @return $this
      */
     Public function header($key = 200, $value = null, $format = false)
     {
@@ -193,11 +193,13 @@ final class Response implements IResponse
         } else if(!is_null($value) && $key == 'content-type') {
 
             if (strpos($value, 'json') !== false) {
-                header("Content-Type: text/json; ($charset)", true);
+                header("Content-Type: application/json; ($charset)", true);
             } else if (strpos($value, 'xml') !== false) {
-                header("Content-Type: text/xml; ($charset)", true);
+                header("Content-Type: application/xml; ($charset)", true);
+            } else if (strpos($value, 'yaml') !== false) {
+                header("Content-Type: application/x-yaml; ($charset)", true);
             } else {
-                header("Content-Type: text/json}; ($charset)", true);
+                header("Content-Type: {$value}; ($charset)", true);
             }
 
         } else if(!is_null($value) && $key == 'accept') {
@@ -206,6 +208,7 @@ final class Response implements IResponse
             header("{$key}: {$value}", true);
         }
         header("Access-Control-Allow-Origin: *", true);
+
         return $this;
     }
 
@@ -297,7 +300,7 @@ final class Response implements IResponse
          */
         ob_clean();
 
-        if (is_null($this->view) && gettype($this->content) === 'array') {
+        if (is_null($this->view) && (gettype($this->content['data']) === 'array' || gettype($this->content['data']) === 'object')) {
 
             if (!$this->proceed && ($this->content['code'] !== 405)) {
                 $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
@@ -353,7 +356,7 @@ final class Response implements IResponse
 
     /**
      * @param $path
-     * @return mixed|void
+     * @return void
      */
     Public function download($path)
     {
@@ -366,7 +369,7 @@ final class Response implements IResponse
                  $contentType = Value::init()->mimeType($filename);
                  if(file_exists($filepath)) {
                      $this->header('Content-Description', 'File Transfer');
-                     $this->header('Content-Type', $contentType);
+                     $this->header('content-type', $contentType);
                      $this->header('Content-Disposition', 'attachment; filename="'. $filename .'"');
                      $this->header('Content-Transfer-Encoding', 'binary');
                      $this->header('Expires', '0');
@@ -386,6 +389,20 @@ final class Response implements IResponse
                  $this->setOutput(0, 404, Value::init()->HttpCodes(404)->text, []);
                  die(Convert::arrays($this->content, $this->request->contentType()));
              }
+    }
+
+    /**
+     * @param $path
+     * @return void
+     */
+    Public function file($path) {
+        if (is_file($path)) {
+            $this->header('content-type', Value::init()->mimeType($path));
+            readfile($path);
+            die();
+        } else {
+            $this->notFound();
+        }
     }
 
 }

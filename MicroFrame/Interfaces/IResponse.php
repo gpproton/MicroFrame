@@ -133,8 +133,14 @@ interface IResponse
 
     /**
      * @param $path
-     * @return mixed
+     * @return void
      */
     Public function download($path);
+
+    /**
+     * @param $path
+     * @return void
+     */
+    Public function file($path);
 }
 
