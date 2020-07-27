@@ -214,12 +214,23 @@ class Route
          *
          */
 
-        self::map("/api/swagger*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "Swagger", []);
-        self::map("/help/swagger*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "SwaggerUI", []);
-        self::map("/resources/*", ['get', 'post', 'delete', 'put', 'option'], self::sysPath . "Resources", []);
+        /**
+         * Swagger 3.0 Doc API for requested path
+         */
+        self::map("/api/swagger*", ['get', 'post'], self::sysPath . "Swagger", []);
 
         /**
-         * System route path end.
+         * Swagger frontend for corresponding API Doc
+         */
+        self::map("/help/swagger*", ['get'], self::sysPath . "SwaggerUI", []);
+
+        /**
+         * Resource router for requested resource files.
+         */
+        self::map("/resources/*", ['get'], self::sysPath . "Resources", []);
+
+        /**
+         **** System route path end. ****
          */
 
         if (is_null($path)) $path = $this->request->path();
