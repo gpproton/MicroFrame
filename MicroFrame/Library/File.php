@@ -20,6 +20,10 @@
  */
 
 namespace MicroFrame\Library;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use function App\Controller\getRelativePath;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -30,6 +34,8 @@ final class File {
 
 
     /**
+     * File class static initializer
+     *
      * @return File
      */
     public static function init() {
@@ -54,6 +60,75 @@ final class File {
                 }
             }
         }
+    }
+
+    /**
+     * Check for files directory and recursively in child directories.
+     *
+     * @summary While checking through directories allow or disallow matching string patterns
+     * also setting of preferred base path and
+     *
+     * @param string $basePath
+     * @param string $relativeBase
+     * @param string $contains
+     * @param int $filter
+     * @return array
+     */
+    public function filesInDirectory($basePath = __DIR__, $relativeBase = __DIR__, $contains = ".php", $filter = ".ini" | ".md" | ".DS_Store") {
+            $files = array();
+            $dirIterator = new RecursiveDirectoryIterator($basePath);
+            $fileIterator = new RecursiveIteratorIterator($dirIterator);
+            foreach ($fileIterator as $filename)
+            {
+                if ($filename->isDir()) continue;
+                $file = $this->relativePath($relativeBase, $filename);
+                if (Strings::filter($file)->contains($contains) && !Strings::filter($file)->contains($filter)) {
+                    $files[] = $file;
+                }
+            }
+
+            return $files;
+    }
+
+    public function relativePath($from, $to) {
+        /**
+         * Compatibility fixes for Windows paths
+         */
+        $from = is_dir($from) ? rtrim($from, '\/') . '/' : $from;
+        $to   = is_dir($to)   ? rtrim($to, '\/') . '/'   : $to;
+        $from = str_replace('\\', '/', $from);
+        $to   = str_replace('\\', '/', $to);
+
+        $from     = explode('/', $from);
+        $to       = explode('/', $to);
+        $relPath  = $to;
+        foreach($from as $depth => $dir) {
+            /**
+             * find first non-matching dir
+             */
+            if($dir === $to[$depth]) {
+                /**
+                 * ignore this directory
+                 */
+                array_shift($relPath);
+            } else {
+                /**
+                 * get number of remaining dirs to $from
+                 */
+                $remaining = count($from) - $depth;
+                if($remaining > 1) {
+                    /**
+                     * add traversals up to first matching dir
+                     */
+                    $padLength = (count($relPath) + $remaining - 1) * -1;
+                    $relPath = array_pad($relPath, $padLength, '..');
+                    break;
+                } else {
+                    $relPath[0] = './' . $relPath[0];
+                }
+            }
+        }
+        return implode('/', $relPath);
     }
     
 }
