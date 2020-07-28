@@ -208,9 +208,12 @@ class Route
          * Define custom system routes here with $this->map() method
          * E.g General Swagger | Docs | Wiki
          *
-         * Find option for sys.Controller TODO: Add map option for sys.
+         * Find option for sys.Controller
          * self::map("/help/docs", ['get'], "api.index", []);
          * self::map("/help/docs", ['get'], "api.index", []);
+         *
+         *
+         * NOTE: Do not modify except you know what you're doing!!!!
          *
          */
 
