@@ -39,7 +39,7 @@ class SwaggerController extends Core
      *
      * @OA\Info(
      *
-     *   title="Microframe API doc",
+     *   title="MicroFrame API doc",
      *
      *   version="0.0.1",
      *
