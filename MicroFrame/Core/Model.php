@@ -65,8 +65,13 @@ final class Model implements IModel
         if (gettype($content) === 'string') {
             $this->query[] = $content;
         } else if (gettype($content) === 'array') {
-            foreach ($content as $value) {
-                $this->query[] = $value;
+            foreach ($content as $key => $value) {
+                if ($key === 'instance' || $key === 'model' || $key === 'params') {
+                    $this->query[] = $content;
+                    break;
+                } elseif(gettype($value) === 'array') {
+                    $this->query[] = $value;
+                }
             }
         }
 
@@ -94,70 +99,94 @@ final class Model implements IModel
         $level = 0;
         $modelSrc = "select 1 from dual";
         $modelSample = array('sample' => 'dataX');
+
         try {
             /**
              * Call to database with current parameters and query strings
              */
             foreach ($this->query as $value) {
-                $prepare = null;
-                if (sizeof($value) === 3) {
-                    /**
-                     * Allow for multiple datasource queries in single method call.
-                     */
-                    if (!empty($this->load($value['model'])['query'])) {
-                        $modelSrc = $this->load($value['model'])['query'];
+
+                try {
+                    $prepare = null;
+                    if (gettype($value) === 'array' && sizeof($value) >= 3) {
+                        /**
+                         * Allow for multiple datasource queries in single method call.
+                         */
+                        if (!empty($this->load($value['model'])['query'])) {
+                            $modelSrc = $this->load($value['model'])['query'];
+                        }
+
+                        /**
+                         * Allow usage of sample data if not connection
+                         */
+                        if (!empty($this->load($value['model'])['sample'])) {
+                            $modelSample = $this->load($value['model'])['sample'];
+                        }
+                        $prepare = $this->initialize($value['instance'])
+                            ->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                        $param = $value['params'];
+
+                    } elseif (isset($this->params[$level])) {
+                        $param = $this->params[$level];
+                    } else {
+                        $param = array();
+                    }
+
+                    if (gettype($value) !== 'array') {
+
+                        /**
+                         * Options for extended array instance | query | param
+                         */
+                        if (!empty($this->load($value)['query'])) {
+                            $modelSrc = $this->load($value)['query'];
+                        }
+
+                        /**
+                         * Allow usage of sample data if not connection
+                         */
+                        if (!empty($this->load($value)['sample'])) {
+                            $modelSample = $this->load($value)['sample'];
+                        }
+
+                        $prepare = $this->instance->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
                     }
 
                     /**
-                     * Allow usage of sample data if not connection
+                     * General query execution.
                      */
-                    if (!empty($this->load($value['model'])['sample'])) {
-                        $modelSample = $this->load($value['model'])['sample'];
+                    $prepare->execute($param);
+
+                    $results = array();
+
+                    while ($row = $prepare->fetch(\PDO::FETCH_ASSOC)) {
+                        $results[] = array_change_key_case($row, CASE_LOWER);
                     }
 
+                    if (gettype($value) !== 'array') {
+                        $this->result[$value] = $results;
+                    } else {
+                        $this->result[$value['model']] = $results;
+                    }
 
-                    $prepare = $this->initialize($value['instance'])
-                        ->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
-                    $param = $value['params'];
+                    /**
+                     * increment parameters index
+                     */
+                    $level++;
+                } catch (\Exception $e) {
+                    $this->status = $e;
 
-                } elseif (isset($this->params[$level])) {
-                    $param = $this->params[$level];
-                } else {
-                    $param = array();
+                    if (gettype($value) !== 'array') {
+                        $this->result[$value] = $modelSample;
+                    } else {
+                        $this->result[$value['model']] = $modelSample;
+                    }
                 }
-
-                /**
-                 * Options for extended array instance | query | param
-                 */
-
-                if (!empty($this->load($value)['query'])) {
-                    $modelSrc = $this->load($value)['query'];
-                }
-
-                /**
-                 * Allow usage of sample data if not connection
-                 */
-                if (!empty($this->load($value)['sample'])) {
-                    $modelSample = $this->load($value)['sample'];
-                }
-
-                if(sizeof($value) !== 3) $prepare = $this->instance->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
-                $prepare->execute($param);
-
-                $results = array();
-                while ($row =  $prepare->fetch(\PDO::FETCH_ASSOC)) {
-                    $results[] = array_change_key_case($row, CASE_LOWER);
-                }
-
-                $this->result[$value] = $results;
-
-                // increment parameters index
-                $level++;
             }
         } catch (\Exception $exception) {
+            /**
+             * Set some specific query state.
+             */
             $this->completed = false;
-            $this->status = $exception;
-            $this->result[$value] = $modelSample;
         }
 
         /**
