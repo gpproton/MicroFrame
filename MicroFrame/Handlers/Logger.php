@@ -129,8 +129,6 @@ final class Logger {
 
         switch ($type) {
             case 'info':
-                $this->console($output);
-                break;
             case 'warn':
                 $this->console($output);
                 $this->file($output);
