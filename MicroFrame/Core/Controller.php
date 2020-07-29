@@ -22,6 +22,7 @@
 namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use MicroFrame\Handlers\Logger;
 use MicroFrame\Interfaces\IController;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
@@ -103,6 +104,33 @@ class Controller implements IController
     {
         if (!$state && gettype($this->auto) === 'boolean') {
             $this->response->notFound();
+        }
+    }
+
+    /**
+     * An in-class logger method, for much easier usage.
+     *
+     * @param $text
+     * @param $type
+     */
+    protected function log($text, $type) {
+        $instance = Logger::set($text);
+        switch ($type) {
+            case 'info':
+                $instance->info();
+                break;
+            case 'warn':
+                $instance->warn();
+                break;
+            case 'error':
+                $instance->error();
+                break;
+            case 'debug':
+                $instance->debug();
+                break;
+            default:
+                $instance->fatal();
+                break;
         }
     }
 

@@ -27,6 +27,7 @@ use \AsyncPHP\Doorman\Task;
 use \AsyncPHP\Doorman\Manager\ProcessManager;
 use \AsyncPHP\Doorman\Rule\InMemoryRule;
 use \AsyncPHP\Doorman\Task\ProcessCallbackTask;
+use MicroFrame\Handlers\Logger;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Library\Config;
 
@@ -50,6 +51,33 @@ class MicroTask
     public function config($name)
     {
         return Config::fetch($name);
+    }
+
+    /**
+     * An in-class logger method, for much easier usage.
+     *
+     * @param $text
+     * @param $type
+     */
+    protected function log($text, $type) {
+        $instance = Logger::set($text);
+        switch ($type) {
+            case 'info':
+                $instance->info();
+                break;
+            case 'warn':
+                $instance->warn();
+                break;
+            case 'error':
+                $instance->error();
+                break;
+            case 'debug':
+                $instance->debug();
+                break;
+            default:
+                $instance->fatal();
+                break;
+        }
     }
 
     /**
