@@ -294,8 +294,8 @@ final class Response implements IResponse
          * Filter out unintended string output
          */
         ob_clean();
-
-        if (is_null($this->view) && (gettype($this->content['data']) === 'array' || gettype($this->content['data']) === 'object')) {
+        
+        if (is_null($this->view) && gettype($this->content) === 'array') {
 
             if (!$this->proceed && ($this->content['code'] !== 405)) {
                 $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
@@ -329,8 +329,9 @@ final class Response implements IResponse
 
         } else if (is_null($this->view) && gettype($this->content) !== 'array') {
             die($this->content);
+        } else {
+            die('please use render for VIEW output.');
         }
-        return;
     }
 
     /**
