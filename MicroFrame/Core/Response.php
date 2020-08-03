@@ -78,7 +78,7 @@ final class Response implements IResponse
     public function notFound() {
         if (is_null($this->view)) {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
-                ->setOutput(0, 404, "Requested resource not found..")
+                ->setOutput(0, 404, "Requested resource '{$this->request->url()}' not found..")
                 ->send();
         } else {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
