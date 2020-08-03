@@ -23,13 +23,68 @@ namespace MicroFrame\Handlers;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use cebe\markdown\MarkdownExtra;
+use cebe\markdown\GithubMarkdown;
 
 /**
  * Class Markdown
  * @package MicroFrame\Handlers
  */
-class Markdown extends MarkdownExtra
+class Markdown extends GithubMarkdown
 {
+
+    private $html;
+
+    public static function translate($markdownString = "") {
+        $instance = new self();
+        $instance->html5 = true;
+
+        return $instance->parse($markdownString);
+    }
+
+    public function parse($text)
+    {
+        $this->html = parent::parse($text);
+
+        /**
+         * Make additional markup changes.
+         */
+        $this->modifyMarkup();
+
+        return $this->html;
+    }
+
+    private function modifyMarkup() {
+
+        /**
+         * Apply character replacement with private
+         * methods executed here.
+         *
+         */
+
+        /**
+         * Render checked input in place.
+         */
+        $this->translateTodo('[X]');
+
+        /**
+         * Render unchecked input in place
+         */
+        $this->translateTodo('[ ]');
+
+    }
+
+    private function translateTodo($string) {
+
+        if ($string == '[X]') {
+            $this->html = str_replace($string, '<input type="checkbox" checked onclick="return false">', $this->html);
+        } elseif ($string == '[ ]') {
+            $this->html = str_replace($string, '<input type="checkbox" onclick="return false">', $this->html);
+        }
+
+    }
+
+    private function templateBuilder() {
+
+    }
 
 }
