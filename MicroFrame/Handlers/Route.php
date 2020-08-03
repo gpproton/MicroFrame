@@ -186,6 +186,9 @@ class Route
                 $clazz->response->data($functions);
             }
 
+            /**
+             * TODO: Switch to a dot base middleware call.
+             */
             foreach ($middleware as $middleKey) {
                 $clazz->response->middleware($middleKey);
             }

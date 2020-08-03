@@ -268,6 +268,8 @@ final class Response implements IResponse
     /**
      * @param IMiddleware|null $middleware
      * @return $this|IResponse
+     *
+     * TODO: Switch to a dot based middleware/
      */
     public function middleware(IMiddleware $middleware = null)
     {
