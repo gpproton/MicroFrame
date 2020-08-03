@@ -45,10 +45,9 @@ interface IResponse
 
     /**
      * @param string $type
-     * @param array $types
      * @return self
      */
-    Public function format($type = 'json', $types = array('application/json', 'application/xml', 'text/plain'));
+    Public function format($type = 'json');
 
     /**
      * @param array $selected

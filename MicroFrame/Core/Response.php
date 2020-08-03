@@ -42,7 +42,6 @@ final class Response implements IResponse
 {
     private $request;
     private $view;
-    private $formats;
     private $format;
     private $methods;
     public $content;
@@ -120,14 +119,11 @@ final class Response implements IResponse
 
     /**
      * @param null $format
-     * @param array $types
      * @return $this
      */
-    Public function format($format = null, $types = array('application/json', 'application/xml', 'application/x-yaml', 'text/plain'))
+    Public function format($format = null)
     {
-        $this->formats = $types;
-        if (is_null($format)) {
-            $this->format = is_null($format) ? $this->request->format() : $this->request->query('accept');
+        $this->format = is_null($format) ? (is_null($format) ? $this->request->format() : $this->request->query('accept')) : $format;
 
             if (strlen($this->format) <= 3) {
                 $this->format = $this->request->contentType();
@@ -137,11 +133,7 @@ final class Response implements IResponse
             }
 
             return $this;
-        } else {
-            $this->format = $format;
 
-            return $this;
-        }
     }
 
     /**
