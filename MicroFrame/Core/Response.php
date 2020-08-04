@@ -338,6 +338,7 @@ final class Response implements IResponse
         /**
          * Create a local variable with defined keys in data array.
          */
+        $data = array_merge($data, $this->content['data']);
         foreach($data as $key => $value)
         {
             ${$key} = $value;
