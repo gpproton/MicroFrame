@@ -78,8 +78,7 @@ final class File {
             $files = array();
             $dirIterator = new RecursiveDirectoryIterator($basePath);
             $fileIterator = new RecursiveIteratorIterator($dirIterator);
-            foreach ($fileIterator as $filename)
-            {
+            foreach ($fileIterator as $filename) {
                 if ($filename->isDir()) continue;
                 $file = $this->relativePath($relativeBase, $filename);
                 if (Strings::filter($file)->contains($contains) && !Strings::filter($file)->contains($filter)) {
@@ -88,6 +87,36 @@ final class File {
             }
 
             return $files;
+    }
+
+    /**
+     * Returns an associative array of a directory and all it contents.
+     *
+     * @param string $basePath
+     * @return array
+     */
+    public function dirStructure($basePath = __DIR__) {
+        $dirIterator = new RecursiveDirectoryIterator($basePath);
+        $fileIterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
+        $fileSys = array();
+        $path = array();
+        foreach ($fileIterator as $splFileInfo) {
+
+            if ($splFileInfo->getFilename() !== '.' || $splFileInfo->getFilename() !== '..') $path = $splFileInfo->isDir()
+                ? array($splFileInfo->getFilename() => array())
+                : array($splFileInfo->getFilename());
+
+            for ($depth = $fileIterator->getDepth() - 1; $depth >= 0; $depth--) {
+                $instFile = $fileIterator->getSubIterator($depth)->current()->getFilename();
+
+                if ( !isset($path['.']) && !isset($path['..']) ) $path = array($instFile => $path);
+            }
+
+            $fileSys = array_merge_recursive($fileSys, $path);
+            unset($fileSys['.']); unset($fileSys['..']);
+        }
+
+        return $fileSys;
     }
 
     public function relativePath($from, $to) {
