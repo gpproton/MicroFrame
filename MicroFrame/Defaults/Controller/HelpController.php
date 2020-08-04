@@ -38,6 +38,8 @@ class HelpController extends Core
 
 //$basePath = \MicroFrame\Library\Strings::filter($fullUrl)->replace($curPath)->value() . "resources/swagger/";
 
-        $this->response->render('sys.help', ['fullUrl' => $fullUrl, 'curPath' => $curPath]);
+        $this->response
+            ->data(['fullUrl' => $fullUrl, 'curPath' => $curPath])
+            ->render('sys.help');
     }
 }
