@@ -231,6 +231,11 @@ class Route
         self::map("/help/swagger*", ['get'], self::sysPath . "SwaggerUI", []);
 
         /**
+         * MarkDown based help documentation web view.
+         */
+        self::map("/help*", ['get'], self::sysPath . "Help", []);
+
+        /**
          * Resource router for requested resource files.
          */
         self::map("/resources/*", ['get'], self::sysPath . "Resources", []);
