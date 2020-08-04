@@ -112,6 +112,17 @@ class Reflect
             ->upperCaseWords()
             ->value();
 
+        $classIndexMethod = Strings::filter($path)
+            ->range('\\', true, true)
+            ->append('\\' . 'Index' . $core)
+            ->upperCaseWords()
+            ->value();
+
+        $classIndexMethodValue = Strings::filter($path)
+            ->range("\\", true, false)
+            ->upperCaseWords()
+            ->value();
+
         if (class_exists($classDirect)) {
             $path = $classDirect;
         } else if (class_exists($classIndex)) {
@@ -119,13 +130,22 @@ class Reflect
         } else if (class_exists($classUpper)) {
             $path = $classUpper;
         }
+        /**
+         * Review closely for any issues
+         */
+        else if (class_exists($classIndexMethod)) {
+            $path = $classIndexMethod;
+        }
 
         switch ($core) {
             case 'Controller':
                 /**
                  * $args[2] hold the name method to be called.
                  */
-                if (class_exists($classUpper) && gettype($args) === 'array') $args[2] = $classMethod;
+                if (class_exists($classIndexMethod) && gettype($args) === 'array') {
+                    $args[2] = $classIndexMethodValue;
+
+                } elseif (class_exists($classUpper) && gettype($args) === 'array') $args[2] = $classMethod;
                 break;
             case 'Model':
                 /**
