@@ -20,10 +20,6 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-$fullUrl = \MicroFrame\Core\Request::get()->url();
-$curPath = \MicroFrame\Core\Request::get()->path(false);
-//$basePath = \MicroFrame\Library\Strings::filter($fullUrl)->replace($curPath)->value() . "resources/swagger/";
-ob_start();
 ?>
 
 <html>
@@ -53,7 +49,7 @@ ob_start();
 </head>
 <body class="markdown-body">
 <!-- Insert converted markdown -->
-
+<?=$fullUrl?>
 <!-- https://highlightjs.org/ -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
 <script>
@@ -61,9 +57,3 @@ ob_start();
 </script>
 </body>
 </html>
-
-<?php
-
-$vals = ob_get_contents();
-ob_clean();
-return $vals;

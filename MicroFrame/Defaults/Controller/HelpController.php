@@ -33,8 +33,11 @@ class HelpController extends Core
      */
     public function index()
     {
-        $getTest =  require_once (__DIR__ . "/../View/HelpView.php");
-        echo $getTest;
-        die();
+        $fullUrl = $this->request->url();
+        $curPath = $this->request->path(false);
+
+//$basePath = \MicroFrame\Library\Strings::filter($fullUrl)->replace($curPath)->value() . "resources/swagger/";
+
+        $this->response->render('sys.help', ['fullUrl' => $fullUrl, 'curPath' => $curPath]);
     }
 }
