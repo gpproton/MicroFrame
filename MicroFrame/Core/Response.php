@@ -329,19 +329,50 @@ final class Response implements IResponse
     }
 
     /**
-     * @param IView|null $view
-     * @param IModel|null $model
+     * @param null | string $view
      * @param array $data
      * @return $this|void
      */
-    public function render(IView $view = null, IModel $model = null, $data = [])
+    public function render($view = null, $data = [])
     {
+        /**
+         * Create a local variable with defined keys in data array.
+         */
+        foreach($data as $key => $value)
+        {
+            ${$key} = $value;
+        }
+
         /**
          * Filter out unintended string output
          */
         ob_clean();
+        /**
+         * Basic Implementation without the templating and module merging yet.
+         */
+        if (!empty($view)) {
+            $basePath = Strings::filter($view)
+                ->contains("sys.") ? CORE_PATH . '/Defaults/View/' : APP_PATH . '/View/';
 
-        // TODO: create view loader
+            $view = $basePath . Strings::filter($view)
+                    ->replace(['app.', 'sys.', '.'], ['', '', '/'])
+                    ->append('View.php')
+                    ->value();
+
+            if (file_exists($view)) {
+                ob_start();
+                include_once ($view);
+                $vals = ob_get_contents();
+                ob_clean();
+                die($vals);
+            } else {
+                die('Request view does not exist...');
+            }
+
+        } else {
+            die('No view specified...');
+        }
+
     }
 
     /**
