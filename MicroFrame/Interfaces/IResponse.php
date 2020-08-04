@@ -119,12 +119,11 @@ interface IResponse
     public function middleware(IMiddleware $middleware = null);
 
     /**
-     * @param IView|null $view
-     * @param IModel|null $model
+     * @param null | string $view
      * @param array $data
      * @return self
      */
-    public function render(IView $view = null, IModel $model = null, $data = []);
+    public function render($view = null, $data = []);
 
     /**
      * @return void
