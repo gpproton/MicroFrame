@@ -1,6 +1,6 @@
 <?php
 /**
- * Default View swagger class
+ * Default Swagger View
  *
  * PHP Version 7
  *
