@@ -163,9 +163,19 @@ final class Model implements IModel
                     }
 
                     if (gettype($value) !== 'array') {
-                        $this->result[$value] = $results;
+                        if (!isset($this->result[$value])) {
+                            $this->result[$value] = $results;
+                        } else {
+                            $this->result[$value . '-' . rand(2, 100)] = $results;
+                        }
+
                     } else {
-                        $this->result[$value['model']] = $results;
+                        if (!isset($this->result[$value['model']])) {
+                            $this->result[$value['model']] = $results;
+                        } else {
+                            $this->result[$value['model'] . '-' . rand(2, 100)] = $results;
+                        }
+
                     }
 
                     /**
