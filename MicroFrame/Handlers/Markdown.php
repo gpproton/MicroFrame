@@ -76,9 +76,9 @@ class Markdown extends GithubMarkdown
     private function translateTodo($string) {
 
         if ($string == '[X]') {
-            $this->html = str_replace($string, '<input type="checkbox" checked onclick="return false">', $this->html);
+            $this->html = str_replace($string, '<input type="checkbox" style="all: revert;" checked onclick="return false">', $this->html);
         } elseif ($string == '[ ]') {
-            $this->html = str_replace($string, '<input type="checkbox" onclick="return false">', $this->html);
+            $this->html = str_replace($string, '<input type="checkbox" style="all: revert;" onclick="return false">', $this->html);
         }
 
     }
