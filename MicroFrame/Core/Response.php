@@ -339,6 +339,10 @@ final class Response implements IResponse
          * Create a local variable with defined keys in data array.
          */
         $data = array_merge($data, $this->content['data']);
+        $data['url'] = $this->request->url();
+        $data['path'] = $this->request->path(false);
+        $data['root'] = Strings::filter($data['url'])->replace($data['path'] . "/")->value() . "resources/";
+
         foreach($data as $key => $value)
         {
             ${$key} = $value;
