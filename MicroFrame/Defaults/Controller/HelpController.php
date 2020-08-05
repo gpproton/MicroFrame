@@ -33,13 +33,17 @@ class HelpController extends Core
      */
     public function index()
     {
-        $fullUrl = $this->request->url();
-        $curPath = $this->request->path(false);
-
-//$basePath = \MicroFrame\Library\Strings::filter($fullUrl)->replace($curPath)->value() . "resources/swagger/";
-
+        /**
+         * Default variables.
+         * resources $root
+         * $url
+         * $path
+         *
+         */
         $this->response
-            ->data(['fullUrl' => $fullUrl, 'curPath' => $curPath])
+            ->data(
+                [ ]
+            )
             ->render('sys.help');
     }
 }
