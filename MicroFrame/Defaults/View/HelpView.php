@@ -72,8 +72,10 @@
 <!-- Insert converted markdown -->
 <div class="markdown-body">
 
-    <?php if (true) {
+    <?php if (empty($html)) {
         echo "<object type=\"image/svg+xml\" data=\"{$root}markdown/images/404.svg\"></object>";
+    } else {
+        echo $html;
     } ?>
 
 </div>
