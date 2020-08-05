@@ -1,36 +1,15 @@
-<?php
-
-/**
- * Default Help View
- *
- * PHP Version 7
- *
- * @category  View
- * @package   MicroFrame\Default\View
- * @author    Godwin peter .O <me@godwin.dev>
- * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
- * @copyright 2020 Tolaram Group Nigeria
- * @license   MIT License
- * @link      https://github.com/gpproton/microframe
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so
- */
-
-?>
-
 <html>
 <head>
     <title>Page name</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="<?=$root?>css/materialize.min.css" media="screen,projection">
     <!-- https://github.com/sindresorhus/github-markdown-css -->
     <!-- https://sindresorhus.com/github-markdown-css/ -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/4.0.0/github-markdown.css">
+    <link rel="stylesheet" href="<?=$root?>markdown/css/github-markdown.css">
     <!-- https://highlightjs.org/ -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/default.min.css">
+    <link rel="stylesheet" href="<?=$root?>markdown/css/highlight.min.css">
     <style>
         .markdown-body {
             box-sizing: border-box;
@@ -47,13 +26,65 @@
         }
     </style>
 </head>
-<body class="markdown-body">
+<body>
+<nav class="z-depth-0 grey lighten-1">
+    <div class="nav-wrapper z-depth-0">
+        <a href="#" data-target="slide-out" class="brand-logo sidenav-trigger" style="display: inline">
+            <i class="material-icons">menu</i>
+        </a>
+        <a href="#" class="brand-logo center">MicroFrame Docs</a>
+    </div>
+</nav>
+
+<ul id="slide-out" class="sidenav">
+    <li style="margin-bottom: 85px;">
+        <div class="user-view">
+            <div class="background" style="height: 75px; font-weight: lighter;">
+                <span class="material-icons" style="font-size: 4em; vertical-align: middle;">book</span>
+                MicroFrame Docs
+            </div>
+        </div>
+    </li>
+
+    <li><div class="divider"></div></li>
+
+    <li><a href="#!">Standard Link</a></li>
+
+    <li><div class="divider"></div></li>
+
+    <!-- A sample stacked menu -->
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li>
+                <a class="collapsible-header">Dropdown Link</a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="#!">First</a></li>
+                        <li><a href="#!">Second</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+
 <!-- Insert converted markdown -->
-<?=$fullUrl?>
+<div class="markdown-body">
+
+    <?php if (true) {
+        echo "<object type=\"image/svg+xml\" data=\"{$root}markdown/images/404.svg\"></object>";
+    } ?>
+
+</div>
+
+<script src="<?=$root?>js/materialize.min.js"></script>
 <!-- https://highlightjs.org/ -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
+<script src="<?=$root?>markdown/js/highlight.min.js"></script>
 <script>
     hljs.initHighlightingOnLoad();
+    M.AutoInit();
+
 </script>
 </body>
 </html>
