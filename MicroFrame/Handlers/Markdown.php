@@ -23,13 +23,13 @@ namespace MicroFrame\Handlers;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use cebe\markdown\GithubMarkdown;
+use cebe\markdown\MarkdownExtra;
 
 /**
  * Class Markdown
  * @package MicroFrame\Handlers
  */
-class Markdown extends GithubMarkdown
+class Markdown extends MarkdownExtra
 {
 
     private $html;
