@@ -71,8 +71,13 @@
 
 <!-- Insert converted markdown -->
 <div class="markdown-body">
-
     <?php if (empty($html)) {
+        echo '<a class="waves-effect waves-light btn grey lighten-1 center-align z-depth-0"
+                style="color: white; text-decoration: none; margin-right: auto; margin-left: auto;"
+                href="#">
+                <i class="material-icons left">chevron_left</i>
+                Go Back</a>';
+        echo '<br />';
         echo "<object type=\"image/svg+xml\" data=\"{$root}markdown/images/404.svg\"></object>";
     } else {
         echo $html;
