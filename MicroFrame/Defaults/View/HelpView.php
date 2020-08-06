@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Page name</title>
+    <title><?=$options['title']?></title>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,6 +57,10 @@
             margin-bottom: 0px !important;
             padding-bottom: 0px !important;
         }
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 200 !important;
+        }
+
     </style>
 </head>
 <body>
