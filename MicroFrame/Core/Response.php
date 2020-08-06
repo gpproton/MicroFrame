@@ -335,13 +335,16 @@ final class Response implements IResponse
      */
     public function render($view = null, $data = [])
     {
+        $currentPath = $this->request->path(false);
+        $barePath = Strings::filter($this->request->url())->replace([$currentPath, '//', ':/'], ['', '/', '://'])->value();
+
         /**
          * Create a local variable with defined keys in data array.
          */
         $data = array_merge($data, $this->content['data']);
         $data['url'] = $this->request->url();
         $data['path'] = $this->request->path(false);
-        $data['root'] = Strings::filter($data['url'])->replace($data['path'] . "/")->value() . "resources/";
+        $data['root'] = $barePath . 'resources/';
 
         foreach($data as $key => $value)
         {
