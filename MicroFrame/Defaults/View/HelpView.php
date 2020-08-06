@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="<?=$root?>markdown/css/github-markdown.css">
     <link rel="stylesheet" href="<?=$root?>markdown/css/highlight.min.css">
     <style>
+
+        body {
+            font-weight: 300 !important;
+        }
         .markdown-body {
             box-sizing: border-box;
             min-width: 200px;
@@ -115,9 +119,15 @@
 <!-- https://highlightjs.org/ -->
 <script src="<?=$root?>markdown/js/highlight.min.js"></script>
 <script>
+    /**
+     * Initialize Highlight.js
+     */
     hljs.initHighlightingOnLoad();
-    M.AutoInit();
 
+    /**
+     * Setup auto initialization for Materialize css.
+     */
+    M.AutoInit();
 </script>
 </body>
 </html>
