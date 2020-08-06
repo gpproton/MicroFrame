@@ -247,16 +247,19 @@ HTML;
         $rootSetup = '';
         if (isset($options['root'])) {
             $rootSetup = $options['root'];
-            if (strpos($rootSetup, '/') === 0) {
+            if (strpos($rootSetup, '/') === 0 && $rootSetup !== '/') {
                 $rootSetup = Strings::filter($rootSetup)->range('/', false)->value();
             }
         }
+
 
         /**
          * Check for config, if not available use requested file path as menu root.
          */
 
-        if (!empty($rootSetup) && is_dir($rootPath . $rootSetup)) {
+        if ($rootSetup === '/') {
+            $rootPath = $rootPath . '';
+        } elseif (!empty($rootSetup) && is_dir($rootPath . $rootSetup)) {
             $rootPath = $rootPath . $rootSetup;
         } else {
             $rootPath = dirname($requestedFile);
