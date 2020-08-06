@@ -51,7 +51,7 @@
 <!-- Insert converted markdown -->
 <div class="markdown-body">
     <?php
-    
+
     if (empty($paths)) {
         echo 'Home';
     } elseif (empty($html)) {
