@@ -1,5 +1,5 @@
 ---
-title: MicroFrame Docs
+title: MicroFrame Docs - Sample page
 author: Godwin peter .O
 date: 06-Aug-2020
 image: ""
@@ -13,7 +13,6 @@ tags:
 - navigation
 ---
 
----
 ### Introducing to using MicroFrame.
 
 Try it to potentially make life easy, no time for a story yet.
