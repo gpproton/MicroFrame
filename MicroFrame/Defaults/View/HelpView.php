@@ -5,10 +5,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?=$root?>css/materialize.min.css" media="screen,projection">
-    <!-- https://github.com/sindresorhus/github-markdown-css -->
-    <!-- https://sindresorhus.com/github-markdown-css/ -->
     <link rel="stylesheet" href="<?=$root?>markdown/css/github-markdown.css">
-    <!-- https://highlightjs.org/ -->
     <link rel="stylesheet" href="<?=$root?>markdown/css/highlight.min.css">
     <style>
         .markdown-body {
@@ -32,7 +29,7 @@
         <a href="#" data-target="slide-out" class="brand-logo sidenav-trigger" style="display: inline">
             <i class="material-icons">menu</i>
         </a>
-        <a href="#" class="brand-logo center">MicroFrame Docs</a>
+        <a href="<?=$rootUrl?>" class="brand-logo center">MicroFrame Docs</a>
     </div>
 </nav>
 
@@ -46,37 +43,22 @@
         </div>
     </li>
 
-    <li><div class="divider"></div></li>
-
-    <li><a href="#!">Standard Link</a></li>
-
-    <li><div class="divider"></div></li>
-
-    <!-- A sample stacked menu -->
-    <li class="no-padding">
-        <ul class="collapsible collapsible-accordion">
-            <li>
-                <a class="collapsible-header">Dropdown Link</a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="#!">First</a></li>
-                        <li><a href="#!">Second</a></li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-    </li>
+    <!-- Auto rendered menu -->
+    <?=$menu?>
 </ul>
 
 
 <!-- Insert converted markdown -->
 <div class="markdown-body">
-    <?php if (empty($html)) {
-        echo '<a class="waves-effect waves-light btn grey lighten-1 center-align z-depth-0"
-                style="color: white; text-decoration: none; margin-right: auto; margin-left: auto;"
-                href="#">
-                <i class="material-icons left">chevron_left</i>
-                Go Back</a>';
+    <?php
+    
+    if (empty($paths)) {
+        echo 'Home';
+    } elseif (empty($html)) {
+        echo "<a class='waves-effect waves-light btn grey lighten-1 center-align z-depth-0'
+                style='color: white; text-decoration: none; margin-right: auto; margin-left: auto;'
+                href='$base'>
+                <i class='material-icons left'>chevron_left</i>Go Back</a>";
         echo '<br />';
         echo "<object type=\"image/svg+xml\" data=\"{$root}markdown/images/404.svg\"></object>";
     } else {
