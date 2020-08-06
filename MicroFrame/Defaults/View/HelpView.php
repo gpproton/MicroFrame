@@ -21,14 +21,19 @@
                 padding: 15px;
             }
 
-            .hide-on-small {
-                display: none !important;
+            .brand-logo-minify {
+                font-size: 1.3em !important;
+                font-weight: 100 !important;
             }
         }
 
         @media (min-width: 767px) {
             .sidenav-size {
                 min-width: 450px !important;
+            }
+
+            .brand-logo-minify {
+                font-weight: 100 !important;
             }
         }
 
@@ -57,10 +62,10 @@
 <body>
 <nav class="z-depth-0 grey lighten-1">
     <div class="nav-wrapper z-depth-0">
-        <a href="#" data-target="slide-out" class="brand-logo sidenav-trigger" style="display: inline">
+        <a href="#" data-target="slide-out" class="brand-logo sidenav-trigger left" style="display: inline">
             <i class="material-icons">menu</i>
         </a>
-        <a href="<?=$rootUrl?>" class="brand-logo center hide-on-small">MicroFrame Docs</a>
+        <a href="<?=$rootUrl?>" class="brand-logo brand-logo-minify center">MicroFrame Docs</a>
     </div>
 </nav>
 
