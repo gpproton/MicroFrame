@@ -89,7 +89,10 @@ final class Strings
     public function contains($string = null) {
         if (!$this->validate()) return $this;
 
-        return strpos($this->value, $string) !== false;
+        if (!empty($string)) return strpos($this->value, $string) !== false;
+
+        return false;
+
     }
 
     /**
