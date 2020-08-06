@@ -266,9 +266,9 @@ HTML;
         /**
          * Default for page title.
          */
-        if (!isset($options['title'])) {
-            $options['title'] = ucfirst($mataFile . ' documentation');
-        }
+        if (!isset($options['title'])) $options['title'] = '';
+        if ($options['title'] === 'none' || $options['title'] === '') $options['title'] = ucfirst($mataFile . ' documentation');
+        $options['title'] = "<h1 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h1>";
 
         /**
          * Get
@@ -292,7 +292,6 @@ HTML;
         if (!isset($options['date'])) {
             if (file_exists($requestedFile)) $options['date'] = date("d-M-Y", filectime(__FILE__));
             else $options['date'] = date("d-M-Y");
-
         }
 
         /**
@@ -301,16 +300,21 @@ HTML;
         if (!isset($options['image'])) {
             $options['image'] = 'https://www.freelancinggig.com/blog/wp-content/uploads/2017/12/PHP-Tutorial.jpg';
         }
-        if ($options['image'] !== 'none') {
-            $options['image'] = "<img src = '{$options['image']}' alt='Default Images' align='center' style='max-height: 185px;' >";
-        } else {
+        if ($options['image'] === 'none' || $options['image'] === '') {
             $options['image'] = '';
+        } else {
+            $options['image'] = "<div class='center'><img src = '{$options['image']}' alt='Default Images' style='min-height: 150px; max-height: 420px; min-width: 640px; margin-right: auto; margin-left: auto;'></div>";
         }
 
-        if (!isset($options['tags'])) {
-            $options['tags'] = ['PHP', 'MVC', 'Developers', 'Clean Architecture'];
+        /**
+         * Adds default tags
+         */
+        if (!isset($options['tags'])) $options['tags'] = ['PHP', 'MVC', 'Developers', 'Clean Architecture'];
+        $tempTagString = '';
+        foreach ($options['tags'] as $tagValue) {
+            $tempTagString .= "<span class='center tags-style'>{$tagValue}</span>";
         }
-
+        $options['tags'] = "<div class='center' style='margin-bottom: 0.3em;'>{$tempTagString}</div>";
 
         /**
          * Check for config, if not available use requested file path as menu root.
@@ -347,7 +351,14 @@ HTML;
          */
         $markdownString = <<<MARKDOWN
 
-<h1 align="center" style="font-weight: 300 !important;">{$options['title']}</h1>
+{$options['title']}
+
+<div class='center icon-items'>
+    <span><i style="vertical-align: middle;" class="material-icons">person</i>&nbsp; {$options['author']}</span> &nbsp;&nbsp;&nbsp;
+    <span><i style="vertical-align: middle;" class="material-icons">access_time</i>&nbsp; {$options['date']}</span>
+</div>
+
+{$options['tags']}
 
 {$options['image']}
 

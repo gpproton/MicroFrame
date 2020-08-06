@@ -65,6 +65,22 @@
             font-weight: 200 !important;
         }
 
+        .tags-style {
+            background-color: #9e9e9e !important;
+            color: #ffffff !important;
+            font-size: 0.85em;
+            margin-right: 0.8em;
+            margin-left: 0.8em;
+            padding: 0.2em 0.4em 0.2em 0.4em;
+            border-radius: 0.2em;
+        }
+
+        .icon-items {
+            color: #9e9e9e !important;
+            font-size: 0.85em !important;
+            margin-bottom: 0.3em !important;
+        }
+
     </style>
 </head>
 <body>
