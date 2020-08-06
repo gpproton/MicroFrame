@@ -49,6 +49,7 @@ class HelpController extends Core
         $rootUrl = Strings::filter($basePath)
             ->append('help')
             ->value();
+        $rootIterateCheck = false;
 
         $requestedPath = Strings::filter($this->request->url())
             ->range("help/")
@@ -74,7 +75,7 @@ class HelpController extends Core
              * @param $array
              * @param $rootPath
              */
-            $getConstr = function ($array, $rootPath) use (&$reveal, &$getConstr, &$folderStructure, $rootUrl) {
+            $getConstr = function ($array, $rootPath) use (&$reveal, &$getConstr, &$folderStructure, $rootUrl, &$rootIterateCheck) {
 
                 /**
                  * Loop through documentation directory contents.
@@ -134,21 +135,22 @@ class HelpController extends Core
                         $currentFile = Strings::filter($currentFile)->replace('-', ' ')->value();
 
                         if ($rootPath === CORE_PATH . '/Defaults/Markdown') {
-                            /**
-                             * TODO: Optimize / fix system default issues.
-                             */
-                            $rootUrl .= '/' . Strings::filter($rootPath)->replace(CORE_PATH . '/Defaults/Markdown')
-                                    ->replace(['//', ':/'], ['/', '://'])->value();
+                            $rootUrl = '#';
                         } elseif ($rootPath !== APP_PATH . '/Docs/') {
                             /**
                              * Change root path
                              */
-                            $rootUrl .= '/' . Strings::filter($rootPath)->replace(APP_PATH . '/Docs/')->value();
+
+                            $requestLoc = '/' . Strings::filter($rootPath)->replace(APP_PATH . '/Docs/')->value();
+                            if (!$rootIterateCheck) $rootUrl .= $requestLoc;
+
                         }
+
                         $reveal .= <<<HTML
                     <li><div class="divider"></div></li>
-                    <li><a href="{$rootUrl}{$fileInstance}">{$currentFile}</a></li>
+                    <li><a style="margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px;" href="{$rootUrl}{$fileInstance}">{$currentFile}</a></li>
 HTML;
+
 
                     }
 
