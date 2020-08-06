@@ -299,6 +299,7 @@ HTML;
                     'options' => $options
                 ]
             )
+            ->middleware(isset($options['middleware']) ? $options['middleware'] : 'default')
             ->render('sys.help');
     }
 }
