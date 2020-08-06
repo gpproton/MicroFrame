@@ -42,17 +42,6 @@ class TestController extends Core {
          * $this->auto(false);
          */
 
-        /**
-         * Query sample approaches.
-         *
-         * $multiUniqueInstance = array(array('instance' => 'orbhn', 'model' => 'sample', 'params' => array()));
-         * $uniqueInstance = array('instance' => 'orbhn', 'model' => 'sample', 'params' => array());
-         * $multipleQuery = ['sample', 'sample.sample'];
-         * $singleQuery = 'sample.default';
-         * $exec = $this->model('orbhn')->query($multiUniqueInstance)->params()->execute()->result();
-         *
-         */
-
         $this->response
             // Optional set method
             ->methods(['get', 'post'])
