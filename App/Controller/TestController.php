@@ -1,7 +1,4 @@
 <?php
-namespace App\Controller;
-
-defined('BASE_PATH') OR exit('No direct script access allowed');
 /**
  * Test Controller class
  *
@@ -22,6 +19,10 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace App\Controller;
+
+defined('BASE_PATH') OR exit('No direct script access allowed');
+
 use \MicroFrame\Core\Controller as Core;
 
 /**
@@ -39,6 +40,17 @@ class TestController extends Core {
          * Set if controller should auto or not via it's path.
          *
          * $this->auto(false);
+         */
+
+        /**
+         * Query sample approaches.
+         *
+         * $multiUniqueInstance = array(array('instance' => 'orbhn', 'model' => 'sample', 'params' => array()));
+         * $uniqueInstance = array('instance' => 'orbhn', 'model' => 'sample', 'params' => array());
+         * $multipleQuery = ['sample', 'sample.sample'];
+         * $singleQuery = 'sample.default';
+         * $exec = $this->model('orbhn')->query($multiUniqueInstance)->params()->execute()->result();
+         *
          */
 
         $this->response
