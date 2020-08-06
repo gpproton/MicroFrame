@@ -23,6 +23,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 
 use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Library\Strings;
 
 /**
  * Class SwaggerUIController
@@ -34,11 +35,23 @@ use \MicroFrame\Core\Controller as Core;
 class SwaggerUIController extends Core
 {
 
+    /**
+     * Renders UI for openAPI spec.
+     */
     public function index()
     {
-        $getTest =  require_once (__DIR__ . "/../View/SwaggerUIView.php");
-        echo $getTest;
-        die();
+
+        $fullUrl = $this->request->url();
+        /**
+         * Get co responding API path to scan for annotations.
+         */
+        $apiPath = Strings::filter($fullUrl)
+            ->replace("help/swagger", "api/swagger")
+            ->value();
+
+        $this->response
+            ->data(['apiPath' => $apiPath])
+            ->render('sys.SwaggerUI');
     }
 
 }
