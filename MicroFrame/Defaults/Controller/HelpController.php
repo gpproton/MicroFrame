@@ -28,6 +28,9 @@ use MicroFrame\Handlers\Markdown;
 use MicroFrame\Library\File;
 use MicroFrame\Library\Strings;
 
+use Noodlehaus\Config;
+use Noodlehaus\Parser\Yaml;
+
 class HelpController extends Core
 {
     /**
@@ -47,11 +50,15 @@ class HelpController extends Core
             ->append('help')
             ->value();
 
-        $requestedDirectory = Strings::filter($this->request->url())
+        $requestedPath = Strings::filter($this->request->url())
             ->range("help/")
             ->value();
 
-        $requestedFile = Strings::filter($rootPath . $requestedDirectory . '.md')->replace('-', ' ')->value();
+        if (empty($requestedPath) || Strings::filter($requestedPath)->contains('http')) {
+            $requestedFile = CORE_PATH . '/Defaults/Markdown/Default.md';
+        } else {
+            $requestedFile = Strings::filter($rootPath . $requestedPath . '.md')->replace('-', ' ')->value();
+        }
 
         if (file_exists($requestedFile)) {
 
@@ -59,16 +66,15 @@ class HelpController extends Core
              * Start HTML unordered parsing.
              */
 
-            $files = File::init()->dirStructure($rootPath);
             $folderStructure = '';
-            asort($files);
 
             /**
              * Create a structured HTML unordered list.
              *
              * @param $array
+             * @param $rootPath
              */
-            $getConstr = function ($array) use (&$reveal, &$getConstr, $rootPath, &$folderStructure, $rootUrl) {
+            $getConstr = function ($array, $rootPath) use (&$reveal, &$getConstr, &$folderStructure, $rootUrl) {
 
                 /**
                  * Loop through documentation directory contents.
@@ -87,6 +93,7 @@ class HelpController extends Core
                         /**
                          * get absolute file path for confirming existence.
                          */
+                        if (empty($folderStructure)) $folderStructure = '/';
                         $fileInst = Strings::filter($rootPath . $folderStructure . $value)->replace(['//', '///'], ['/', '/'])->value();
 
                         /**
@@ -95,7 +102,6 @@ class HelpController extends Core
                         $fileInstance = '';
                         if (file_exists($fileInst)) {
                             $fileInstance = Strings::filter($folderStructure . $currentFile)->replace(['//', '///'], ['/', '/'])->value();
-
                         }
                         /**
                          * A workaround to return to parent folder from a deep nesting.
@@ -126,6 +132,19 @@ class HelpController extends Core
                          * Add list item to string.
                          */
                         $currentFile = Strings::filter($currentFile)->replace('-', ' ')->value();
+
+                        if ($rootPath === CORE_PATH . '/Defaults/Markdown') {
+                            /**
+                             * TODO: Optimize / fix system default issues.
+                             */
+                            $rootUrl .= '/' . Strings::filter($rootPath)->replace(CORE_PATH . '/Defaults/Markdown')
+                                    ->replace(['//', ':/'], ['/', '://'])->value();
+                        } elseif ($rootPath !== APP_PATH . '/Docs/') {
+                            /**
+                             * Change root path
+                             */
+                            $rootUrl .= '/' . Strings::filter($rootPath)->replace(APP_PATH . '/Docs/')->value();
+                        }
                         $reveal .= <<<HTML
                     <li><div class="divider"></div></li>
                     <li><a href="{$rootUrl}{$fileInstance}">{$currentFile}</a></li>
@@ -172,7 +191,7 @@ HTML;
                         /**
                          * Add all children items.
                          */
-                        $reveal = str_replace($tempKey, $getConstr($value), $reveal);
+                        $reveal = str_replace($tempKey, $getConstr($value, $rootPath), $reveal);
 
                         /**
                          * End of wrapper
@@ -187,28 +206,87 @@ HTML;
                     }
                 }
             };
-            $getConstr($files);
+
             $markdownString = file_get_contents($requestedFile);
         }
 
-
-
-        $html = Markdown::translate($markdownString);
-
-        if ($requestedDirectory === 'help'
-            || $requestedDirectory === ''
-        || Strings::filter($requestedDirectory)->contains('http')) {
+        if ($requestedPath === 'help'
+            || $requestedPath === ''
+        || Strings::filter($requestedPath)->contains('http')) {
             $pathValue = '';
+            $markdownString = file_get_contents(CORE_PATH . '/Defaults/Markdown/Default.md');
         } else {
-            $pathValue = Strings::filter($requestedDirectory)
+            $pathValue = Strings::filter($requestedPath)
                 ->replace('help/', '')
                 ->value();
         }
+
+        /**
+         * Get options start and end substr positions.
+         */
+        $startPos = Strings::filter($markdownString)
+            ->charPosition($markdownString, '---', 1);
+
+        if ($startPos === 0) {
+            $endPos = Strings::filter($markdownString)
+                ->charPosition($markdownString, '---', 2);
+
+
+            $options = substr($markdownString, $startPos, $endPos);
+            $options = new Config($options, new Yaml, true);
+            $options = $options->all();
+        } else {
+            $options = [];
+            $endPos = 0;
+        }
+
+        $rootSetup = '';
+        if (isset($options['root'])) {
+            $rootSetup = $options['root'];
+            if (strpos($rootSetup, '/') === 0) {
+                $rootSetup = Strings::filter($rootSetup)->range('/', false)->value();
+            }
+        }
+
+        /**
+         * Check for config, if not available use requested file path as menu root.
+         */
+
+        if (!empty($rootSetup) && is_dir($rootPath . $rootSetup)) {
+            $rootPath = $rootPath . $rootSetup;
+        } else {
+            $rootPath = dirname($requestedFile);
+        }
+
+        /**
+         * Initialize menu builder.
+         */
+        if (is_dir($rootPath)) {
+            $files = File::init()->dirStructure($rootPath);
+            asort($files);
+            /**
+             * Call menu builder function.
+             */
+            if (isset($getConstr)) $getConstr($files, $rootPath);
+
+        }
+
+        /**
+         * Remove options only if configuration details are present.
+         */
+        $markdownString = $startPos !== 0 ? $markdownString : str_replace(substr($markdownString, $startPos, $endPos + 3), '', $markdownString);
+
+        /**
+         * Convert markdown to HTML
+         */
+        $html = Markdown::translate($markdownString);
+
         /**
          * Default variables.
          * resources $root
          * $url
          * $path
+         * $base Base url for site.
          *
          */
         $this->response
@@ -217,7 +295,8 @@ HTML;
                     'html' => $html,
                     'menu' => $reveal,
                     'rootUrl' => $rootUrl,
-                    'paths' => $pathValue
+                    'paths' => $pathValue,
+                    'options' => $options
                 ]
             )
             ->render('sys.help');
