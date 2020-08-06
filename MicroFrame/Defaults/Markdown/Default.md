@@ -20,7 +20,7 @@ Try it to potentially make life easy, no time for a story yet.
 
 #### Features
 
-1. [X] Query based models.
+1. [X] Query based models within Controllers & Tasks.
 
     **A simple query with default db.**
     
@@ -34,6 +34,32 @@ Try it to potentially make life easy, no time for a story yet.
     var_dump($exec);
     
     ````
+   
+   **Single instance multiple queries.**
+       
+   ````php
+   <?php
+   
+   $exec = $this->model('db1')->query(['sample', 'sample.sample'])
+   ->params()->execute()
+   ->result();
+   
+   var_dump($exec);
+   
+   ````
+   
+   **Single verbose instances and queries.**
+       
+   ````php
+   <?php
+   
+   $exec = $this->model()->query(array('instance' => 'db1', 'model' => 'sample1.default', 'params' => array()))
+   ->params()->execute()
+   ->result();
+   
+   var_dump($exec);
+   
+   ````
     
     **Multiple instances and queries.**
     
@@ -46,19 +72,6 @@ Try it to potentially make life easy, no time for a story yet.
     );
     
     $exec = $this->model()->query($multiUniqueInstance)
-    ->params()->execute()
-    ->result();
-    
-    var_dump($exec);
-    
-    ````
-    
-    **Single instance multiple queries.**
-    
-    ````php
-    <?php
-    
-    $exec = $this->model('db1')->query(['sample', 'sample.sample'])
     ->params()->execute()
     ->result();
     
