@@ -71,8 +71,20 @@ class Markdown extends MarkdownExtra
          */
         $this->translateTodo('[ ]');
 
+        /**
+         * Fix any previous css library modification on lists elements.
+         */
+        $this->reFormatList('<li>');
+        $this->reFormatList('<ul>');
+        $this->reFormatList('<ol>');
+
     }
 
+    /**
+     *
+     *
+     * @param $string
+     */
     private function translateTodo($string) {
 
         if ($string == '[X]') {
@@ -81,6 +93,16 @@ class Markdown extends MarkdownExtra
             $this->html = str_replace($string, '<input type="checkbox" style="all: revert;" onclick="return false">', $this->html);
         }
 
+    }
+
+    private function reFormatList($string) {
+        if ($string == '<li>') {
+            $this->html = str_replace($string, '<li style="all: revert;">', $this->html);
+        } elseif ($string == '<ul>') {
+            $this->html = str_replace($string, '<ul style="all: revert;">', $this->html);
+        } elseif ($string == '<ol>') {
+            $this->html = str_replace($string, '<ol style="all: revert;">', $this->html);
+        }
     }
 
     private function templateBuilder() {
