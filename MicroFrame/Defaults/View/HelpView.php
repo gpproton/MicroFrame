@@ -21,6 +21,33 @@
                 padding: 15px;
             }
         }
+
+        @media (min-width: 767px) {
+            .sidenav-size {
+                min-width: 450px !important;
+            }
+        }
+
+        .link-restyle {
+            font-weight: 200 !important;
+            font-size: 0.85em !important;
+            margin-top: 0px !important;
+            padding-top: 0px !important;
+            margin-bottom: 0px !important;
+            padding-bottom: 0px !important;
+            height: 35px !important;
+        }
+
+        .list-restyle {
+            height: 35px !important;
+        }
+
+        .divider-restyle {
+            margin-top: 0px !important;
+            padding-top: 0px !important;
+            margin-bottom: 0px !important;
+            padding-bottom: 0px !important;
+        }
     </style>
 </head>
 <body>
@@ -33,14 +60,18 @@
     </div>
 </nav>
 
-<ul id="slide-out" class="sidenav">
+<ul id="slide-out" class="sidenav sidenav-size">
     <li style="margin-bottom: 85px;">
-        <div class="user-view">
-            <div class="background" style="height: 75px; font-weight: lighter;">
-                <span class="material-icons" style="font-size: 4em; vertical-align: middle;">book</span>
-                MicroFrame Docs
+
+            <div class="user-view">
+                <div class="background" style="height: 75px; font-weight: lighter;">
+                    <a href="<?=$rootUrl?>">
+                        <span class="material-icons teal-text" style="font-size: 4em; vertical-align: middle; text-decoration: none;">book</span>
+                    </a>
+                    <a href="<?=$rootUrl?>"> MicroFrame Docs</a>
+                </div>
             </div>
-        </div>
+
     </li>
 
     <!-- Auto rendered menu -->

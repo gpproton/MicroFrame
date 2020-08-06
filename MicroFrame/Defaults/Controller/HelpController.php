@@ -75,7 +75,7 @@ class HelpController extends Core
              * @param $array
              * @param $rootPath
              */
-            $getConstr = function ($array, $rootPath) use (&$reveal, &$getConstr, &$folderStructure, $rootUrl, &$rootIterateCheck) {
+            $getConstr = function ($array, $rootPath) use (&$reveal, &$getConstr, &$folderStructure, $rootUrl, $rootIterateCheck) {
 
                 /**
                  * Loop through documentation directory contents.
@@ -140,15 +140,17 @@ class HelpController extends Core
                             /**
                              * Change root path
                              */
-
                             $requestLoc = '/' . Strings::filter($rootPath)->replace(APP_PATH . '/Docs/')->value();
-                            if (!$rootIterateCheck) $rootUrl .= $requestLoc;
+                            if (!Strings::filter($rootUrl)->contains($requestLoc) && !$rootIterateCheck) {
+                                $rootIterateCheck = true;
+                                $rootUrl .= $requestLoc;
+                            }
 
                         }
 
                         $reveal .= <<<HTML
-                    <li><div class="divider"></div></li>
-                    <li><a style="margin-top: 0px; padding-top: 0px; margin-bottom: 0px; padding-bottom: 0px;" href="{$rootUrl}{$fileInstance}">{$currentFile}</a></li>
+                    <li><div class="divider divider-restyle"></div></li>
+                    <li class="list-restyle"><a class="link-restyle" href="{$rootUrl}{$fileInstance}">{$currentFile}</a></li>
 HTML;
 
 
@@ -180,11 +182,11 @@ HTML;
                          * Start of wrapper.
                          */
                         $reveal .= <<<HTML
-        <li><div class="divider"></div></li>
+        <li><div class="divider divider-restyle"></div></li>
          <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
-                    <li>
-                        <a class="collapsible-header">{$key}</a>
+                    <li class="">
+                        <a class="collapsible-header link-restyle">{$key} &nbsp;&nbsp;&nbsp; <span style="color: indianred">&nbsp;></span></a>
                         <div class="collapsible-body">
                             <ul>
                                 {$tempKey}
