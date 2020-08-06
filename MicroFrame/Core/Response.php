@@ -266,15 +266,18 @@ final class Response implements IResponse
     }
 
     /**
-     * @param IMiddleware|null $middleware
+     * @param int | string | array $middleware
      * @return $this|IResponse
      *
      * TODO: Switch to a dot based middleware/
      */
-    public function middleware(IMiddleware $middleware = null)
+    public function middleware($middleware = null | '' | [])
     {
         if (!is_null($middleware)) {
-            $this->proceed = $middleware->handle() && $this->proceed;
+            /**
+             * TODO: Complete implementation.
+             */
+//            $this->proceed = $middleware->handle() && $this->proceed;
         }
         return $this;
     }

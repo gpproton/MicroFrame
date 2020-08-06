@@ -113,10 +113,10 @@ interface IResponse
     Public function session($state, $value = null);
 
     /**
-     * @param IMiddleware $middleware
+     * @param int | string | array $middleware
      * @return self
      */
-    public function middleware(IMiddleware $middleware = null);
+    public function middleware($middleware = null | '' | []);
 
     /**
      * @param null | string $view
