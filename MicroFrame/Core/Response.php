@@ -345,6 +345,7 @@ final class Response implements IResponse
         $data['url'] = $this->request->url();
         $data['path'] = $this->request->path(false);
         $data['root'] = $barePath . 'resources/';
+        $data['base'] = $barePath;
 
         foreach($data as $key => $value)
         {
