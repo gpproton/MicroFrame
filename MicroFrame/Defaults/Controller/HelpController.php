@@ -264,11 +264,18 @@ HTML;
          */
 
         /**
+         * Default for page header.
+         */
+        if (!isset($options['title'])) $options['title'] = '';
+        if ($options['title'] === 'none' || $options['title'] === '') $options['title'] = ucfirst($mataFile . ' documentation');
+        $options['header'] = "<h2 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h2>";
+
+
+        /**
          * Default for page title.
          */
         if (!isset($options['title'])) $options['title'] = '';
         if ($options['title'] === 'none' || $options['title'] === '') $options['title'] = ucfirst($mataFile . ' documentation');
-        $options['title'] = "<h1 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h1>";
 
         /**
          * Get
@@ -351,7 +358,7 @@ HTML;
          */
         $markdownString = <<<MARKDOWN
 
-{$options['title']}
+{$options['header']}
 
 <div class='center icon-items'>
     <span><i style="vertical-align: middle;" class="material-icons">person</i>&nbsp; {$options['author']}</span> &nbsp;&nbsp;&nbsp;
