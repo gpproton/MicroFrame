@@ -321,7 +321,7 @@ HTML;
         foreach ($options['tags'] as $tagValue) {
             $tempTagString .= "<span class='center tags-style'>{$tagValue}</span>";
         }
-        $options['tags'] = "<div class='center' style='margin-bottom: 0.3em;'>{$tempTagString}</div>";
+        $options['tags'] = "<div class='center-align' style='margin-bottom: 0.3em; white-space: nowrap; overflow-x: scroll;'>{$tempTagString}</div>";
 
         /**
          * Check for config, if not available use requested file path as menu root.

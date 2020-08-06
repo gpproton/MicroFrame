@@ -73,6 +73,9 @@
             margin-left: 0.8em;
             padding: 0.2em 0.4em 0.2em 0.4em;
             border-radius: 0.2em;
+            flex: auto;
+            display: inline-block;
+            white-space: normal;
         }
 
         .icon-items {
