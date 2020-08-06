@@ -20,6 +20,10 @@
             .markdown-body {
                 padding: 15px;
             }
+
+            .hide-on-small {
+                display: none !important;
+            }
         }
 
         @media (min-width: 767px) {
@@ -56,7 +60,7 @@
         <a href="#" data-target="slide-out" class="brand-logo sidenav-trigger" style="display: inline">
             <i class="material-icons">menu</i>
         </a>
-        <a href="<?=$rootUrl?>" class="brand-logo center">MicroFrame Docs</a>
+        <a href="<?=$rootUrl?>" class="brand-logo center hide-on-small">MicroFrame Docs</a>
     </div>
 </nav>
 
