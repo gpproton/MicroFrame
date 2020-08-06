@@ -100,7 +100,7 @@ final class Strings
     public function between($start = null, $end = null) {
         $string  = $this->value;
         $ini = strpos($string, $start);
-        echo $ini;
+
         if (empty($string) || $ini == 0) return $this;
         $ini += strlen($start);
         $len = strrpos($string, $end, $ini) - $ini;
