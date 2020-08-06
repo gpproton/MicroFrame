@@ -53,7 +53,7 @@
     <?php
 
     if (empty($paths)) {
-        echo 'Home';
+        echo $html;
     } elseif (empty($html)) {
         echo "<a class='waves-effect waves-light btn grey lighten-1 center-align z-depth-0'
                 style='color: white; text-decoration: none; margin-right: auto; margin-left: auto;'
