@@ -1,5 +1,5 @@
 ---
-title: MicroFrame Docs - Sample page
+title: "MicroFrame Docs - Sample page"
 author: Godwin peter .O
 date: 06-Aug-2020
 image: ""
@@ -10,7 +10,7 @@ tags:
 - PHP
 - MVC
 - Experiments
-- navigation
+- Navigation
 ---
 
 ### Introducing to using MicroFrame.
