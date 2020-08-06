@@ -22,49 +22,49 @@ Try it to potentially make life easy, no time for a story yet.
 
 1. [X] Query based models.
 
-##### A simple query with default db.
-
-````php
-<?php
-
-$exec = $this->model()->query('sample.sample')
-->params()->execute()
-->result();
-
-var_dump($exec);
-
-````
-
-##### Multiple instances and queries.
-
-````php
-<?php
-
-$multiUniqueInstance = array(
-    array('instance' => 'db1', 'model' => 'sample1.default', 'params' => array()),
-    array('instance' => 'db2', 'model' => 'sample2', 'params' => array())
-);
-
-$exec = $this->model()->query($multiUniqueInstance)
-->params()->execute()
-->result();
-
-var_dump($exec);
-
-````
-
-##### Single instance multiple queries.
-
-````php
-<?php
-
-$exec = $this->model('db1')->query(['sample', 'sample.sample'])
-->params()->execute()
-->result();
-
-var_dump($exec);
-
-````
+    **A simple query with default db.**
+    
+    ````php
+    <?php
+    
+    $exec = $this->model()->query('sample.sample')
+    ->params()->execute()
+    ->result();
+    
+    var_dump($exec);
+    
+    ````
+    
+    **Multiple instances and queries.**
+    
+    ````php
+    <?php
+    
+    $multiUniqueInstance = array(
+        array('instance' => 'db1', 'model' => 'sample1.default', 'params' => array()),
+        array('instance' => 'db2', 'model' => 'sample2', 'params' => array())
+    );
+    
+    $exec = $this->model()->query($multiUniqueInstance)
+    ->params()->execute()
+    ->result();
+    
+    var_dump($exec);
+    
+    ````
+    
+    **Single instance multiple queries.**
+    
+    ````php
+    <?php
+    
+    $exec = $this->model('db1')->query(['sample', 'sample.sample'])
+    ->params()->execute()
+    ->result();
+    
+    var_dump($exec);
+    
+    ````
 
 2. [ ] Redis / Local caching.
 3. [X] Custom route declaration.
