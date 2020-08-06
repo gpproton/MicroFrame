@@ -61,6 +61,12 @@ class HelpController extends Core
             $requestedFile = Strings::filter($rootPath . $requestedPath . '.md')->replace('-', ' ')->value();
         }
 
+        $mataFile = Strings::filter($requestedFile)
+            ->range('/', true)
+            ->replace(['.md', '-', '_'], ['', ' ', ' '])
+            ->upperCaseWords()
+            ->value();
+
         if (file_exists($requestedFile)) {
 
             /**
@@ -252,6 +258,59 @@ HTML;
             }
         }
 
+        /**
+         * Define default options for requested markdown if not defined,
+         * they'll be assigned below.
+         */
+
+        /**
+         * Default for page title.
+         */
+        if (!isset($options['title'])) {
+            $options['title'] = ucfirst($mataFile . ' documentation');
+        }
+
+        /**
+         * Get
+         */
+        if (!isset($options['author'])) {
+            $rand = rand(0, 5);
+            $authorDefaults = array(
+                'Rick Sanchez',
+                'Monkey D. Dragon',
+                'Dr. Manhattan',
+                'Cinderella Man',
+                'Rorschach Kovacs',
+                'A. Aokiji'
+            );
+            $options['author'] = $authorDefaults[$rand];
+        }
+
+        /**
+         * Get markdown updated date.
+         */
+        if (!isset($options['date'])) {
+            if (file_exists($requestedFile)) $options['date'] = date("d-M-Y", filectime(__FILE__));
+            else $options['date'] = date("d-M-Y");
+
+        }
+
+        /**
+         * Add header image to markdown output.
+         */
+        if (!isset($options['image'])) {
+            $options['image'] = 'https://www.freelancinggig.com/blog/wp-content/uploads/2017/12/PHP-Tutorial.jpg';
+        }
+        if ($options['image'] !== 'none') {
+            $options['image'] = "<img src = '{$options['image']}' alt='Default Images' align='center' style='max-height: 185px;' >";
+        } else {
+            $options['image'] = '';
+        }
+
+        if (!isset($options['tags'])) {
+            $options['tags'] = ['PHP', 'MVC', 'Developers', 'Clean Architecture'];
+        }
+
 
         /**
          * Check for config, if not available use requested file path as menu root.
@@ -282,6 +341,18 @@ HTML;
          * Remove options only if configuration details are present.
          */
         $markdownString = $startPos !== 0 ? $markdownString : str_replace(substr($markdownString, $startPos, $endPos + 3), '', $markdownString);
+
+        /**
+         * Add starting horizontal line.
+         */
+        $markdownString = <<<MARKDOWN
+
+<h1 align="center" style="font-weight: 300 !important;">{$options['title']}</h1>
+
+{$options['image']}
+
+$markdownString
+MARKDOWN;
 
         /**
          * Convert markdown to HTML
