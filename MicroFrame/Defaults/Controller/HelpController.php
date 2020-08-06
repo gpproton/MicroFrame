@@ -140,19 +140,19 @@ class HelpController extends Core
                             /**
                              * Change root path
                              */
-                            $requestLoc = '/' . Strings::filter($rootPath)->replace(APP_PATH . '/Docs/')->value();
+
+                            $loc = Strings::filter($rootPath)->replace(APP_PATH . '/Docs')->value();
+                            $requestLoc = (strpos($rootPath, '/') !== 0) ? '/' . $loc : $loc;
                             if (!Strings::filter($rootUrl)->contains($requestLoc) && !$rootIterateCheck) {
                                 $rootIterateCheck = true;
                                 $rootUrl .= $requestLoc;
                             }
-
                         }
 
                         $reveal .= <<<HTML
                     <li><div class="divider divider-restyle"></div></li>
                     <li class="list-restyle"><a class="link-restyle" href="{$rootUrl}{$fileInstance}">{$currentFile}</a></li>
 HTML;
-
 
                     }
 
