@@ -30,6 +30,7 @@ use MicroFrame\Library\Strings;
 
 use Noodlehaus\Config;
 use Noodlehaus\Parser\Yaml;
+use PHP_CodeSniffer\Generators\HTML;
 
 class HelpController extends Core
 {
@@ -321,7 +322,23 @@ HTML;
         foreach ($options['tags'] as $tagValue) {
             $tempTagString .= "<span class='center tags-style'>{$tagValue}</span>";
         }
-        $options['tags'] = "<div class='center-align' style='margin-bottom: 0.3em; white-space: nowrap; overflow-x: scroll;'>{$tempTagString}</div>";
+        if (sizeof($options['tags']) >= 1) {
+            $options['tags'] = "<div class='center-align' style='margin-bottom: 0.3em; white-space: nowrap; overflow-x: scroll;'>{$tempTagString}</div>";
+        } else {
+            $options['tags'] = '';
+        }
+
+        if (empty($options['tags']) && empty($options['image']) && empty($options['header'])) {
+            $options['date-author'] = '';
+        } else {
+            $options['date-author'] = <<<HTML
+<div class='center icon-items'>
+<span><i style='vertical-align: middle;' class='material-icons'>person</i>&nbsp; {$options['author']}</span> &nbsp;&nbsp;&nbsp;
+<span><i style='vertical-align: middle;' class='material-icons'>access_time</i>&nbsp; {$options['date']}</span>
+</div>
+HTML;
+        }
+
 
         /**
          * Check for config, if not available use requested file path as menu root.
@@ -359,14 +376,8 @@ HTML;
         $markdownString = <<<MARKDOWN
 
 {$options['header']}
-
-<div class='center icon-items'>
-    <span><i style="vertical-align: middle;" class="material-icons">person</i>&nbsp; {$options['author']}</span> &nbsp;&nbsp;&nbsp;
-    <span><i style="vertical-align: middle;" class="material-icons">access_time</i>&nbsp; {$options['date']}</span>
-</div>
-
+{$options['date-author']}
 {$options['tags']}
-
 {$options['image']}
 
 $markdownString
