@@ -35,9 +35,7 @@ use MicroFrame\Library\Strings;
  */
 final class Model implements IModel
 {
-    // TODO: Placeholder for possible future requirements
     private $instance;
-
     private $query = array();
     private $params = array();
     private $result = array();
