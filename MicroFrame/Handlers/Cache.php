@@ -32,4 +32,67 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 class Cache implements ICache
 {
 
+    /**
+     * Cache constructor.
+     * @param string $string
+     * @param bool $cache
+     */
+    public function __construct($string = "default", $cache = false) {
+        
+    }
+    /**
+     * @inheritDoc
+     */
+    public function config($name)
+    {
+        // TODO: Implement config() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get($key)
+    {
+        // TODO: Implement get() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function set($key, $value)
+    {
+        // TODO: Implement set() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function push($key, $value)
+    {
+        // TODO: Implement push() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function pop($key)
+    {
+        // TODO: Implement pop() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function all($key, $count)
+    {
+        // TODO: Implement all() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function clear($key)
+    {
+        // TODO: Implement clear() method.
+    }
 }

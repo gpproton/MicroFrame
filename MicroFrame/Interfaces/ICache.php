@@ -35,4 +35,43 @@ interface ICache
      */
     public function config($name);
 
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function get($key);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function set($key, $value);
+
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     */
+    public function push($key, $value);
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function pop($key);
+
+    /**
+     * @param $key
+     * @param $count
+     * @return mixed
+     */
+    public function all($key, $count);
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function clear($key);
+
 }
