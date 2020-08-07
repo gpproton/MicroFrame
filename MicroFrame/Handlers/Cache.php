@@ -38,7 +38,7 @@ class Cache implements ICache
      * @param bool $cache
      */
     public function __construct($string = "default", $cache = false) {
-        
+
     }
     /**
      * @inheritDoc
