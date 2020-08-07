@@ -268,7 +268,7 @@ final class Request implements IRequest
      */
     public function browser()
     {
-        return (strpos($this->header('content-type'), 'image/webp') !== false);
+        return Strings::filter($this->header('accept'))->contains('html');
     }
 
     /**
