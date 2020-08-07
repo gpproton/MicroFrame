@@ -41,6 +41,8 @@ final class Strings
     }
 
     /**
+     * validates in value is a string.
+     *
      * @return bool
      */
     private function validate() {
@@ -48,6 +50,8 @@ final class Strings
     }
 
     /**
+     * Allow to return character counts in a string.
+     *
      * @return int|void
      */
     private function count() {
@@ -55,6 +59,8 @@ final class Strings
     }
 
     /**
+     * The string helper static initializer.
+     *
      * @param string $string
      * @return Strings
      */
@@ -64,6 +70,8 @@ final class Strings
     }
 
     /**
+     * A method to replace strings with multiple replacement option available.
+     *
      * @param null $search
      * @param string $replace
      * @return Strings
@@ -83,6 +91,8 @@ final class Strings
     }
 
     /**
+     * An integrated method to check if sub string existing main string.
+     *
      * @param null $string
      * @return boolean|$this
      */
@@ -96,6 +106,8 @@ final class Strings
     }
 
     /**
+     * Cut string between two different characters.
+     *
      * @param null $start
      * @param null $end
      * @return $this
@@ -113,6 +125,8 @@ final class Strings
     }
 
     /**
+     * Enable splitting as string based on a character and cutting it by direction or string position equivalent to another direction.
+     *
      * @param null $search The string to mark as start point.
      * @param bool $startRight if true picks position last occurring character or the particular count the char repeated.
      * @param bool $leftSelect If true selects text to the left of search text.
@@ -142,6 +156,8 @@ final class Strings
     }
 
     /**
+     * Change either the first word or all words fir character to upper case
+     *
      * @param bool $all
      * @return $this
      */
@@ -154,6 +170,8 @@ final class Strings
     }
 
     /**
+     * Change a text to upper case
+     *
      * @return $this
      */
     public function upperCaseAll() {
@@ -163,6 +181,8 @@ final class Strings
     }
 
     /**
+     * Change a text to lower case
+     *
      * @param bool $first
      * @return $this
      */
@@ -205,6 +225,8 @@ final class Strings
     }
 
     /**
+     * Change a slashed string to dot and all some characters
+     *
      * @param bool $check
      * @return $this
      */
@@ -215,13 +237,33 @@ final class Strings
         return $this;
     }
 
+    /**
+     * Allow append to string
+     *
+     * @param $string
+     * @return $this
+     */
     public function append($string) {
-        $this->value .= $string;
+        if (!empty($string)) $this->value .= $string;
 
         return $this;
     }
 
     /**
+     * Allow pre append to string.
+     *
+     * @param $string
+     * @return $this
+     */
+    public function preAppend($string) {
+        if (!empty($string)) $this->value = $string . $this->value;
+
+        return $this;
+    }
+
+    /**
+     * Use to left trim a character from a string.
+     *
      * @param null $string
      * @return $this
      */
@@ -240,6 +282,8 @@ final class Strings
     }
 
     /**
+     * Use to right trim a character from a string.
+     *
      * @param null $string
      * @return $this
      */
@@ -257,6 +301,12 @@ final class Strings
         return $this;
     }
 
+    /**
+     * Use to trim a character from a string from any direction.
+     *
+     * @param null $string
+     * @return $this
+     */
     public function trim($string = null) {
         if (is_null($string)) {
             $this->value = trim($this->value);
@@ -272,6 +322,8 @@ final class Strings
     }
 
     /**
+     * Get the resulting string.
+     *
      * @return null | string | boolean
      */
     public function value() {
