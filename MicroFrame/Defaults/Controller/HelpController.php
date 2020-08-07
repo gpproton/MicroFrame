@@ -265,18 +265,19 @@ HTML;
          */
 
         /**
-         * Default for page header.
+         * Default generation for page header.
          */
-        if (!isset($options['title'])) $options['title'] = '';
-        if ($options['title'] === 'none' || $options['title'] === '') $options['title'] = ucfirst($mataFile . ' documentation');
-        $options['header'] = "<h2 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h2>";
-
-
+        if (!isset($options['title'])) $options['title'] = 'new';
         /**
          * Default for page title.
          */
-        if (!isset($options['title'])) $options['title'] = '';
-        if ($options['title'] === 'none' || $options['title'] === '') $options['title'] = ucfirst($mataFile . ' documentation');
+        if ($options['title'] === 'none' || $options['title'] === '') {
+            $options['title'] = ucfirst($mataFile . ' documentation');
+            $options['header'] = '';
+        } else {
+            if ($options['title'] === 'new') $options['title'] = ucfirst($mataFile . ' documentation');
+            $options['header'] = "<h2 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h2>";
+        }
 
         /**
          * Get
