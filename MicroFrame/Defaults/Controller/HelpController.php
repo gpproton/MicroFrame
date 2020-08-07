@@ -371,9 +371,10 @@ HTML;
         $markdownString = $startPos !== 0 ? $markdownString : str_replace(substr($markdownString, $startPos, $endPos + 3), '', $markdownString);
 
         /**
-         * Add starting horizontal line.
+         * Add all metadata specified.
          */
-        $markdownString = <<<MARKDOWN
+        if (!empty($markdownString)) {
+            $markdownString = <<<MARKDOWN
 
 {$options['header']}
 {$options['date-author']}
@@ -382,7 +383,7 @@ HTML;
 
 $markdownString
 MARKDOWN;
-
+        }
         /**
          * Convert markdown to HTML
          */
