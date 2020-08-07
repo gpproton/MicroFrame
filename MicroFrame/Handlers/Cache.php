@@ -34,14 +34,15 @@ class Cache implements ICache
 
     /**
      * Cache constructor.
-     * @param string $string
-     * @param bool $cache
+     * @param string $dataSource
      */
-    public function __construct($string = "default", $cache = false) {
+    public function __construct($dataSource = "default") {
 
     }
+
     /**
-     * @inheritDoc
+     * @param $name
+     * @return mixed|void
      */
     public function config($name)
     {
@@ -49,7 +50,8 @@ class Cache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @return mixed|void
      */
     public function get($key)
     {
@@ -57,23 +59,30 @@ class Cache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @param $value
+     * @param int $expiry
+     * @return mixed|void
      */
-    public function set($key, $value)
+    public function set($key, $value, $expiry = 0)
     {
         // TODO: Implement set() method.
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @param $value
+     * @param int $expiry
+     * @return mixed|void
      */
-    public function push($key, $value)
+    public function push($key, $value, $expiry = 0)
     {
         // TODO: Implement push() method.
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @return mixed|void
      */
     public function pop($key)
     {
@@ -81,7 +90,9 @@ class Cache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @param $count
+     * @return mixed|void
      */
     public function all($key, $count)
     {
@@ -89,9 +100,11 @@ class Cache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @param int $count
+     * @return mixed|void
      */
-    public function clear($key)
+    public function clear($key, $count = 1)
     {
         // TODO: Implement clear() method.
     }

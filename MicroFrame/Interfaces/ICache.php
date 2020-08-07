@@ -44,16 +44,18 @@ interface ICache
     /**
      * @param $key
      * @param $value
+     * @param int $expiry
      * @return mixed
      */
-    public function set($key, $value);
+    public function set($key, $value, $expiry = 0);
 
     /**
      * @param $key
      * @param $value
+     * @param int $expiry
      * @return mixed
      */
-    public function push($key, $value);
+    public function push($key, $value, $expiry = 0);
 
     /**
      * @param $key
@@ -70,8 +72,9 @@ interface ICache
 
     /**
      * @param $key
+     * @param int $count
      * @return mixed
      */
-    public function clear($key);
+    public function clear($key, $count = 1);
 
 }
