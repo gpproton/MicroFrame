@@ -22,6 +22,7 @@
 namespace MicroFrame\Handlers;
 
 use MicroFrame\Interfaces\ICache;
+use MicroFrame\Library\Config;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -31,13 +32,25 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class Cache implements ICache
 {
+    private $instance;
 
     /**
      * Cache constructor.
-     * @param string $dataSource
+     * @param string $source
      */
-    public function __construct($dataSource = "default") {
+    public function __construct($source = "default") {
+        $this->instance = $this->initialize($source);
 
+        return $this;
+    }
+
+    private function initialize($source) {
+        //TODO: Check datatype and initialize uniquely.
+//        try {
+//            return DataSource::get($source, false);
+//        } catch (\Exception $e) {
+//            Exception::init()->output($e);
+//        }
     }
 
     /**
@@ -46,7 +59,7 @@ class Cache implements ICache
      */
     public function config($name)
     {
-        // TODO: Implement config() method.
+        return Config::fetch($name);
     }
 
     /**
