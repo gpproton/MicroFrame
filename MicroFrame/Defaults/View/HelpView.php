@@ -29,6 +29,15 @@
                 font-size: 1.3em !important;
                 font-weight: 100 !important;
             }
+
+            .image-state {
+                min-height: 150px;
+                max-height: 250px;
+                min-width: auto;
+                margin-right: auto;
+                margin-left: auto;
+            }
+
         }
 
         @media (min-width: 767px) {
@@ -38,6 +47,14 @@
 
             .brand-logo-minify {
                 font-weight: 100 !important;
+            }
+
+            .image-state {
+                min-height: auto;
+                max-height: 340px;
+                min-width: auto;
+                margin-right: auto;
+                margin-left: auto;
             }
         }
 

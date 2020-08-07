@@ -311,7 +311,7 @@ HTML;
         if ($options['image'] === 'none' || $options['image'] === '') {
             $options['image'] = '';
         } else {
-            $options['image'] = "<div class='center'><img src = '{$options['image']}' alt='Default Images' style='min-height: 150px; max-height: 420px; min-width: 640px; margin-right: auto; margin-left: auto;'></div>";
+            $options['image'] = "<div class='center'><img src='{$options['image']}' alt='Default Images' class='image-state'></div>";
         }
 
         /**
