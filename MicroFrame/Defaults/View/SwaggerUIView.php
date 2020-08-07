@@ -24,6 +24,11 @@
         {
             margin:0;
             background: #fafafa;
+            font-weight: 300;
+        }
+
+        .topbar {
+            display: none !important;
         }
     </style>
 </head>
