@@ -1,5 +1,5 @@
 ---
-title: "MicroFrame Docs - Sample page"
+title: "MicroFrame Docs - Sample page :fire: :boom: :zap:"
 author: Godwin peter .O
 date: 06-Aug-2020
 image: ""

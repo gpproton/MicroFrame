@@ -43,6 +43,10 @@ class Markdown extends MarkdownExtra
         return $instance->parse($markdownString);
     }
 
+    public static function init() {
+        return new self();
+    }
+
     public function parse($text)
     {
         $this->html = parent::parse($text);
@@ -157,9 +161,19 @@ class Markdown extends MarkdownExtra
 
     /**
      * Changes github icon markdowns to HTML markup.
+     *
+     * @param null $string
+     * @return string|string[]|null
      */
-    private function parseIcons() {
-        $requestedAnnotation = Strings::filter($this->html)->between(':', ':', false, true, false, 30);
+    public function parseIcons($string = null) {
+        $return = false;
+        if (is_null($string)) {
+            $string = $this->html;
+        } else {
+            $return = true;
+        }
+
+        $requestedAnnotation = Strings::filter($string)->between(':', ':', false, true, false, 30);
 
         if (sizeof($requestedAnnotation) > 0) {
             $emoji = DATA_PATH . Config::fetch('system.path.emoji.path');
@@ -170,9 +184,11 @@ class Markdown extends MarkdownExtra
                     $realKey = ':' . $iconKey . ':';
                     $iconUrl = $emoji[$iconKey];
                     $newMarkup = "<img class='markdown-emoji' title='{$iconKey}' alt='{$iconKey}' src='{$iconUrl}' align='absmiddle'>";
-                    $this->html = str_replace($realKey, $newMarkup, $this->html);
+                    $string = str_replace($realKey, $newMarkup, $string);
                 }
             }
+            if ($return) return $string;
+            $this->html = $string;
         }
     }
 
