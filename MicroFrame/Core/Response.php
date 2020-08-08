@@ -85,7 +85,7 @@ final class Response implements IResponse
                 ->data(array(
                     'errorText' => "Requested resource '{$this->request->url()}' not found..",
                     'errorTitle' => 'Requested resource not found',
-                    'errorImage' => 'images/404.svg',
+                    'errorImage' => 'images/vector/404.svg',
                     'errorColor' => 'firebrick',
                     'showReturn' => true
                 ))

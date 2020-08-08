@@ -149,7 +149,7 @@
                 href='$base'>
                 <i class='material-icons left'>chevron_left</i>Go Back</a>";
         echo '<br />';
-        echo "<object type='image/svg+xml' style='min-height: 350px; min-width: auto;' data='{$root}images/404.svg'></object>";
+        echo "<object type='image/svg+xml' style='min-height: 350px; min-width: auto;' data='{$root}images/vector/404.svg'></object>";
     } else {
         echo $html;
     } ?>

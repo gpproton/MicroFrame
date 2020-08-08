@@ -41,7 +41,7 @@ class IndexController extends Core {
                 ->data(array(
                     'errorText' => 'Welcome, please write nice codes...',
                     'errorTitle' => 'Welcome Page',
-                    'errorImage' => 'images/welcome.svg',
+                    'errorImage' => 'images/vector/welcome.svg',
                     'errorColor' => 'violet',
                     'showReturn' => false
                 ))->render('sys.Default');
