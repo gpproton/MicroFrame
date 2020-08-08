@@ -279,7 +279,6 @@ HTML;
         } else {
             if ($options['title'] === 'new') $options['title'] = ucfirst($mataFile . ' documentation');
             $options['header'] = "<h2 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h2>";
-            $options['header'] = Markdown::init()->parseIcons($options['header']);
         }
 
         /**
