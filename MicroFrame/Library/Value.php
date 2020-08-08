@@ -97,8 +97,7 @@ class Value
 
     }
 
-    public function mimeType($filename)
-    {
+    public function mimeType($filename) {
         if(!function_exists('mime_content_type')) {
             function mime_content_type($filename) {
                 $mime_types = array(
@@ -173,6 +172,11 @@ class Value
         } else {
             return mime_content_type($filename);
         }
+    }
+
+    public function assistPath() {
+        $assistRoot = Config::fetch('site.assist') !== null ? Config::fetch('site.assist') : 'help/';
+        return rtrim($assistRoot, '/');
     }
 
 }

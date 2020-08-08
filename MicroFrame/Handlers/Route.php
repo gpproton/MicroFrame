@@ -31,6 +31,7 @@ use MicroFrame\Core\Response;
 use MicroFrame\Library\Reflect;
 use MicroFrame\Defaults\Middleware\DefaultMiddleware;
 use MicroFrame\Library\Strings;
+use MicroFrame\Library\Value;
 
 /**
  * Class Route
@@ -212,9 +213,6 @@ class Route
          * E.g General Swagger | Docs | Wiki
          *
          * Find option for sys.Controller
-         * self::map("/help/docs", ['get'], "api.index", []);
-         * self::map("/help/docs", ['get'], "api.index", []);
-         *
          *
          * NOTE: Do not modify except you know what you're doing!!!!
          *
@@ -226,14 +224,20 @@ class Route
         self::map("/api/swagger*", ['get', 'post'], self::sysPath . "Swagger", []);
 
         /**
+         * Assist page config value.
+         */
+
+         $assistRoot = Value::init()->assistPath();
+
+        /**
          * Swagger frontend for corresponding API Doc
          */
-        self::map("/help/swagger*", ['get'], self::sysPath . "SwaggerUI", []);
+        self::map("/{$assistRoot}/swagger*", ['get'], self::sysPath . "SwaggerUI", []);
 
         /**
          * MarkDown based help documentation web view.
          */
-        self::map("/help*", ['get'], self::sysPath . "Help", []);
+        self::map("/{$assistRoot}/*", ['get'], self::sysPath . "Help", []);
 
         /**
          * Resource router for requested resource files.

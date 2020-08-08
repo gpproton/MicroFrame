@@ -24,6 +24,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use \MicroFrame\Core\Controller as Core;
 use MicroFrame\Library\Strings;
+use MicroFrame\Library\Value;
 
 /**
  * Class SwaggerUIController
@@ -46,7 +47,7 @@ class SwaggerUIController extends Core
          * Get co responding API path to scan for annotations.
          */
         $apiPath = Strings::filter($fullUrl)
-            ->replace("help/swagger", "api/swagger")
+            ->replace(Value::init()->assistPath() . "/swagger", "api/swagger")
             ->value();
 
         $this->response

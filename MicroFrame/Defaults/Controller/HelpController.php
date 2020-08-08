@@ -27,6 +27,7 @@ use MicroFrame\Core\Controller as Core;
 use MicroFrame\Handlers\Markdown;
 use MicroFrame\Library\File;
 use MicroFrame\Library\Strings;
+use MicroFrame\Library\Value;
 
 use Noodlehaus\Config;
 use Noodlehaus\Parser\Yaml;
@@ -41,6 +42,7 @@ class HelpController extends Core
     public function index()
     {
 
+        $assistRoot = Value::init()->assistPath();
         $currentPath = $this->request->path(false);
         $basePath = Strings::filter($this->request->url())->replace([$currentPath, '//', ':/'], ['', '/', '://'])->value();
 
@@ -48,12 +50,12 @@ class HelpController extends Core
         $reveal = '';
         $markdownString = '';
         $rootUrl = Strings::filter($basePath)
-            ->append('help')
+            ->append($assistRoot)
             ->value();
         $rootIterateCheck = false;
 
         $requestedPath = Strings::filter($this->request->url())
-            ->range("help/")
+            ->range($assistRoot . "/")
             ->value();
 
         if (empty($requestedPath) || Strings::filter($requestedPath)->contains('http')) {
@@ -221,14 +223,14 @@ HTML;
             $markdownString = file_get_contents($requestedFile);
         }
 
-        if ($requestedPath === 'help'
+        if ($requestedPath === $assistRoot
             || $requestedPath === ''
         || Strings::filter($requestedPath)->contains('http')) {
             $pathValue = '';
             $markdownString = file_get_contents(CORE_PATH . '/Defaults/Markdown/Default.md');
         } else {
             $pathValue = Strings::filter($requestedPath)
-                ->replace('help/', '')
+                ->replace($assistRoot . '/', '')
                 ->value();
         }
 
