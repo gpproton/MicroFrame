@@ -50,8 +50,7 @@ class Controller implements IController
      * @param string $method
      * @param bool $auto
      */
-    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true)
-    {
+    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true) {
         define("API_HOST", Config::fetch("system.debug") ? "localhost" : Config::fetch("site.api.host"));
 
         $this->middlewareState = true;
@@ -68,8 +67,7 @@ class Controller implements IController
      * @param $name
      * @return array|mixed|null
      */
-    public function config($name)
-    {
+    public function config($name) {
         return Config::fetch($name);
     }
 
@@ -77,8 +75,7 @@ class Controller implements IController
      * @param IMiddleware|null $middleware
      * @return $this|mixed
      */
-    public function middleware(IMiddleware $middleware = null)
-    {
+    public function middleware(IMiddleware $middleware = null) {
         if (!is_null($middleware)) {
             $this->middlewareState = $middleware->handle() && $this->middlewareState;
         }
@@ -88,20 +85,32 @@ class Controller implements IController
     /**
      * Index/Default controller method
      */
-    public function index()
-    {
+    public function index() {
         /**
          * Implement index method from children class if required.
          */
-        $this->response->send();
+        $defaultTest = 'Requested resource requires extension..';
+        if ($this->request->browser()) {
+            $this->response
+                ->data([
+                        'errorText' => $defaultTest,
+                        'errorTitle' => 'New resource',
+                        'errorImage' => 'images/Ice-cream.svg',
+                        'errorColor' => 'dodgerblue'
+                    ])
+                ->render('sys.Default');
+        } else {
+            $this->response
+                ->data([$defaultTest])
+                ->send();
+        }
     }
 
     /**
      * @param bool $state
      * @return mixed|void
      */
-    public function auto($state = true)
-    {
+    public function auto($state = true) {
         if (!$state && gettype($this->auto) === 'boolean') {
             $this->response->notFound();
         }
@@ -139,8 +148,7 @@ class Controller implements IController
      *
      * @return void
      */
-    public function start()
-    {
+    public function start() {
         /** @var IController $this */
         if ($this->middlewareState && !is_null($this->response)) {
             $this->response->proceed = true;
@@ -162,7 +170,7 @@ class Controller implements IController
             } else {
                 $this->index();
             }
-
+            $this->index();
         }
 
     }
@@ -174,8 +182,7 @@ class Controller implements IController
      * @param null $source
      * @return Model|IModel
      */
-    public function model($source =  null)
-    {
+    public function model($source =  null) {
         if (is_null($source)) return new Model();
         return new Model($source);
     }
