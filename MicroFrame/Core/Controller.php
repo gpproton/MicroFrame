@@ -95,7 +95,7 @@ class Controller implements IController
                 ->data([
                         'errorText' => $defaultTest,
                         'errorTitle' => 'New resource',
-                        'errorImage' => 'images/Ice-cream.svg',
+                        'errorImage' => 'images/build.svg',
                         'errorColor' => 'dodgerblue',
                         'showReturn' => false
                     ])
