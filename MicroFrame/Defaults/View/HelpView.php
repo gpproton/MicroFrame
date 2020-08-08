@@ -101,6 +101,11 @@
             margin-bottom: 0.3em !important;
         }
 
+        .markdown-emoji {
+            width: 20px;
+            height: 20px;
+        }
+
     </style>
 </head>
 <body>
