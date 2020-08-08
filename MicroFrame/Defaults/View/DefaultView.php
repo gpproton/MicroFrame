@@ -26,10 +26,12 @@
 </head>
 <body>
 
+<?php if (isset($showReturn)) {if ($showReturn) { ?>
 <div class="center-align">
     <a class='waves-effect waves-light btn grey lighten-1 center-align z-depth-0' style='color: white; text-decoration: none; margin-right: auto; margin-left: auto;' href='<?=$base?>'>
         <i class='material-icons left'>chevron_left</i>Return Home</a>
 </div>
+<?php } } ?>
 
 <div class="center-align">
     <object class="center-align" style="min-height: 350px; max-height: 500px; min-width: auto;" type='image/svg+xml' data='<?=$root?><?=$errorImage?>'></object>

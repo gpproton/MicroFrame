@@ -86,7 +86,8 @@ final class Response implements IResponse
                     'errorText' => "Requested resource '{$this->request->url()}' not found..",
                     'errorTitle' => 'Requested resource not found',
                     'errorImage' => 'images/404.svg',
-                    'errorColor' => 'firebrick'
+                    'errorColor' => 'firebrick',
+                    'showReturn' => true
                 ))
                 ->render('sys.Default');
         }

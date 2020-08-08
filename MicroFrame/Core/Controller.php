@@ -96,7 +96,8 @@ class Controller implements IController
                         'errorText' => $defaultTest,
                         'errorTitle' => 'New resource',
                         'errorImage' => 'images/Ice-cream.svg',
-                        'errorColor' => 'dodgerblue'
+                        'errorColor' => 'dodgerblue',
+                        'showReturn' => false
                     ])
                 ->render('sys.Default');
         } else {
