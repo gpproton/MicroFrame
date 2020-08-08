@@ -167,7 +167,30 @@ class Controller implements IController
             $methodName = strtolower($this->method);
 
             if (method_exists($this, $methodName)) {
+                ob_start();
                 Reflect::check()->methodLoader($this, $methodName, array());
+                $checkForOutput = ob_get_contents();
+                ob_clean();
+
+                if (empty($checkForOutput) || strlen($checkForOutput) >= 1) {
+                    $defaultTest = 'Please Implement a standard response...';
+                    if ($this->request->browser()) {
+                        $this->response
+                            ->data([
+                                'errorText' => $defaultTest,
+                                'errorTitle' => 'New resource',
+                                'errorImage' => 'images/vector/cream.svg',
+                                'errorColor' => 'dodgerblue',
+                                'showReturn' => false
+                            ])
+                            ->render('sys.Default');
+                    } else {
+                        $this->response
+                            ->data([$defaultTest])
+                            ->send();
+                    }
+                }
+
             } else {
                 $this->index();
             }

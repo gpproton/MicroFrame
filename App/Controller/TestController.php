@@ -23,7 +23,7 @@ namespace App\Controller;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
-use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Core\Controller as Core;
 
 /**
  * Class TestController
