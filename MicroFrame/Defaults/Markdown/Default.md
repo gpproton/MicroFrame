@@ -78,7 +78,7 @@ Try it to potentially make life easy, no time for a story yet.
     
     ````
 
-2. [ ] Redis / ~~Local~~ caching :bulb:
+2. [ ] Redis / ~~Local~~ caching :bulb: on our :rocket:
 3. [X] Custom route declaration.
 4. [X] Path based routing.
 5. [X] Multiple content type for `$this->response` YAML/JSON/XML
