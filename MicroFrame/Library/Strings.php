@@ -108,20 +108,62 @@ final class Strings
     /**
      * Cut string between two different characters.
      *
+     * No value method required, if the 4th & 5th are true, false an array of string
+     * is returned that matched the conditions.
+     * The 3rd parameter specifies if the that start and end delimiter will be included in result
+     * The 6th parameter specify the max string length that will be returned.
+     *
      * @param null $start
      * @param null $end
-     * @return $this
+     * @param bool $includeDelimiters
+     * @param int $offset
+     * @param bool $array
+     * @param bool $forceString
+     * @param int $count
+     * @return $this | array
      */
-    public function between($start = null, $end = null) {
+    public function between($start = null, $end = null,  $includeDelimiters = false, $array = false, $forceString = true, $count = -1, int &$offset = 0) {
         $string  = $this->value;
-        $ini = strpos($string, $start);
 
-        if (empty($string) || $ini == 0) return $this;
-        $ini += strlen($start);
-        $len = strrpos($string, $end, $ini) - $ini;
-        $this->value = substr($string, $ini, $len);
+        if ($string === '' || $start === '' || $end === '') return $this;
 
-        return $this;
+        if (!$array && $forceString) {
+            $startLength = strlen($start);
+            $endLength = strlen($end);
+            $startPos = strpos($string, $start, $offset);
+            if ($startPos === false) return $this;
+            $endPos = strpos($string, $end, $startPos + $startLength);
+            if ($endPos === false) return $this;
+            $length = $endPos - $startPos + ($includeDelimiters ? $endLength : -$startLength);
+            if (!$length) return $this;
+            $offset = $startPos + ($includeDelimiters ? 0 : $startLength);
+            $result = substr($string, $offset, $length);
+
+            $this->value = ($result !== false ? $result : null);
+
+            return $this;
+
+        } else {
+            $strings = [];
+            $length = strlen($string);
+            while ($offset < $length)
+            {
+                $found = self::filter($string)->between($start, $end, $includeDelimiters, false, true, $count, $offset)->value();
+                if ($found === null) break;
+                $strings[] = $found;
+                $offset += strlen($includeDelimiters ? $found : $start . $found . $end);
+            }
+
+            if ($count >= 1) {
+                $newStringArray = array();
+                foreach ($strings as $stringValue) {
+                    if (strlen($stringValue) <= $count) $newStringArray[] = $stringValue;
+                }
+                return $newStringArray;
+            }
+            return $strings;
+        }
+
     }
 
     /**
