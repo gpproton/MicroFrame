@@ -307,7 +307,7 @@ HTML;
          * Add header image to markdown output.
          */
         if (!isset($options['image'])) {
-            $options['image'] = 'https://www.freelancinggig.com/blog/wp-content/uploads/2017/12/PHP-Tutorial.jpg';
+            $options['image'] = '/resources/images/php.jpg';
         }
         if ($options['image'] === 'none' || $options['image'] === '') {
             $options['image'] = '';
