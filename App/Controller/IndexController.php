@@ -22,7 +22,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Core\Controller as Core;
 
 /**
  * Class IndexController
@@ -32,9 +32,20 @@ class IndexController extends Core {
 
     public function index()
     {
-        $this->response
-            ->data("Welcome, please write nice codes...")
-            ->format("application/json")
-            ->send();
+        if (!$this->request->browser()) {
+            $this->response->methods(['get', 'post', 'put', 'delete', 'option'])
+                ->data('Welcome, please write nice codes...')
+                ->send();
+        } else {
+            $this->response->methods(['get', 'post', 'put', 'delete', 'option'])
+                ->data(array(
+                    'errorText' => 'Welcome, please write nice codes...',
+                    'errorTitle' => 'Welcome Page',
+                    'errorImage' => 'images/welcome.svg',
+                    'errorColor' => 'violet',
+                    'showReturn' => false
+                ))->render('sys.Default');
+        }
     }
+
 }
