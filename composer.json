@@ -1,7 +1,7 @@
 {
     "name": "gpproton/microframe",
     "description": "A simplistic micro-plain framework with a little touch of MVC without the pains of models",
-    "keywords": ["template", "MVC", "MICRO", "CLI"],
+    "keywords": ["template", "framework", "MVC", "micro", "cli"],
     "homepage": "https://github.com/gpproton/microframe",
     "type": "template",
     "license": "MIT",
@@ -24,6 +24,7 @@
         }
     },
     "require": {
+        "php": ">=7.0",
         "ext-json": "*",
         "ext-fileinfo": "*",
         "ext-curl": "*",
