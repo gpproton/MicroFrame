@@ -78,9 +78,11 @@ Try it to potentially make life easy, no time for a story yet.
     
     ````
 
-2. [ ] Redis / Local caching.
+2. [ ] Redis / ~~Local~~ caching :bulb:
 3. [X] Custom route declaration.
 4. [X] Path based routing.
 5. [X] Multiple content type for `$this->response` YAML/JSON/XML
 
+## A sample image inclusion.
 
+![Kitten](/resources/images/php.jpg "A cute kitten")
