@@ -250,6 +250,7 @@ final class Request implements IRequest
     Public function server($string = null)
     {
         if (is_null($string)) return self::$server;
+        $string = str_replace('-', '_', strtoupper($string));
         return isset(self::$server[$string]) ? self::$server[$string] : null;
     }
 
