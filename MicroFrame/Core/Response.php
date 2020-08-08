@@ -82,8 +82,13 @@ final class Response implements IResponse
                 ->send();
         } else {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
-                ->data(array('errorText' => "Requested resource '{$this->request->url()}' not found.."))
-                ->render('sys.404');
+                ->data(array(
+                    'errorText' => "Requested resource '{$this->request->url()}' not found..",
+                    'errorTitle' => 'Requested resource not found',
+                    'errorImage' => 'images/404.svg',
+                    'errorColor' => 'firebrick'
+                ))
+                ->render('sys.Default');
         }
 
     }
