@@ -6,6 +6,7 @@ system:
     logs: 'Logs'
     cache: 'Cache'
     storage: 'Storage'
+    emoji: '/Resources/emoji.json'
   retention:
     logs: 10
     cache: 3
