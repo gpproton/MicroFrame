@@ -16,6 +16,7 @@ system:
 site:
   title: 'MicroFrame 0.0.1'
   root: index
+  assist: 'help/'
   api:
     host: example.com
 
