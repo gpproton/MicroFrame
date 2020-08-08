@@ -162,7 +162,7 @@ class Markdown extends MarkdownExtra
         $requestedAnnotation = Strings::filter($this->html)->between(':', ':', false, true, false, 30);
 
         if (sizeof($requestedAnnotation) > 0) {
-            $emoji = DATA_PATH . Config::fetch('system.path.emoji');
+            $emoji = DATA_PATH . Config::fetch('system.path.emoji.path');
             $emoji = file_get_contents($emoji);
             $emoji = json_decode($emoji, true);
             foreach ($requestedAnnotation as $iconKey) {

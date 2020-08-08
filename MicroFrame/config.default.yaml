@@ -6,7 +6,9 @@ system:
     logs: 'Logs'
     cache: 'Cache'
     storage: 'Storage'
-    emoji: '/Resources/emoji.json'
+    emoji:
+      path: '/Resources/emoji.json'
+      url: 'https://api.github.com/emojis'
   retention:
     logs: 10
     cache: 3
