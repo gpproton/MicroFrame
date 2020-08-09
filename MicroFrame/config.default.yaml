@@ -28,18 +28,20 @@ auth:
   session_key: 'MicroFrame_Session'
   passkey: pass@123
 
-# DataSource types sqlite | redis
+# DataSource types Sqlite | Redis | MemCached
 cache:
   default:
     type: sqlite
     dbname: cache.sq3
     timeout: 10
-  redis:
+    prefix: 'mf_'
+  redisExample:
     type: redis
     host: 127.0.0.1
     port: 6379
     extra: ''
     timeout: 10
+    prefix: 'mf_'
 
 # DataSource types sqlite | mysql | postgres | oracle | mssql
 data:
