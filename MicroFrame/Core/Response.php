@@ -316,6 +316,10 @@ final class Response implements IResponse
              */
             if (!isset($this->methods)) $this->methods(['get'], true);
 
+            /**
+             * If request format contains html set to JSON.
+             */
+            $this->format = strpos($this->format, 'html') !== false ? 'application/json' : $this->format;
             /** @var void $this */
             $this->header('content-type', $this->format, true);
             $this->header($this->content['code']);
