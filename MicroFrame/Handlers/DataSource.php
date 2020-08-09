@@ -73,19 +73,15 @@ class DataSource implements IDataSource {
                  */
                 $connectionString = Reflect::check()->methodLoader($this, $this->source['type'], $connectStringParams);
 
-                /**
-                 * check if PDO OCI is not available then use work around.
-                 */
                 if ($this->source['type'] === "redis") {
                     /**
                      * Initialize redis caching connection
                      */
-                    $this->connection = new redisClient([
-                        'scheme' => 'tcp',
-                        'host'   => $this->source['host'],
-                        'port'   => $this->source['port'],
-                        ]);
+                    $this->connection = new redisClient($this->redis());
                 }
+                /**
+                 * check if PDO OCI is not available then use work around.
+                 */
                 else if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
                     $this->connection = new fallbackOraclePDO($connectionString, $this->source['user'], $this->source['password']);
                 }
@@ -225,18 +221,31 @@ class DataSource implements IDataSource {
 
     /**
      * @param null $config
-     * @return string
+     * @return array
      */
     public function redis($config = null)
     {
         /**
-         *
+         * Compose redis configuration.
          */
 
-        return null;
+        $cachePrefix = isset($this->source['prefix']) ? $this->source['prefix'] : 'mf_';
+        return [
+            [
+                'scheme' => 'tcp',
+                'host'   => $this->source['host'],
+                'port'   => $this->source['port'],
+            ],
+            [
+                'prefix' => $cachePrefix,
+                'exceptions' => false
+            ]
+        ];
     }
 
     /**
+     * Check if specified datasource type is supported.
+     *
      * @param $text
      * @param bool $checkOnly
      * @return bool
