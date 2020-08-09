@@ -1,6 +1,6 @@
 <?php
 /**
- * Sqlite Cache Handler class
+ * SqliteCache Cache Handler class
  *
  * PHP Version 7
  *
@@ -25,10 +25,30 @@ namespace MicroFrame\Handlers\Cache;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class Sqlite
+ * Class SqliteCache
  * @package MicroFrame\Handlers\Cache
  */
-class Sqlite
+class SqliteCache extends BaseCache
 {
+
+    /**
+     * @param $key
+     * @return mixed|void
+     */
+    public function get($key)
+    {
+
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     * @param int $expiry
+     * @return mixed|void
+     */
+    public function set($key, $value, $expiry = 0)
+    {
+
+    }
 
 }

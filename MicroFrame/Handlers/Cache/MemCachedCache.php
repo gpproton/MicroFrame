@@ -1,6 +1,6 @@
 <?php
 /**
- * Redis Cache Handler class
+ * MemCached Cache Handler class
  *
  * PHP Version 7
  *
@@ -25,10 +25,10 @@ namespace MicroFrame\Handlers\Cache;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class Redis
+ * Class MemCachedCache
  * @package MicroFrame\Handlers\Cache
  */
-class Redis
+class MemCachedCache extends BaseCache
 {
 
 }
