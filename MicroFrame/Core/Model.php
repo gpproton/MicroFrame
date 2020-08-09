@@ -46,8 +46,7 @@ final class Model implements IModel
      * Model constructor.
      * @param string $source
      */
-    public function __construct($source = null)
-    {
+    public function __construct($source = null) {
         $this->instance = $this->initialize($source);
 
         return $this;
@@ -58,8 +57,7 @@ final class Model implements IModel
      * @return $this
      *
      */
-    public function query($content)
-    {
+    public function query($content) {
         if (gettype($content) === 'string') {
             $this->query[] = $content;
         } else if (gettype($content) === 'array') {
@@ -80,8 +78,7 @@ final class Model implements IModel
      * @param array $array
      * @return $this
      */
-    public function params($array = [])
-    {
+    public function params($array = []) {
         $this->params[] = $array;
 
         return $this;
@@ -92,8 +89,7 @@ final class Model implements IModel
      *
      * @return $this|void
      */
-    public function execute()
-    {
+    public function execute() {
         $level = 0;
         $modelSrc = "select 1 from dual";
         $modelSample = array('sample' => 'dataX');
@@ -210,8 +206,7 @@ final class Model implements IModel
     /**
      * @return array
      */
-    public function result()
-    {
+    public function result() {
         return array_change_key_case($this->result, CASE_LOWER);
     }
 
@@ -222,8 +217,7 @@ final class Model implements IModel
      *
      * @return string
      */
-    private function load($path)
-    {
+    private function load($path) {
         if (!Strings::filter($path)->contains("sys.")) {
             return Reflect::check()->stateLoader("app.Model." . $path, array())->query;
         } else {
