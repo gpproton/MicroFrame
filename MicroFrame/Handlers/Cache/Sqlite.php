@@ -1,11 +1,11 @@
 <?php
 /**
- * Cache Handler class
+ * Sqlite Cache Handler class
  *
  * PHP Version 7
  *
  * @category  Handlers
- * @package   MicroFrame\Handlers
+ * @package   MicroFrame\Handlers\Cache
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -19,18 +19,16 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace MicroFrame\Handlers;
 
-
-use MicroFrame\Handlers\Cache\BaseCache;
+namespace MicroFrame\Handlers\Cache;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class Cache
- * @package MicroFrame\Handlers
+ * Class Sqlite
+ * @package MicroFrame\Handlers\Cache
  */
-class Cache extends BaseCache
+class Sqlite
 {
 
 }
