@@ -21,7 +21,9 @@
 
 namespace MicroFrame\Library;
 
-use \Symfony\Component\Yaml\Yaml as symfonyYaml;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\YamlEncoder;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -31,38 +33,6 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class Convert
 {
-    /**
-     * @param $array
-     * @return false|string
-     */
-    private static function arrayJson($array) {
-        return json_encode($array);
-    }
-
-    /**
-     * @param $array
-     * @return mixed
-     */
-    private static function arrayXml($array) {
-        function xmlParser($array, &$xmlElement) {
-            foreach($array as $key => $value) {
-                if(is_array($value)) {
-                    if(!is_numeric($key)){
-                        $subnode = $xmlElement->addChild("$key");
-                        xmlParser($value, $subnode);
-                    } else {
-                        $subnode = $xmlElement->addChild("item$key");
-                        xmlParser($value, $subnode);
-                    }
-                }else {
-                    $xmlElement->addChild("$key",htmlspecialchars("$value"));
-                }
-            }
-        }
-        $xmlElement = new \SimpleXMLElement("<?xml version=\"1.0\" encoding=\"UTF-8\"?><root></root>");
-        xmlParser($array,$xmlElement);
-        return $xmlElement->asXML();
-    }
 
     /**
      * @param $array
@@ -77,11 +47,14 @@ class Convert
         $array = json_decode(json_encode($array), true);
 
         if (strpos($type, 'xml') !== false) {
-            return self::arrayXml($array);
+            $encoder = new XmlEncoder();
+            return $encoder->encode($array, 'xml');
         } elseif (strpos($type, 'yaml') !== false) {
-            return symfonyYaml::dump($array);
+            $encoder = new YamlEncoder();
+            return $encoder->encode($array, 'yaml');
         } else {
-            return self::arrayJson($array);
+            $encoder = new JsonEncoder();
+            return $encoder->encode($array, 'json');
         }
     }
 }
