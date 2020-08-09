@@ -6,22 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<?=$root?>css/materialize.min.css" media="screen,projection">
     <style>
-
         body {
             font-weight: 300 !important;
-        }
-        body {
             box-sizing: border-box;
-            min-width: 200px;
+            min-width: 380px;
             max-width: 980px;
             margin: 0 auto;
             padding: 45px;
         }
 
-        @media (max-width: 767px) {
+        @media (max-width: 768px) {
             body {
                 padding: 15px;
             }
+        }
+
+        .vector-style {
+            min-height: auto !important;
+            max-height: 450px !important;
+            min-width: auto !important;
+        }
     </style>
 </head>
 <body>
@@ -34,10 +38,10 @@
 <?php } } ?>
 
 <div class="center-align">
-    <object class="center-align" style="min-height: 350px; max-height: 500px; min-width: auto;" type='image/svg+xml' data='<?=$root?><?=$errorImage?>'></object>
+    <object class="center-align vector-style" type='image/svg+xml' data='<?=$root?><?=$errorImage?>'></object>
 </div>
 
-<div class="center-align">
+<div class="center-align" style="word-wrap: break-word;">
     <h4 class="center-align" style="color: <?=$errorColor?>; font-weight: 100;"><?=$errorText?></h4>
 </div>
 
