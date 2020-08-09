@@ -93,12 +93,7 @@ abstract class BaseCache implements ICache
      * @param $key
      * @return mixed|void
      */
-    public function get($key)
-    {
-        /**
-         * Only sql solution is partly implemented here any other type are strictly in override.
-         */
-    }
+    abstract function get($key);
 
     /**
      * @param $key
@@ -106,12 +101,7 @@ abstract class BaseCache implements ICache
      * @param int $expiry
      * @return mixed|void
      */
-    public function set($key, $value, $expiry = 0)
-    {
-        /**
-         * Only sql solution is partly implemented here any other type are strictly in override.
-         */
-    }
+    abstract function set($key, $value, $expiry = 0);
 
     /**
      * @param $key
@@ -119,31 +109,20 @@ abstract class BaseCache implements ICache
      * @param int $expiry
      * @return mixed|void
      */
-    public function push($key, $value, $expiry = 0)
-    {
-        // TODO: Add automatic init for cache key *tables* for sql based cache.
-        // TODO: Implement push() method.
-    }
+    abstract function push($key, $value, $expiry = 0);
 
     /**
      * @param $key
      * @return mixed|void
      */
-    public function pop($key)
-    {
-        // TODO: Add automatic init for cache key *tables* for sql based cache.
-        // TODO: Implement pop() method.
-    }
+    abstract function pop($key);
 
     /**
      * @param $key
      * @param $count
      * @return mixed|void
      */
-    public function all($key, $count)
-    {
-        // TODO: Implement all() method.
-    }
+    abstract function all($key, $count);
 
     /**
      * @param $key

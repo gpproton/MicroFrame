@@ -32,10 +32,25 @@ class SqliteCache extends BaseCache
 {
 
     /**
+     * Get a single item by key
+     *
      * @param $key
      * @return mixed|void
      */
     public function get($key)
+    {
+
+    }
+
+    /**
+     * Set a single item by key
+     *
+     * @param $key
+     * @param $value
+     * @param int $expiry
+     * @return mixed|void
+     */
+    public function set($key, $value, $expiry = 0)
     {
 
     }
@@ -46,9 +61,25 @@ class SqliteCache extends BaseCache
      * @param int $expiry
      * @return mixed|void
      */
-    public function set($key, $value, $expiry = 0)
-    {
+    function push($key, $value, $expiry = 0) {
+        // TODO: Implement push() method.
+    }
 
+    /**
+     * @param $key
+     * @return mixed|void
+     */
+    function pop($key) {
+        // TODO: Implement pop() method.
+    }
+
+    /**
+     * @param $key
+     * @param $count
+     * @return mixed|void
+     */
+    function all($key, $count){
+        // TODO: Implement all() method.
     }
 
 }
