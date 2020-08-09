@@ -22,8 +22,12 @@
 
 namespace MicroFrame\Handlers\Cache;
 
+use MicroFrame\Handlers\DataSource;
+use MicroFrame\Handlers\Exception;
 use MicroFrame\Interfaces\ICache;
 use MicroFrame\Library\Config;
+use PDO;
+use Predis\Client as redisClient;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -34,34 +38,55 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 abstract class BaseCache implements ICache
 {
 
-    private $instance;
+    protected $instance;
 
     /**
      * Cache constructor.
      * @param string $source
      */
     public function __construct($source = "default") {
-        $this->instance = $this->initialize($source);
+        $this->instance = $this->init($source);
+
+        if ($this->config($source)['type'] ==  'redis') {
+            $this->instance->connect();
+        } elseif ($this->config($source)['type'] ==  'sqlite') {
+            /**
+             * Initialize any specified maintenance.
+             */
+        }
 
         return $this;
     }
 
-    private function initialize($source) {
-        //TODO: Check datatype and initialize uniquely.
-//        try {
-//            return DataSource::get($source, false);
-//        } catch (\Exception $e) {
-//            Exception::init()->output($e);
-//        }
+    /**
+     *
+     * A central initialization point, for any type of datasource.
+     *
+     * @param $source
+     * @return mixed|PDO|redisClient|null
+     */
+    protected function init($source) {
+        /**
+         * Send null if initialization fails.
+         */
+        try {
+            return DataSource::get($source, true);
+        } catch (\Exception $e) {
+            Exception::init()->output($e);
+
+            return null;
+        }
     }
 
     /**
+     * Retrieve configuration values.
+     *
      * @param $name
      * @return mixed|void
      */
     public function config($name)
     {
-        return Config::fetch($name);
+        return Config::fetch('cache.' . $name);
     }
 
     /**
@@ -70,7 +95,9 @@ abstract class BaseCache implements ICache
      */
     public function get($key)
     {
-        // TODO: Implement get() method.
+        /**
+         * Only sql solution is partly implemented here any other type are strictly in override.
+         */
     }
 
     /**
@@ -81,7 +108,9 @@ abstract class BaseCache implements ICache
      */
     public function set($key, $value, $expiry = 0)
     {
-        // TODO: Implement set() method.
+        /**
+         * Only sql solution is partly implemented here any other type are strictly in override.
+         */
     }
 
     /**
@@ -92,6 +121,7 @@ abstract class BaseCache implements ICache
      */
     public function push($key, $value, $expiry = 0)
     {
+        // TODO: Add automatic init for cache key *tables* for sql based cache.
         // TODO: Implement push() method.
     }
 
@@ -101,6 +131,7 @@ abstract class BaseCache implements ICache
      */
     public function pop($key)
     {
+        // TODO: Add automatic init for cache key *tables* for sql based cache.
         // TODO: Implement pop() method.
     }
 
