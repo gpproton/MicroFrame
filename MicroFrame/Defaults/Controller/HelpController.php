@@ -281,6 +281,12 @@ HTML;
             $options['header'] = "<h2 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h2>";
         }
 
+        $checkIcons = Strings::filter($options['title'])->between(':', ':', false, true, false, 30);
+        foreach ($checkIcons as $value) {
+            $options['title'] = str_replace(':' . $value . ':', '', $options['title']);
+        }
+        $options['title'] = preg_replace('/\s\s+/', ' ', $options['title']);
+
         /**
          * Get
          */
