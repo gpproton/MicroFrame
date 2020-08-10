@@ -1,11 +1,11 @@
 <?php
 /**
- * FileCache Cache Handler class
+ * MemCached CacheSource Handler class
  *
  * PHP Version 7
  *
  * @category  Handlers
- * @package   MicroFrame\Handlers\Cache
+ * @package   MicroFrame\Handlers\CacheSource
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,18 +20,15 @@
  */
 
 
-namespace MicroFrame\Handlers\Cache;
-
-use MicroFrame\Handlers\Exception;
+namespace MicroFrame\Handlers\CacheSource;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class FileCache
- * @package MicroFrame\Handlers\Cache
+ * Class MemCachedCache
+ * @package MicroFrame\Handlers\CacheSource
  */
-class FileCache extends BaseCache
+class MemCachedCache extends BaseCache
 {
-
 
 }

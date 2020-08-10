@@ -4,7 +4,7 @@ system:
   key: no_key
   path:
     logs: 'Logs'
-    cache: 'Cache'
+    cache: 'CacheSource'
     storage: 'Storage'
     emoji:
       path: '/Resources/emoji.json'
@@ -29,8 +29,8 @@ auth:
   passkey: pass@123
 
 # DataSource types File | Sqlite | Redis | MemCached | Cookie
-# Files, Cookie & Sqlite types point to folder location in Data/Cache
-cache:
+# Files, Cookie & Sqlite types point to folder location in Data/CacheSource
+cacheSource:
   default:
     type: sqlite
     dbname: 'default_cache/'
@@ -48,7 +48,7 @@ cache:
 
 # DataSource types sqlite | mysql | postgres | oracle | mssql
 # Sqlite data files are to be located at Data/local/
-data:
+dataSource:
   default:
     type: sqlite
     dbname: default.sq3

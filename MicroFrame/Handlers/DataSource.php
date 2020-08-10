@@ -47,7 +47,7 @@ class DataSource implements IDataSource {
      */
     public function __construct($string = "default") {
 
-        $this->source = $this->config("data.{$string}");
+        $this->source = $this->config("dataSource.{$string}");
         $connectStringParams = array(
             'config' => $this->source
         );
@@ -136,10 +136,9 @@ class DataSource implements IDataSource {
 
     /**
      * @param null $config
-     * @param bool $cache
      * @return string
      */
-    public function sqlite($config = null, $cache = false)
+    public function sqlite($config = null)
     {
         /**
          * sqlite:/path/to/sqlite/file.sq3
@@ -147,7 +146,7 @@ class DataSource implements IDataSource {
         if (is_file($config['dbname'])) {
             $filePath = $config['dbname'];
         } else {
-            $filePath = $cache ? DATA_PATH . "/Cache/" . $config['dbname'] : DATA_PATH . "/Local/" . $config['dbname'];
+            $filePath = DATA_PATH . "/Local/" . $config['dbname'];
         }
         if (!is_null($config)) return "sqlite:{$filePath}";
 

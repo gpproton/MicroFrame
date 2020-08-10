@@ -1,11 +1,11 @@
 <?php
 /**
- * RedisCache Cache Handler class
+ * FileCache CacheSource Handler class
  *
  * PHP Version 7
  *
  * @category  Handlers
- * @package   MicroFrame\Handlers\Cache
+ * @package   MicroFrame\Handlers\CacheSource
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,17 +20,17 @@
  */
 
 
-namespace MicroFrame\Handlers\Cache;
+namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class RedisCache
- * @package MicroFrame\Handlers\Cache
+ * Class FileCache
+ * @package MicroFrame\Handlers\CacheSource
  */
-class RedisCache extends BaseCache
+class FileCache extends BaseCache
 {
 
 

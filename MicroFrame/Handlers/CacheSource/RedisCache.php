@@ -1,11 +1,11 @@
 <?php
 /**
- * SqliteCache Cache Handler class
+ * RedisCache CacheSource Handler class
  *
  * PHP Version 7
  *
  * @category  Handlers
- * @package   MicroFrame\Handlers\Cache
+ * @package   MicroFrame\Handlers\CacheSource
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,15 +20,17 @@
  */
 
 
-namespace MicroFrame\Handlers\Cache;
+namespace MicroFrame\Handlers\CacheSource;
+
+use MicroFrame\Handlers\Exception;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class SqliteCache
- * @package MicroFrame\Handlers\Cache
+ * Class RedisCache
+ * @package MicroFrame\Handlers\CacheSource
  */
-class SqliteCache extends BaseCache
+class RedisCache extends BaseCache
 {
 
 

@@ -1,11 +1,11 @@
 <?php
 /**
- * Base Cache Handler class
+ * Base CacheSource Handler class
  *
  * PHP Version 7
  *
  * @category  Handlers
- * @package   MicroFrame\Handlers\Cache
+ * @package   MicroFrame\Handlers\CacheSource
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -20,7 +20,7 @@
  */
 
 
-namespace MicroFrame\Handlers\Cache;
+namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
 use MicroFrame\Interfaces\ICache;
@@ -31,7 +31,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
  * Class BaseCache
- * @package MicroFrame\Handlers\Cache
+ * @package MicroFrame\Handlers\CacheSource
  */
 abstract class BaseCache implements ICache
 {
@@ -39,7 +39,7 @@ abstract class BaseCache implements ICache
     protected $instance;
 
     /**
-     * Cache constructor.
+     * CacheSource constructor.
      * @param string $source
      */
     public function __construct($source = "default") {
@@ -77,7 +77,7 @@ abstract class BaseCache implements ICache
      */
     public function config($name)
     {
-        return Config::fetch('cache.' . $name);
+        return Config::fetch('cacheSource.' . $name);
     }
 
     /**

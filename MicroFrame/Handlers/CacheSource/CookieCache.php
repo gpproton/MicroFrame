@@ -1,11 +1,11 @@
 <?php
 /**
- * CookieCache Cache Handler class
+ * CookieCache CacheSource Handler class
  *
  * PHP Version 7
  *
  * @category  Handlers
- * @package   MicroFrame\Handlers\Cache
+ * @package   MicroFrame\Handlers\CacheSource
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -28,7 +28,7 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
  * Class CookieCache
- * @package MicroFrame\Handlers\Cache
+ * @package MicroFrame\Handlers\CacheSource
  */
 class CookieCache extends BaseCache
 {

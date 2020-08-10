@@ -1,6 +1,6 @@
 <?php
 /**
- * Cache Handler class
+ * CacheSource Handler class
  *
  * PHP Version 7
  *
@@ -27,10 +27,10 @@ use ReflectionClass;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class Cache
+ * Class CacheSource
  * @package MicroFrame\Handlers
  */
-class Cache
+class CacheSource
 {
 
     private $instance;
@@ -49,7 +49,7 @@ class Cache
         /**
          * Reflected class instance.
          */
-        $path = 'MicroFrame\\Handlers\\Cache\\' . $cacheType . 'Cache';
+        $path = 'MicroFrame\\Handlers\\CacheSource\\' . $cacheType . 'Cache';
 
         /**
          * Instance arguments.
