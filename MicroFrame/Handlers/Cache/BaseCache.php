@@ -69,13 +69,14 @@ abstract class BaseCache implements ICache
         /**
          * Send null if initialization fails.
          */
-        try {
-            return DataSource::get($source, true);
-        } catch (\Exception $e) {
-            Exception::init()->output($e);
 
-            return null;
-        }
+//        try {
+//            return DataSource::get($source, true);
+//        } catch (\Exception $e) {
+//            Exception::init()->output($e);
+//
+//            return null;
+//        }
     }
 
     /**

@@ -72,7 +72,7 @@ class Cache
 
     }
 
-    public static function  get($source = "default") {
+    public static function  init($source = "default") {
         $instance = null;
         try {
             $instance = new self($source);

@@ -28,7 +28,6 @@ use MicroFrame\Library\Config;
 use MicroFrame\Library\Reflect;
 use PDO;
 use PDOOCI\PDO as fallbackOraclePDO;
-use Predis\Client as redisClient;
 
 /**
  * Class DataSource
@@ -43,22 +42,20 @@ class DataSource implements IDataSource {
     /**
      * DataSource constructor and data source connection initializer.
      * @param string $string
-     * @param bool $cache
      *
      * @return mixed
      */
-    public function __construct($string = "default", $cache = false) {
+    public function __construct($string = "default") {
 
-        $this->source = $cache ? $this->config("cache.{$string}") : $this->config("data.{$string}");
+        $this->source = $this->config("data.{$string}");
         $connectStringParams = array(
             'config' => $this->source
         );
 
-        if ($cache) $connectStringParams['cache'] = true;
-
         if (isset($this->source) && is_null($this->connection)) {
 
             $timeout = isset($this->source['timeout']) ? $this->source['timeout'] : 150;
+
             $this->options = [
                 PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_EMULATE_PREPARES => false,
@@ -73,16 +70,10 @@ class DataSource implements IDataSource {
                  */
                 $connectionString = Reflect::check()->methodLoader($this, $this->source['type'], $connectStringParams);
 
-                if ($this->source['type'] === "redis") {
-                    /**
-                     * Initialize redis caching connection
-                     */
-                    $this->connection = new redisClient($this->redis());
-                }
                 /**
-                 * check if PDO OCI is not available then use work around.
+                 * Circumvent issues if OCI PDO driver is not available.
                  */
-                else if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
+                if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
                     $this->connection = new fallbackOraclePDO($connectionString, $this->source['user'], $this->source['password']);
                 }
 
@@ -136,9 +127,9 @@ class DataSource implements IDataSource {
      */
     public static function get($string = null, $cache = false, $status = false) {
         if (!$status) {
-            return empty($string) ? (new self())->connection : (new self($string, $cache))->connection;
+            return empty($string) ? (new self())->connection : (new self($string))->connection;
         } else {
-            return empty($string) ? (new self())->source : (new self($string, $cache))->source;
+            return empty($string) ? (new self())->source : (new self($string))->source;
         }
 
     }
@@ -220,30 +211,6 @@ class DataSource implements IDataSource {
     }
 
     /**
-     * @param null $config
-     * @return array
-     */
-    public function redis($config = null)
-    {
-        /**
-         * Compose redis configuration.
-         */
-
-        $cachePrefix = isset($this->source['prefix']) ? $this->source['prefix'] : 'mf_';
-        return [
-            [
-                'scheme' => 'tcp',
-                'host'   => $this->source['host'],
-                'port'   => $this->source['port'],
-            ],
-            [
-                'prefix' => $cachePrefix,
-                'exceptions' => false
-            ]
-        ];
-    }
-
-    /**
      * Check if specified datasource type is supported.
      *
      * @param $text
@@ -257,16 +224,10 @@ class DataSource implements IDataSource {
             'mysql' => 'mysql',
             'mssql' => 'mssql',
             'postgres' => 'pgsql',
-            'oracle' => 'oci',
-            'redis' => 'redis'
+            'oracle' => 'oci'
         );
-        if ($drivers[$text] === "redis") return true; elseif (!in_array($drivers[$text], PDO::getAvailableDrivers(), TRUE) && !$checkOnly) {
-            try {
-                throw new Exception("Required driver is not installed...");
-            } catch (Exception $exception) {
-                $exception->output();
-            }
-        } elseif (!in_array($drivers[$text], PDO::getAvailableDrivers(), TRUE) && $checkOnly) return false;
+
+        if(!in_array($drivers[$text], PDO::getAvailableDrivers(), TRUE) && $checkOnly) return false;
         else {
             return true;
         }

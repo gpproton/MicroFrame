@@ -28,6 +28,7 @@ use MicroFrame\Handlers\Exception;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Library\Reflect;
 use MicroFrame\Library\Strings;
+use PDO;
 
 /**
  * Class Model
@@ -50,6 +51,18 @@ final class Model implements IModel
         $this->instance = $this->initialize($source);
 
         return $this;
+    }
+
+    /**
+     * @param $source
+     * @return mixed|PDO
+     */
+    private function initialize($source) {
+        try {
+            return DataSource::get($source);
+        } catch (\Exception $e) {
+            Exception::init()->output($e);
+        }
     }
 
     /**
@@ -117,7 +130,7 @@ final class Model implements IModel
                             $modelSample = $this->load($value['model'])['sample'];
                         }
                         $prepare = $this->initialize($value['instance'])
-                            ->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                            ->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                         $param = $value['params'];
 
                     } elseif (isset($this->params[$level])) {
@@ -142,7 +155,7 @@ final class Model implements IModel
                             $modelSample = $this->load($value)['sample'];
                         }
 
-                        $prepare = $this->instance->prepare($modelSrc, array(\PDO::ATTR_CURSOR => \PDO::CURSOR_FWDONLY));
+                        $prepare = $this->instance->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                     }
 
                     /**
@@ -152,7 +165,7 @@ final class Model implements IModel
 
                     $results = array();
 
-                    while ($row = $prepare->fetch(\PDO::FETCH_ASSOC)) {
+                    while ($row = $prepare->fetch(PDO::FETCH_ASSOC)) {
                         $results[] = array_change_key_case($row, CASE_LOWER);
                     }
 
@@ -226,15 +239,4 @@ final class Model implements IModel
 
     }
 
-    /**
-     * @param $source
-     * @return mixed|\PDO
-     */
-    private function initialize($source) {
-        try {
-            return DataSource::get($source, false);
-        } catch (\Exception $e) {
-            Exception::init()->output($e);
-        }
-    }
 }

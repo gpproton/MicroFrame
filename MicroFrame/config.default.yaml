@@ -28,22 +28,26 @@ auth:
   session_key: 'MicroFrame_Session'
   passkey: pass@123
 
-# DataSource types Sqlite | Redis | MemCached
+# DataSource types File | Sqlite | Redis | MemCached | Cookie
+# Files, Cookie & Sqlite types point to folder location in Data/Cache
 cache:
   default:
     type: sqlite
-    dbname: cache.sq3
+    dbname: 'default_cache/'
     timeout: 10
     prefix: 'mf_'
-  redisExample:
+    maxList: 500
+  redis:
     type: redis
     host: 127.0.0.1
     port: 6379
     extra: ''
     timeout: 10
     prefix: 'mf_'
+    maxList: 500
 
 # DataSource types sqlite | mysql | postgres | oracle | mssql
+# Sqlite data files are to be located at Data/local/
 data:
   default:
     type: sqlite
