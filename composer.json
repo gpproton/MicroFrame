@@ -29,20 +29,22 @@
         "ext-fileinfo": "*",
         "ext-curl": "*",
         "ext-pdo": "*",
-        "taq/pdooci": "1.0",
-        "asyncphp/doorman": "3.1",
-        "zircote/swagger-php": "3.0",
-        "hassankhan/config": "2.1",
-        "symfony/yaml": "5.1",
-        "symfony/finder": "5.1",
-        "predis/predis": "1.1",
-        "cebe/markdown": "1.2.0",
-        "symfony/serializer": "3.4.43"
+        "ext-sqlite3": "*",
+        "predis/predis": "1.1.*",
+        "taq/pdooci": "1.0.*",
+        "phpfastcache/phpfastcache": "^8.0",
+        "hassankhan/config": "2.1.*",
+        "symfony/yaml": "5.1.*",
+        "symfony/finder": "5.1.*",
+        "symfony/serializer": "3.4.43",
+        "cebe/markdown": "1.2.*",
+        "zircote/swagger-php": "3.0.*",
+        "asyncphp/doorman": "3.1.*"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "*",
-        "filp/whoops": "2.7",
-        "phpunit/phpunit": "9.2"
+        "filp/whoops": "2.7.*",
+        "phpunit/phpunit": "9.2.*"
     },
     "scripts": { }
 }
