@@ -22,12 +22,10 @@
 
 namespace MicroFrame\Handlers\Cache;
 
-use MicroFrame\Handlers\DataSource;
 use MicroFrame\Handlers\Exception;
 use MicroFrame\Interfaces\ICache;
 use MicroFrame\Library\Config;
 use PDO;
-use Predis\Client as redisClient;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -47,14 +45,6 @@ abstract class BaseCache implements ICache
     public function __construct($source = "default") {
         $this->instance = $this->init($source);
 
-        if ($this->config($source)['type'] ==  'redis') {
-            $this->instance->connect();
-        } elseif ($this->config($source)['type'] ==  'sqlite') {
-            /**
-             * Initialize any specified maintenance.
-             */
-        }
-
         return $this;
     }
 
@@ -63,20 +53,20 @@ abstract class BaseCache implements ICache
      * A central initialization point, for any type of datasource.
      *
      * @param $source
-     * @return mixed|PDO|redisClient|null
+     * @return mixed|null
      */
     protected function init($source) {
         /**
          * Send null if initialization fails.
          */
 
-//        try {
-//            return DataSource::get($source, true);
-//        } catch (\Exception $e) {
-//            Exception::init()->output($e);
-//
-//            return null;
-//        }
+        try {
+            return null;
+        } catch (\Exception $e) {
+            Exception::init()->output($e);
+
+            return null;
+        }
     }
 
     /**
