@@ -93,7 +93,9 @@ abstract class BaseCache implements ICache
      * @param $key
      * @return mixed|void
      */
-    abstract function get($key);
+    function get($key) {
+
+    }
 
     /**
      * @param $key
@@ -101,7 +103,9 @@ abstract class BaseCache implements ICache
      * @param int $expiry
      * @return mixed|void
      */
-    abstract function set($key, $value, $expiry = 0);
+    function set($key, $value, $expiry = 0) {
+
+    }
 
     /**
      * @param $key
@@ -109,20 +113,26 @@ abstract class BaseCache implements ICache
      * @param int $expiry
      * @return mixed|void
      */
-    abstract function push($key, $value, $expiry = 0);
+    function push($key, $value, $expiry = 0) {
+
+    }
 
     /**
      * @param $key
      * @return mixed|void
      */
-    abstract function pop($key);
+    function pop($key) {
+
+    }
 
     /**
      * @param $key
      * @param $count
      * @return mixed|void
      */
-    abstract function all($key, $count);
+    function all($key, $count) {
+
+    }
 
     /**
      * @param $key
