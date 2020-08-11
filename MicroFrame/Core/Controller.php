@@ -22,7 +22,10 @@
 namespace MicroFrame\Core;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
+use Closure;
+use MicroFrame\Handlers\CacheSource;
 use MicroFrame\Handlers\Logger;
+use MicroFrame\Interfaces\ICache;
 use MicroFrame\Interfaces\IController;
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
@@ -30,6 +33,7 @@ use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Reflect;
+use MicroFrame\Library\Strings;
 
 /**
  * Class Controller
@@ -209,6 +213,40 @@ class Controller implements IController
     public function model($source =  null) {
         if (is_null($source)) return new Model();
         return new Model($source);
+    }
+
+    /**
+     * Initializes a cache instance.
+     *
+     * @param string $source
+     * @return object
+     */
+    public function cache($source = 'default')
+    {
+        return CacheSource::init($source);
+    }
+
+    /**
+     * Initializes a string instance.
+     *
+     * @param string $source
+     * @return mixed|void
+     */
+    public function string($source = '')
+    {
+        return Strings::filter($source);
+    }
+
+    /**
+     * Initializes an in process task.
+     *
+     * @param Closure $closure
+     * @param string $type
+     * @return mixed|void
+     */
+    public function await($closure, $type = 'current')
+    {
+        // TODO: Implement await() method.
     }
 
     /**

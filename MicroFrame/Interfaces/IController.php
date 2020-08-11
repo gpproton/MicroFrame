@@ -20,6 +20,9 @@
  */
 
 namespace MicroFrame\Interfaces;
+
+use Closure;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -54,6 +57,25 @@ interface IController
      * @return IModel
      */
     public function model($source = null);
+
+    /**
+     * @param string $source
+     * @return object
+     */
+    public function cache($source = 'default');
+
+    /**
+     * @param string $source
+     * @return mixed
+     */
+    public function string($source = '');
+
+    /**
+     * @param closure $closure
+     * @param string $type
+     * @return mixed
+     */
+    public function await($closure, $type = 'current');
 
     /**
      * @return void
