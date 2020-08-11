@@ -4,7 +4,8 @@ system:
   key: no_key
   path:
     logs: 'Logs'
-    cache: 'CacheSource'
+    data: 'Local'
+    cache: 'Cache'
     storage: 'Storage'
     emoji:
       path: '/Resources/emoji.json'
@@ -33,7 +34,6 @@ auth:
 cacheSource:
   default:
     type: sqlite
-    dbname: 'default_cache/'
     timeout: 10
     prefix: 'mf_'
     maxList: 500
@@ -41,7 +41,8 @@ cacheSource:
     type: redis
     host: 127.0.0.1
     port: 6379
-    extra: ''
+    database: 0
+    password: ''
     timeout: 10
     prefix: 'mf_'
     maxList: 500
