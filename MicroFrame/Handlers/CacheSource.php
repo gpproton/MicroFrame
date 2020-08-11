@@ -46,6 +46,14 @@ class CacheSource
         $cacheType = Config::fetch('cacheSource.' . $source . '.type');
         $cacheType = ucfirst($cacheType);
 
+        switch ($cacheType) {
+            case 'Sqlite':
+            case 'Files':
+            case 'Cookie':
+            $cacheType = 'Minimal';
+                break;
+        }
+
         /**
          * Reflected class instance.
          */
@@ -66,7 +74,7 @@ class CacheSource
             /** @var ReflectionClass $classBuilder */
             $this->instance = !is_null($classBuilder) ? $classBuilder->newInstanceArgs($args) : null;
         } else {
-            throw new Exception('Requested Cache type does not exist, please \\n create class' . $path);
+            throw new Exception('Requested Cache type does not exist, please \\n use existing types or create class' . $path);
         }
 
     }
