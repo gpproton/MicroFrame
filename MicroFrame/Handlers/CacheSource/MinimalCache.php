@@ -62,7 +62,7 @@ class MinimalCache extends BaseCache
                     "itemDetailedDate" => false
                 ]));
             }
-            
+
             return CacheManager::getInstance(strtolower($this->config['type']));
 
         } catch (\Exception $e) {

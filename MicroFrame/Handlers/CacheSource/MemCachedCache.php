@@ -22,6 +22,10 @@
 
 namespace MicroFrame\Handlers\CacheSource;
 
+use MicroFrame\Handlers\Exception;
+use Phpfastcache\CacheManager;
+use Phpfastcache\Drivers\Memcached\Config as cacheConfig;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -30,5 +34,30 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class MemCachedCache extends BaseCache
 {
+
+    /**
+     *
+     * Initializes Sqlite instance.
+     *
+     * @param $source
+     * @return mixed|null
+     */
+    function init($source)
+    {
+        try {
+            $configItems = [
+                'host' => isset($this->config['host']) ? $this->config['host'] : '127.0.0.1',
+                'port' => isset($this->config['port']) ? $this->config['port'] : 11211,
+                'sasl_user' => isset($this->config['database']) ? $this->config['database'] : false,
+                'sasl_password' => isset($this->config['password']) ? $this->config['password'] : false
+            ];
+
+            return CacheManager::getInstance('memcached', new cacheConfig($configItems));
+        } catch (\Exception $e) {
+            Exception::init()->log($e);
+
+            return null;
+        }
+    }
 
 }
