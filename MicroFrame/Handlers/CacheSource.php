@@ -43,7 +43,7 @@ class CacheSource
         /**
          * Retrieves requested cache config.
          */
-        $cacheType = Config::fetch('cache.' . $source . '.type');
+        $cacheType = Config::fetch('cacheSource.' . $source . '.type');
         $cacheType = ucfirst($cacheType);
 
         /**
@@ -64,7 +64,6 @@ class CacheSource
                 Logger::set($e->getMessage())->error();
             }
             /** @var ReflectionClass $classBuilder */
-
             $this->instance = !is_null($classBuilder) ? $classBuilder->newInstanceArgs($args) : null;
         } else {
             throw new Exception('Requested Cache type does not exist, please \\n create class' . $path);

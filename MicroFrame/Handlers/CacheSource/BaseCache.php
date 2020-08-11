@@ -37,6 +37,7 @@ abstract class BaseCache implements ICache
 {
 
     protected $instance;
+    protected $config;
 
     /**
      * CacheSource constructor.
@@ -55,19 +56,7 @@ abstract class BaseCache implements ICache
      * @param $source
      * @return mixed|null
      */
-    protected function init($source) {
-        /**
-         * Send null if initialization fails.
-         */
-
-        try {
-            return null;
-        } catch (\Exception $e) {
-            Exception::init()->output($e);
-
-            return null;
-        }
-    }
+    abstract function init($source);
 
     /**
      * Retrieve configuration values.
@@ -78,6 +67,20 @@ abstract class BaseCache implements ICache
     public function config($name)
     {
         return Config::fetch('cacheSource.' . $name);
+    }
+
+    /**
+     * Initialize path for caching items.
+     *
+     * @param string $source
+     * @return array|mixed|string|null
+     */
+    protected function pathInit($source = 'default') {
+        $cachePath = Config::fetch('system.path.cache');
+        if (!is_dir($cachePath)) $cachePath .= DATA_PATH . "/{$cachePath}";
+        $cachePath .= "/{$source}";
+
+        return $cachePath;
     }
 
     /**

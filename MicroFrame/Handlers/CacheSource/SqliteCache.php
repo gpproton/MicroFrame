@@ -22,6 +22,10 @@
 
 namespace MicroFrame\Handlers\CacheSource;
 
+use MicroFrame\Handlers\Exception;
+use Phpfastcache\CacheManager;
+use Phpfastcache\Config\Config as cacheConfig;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -31,5 +35,29 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 class SqliteCache extends BaseCache
 {
 
+    /**
+     *
+     * Initializes Sqlite instance.
+     *
+     * @param $source
+     * @return mixed|null
+     */
+    public function init($source) {
+        /**
+         * Send null if initialization fails.
+         */
+        $this->config = $this->config($source);
+
+        try {
+            CacheManager::setDefaultConfig(new cacheConfig([
+                "path" => $this->pathInit($source),
+            ]));
+            return CacheManager::getInstance('sqlite');
+
+        } catch (\Exception $e) {
+            Exception::init()->log($e);
+            return null;
+        }
+    }
 
 }

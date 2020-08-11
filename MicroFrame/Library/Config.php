@@ -109,6 +109,10 @@ final class Config extends configAbstractModule {
                 $this->set('system.path.logs', $this->dirCheck($basePath . $paths['logs']));
             }
 
+            if (is_dir($paths['data'])) $this->set('system.path.data', $paths['data']); else {
+                $this->set('system.path.data', $this->dirCheck($basePath . $paths['data']));
+            }
+
             if (is_dir($paths['cache'])) $this->set('system.path.cache', $paths['cache']); else {
                 $this->set('system.path.cache', $this->dirCheck($basePath . $paths['cache']));
             }

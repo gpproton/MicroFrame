@@ -23,6 +23,9 @@
 namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
+use Phpfastcache\CacheManager;
+use Phpfastcache\Drivers\Redis\Config as redisConfig;
+use Phpfastcache\Drivers\Predis\Config as pRedisConfig;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -33,5 +36,41 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 class RedisCache extends BaseCache
 {
 
+    /**
+     *
+     * Initializes redis instance.
+     *
+     * @param $source
+     * @return mixed|null
+     */
+    public function init($source) {
+        /**
+         * Send null if initialization fails.
+         */
+        $this->config = $this->config($source);
+
+        try {
+            $configItems = [
+                'host' => isset($this->config['host']) ? $this->config['host'] : '127.0.0.1',
+                'port' => isset($this->config['port']) ? $this->config['port'] : 6379,
+                'password' => isset($this->config['password']) ? $this->config['password'] : '',
+                'database' => isset($this->config['database']) ? $this->config['database'] : 0
+            ];
+
+            if (class_exists('Redis')) {
+                $instanceType = 'redis';
+                $cacheConfig = new redisConfig($configItems);
+            } else {
+                $instanceType = 'predis';
+                $cacheConfig = new pRedisConfig($configItems);
+            }
+
+            return CacheManager::getInstance($instanceType, $cacheConfig);
+        } catch (\Exception $e) {
+            Exception::init()->log($e);
+
+            return null;
+        }
+    }
 
 }
