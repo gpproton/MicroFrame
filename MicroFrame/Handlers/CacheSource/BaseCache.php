@@ -88,7 +88,8 @@ abstract class BaseCache implements ICache
      * @return mixed|void
      */
     function get($key) {
-
+        $item = $this->instance->getItem($key);
+        return $item->get();
     }
 
     /**
@@ -97,8 +98,10 @@ abstract class BaseCache implements ICache
      * @param int $expiry
      * @return mixed|void
      */
-    function set($key, $value, $expiry = 0) {
-
+    function set($key, $value, $expiry = 60) {
+        $item = $this->instance->getItem($key);
+        $item->set($value)->expiresAfter($expiry);
+        return $this->instance->save($item);
     }
 
     /**
@@ -107,7 +110,7 @@ abstract class BaseCache implements ICache
      * @param int $expiry
      * @return mixed|void
      */
-    function push($key, $value, $expiry = 0) {
+    function push($key, $value, $expiry = 60) {
 
     }
 
