@@ -27,9 +27,11 @@ use \AsyncPHP\Doorman\Task;
 use \AsyncPHP\Doorman\Manager\ProcessManager;
 use \AsyncPHP\Doorman\Rule\InMemoryRule;
 use \AsyncPHP\Doorman\Task\ProcessCallbackTask;
+use MicroFrame\Handlers\CacheSource;
 use MicroFrame\Handlers\Logger;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Library\Config;
+use MicroFrame\Library\Strings;
 
 /**
  * Class MicroTask
@@ -120,10 +122,31 @@ class MicroTask
      * @param null $source
      * @return Model|IModel
      */
-    public function model($source =  null)
-    {
+    public function model($source =  null) {
         if (is_null($source)) return new Model();
         return new Model($source);
+    }
+
+    /**
+     * Initializes a cache instance.
+     *
+     * @param string $source
+     * @return object
+     */
+    public function cache($source = 'default')
+    {
+        return CacheSource::init($source);
+    }
+
+    /**
+     * Initializes a string instance.
+     *
+     * @param string $source
+     * @return mixed|void
+     */
+    public function string($source = '')
+    {
+        return Strings::filter($source);
     }
 
     /**
