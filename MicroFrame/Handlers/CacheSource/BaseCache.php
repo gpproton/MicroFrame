@@ -38,12 +38,14 @@ abstract class BaseCache implements ICache
 
     protected $instance;
     protected $config;
+    protected $source;
 
     /**
      * CacheSource constructor.
      * @param string $source
      */
     public function __construct($source = "default") {
+        $this->source = $source;
         $this->instance = $this->init($source);
 
         return $this;
@@ -69,6 +71,18 @@ abstract class BaseCache implements ICache
         return Config::fetch('cacheSource.' . $name);
     }
 
+    private function setPrefix($key) {
+        $prefix = isset($this->config($this->source)['prefix']) ? $this->config($this->source)['prefix'] : 'mf_';
+        if (gettype($key) === 'string') return $prefix . $key;
+        elseif (gettype($key) === 'array') {
+            for($x = 0; $x < sizeof($key); $x++) {
+                $key[$x] = $prefix . $key[$x];
+            }
+            return $key;
+        }
+
+    }
+
     /**
      * Initialize path for caching items.
      *
@@ -88,6 +102,8 @@ abstract class BaseCache implements ICache
      * @return mixed|void
      */
     function get($key) {
+        $key = $this->setPrefix($key);
+
         $item = $this->instance->getItem($key);
         return $item->get();
     }
@@ -99,6 +115,8 @@ abstract class BaseCache implements ICache
      * @return mixed|void
      */
     function set($key, $value, $expiry = 60) {
+        $key = $this->setPrefix($key);
+
         $item = $this->instance->getItem($key);
         $item->set($value)->expiresAfter($expiry);
         return $this->instance->save($item);
@@ -111,6 +129,7 @@ abstract class BaseCache implements ICache
      * @return mixed|void
      */
     function push($key, $value, $expiry = 60) {
+        $key = $this->setPrefix($key);
 
     }
 
@@ -119,6 +138,7 @@ abstract class BaseCache implements ICache
      * @return mixed|void
      */
     function pop($key) {
+        $key = $this->setPrefix($key);
 
     }
 
@@ -128,6 +148,7 @@ abstract class BaseCache implements ICache
      * @return mixed|void
      */
     function all($key, $count) {
+        $key = $this->setPrefix($key);
 
     }
 
@@ -136,48 +157,47 @@ abstract class BaseCache implements ICache
      * @param int $count
      * @return mixed|void
      */
-    public function clear($key, $count = 1)
-    {
+    public function clear($key, $count = 1) {
+        $key = $this->setPrefix($key);
         // TODO: Implement clear() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function delete($key)
-    {
+    public function delete($key) {
+        $key = $this->setPrefix($key);
         // TODO: Implement delete() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function getMultiple($keys, $default = null)
-    {
+    public function getMultiple($keys, $default = null) {
+        $keys = $this->setPrefix($keys);
         // TODO: Implement getMultiple() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function setMultiple($values, $ttl = null)
-    {
+    public function setMultiple($values, $ttl = null) {
         // TODO: Implement setMultiple() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function deleteMultiple($keys)
-    {
+    public function deleteMultiple($keys) {
+        $keys = $this->setPrefix($keys);
         // TODO: Implement deleteMultiple() method.
     }
 
     /**
      * @inheritDoc
      */
-    public function has($key)
-    {
+    public function has($key) {
+        $key = $this->setPrefix($key);
         // TODO: Implement has() method.
     }
 }
