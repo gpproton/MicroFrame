@@ -28,7 +28,7 @@ use MicroFrame\Handlers\Route;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Utils;
 use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
+use Whoops\Run as whoopsRun;
 
 
 /**
@@ -66,7 +66,7 @@ class Application
          * Implement pretty error display.
          */
         if ($this->config['system']['debug']) {
-            $whoops = new Run;
+            $whoops = new whoopsRun;
             $page = new PrettyPageHandler();
             $protectArray = array('_ENV', '_SERVER');
 
