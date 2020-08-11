@@ -29,6 +29,7 @@ use \AsyncPHP\Doorman\Rule\InMemoryRule;
 use \AsyncPHP\Doorman\Task\ProcessCallbackTask;
 use MicroFrame\Handlers\CacheSource;
 use MicroFrame\Handlers\Logger;
+use MicroFrame\Interfaces\ICache;
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Strings;
@@ -131,9 +132,9 @@ class MicroTask
      * Initializes a cache instance.
      *
      * @param string $source
-     * @return object
+     * @return ICache|object
      */
-    public function cache($source = 'default')
+    public function cache($source = 'default') : ICache
     {
         return CacheSource::init($source);
     }

@@ -24,6 +24,7 @@ namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
 use Phpfastcache\CacheManager;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Drivers\Memcached\Config as cacheConfig;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
@@ -42,7 +43,7 @@ class MemCachedCache extends BaseCache
      * @param $source
      * @return mixed|null
      */
-    function init($source)
+    function init($source) : ExtendedCacheItemPoolInterface
     {
         try {
             $configItems = [

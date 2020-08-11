@@ -25,6 +25,7 @@ namespace MicroFrame\Handlers\CacheSource;
 use MicroFrame\Handlers\Exception;
 use Phpfastcache\CacheManager;
 use Phpfastcache\Config\Config as cacheConfig;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -42,7 +43,8 @@ class MinimalCache extends BaseCache
      * @param $source
      * @return mixed|null
      */
-    public function init($source) {
+    public function init($source) : ExtendedCacheItemPoolInterface
+    {
         /**
          * Send null if initialization fails.
          */

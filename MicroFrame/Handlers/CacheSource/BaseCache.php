@@ -26,6 +26,8 @@ use MicroFrame\Handlers\Exception;
 use MicroFrame\Interfaces\ICache;
 use MicroFrame\Library\Config;
 use PDO;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
+use Phpfastcache\Exceptions\PhpfastcacheInvalidArgumentException;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -58,7 +60,7 @@ abstract class BaseCache implements ICache
      * @param $source
      * @return mixed|null
      */
-    abstract function init($source);
+    abstract function init($source) : ExtendedCacheItemPoolInterface;
 
     /**
      * Retrieve configuration values.
@@ -81,6 +83,8 @@ abstract class BaseCache implements ICache
             return $key;
         }
 
+        throw new Exception(gettype($key) . ' is not a valid type for a key.');
+
     }
 
     /**
@@ -100,6 +104,8 @@ abstract class BaseCache implements ICache
     /**
      * @param $key
      * @return mixed|void
+     * @throws Exception
+     * @throws PhpfastcacheInvalidArgumentException
      */
     function get($key) {
         $key = $this->setPrefix($key);
@@ -113,6 +119,8 @@ abstract class BaseCache implements ICache
      * @param $value
      * @param int $expiry
      * @return mixed|void
+     * @throws Exception
+     * @throws PhpfastcacheInvalidArgumentException
      */
     function set($key, $value, $expiry = 60) {
         $key = $this->setPrefix($key);
@@ -127,6 +135,7 @@ abstract class BaseCache implements ICache
      * @param $value
      * @param int $expiry
      * @return mixed|void
+     * @throws Exception
      */
     function push($key, $value, $expiry = 60) {
         $key = $this->setPrefix($key);
@@ -136,6 +145,7 @@ abstract class BaseCache implements ICache
     /**
      * @param $key
      * @return mixed|void
+     * @throws Exception
      */
     function pop($key) {
         $key = $this->setPrefix($key);
@@ -146,6 +156,7 @@ abstract class BaseCache implements ICache
      * @param $key
      * @param $count
      * @return mixed|void
+     * @throws Exception
      */
     function all($key, $count) {
         $key = $this->setPrefix($key);
@@ -156,6 +167,7 @@ abstract class BaseCache implements ICache
      * @param $key
      * @param int $count
      * @return mixed|void
+     * @throws Exception
      */
     public function clear($key, $count = 1) {
         $key = $this->setPrefix($key);
@@ -163,7 +175,9 @@ abstract class BaseCache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @return mixed|void
+     * @throws Exception
      */
     public function delete($key) {
         $key = $this->setPrefix($key);
@@ -171,7 +185,10 @@ abstract class BaseCache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $keys
+     * @param null $default
+     * @return mixed|void
+     * @throws Exception
      */
     public function getMultiple($keys, $default = null) {
         $keys = $this->setPrefix($keys);
@@ -179,14 +196,18 @@ abstract class BaseCache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $values
+     * @param null $ttl
+     * @return mixed|void
      */
     public function setMultiple($values, $ttl = null) {
         // TODO: Implement setMultiple() method.
     }
 
     /**
-     * @inheritDoc
+     * @param $keys
+     * @return mixed|void
+     * @throws Exception
      */
     public function deleteMultiple($keys) {
         $keys = $this->setPrefix($keys);
@@ -194,7 +215,9 @@ abstract class BaseCache implements ICache
     }
 
     /**
-     * @inheritDoc
+     * @param $key
+     * @return mixed|void
+     * @throws Exception
      */
     public function has($key) {
         $key = $this->setPrefix($key);

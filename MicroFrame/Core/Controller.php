@@ -219,9 +219,9 @@ class Controller implements IController
      * Initializes a cache instance.
      *
      * @param string $source
-     * @return object
+     * @return ICache|object
      */
-    public function cache($source = 'default')
+    public function cache($source = 'default') : ICache
     {
         return CacheSource::init($source);
     }

@@ -24,6 +24,7 @@ namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
 use Phpfastcache\CacheManager;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Drivers\Redis\Config as redisConfig;
 use Phpfastcache\Drivers\Predis\Config as pRedisConfig;
 
@@ -44,7 +45,8 @@ class RedisCache extends BaseCache
      * @param $source
      * @return mixed|null
      */
-    public function init($source) {
+    public function init($source) : ExtendedCacheItemPoolInterface
+    {
         /**
          * Send null if initialization fails.
          */

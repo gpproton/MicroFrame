@@ -22,6 +22,7 @@
 namespace MicroFrame\Handlers;
 
 use MicroFrame\Library\Config;
+use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use ReflectionClass;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
@@ -83,7 +84,8 @@ class CacheSource
 
     }
 
-    public static function  init($source = "default") {
+    public static function  init($source = "default")
+    {
         $instance = null;
         try {
             $instance = new self($source);
