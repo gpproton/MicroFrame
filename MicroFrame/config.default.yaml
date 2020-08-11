@@ -34,7 +34,6 @@ auth:
 cacheSource:
   default:
     type: sqlite
-    timeout: 10
     prefix: 'mf_'
     maxList: 500
   redis:
