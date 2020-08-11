@@ -1,6 +1,6 @@
 <?php
 /**
- * SqliteCache CacheSource Handler class
+ * MinimalCache CacheSource Handler class
  *
  * PHP Version 7
  *
@@ -29,10 +29,10 @@ use Phpfastcache\Config\Config as cacheConfig;
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
- * Class SqliteCache
+ * Class MinimalCache
  * @package MicroFrame\Handlers\CacheSource
  */
-class SqliteCache extends BaseCache
+class MinimalCache extends BaseCache
 {
 
     /**
@@ -49,10 +49,21 @@ class SqliteCache extends BaseCache
         $this->config = $this->config($source);
 
         try {
-            CacheManager::setDefaultConfig(new cacheConfig([
-                "path" => $this->pathInit($source),
-            ]));
-            return CacheManager::getInstance('sqlite');
+            /**
+             * Sort config differences with the minimal caches.
+             */
+            if ($this->config['type'] == 'sqlite') {
+                CacheManager::setDefaultConfig(new cacheConfig([
+                    "path" => $this->pathInit($source),
+                ]));
+            } elseif ($this->config['type'] == 'files') {
+                CacheManager::setDefaultConfig(new cacheConfig([
+                    "path" => $this->pathInit($source),
+                    "itemDetailedDate" => false
+                ]));
+            }
+
+            return CacheManager::getInstance(strtolower($this->config['type']));
 
         } catch (\Exception $e) {
             Exception::init()->log($e);
