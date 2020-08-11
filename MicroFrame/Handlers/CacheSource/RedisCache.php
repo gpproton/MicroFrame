@@ -27,6 +27,7 @@ use Phpfastcache\CacheManager;
 use Phpfastcache\Drivers\Redis\Config as redisConfig;
 use Phpfastcache\Drivers\Predis\Config as pRedisConfig;
 
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 /**
@@ -54,7 +55,8 @@ class RedisCache extends BaseCache
                 'host' => isset($this->config['host']) ? $this->config['host'] : '127.0.0.1',
                 'port' => isset($this->config['port']) ? $this->config['port'] : 6379,
                 'password' => isset($this->config['password']) ? $this->config['password'] : '',
-                'database' => isset($this->config['database']) ? $this->config['database'] : 0
+                'database' => isset($this->config['database']) ? $this->config['database'] : 0,
+                'timeout' => isset($this->config['timeout']) ? $this->config['timeout'] : 5
             ];
 
             if (class_exists('Redis')) {

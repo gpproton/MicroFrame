@@ -54,15 +54,16 @@ class MinimalCache extends BaseCache
              */
             if ($this->config['type'] == 'sqlite') {
                 CacheManager::setDefaultConfig(new cacheConfig([
-                    "path" => $this->pathInit($source),
+                    "path" => $this->pathInit($source)
                 ]));
             } elseif (strpos($this->config['type'], 'file') !== false) {
                 CacheManager::setDefaultConfig(new cacheConfig([
                     "path" => $this->pathInit($source),
                     "itemDetailedDate" => false
                 ]));
+            } elseif($this->config['type'] == 'cookie') {
+// TODO: Fix config issues for cookie type.
             }
-
             return CacheManager::getInstance(strtolower($this->config['type']));
 
         } catch (\Exception $e) {

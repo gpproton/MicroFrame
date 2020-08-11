@@ -49,7 +49,8 @@ class MemCachedCache extends BaseCache
                 'host' => isset($this->config['host']) ? $this->config['host'] : '127.0.0.1',
                 'port' => isset($this->config['port']) ? $this->config['port'] : 11211,
                 'sasl_user' => isset($this->config['database']) ? $this->config['database'] : false,
-                'sasl_password' => isset($this->config['password']) ? $this->config['password'] : false
+                'sasl_password' => isset($this->config['password']) ? $this->config['password'] : false,
+                'timeout' => isset($this->config['timeout']) ? $this->config['timeout'] : 5
             ];
 
             return CacheManager::getInstance(strtolower($this->config['type']), new cacheConfig($configItems));
