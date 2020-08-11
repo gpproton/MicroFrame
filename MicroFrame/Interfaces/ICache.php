@@ -77,4 +77,36 @@ interface ICache
      */
     public function clear($key, $count = 1);
 
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function delete($key);
+
+    /**
+     * @param $keys
+     * @param null $default
+     * @return mixed
+     */
+    public function getMultiple($keys, $default = null);
+
+    /**
+     * @param $values
+     * @param null $ttl
+     * @return mixed
+     */
+    public function setMultiple($values, $ttl = null);
+
+    /**
+     * @param $keys
+     * @return mixed
+     */
+    public function deleteMultiple($keys);
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function has($key);
+
 }
