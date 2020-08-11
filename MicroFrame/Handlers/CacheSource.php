@@ -52,6 +52,10 @@ class CacheSource
             case 'Cookie':
             $cacheType = 'Minimal';
                 break;
+            case 'Memcache':
+            case 'Memcached':
+                $cacheType = 'MemCached';
+                break;
         }
 
         /**

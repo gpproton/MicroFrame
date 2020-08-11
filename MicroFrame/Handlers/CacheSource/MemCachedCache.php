@@ -52,7 +52,7 @@ class MemCachedCache extends BaseCache
                 'sasl_password' => isset($this->config['password']) ? $this->config['password'] : false
             ];
 
-            return CacheManager::getInstance('memcached', new cacheConfig($configItems));
+            return CacheManager::getInstance(strtolower($this->config['type']), new cacheConfig($configItems));
         } catch (\Exception $e) {
             Exception::init()->log($e);
 
