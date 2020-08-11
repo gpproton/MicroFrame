@@ -47,7 +47,7 @@ interface ICache
      * @param int $expiry
      * @return mixed
      */
-    public function set($key, $value, $expiry = 0);
+    public function set($key, $value, $expiry = 900);
 
     /**
      * @param $key
@@ -55,13 +55,14 @@ interface ICache
      * @param int $expiry
      * @return mixed
      */
-    public function push($key, $value, $expiry = 0);
+    public function push($key, $value, $expiry = 900);
 
     /**
      * @param $key
+     * @param int $count
      * @return mixed
      */
-    public function pop($key);
+    public function pop($key, int $count = 1);
 
     /**
      * @param $key
@@ -92,10 +93,10 @@ interface ICache
 
     /**
      * @param $values
-     * @param null $ttl
+     * @param int $expiry
      * @return mixed
      */
-    public function setMultiple($values, $ttl = null);
+    public function setMultiple($values, $expiry = 900);
 
     /**
      * @param $keys

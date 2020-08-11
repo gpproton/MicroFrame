@@ -28,6 +28,7 @@ use MicroFrame\Library\Config;
 use PDO;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Exceptions\PhpfastcacheInvalidArgumentException;
+use function array_splice;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -122,9 +123,8 @@ abstract class BaseCache implements ICache
      * @throws Exception
      * @throws PhpfastcacheInvalidArgumentException
      */
-    function set($key, $value, $expiry = 60) {
+    function set($key, $value, $expiry = 900) {
         $key = $this->setPrefix($key);
-
         $item = $this->instance->getItem($key);
         $item->set($value)->expiresAfter($expiry);
         return $this->instance->save($item);
@@ -136,19 +136,51 @@ abstract class BaseCache implements ICache
      * @param int $expiry
      * @return mixed|void
      * @throws Exception
+     * @throws PhpfastcacheInvalidArgumentException
      */
-    function push($key, $value, $expiry = 60) {
+    function push($key, $value, $expiry = 900) {
         $key = $this->setPrefix($key);
+        $item = $this->instance->getItem($key);
+        if ($item->get() === null) $item->set([$value])->expiresAfter($expiry);
+        else {
+            $item->append($value);
+        }
 
+        return $this->instance->save($item);
     }
 
     /**
      * @param $key
+     * @param int $count
      * @return mixed|void
      * @throws Exception
+     * @throws PhpfastcacheInvalidArgumentException
      */
-    function pop($key) {
+    function pop($key, int $count = 1) {
         $key = $this->setPrefix($key);
+        $item = $this->instance->getItem($key);
+        $oldValues = $item->get();
+        $newValues = array();
+        if ($oldValues === null || sizeof($oldValues) === 0) return null;
+        else {
+            if ($count >= 1) {
+                foreach (range(0, $count - 1) as $position) {
+                    $newValues[] = $oldValues[0];
+                    array_splice($oldValues, 0, 1);
+                }
+            } else {
+                $newValues[] = $oldValues[0];
+                array_splice($oldValues, 0, 1);
+            }
+            $item->set($oldValues);
+
+            $maxListConfig = $this->config($this->source . '.maxList');
+            if (sizeof($oldValues) >= $maxListConfig) {
+                array_splice($oldValues, 0, (sizeof($oldValues) - $maxListConfig) - 1);
+            }
+        }
+
+        return $this->instance->save($item) ? $newValues : null;
 
     }
 
