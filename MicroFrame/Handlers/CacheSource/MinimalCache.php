@@ -56,13 +56,14 @@ class MinimalCache extends BaseCache
                 CacheManager::setDefaultConfig(new cacheConfig([
                     "path" => $this->pathInit($source),
                 ]));
-            } elseif ($this->config['type'] == 'files') {
+            } elseif (strpos($this->config['type'], 'file') !== false) {
                 CacheManager::setDefaultConfig(new cacheConfig([
                     "path" => $this->pathInit($source),
                     "itemDetailedDate" => false
                 ]));
             }
 
+//            die(var_dump($this->config['type']));
             return CacheManager::getInstance(strtolower($this->config['type']));
 
         } catch (\Exception $e) {
