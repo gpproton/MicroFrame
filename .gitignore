@@ -3,6 +3,7 @@
 vendor/
 Data/Logs/*.log
 Data/Local/*
+Data/Cache/*
 Build/*
 
 ## Composer rules
@@ -23,4 +24,3 @@ App/Config/*.yaml*
 App/Config/*.yml*
 App/Config/*.ini*
 App/Config/*.xml*
-Data/Cache/cache.sq3
