@@ -51,8 +51,7 @@ class MicroTask
      * @param $name
      * @return array|mixed|null
      */
-    public function config($name)
-    {
+    protected function config($name) {
         return Config::fetch($name);
     }
 
@@ -61,6 +60,7 @@ class MicroTask
      *
      * @param $text
      * @param $type
+     * @return void
      */
     protected function log($text, $type) {
         $instance = Logger::set($text);
@@ -86,21 +86,21 @@ class MicroTask
     /**
      *
      */
-    public function setup() {
+    protected function setup() {
 
     }
 
     /**
      *
      */
-    public function getConfig() {
+    protected function getConfig() {
 
     }
 
     /**
      *
      */
-    public function add() {
+    protected function add() {
 
     }
 
@@ -110,7 +110,7 @@ class MicroTask
      * @param $closure
      * @param $args
      */
-    public function loop($closure, $args = []) {
+    protected function loop($closure, $args = []) {
         foreach ($args as $arg) {
             $closure($arg);
         }
@@ -123,7 +123,8 @@ class MicroTask
      * @param null $source
      * @return Model|IModel
      */
-    public function model($source =  null) {
+    protected function model($source =  null) : IModel
+    {
         if (is_null($source)) return new Model();
         return new Model($source);
     }
@@ -134,7 +135,7 @@ class MicroTask
      * @param string $source
      * @return ICache|object
      */
-    public function cache($source = 'default') : ICache
+    protected function cache($source = 'default') : ICache
     {
         return CacheSource::init($source);
     }
@@ -145,7 +146,7 @@ class MicroTask
      * @param string $source
      * @return mixed|void
      */
-    public function string($source = '')
+    protected function string($source = '') : Strings
     {
         return Strings::filter($source);
     }
@@ -153,7 +154,7 @@ class MicroTask
     /**
      *
      */
-    public function loader()
+    protected function loader()
     {
         // TODO: Implement loader() method.
     }

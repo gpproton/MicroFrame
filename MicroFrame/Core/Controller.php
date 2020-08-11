@@ -20,6 +20,7 @@
  */
 
 namespace MicroFrame\Core;
+
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
 use Closure;
@@ -39,7 +40,7 @@ use MicroFrame\Library\Strings;
  * Class Controller
  * @package MicroFrame\Core
  */
-class Controller implements IController
+abstract class Controller implements IController
 {
     protected $request;
     protected $response;
@@ -89,7 +90,7 @@ class Controller implements IController
     /**
      * Index/Default controller method
      */
-    public function index() {
+    protected function index() {
         /**
          * Implement index method from children class if required.
          */
@@ -115,7 +116,7 @@ class Controller implements IController
      * @param bool $state
      * @return mixed|void
      */
-    public function auto($state = true) {
+    protected function auto($state = true) {
         if (!$state && gettype($this->auto) === 'boolean') {
             $this->response->notFound();
         }
@@ -126,8 +127,10 @@ class Controller implements IController
      *
      * @param $text
      * @param $type
+     * @return void
      */
-    protected function log($text, $type) {
+    protected function log($text, $type)
+    {
         $instance = Logger::set($text);
         switch ($type) {
             case 'info':
@@ -146,6 +149,53 @@ class Controller implements IController
                 $instance->fatal();
                 break;
         }
+    }
+
+    /**
+     *
+     * Model static instance initializer.
+     *
+     * @param null $source
+     * @return Model|IModel
+     */
+    protected function model($source =  null) : IModel
+    {
+        if (is_null($source)) return new Model();
+        return new Model($source);
+    }
+
+    /**
+     * Initializes a cache instance.
+     *
+     * @param string $source
+     * @return ICache|object
+     */
+    protected function cache($source = 'default') : ICache
+    {
+        return CacheSource::init($source);
+    }
+
+    /**
+     * Initializes a string instance.
+     *
+     * @param string $source
+     * @return mixed|void
+     */
+    protected function string($source = '') : Strings
+    {
+        return Strings::filter($source);
+    }
+
+    /**
+     * Initializes an in process task.
+     *
+     * @param Closure $closure
+     * @param string $type
+     * @return mixed|void
+     */
+    protected function await($closure, $type = 'current')
+    {
+        // TODO: Implement await() method.
     }
 
     /**
@@ -201,52 +251,6 @@ class Controller implements IController
             $this->index();
         }
 
-    }
-
-    /**
-     *
-     * Model static instance initializer.
-     *
-     * @param null $source
-     * @return Model|IModel
-     */
-    public function model($source =  null) {
-        if (is_null($source)) return new Model();
-        return new Model($source);
-    }
-
-    /**
-     * Initializes a cache instance.
-     *
-     * @param string $source
-     * @return ICache|object
-     */
-    public function cache($source = 'default') : ICache
-    {
-        return CacheSource::init($source);
-    }
-
-    /**
-     * Initializes a string instance.
-     *
-     * @param string $source
-     * @return mixed|void
-     */
-    public function string($source = '')
-    {
-        return Strings::filter($source);
-    }
-
-    /**
-     * Initializes an in process task.
-     *
-     * @param Closure $closure
-     * @param string $type
-     * @return mixed|void
-     */
-    public function await($closure, $type = 'current')
-    {
-        // TODO: Implement await() method.
     }
 
     /**

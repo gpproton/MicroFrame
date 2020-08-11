@@ -41,52 +41,10 @@ interface IController
     public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true);
 
     /**
-     * @param $name
-     * @return mixed
-     */
-    public function config($name);
-
-    /**
      * @param IMiddleware $middleware
      * @return mixed
      */
     public function middleware(IMiddleware $middleware = null);
-
-    /**
-     * @param null $source
-     * @return IModel
-     */
-    public function model($source = null);
-
-    /**
-     * @param string $source
-     * @return object
-     */
-    public function cache($source = 'default');
-
-    /**
-     * @param string $source
-     * @return mixed
-     */
-    public function string($source = '');
-
-    /**
-     * @param closure $closure
-     * @param string $type
-     * @return mixed
-     */
-    public function await($closure, $type = 'current');
-
-    /**
-     * @return void
-     */
-    public function index();
-
-    /**
-     * @param bool $state
-     * @return mixed
-     */
-    public function auto($state = true);
 
     /**
      * @return mixed
