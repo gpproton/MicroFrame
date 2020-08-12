@@ -26,6 +26,7 @@ use MicroFrame\Handlers\Exception;
 use Phpfastcache\CacheManager;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Drivers\Memcached\Config as cacheConfig;
+use Phpfastcache\Helper\Psr16Adapter;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -43,7 +44,7 @@ class MemCachedCache extends BaseCache
      * @param $source
      * @return mixed|null
      */
-    function init($source) : ExtendedCacheItemPoolInterface
+    function init($source) : Psr16Adapter
     {
         try {
             $configItems = [
@@ -54,7 +55,7 @@ class MemCachedCache extends BaseCache
                 'timeout' => isset($this->config['timeout']) ? $this->config['timeout'] : 5
             ];
 
-            return CacheManager::getInstance(strtolower($this->config['type']), new cacheConfig($configItems));
+            return new Psr16Adapter(strtolower($this->config['type']), new cacheConfig($configItems));
         } catch (\Exception $e) {
             Exception::init()->log($e);
 

@@ -26,6 +26,7 @@ use MicroFrame\Handlers\Exception;
 use Phpfastcache\CacheManager;
 use Phpfastcache\Config\Config as cacheConfig;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
+use Phpfastcache\Helper\Psr16Adapter;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -43,7 +44,7 @@ class MinimalCache extends BaseCache
      * @param $source
      * @return mixed|null
      */
-    public function init($source) : ExtendedCacheItemPoolInterface
+    public function init($source) : Psr16Adapter
     {
         /**
          * Send null if initialization fails.
@@ -66,7 +67,7 @@ class MinimalCache extends BaseCache
             } elseif($this->config['type'] == 'cookie') {
 // TODO: Fix config issues for cookie type.
             }
-            return CacheManager::getInstance(strtolower($this->config['type']));
+            return new Psr16Adapter(strtolower($this->config['type']));
 
         } catch (\Exception $e) {
             Exception::init()->log($e);

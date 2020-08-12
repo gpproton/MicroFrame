@@ -27,6 +27,7 @@ use Phpfastcache\CacheManager;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Drivers\Redis\Config as redisConfig;
 use Phpfastcache\Drivers\Predis\Config as pRedisConfig;
+use Phpfastcache\Helper\Psr16Adapter;
 
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
@@ -45,7 +46,7 @@ class RedisCache extends BaseCache
      * @param $source
      * @return mixed|null
      */
-    public function init($source) : ExtendedCacheItemPoolInterface
+    public function init($source) : Psr16Adapter
     {
         /**
          * Send null if initialization fails.
@@ -69,7 +70,7 @@ class RedisCache extends BaseCache
                 $cacheConfig = new pRedisConfig($configItems);
             }
 
-            return CacheManager::getInstance($instanceType, $cacheConfig);
+            return new Psr16Adapter($instanceType, $cacheConfig);
         } catch (\Exception $e) {
             Exception::init()->log($e);
 
