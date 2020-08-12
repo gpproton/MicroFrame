@@ -148,7 +148,7 @@ abstract class BaseCache implements ICache
      * Push items to back of array
      *
      * @param $key
-     * @param $value
+     * @param array|string|int $value
      * @param int $expiry
      * @return mixed|void
      * @throws Exception
@@ -160,7 +160,8 @@ abstract class BaseCache implements ICache
         $expiry = (60 * 60 * 24) * $expiry;
         $oldValues = $this->instance->get($key);
 
-        if ($oldValues === null) return $this->instance->set($key, [$value], $expiry);
+        if ($oldValues === null && gettype($value) !== 'array') return $this->instance->set($key, [$value], $expiry);
+        elseif ($oldValues === null && gettype($value) === 'array') return $this->instance->set($key, $value, $expiry);
         else {
             /**
              * Filter excess items in queue.
@@ -170,8 +171,12 @@ abstract class BaseCache implements ICache
                 array_splice($oldValues, 0, (sizeof($oldValues) - $maxListConfig) - 1);
             }
 
-            foreach ($value as $item) {
-                $oldValues[] = $item;
+            if (gettype($value) === 'array') {
+                foreach ($value as $item) {
+                    $oldValues[] = $item;
+                }
+            } else {
+                $oldValues[] = $value;
             }
         }
 
