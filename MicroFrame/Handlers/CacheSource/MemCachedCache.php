@@ -23,8 +23,6 @@
 namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
-use Phpfastcache\CacheManager;
-use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Drivers\Memcached\Config as cacheConfig;
 use Phpfastcache\Helper\Psr16Adapter;
 

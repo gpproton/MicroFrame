@@ -25,7 +25,6 @@ namespace MicroFrame\Handlers\CacheSource;
 use MicroFrame\Handlers\Exception;
 use Phpfastcache\CacheManager;
 use Phpfastcache\Config\Config as cacheConfig;
-use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Helper\Psr16Adapter;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');

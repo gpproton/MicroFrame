@@ -23,8 +23,6 @@
 namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
-use Phpfastcache\CacheManager;
-use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Drivers\Redis\Config as redisConfig;
 use Phpfastcache\Drivers\Predis\Config as pRedisConfig;
 use Phpfastcache\Helper\Psr16Adapter;
