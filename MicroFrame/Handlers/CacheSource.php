@@ -21,6 +21,7 @@
 
 namespace MicroFrame\Handlers;
 
+use MicroFrame\Interfaces\ICache;
 use MicroFrame\Library\Config;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use ReflectionClass;
@@ -84,7 +85,13 @@ class CacheSource
 
     }
 
-    public static function  init($source = "default")
+    /**
+     * Returns an instance of cache class.
+     *
+     * @param string $source
+     * @return ICache|object|null
+     */
+    public static function  init($source = "default") : ICache
     {
         $instance = null;
         try {

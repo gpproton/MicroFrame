@@ -138,11 +138,21 @@ abstract class BaseCache implements ICache
      * @throws Exception
      * @throws PhpfastcacheInvalidArgumentException
      */
-    function push($key, $value, $expiry = 900) {
+    function push($key, $value, $expiry = 1) {
         $key = $this->setPrefix($key);
         $item = $this->instance->getItem($key);
-        if ($item->get() === null) $item->set([$value])->expiresAfter($expiry);
+        $oldValues = $item->get();
+
+        if ($oldValues === null) $item->set([$value])->expiresAfter((60 * 60 * 24) * $expiry);
         else {
+            /**
+             * Filter excess items in queue.
+             */
+            $maxListConfig = $this->config($this->source . '.maxQueue');
+            if (gettype($oldValues) === 'array' && sizeof($oldValues) >= $maxListConfig) {
+                array_splice($oldValues, 0, (sizeof($oldValues) - $maxListConfig) - 1);
+            }
+
             $item->append($value);
         }
 
@@ -152,11 +162,12 @@ abstract class BaseCache implements ICache
     /**
      * @param $key
      * @param int $count
+     * @param int $expiry
      * @return mixed|void
      * @throws Exception
      * @throws PhpfastcacheInvalidArgumentException
      */
-    function pop($key, int $count = 1) {
+    function pop($key, int $count = 1, $expiry = 1) {
         $key = $this->setPrefix($key);
         $item = $this->instance->getItem($key);
         $oldValues = $item->get();
@@ -172,9 +183,12 @@ abstract class BaseCache implements ICache
                 $newValues[] = $oldValues[0];
                 array_splice($oldValues, 0, 1);
             }
-            $item->set($oldValues);
+            $item->set($oldValues)->expiresAfter((60 * 60 * 24) * $expiry);
 
-            $maxListConfig = $this->config($this->source . '.maxList');
+            /**
+             * Filter excess items in queue.
+             */
+            $maxListConfig = $this->config($this->source . '.maxQueue');
             if (sizeof($oldValues) >= $maxListConfig) {
                 array_splice($oldValues, 0, (sizeof($oldValues) - $maxListConfig) - 1);
             }

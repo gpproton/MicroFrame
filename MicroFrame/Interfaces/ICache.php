@@ -55,14 +55,15 @@ interface ICache
      * @param int $expiry
      * @return mixed
      */
-    public function push($key, $value, $expiry = 900);
+    public function push($key, $value, $expiry = 1);
 
     /**
      * @param $key
      * @param int $count
+     * @param int $expiry
      * @return mixed
      */
-    public function pop($key, int $count = 1);
+    public function pop($key, int $count = 1, $expiry = 1);
 
     /**
      * @param $key

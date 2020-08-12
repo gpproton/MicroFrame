@@ -35,7 +35,7 @@ cacheSource:
   default:
     type: sqlite
     prefix: 'mf_'
-    maxList: 500
+    maxQueue: 500
   redis:
     type: redis
     host: 127.0.0.1
@@ -44,7 +44,7 @@ cacheSource:
     password: ''
     timeout: 10
     prefix: 'mf_'
-    maxList: 500
+    maxQueue: 500
 
 # DataSource types sqlite | mysql | postgres | oracle | mssql
 # Sqlite data files are to be located at Data/local/
