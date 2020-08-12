@@ -37,25 +37,46 @@ interface IModel
 
     /**
      * @param array $array
-     * @return void
+     * @return IModel
      */
     public function params($array = []);
 
     /**
      * @param $string
-     * @return void
+     * @return IModel
      */
     public function query($string);
 
     /**
-     * @return void
+     * @param string $cacheStrategy
+     * @return IModel
      */
-    public function execute();
+    public function execute($cacheStrategy = 'resultOnly');
 
     /**
      * @return array
      */
     public function result();
+
+    /**
+     * @return IModel
+     */
+    public function resultFirst();
+
+    /**
+     * @return IModel
+     */
+    public function cacheFirst();
+
+    /**
+     * @return IModel
+     */
+    public function cacheOnly();
+
+    /**
+     * @return IModel
+     */
+    public function resultOnly();
 
 }
 

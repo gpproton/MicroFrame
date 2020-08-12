@@ -100,9 +100,10 @@ final class Model implements IModel
     /**
      * Start actual database query for any QModel specified.
      *
+     * @param string $cacheStrategy
      * @return $this|void
      */
-    public function execute() {
+    public function execute($cacheStrategy = 'resultOnly') {
         $level = 0;
         $modelSrc = "select 1 from dual";
         $modelSample = array('sample' => 'dataX');
@@ -161,6 +162,7 @@ final class Model implements IModel
                     /**
                      * General query execution.
                      */
+                    // TODO: Handle cache conditions before execution.
                     $prepare->execute($param);
 
                     $results = array();
@@ -180,6 +182,7 @@ final class Model implements IModel
                         if (!isset($this->result[$value['model']])) {
                             $this->result[$value['model']] = $results;
                         } else {
+                            // TODO: Change from random to explicitly defined key.
                             $this->result[$value['model'] . '-' . rand(2, 100)] = $results;
                         }
 
@@ -217,6 +220,8 @@ final class Model implements IModel
     }
 
     /**
+     * Returns result from query.
+     *
      * @return array
      */
     public function result() {
@@ -237,6 +242,46 @@ final class Model implements IModel
             return Reflect::check()->stateLoader($path, array())->query;
         }
 
+    }
+
+    /**
+     * Send result then cache item.
+     *
+     * @return IModel|void
+     */
+    public function resultFirst()
+    {
+        // TODO: Implement resultFirst() method.
+    }
+
+    /**
+     * Send already cached if it's not null and cache new result.
+     *
+     * @return IModel|void
+     */
+    public function cacheFirst()
+    {
+        // TODO: Implement cacheFirst() method.
+    }
+
+    /**
+     * Cache only new result when null and never cache new result until cache expires.
+     *
+     * @return IModel|void
+     */
+    public function cacheOnly()
+    {
+        // TODO: Implement cacheOnly() method.
+    }
+
+    /**
+     * Send only result and never cache results.
+     *
+     * @return IModel|void
+     */
+    public function resultOnly()
+    {
+        // TODO: Implement resultOnly() method.
     }
 
 }
