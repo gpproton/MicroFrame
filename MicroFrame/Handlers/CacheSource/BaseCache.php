@@ -28,6 +28,7 @@ use MicroFrame\Library\Config;
 use PDO;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use Phpfastcache\Exceptions\PhpfastcacheInvalidArgumentException;
+use Psr\Cache\InvalidArgumentException;
 use function array_splice;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
@@ -74,6 +75,13 @@ abstract class BaseCache implements ICache
         return Config::fetch('cacheSource.' . $name);
     }
 
+    /**
+     * Prepend configured prefix on requested keys.
+     *
+     * @param $key
+     * @return string|array
+     * @throws Exception
+     */
     private function setPrefix($key) {
         $prefix = isset($this->config($this->source)['prefix']) ? $this->config($this->source)['prefix'] : 'mf_';
         if (gettype($key) === 'string') return $prefix . $key;
@@ -103,6 +111,8 @@ abstract class BaseCache implements ICache
     }
 
     /**
+     * Get value for single item.
+     *
      * @param $key
      * @return mixed|void
      * @throws Exception
@@ -116,6 +126,8 @@ abstract class BaseCache implements ICache
     }
 
     /**
+     * Set value for single item.
+     *
      * @param $key
      * @param $value
      * @param int $expiry
@@ -131,6 +143,8 @@ abstract class BaseCache implements ICache
     }
 
     /**
+     * Push items to back of array
+     *
      * @param $key
      * @param $value
      * @param int $expiry
@@ -139,7 +153,7 @@ abstract class BaseCache implements ICache
      * @throws PhpfastcacheInvalidArgumentException
      */
     function push($key, $value, $expiry = 1) {
-        $key = $this->setPrefix($key);
+        $key = $this->setPrefix($key) . '_queue';
         $item = $this->instance->getItem($key);
         $oldValues = $item->get();
 
@@ -160,6 +174,8 @@ abstract class BaseCache implements ICache
     }
 
     /**
+     * Remove the front items in array.
+     *
      * @param $key
      * @param int $count
      * @param int $expiry
@@ -168,7 +184,7 @@ abstract class BaseCache implements ICache
      * @throws PhpfastcacheInvalidArgumentException
      */
     function pop($key, int $count = 1, $expiry = 1) {
-        $key = $this->setPrefix($key);
+        $key = $this->setPrefix($key) . '_queue';
         $item = $this->instance->getItem($key);
         $oldValues = $item->get();
         $newValues = array();
@@ -199,35 +215,42 @@ abstract class BaseCache implements ICache
     }
 
     /**
+     * Returns all queue items by the requested count or all.
+     *
      * @param $key
      * @param $count
      * @return mixed|void
      * @throws Exception
+     * @throws PhpfastcacheInvalidArgumentException
      */
-    function all($key, $count) {
-        $key = $this->setPrefix($key);
-
+    function all($key, $count = 100) {
+        $key = $this->setPrefix($key). '_queue';
+        $item = $this->instance->getItem($key);
+        $item = $item->get();
+        if (sizeof($count) >= 1) array_slice($item, 0, $count);
+        return $item;
     }
 
     /**
-     * @param $key
-     * @param int $count
-     * @return mixed|void
-     * @throws Exception
+     * Clears all entered keys.
+     *
+     * @return mixed|void|boolean
      */
-    public function clear($key, $count = 1) {
-        $key = $this->setPrefix($key);
-        // TODO: Implement clear() method.
+    public function clear() {
+        return $this->instance->clear();
     }
 
     /**
+     * Delete requested key completely.
+     *
      * @param $key
-     * @return mixed|void
+     * @return mixed|void|boolean
      * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function delete($key) {
         $key = $this->setPrefix($key);
-        // TODO: Implement delete() method.
+        return $this->instance->deleteItem($key);
     }
 
     /**
@@ -254,19 +277,29 @@ abstract class BaseCache implements ICache
      * @param $keys
      * @return mixed|void
      * @throws Exception
+     * @throws InvalidArgumentException
      */
-    public function deleteMultiple($keys) {
-        $keys = $this->setPrefix($keys);
-        // TODO: Implement deleteMultiple() method.
+    public function deleteMultiple($keys = []) {
+        if (gettype($keys) === 'array' && sizeof($keys) >= 1) {
+            $keys = $this->setPrefix($keys);
+            return $this->instance->deleteItems($keys);
+        }
+        return false;
     }
 
     /**
+     * Check if a key exist.
+     *
      * @param $key
      * @return mixed|void
      * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function has($key) {
-        $key = $this->setPrefix($key);
-        // TODO: Implement has() method.
+        if (gettype($key) === 'string') {
+            $key = $this->setPrefix($key);
+            return $this->instance->hasItem($key);
+        }
+        return false;
     }
 }

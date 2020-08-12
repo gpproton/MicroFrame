@@ -73,11 +73,9 @@ interface ICache
     public function all($key, $count);
 
     /**
-     * @param $key
-     * @param int $count
      * @return mixed
      */
-    public function clear($key, $count = 1);
+    public function clear();
 
     /**
      * @param $key
