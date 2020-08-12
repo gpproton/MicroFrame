@@ -85,6 +85,7 @@ final class Request implements IRequest
             $finalParams = null;
             foreach( $query as $param )
             {
+                // TODO: Find solution for empty query string.
                 // prevent notice on explode() if $param has no '='
                 if (strpos($param, '=') === false) $param += '=';
                 list($name, $value) = explode('=', $param, 2);

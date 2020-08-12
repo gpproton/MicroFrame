@@ -23,7 +23,7 @@ namespace MicroFrame\Library;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\YamlEncoder;
+use Symfony\Component\Yaml\Yaml as YamlEncoder;
 
 defined('BASE_PATH') OR exit('No direct script access allowed');
 
@@ -50,8 +50,7 @@ class Convert
             $encoder = new XmlEncoder();
             return $encoder->encode($array, 'xml');
         } elseif (strpos($type, 'yaml') !== false) {
-            $encoder = new YamlEncoder();
-            return $encoder->encode($array, 'yaml');
+            return YamlEncoder::dump($array, 4);
         } else {
             $encoder = new JsonEncoder();
             return $encoder->encode($array, 'json');

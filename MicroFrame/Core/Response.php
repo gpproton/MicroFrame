@@ -131,7 +131,7 @@ final class Response implements IResponse
     {
         $this->format = is_null($format) ? (is_null($format) ? $this->request->format() : $this->request->query('accept')) : $format;
 
-            if (strlen($this->format) <= 3) {
+            if (strlen($this->format) <= 3 && $this->format !== 'xml') {
                 $this->format = $this->request->contentType();
                 if (empty($this->format) || $this->format === "*/*") {
                     $this->format = 'application/json';
