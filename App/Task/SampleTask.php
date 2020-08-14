@@ -21,7 +21,7 @@
 
 namespace App\Task;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class SampleTask
@@ -29,5 +29,4 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class SampleTask
 {
-
 }

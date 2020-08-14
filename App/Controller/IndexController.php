@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Index Controller class
  *
@@ -28,8 +28,8 @@ use MicroFrame\Core\Controller as Core;
  * Class IndexController
  * @package App\Controller
  */
-class IndexController extends Core {
-
+class IndexController extends Core
+{
     public function index()
     {
         if (!$this->request->browser()) {
@@ -47,5 +47,4 @@ class IndexController extends Core {
                 ))->render('sys.Default');
         }
     }
-
 }

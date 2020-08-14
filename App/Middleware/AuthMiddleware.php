@@ -1,6 +1,7 @@
 <?php
 namespace App\Middleware;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Test Middleware class
  *
@@ -65,5 +66,4 @@ class AuthMiddleware extends Middleware
 
         return true;
     }
-
 }

@@ -23,7 +23,7 @@ namespace App\Model;
 
 use MicroFrame\Core\ModelQuery;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class SampleModel
@@ -37,8 +37,8 @@ class SampleModel extends ModelQuery
      *
      * @return array
      */
-    public function default() {
-
+    public function default()
+    {
         $query = <<<SQL
 
             SELECT 1 FROM DUAL
@@ -55,7 +55,8 @@ SQL;
      *
      * @return array
      */
-    public function sample() {
+    public function sample()
+    {
         $query = <<<SQL
 
             SELECT 'TEST' FROM DUAL

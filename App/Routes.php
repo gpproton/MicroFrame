@@ -2,7 +2,7 @@
 
 use MicroFrame\Handlers\Route;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 // TODO: Route point to related path with dot note, and an array of required middleware, check notes
 // TODO: Default app middleware config for all controllers with pattern match
@@ -33,5 +33,3 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
 //Route::map("/test", ['get', 'post'], "test", []);
 
 //Route::map("/testing", ['get', 'post'], "./CustomApp", []);
-
-

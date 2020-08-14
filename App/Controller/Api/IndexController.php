@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Api;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Default Index controller class
  *
@@ -28,7 +28,8 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * Class IndexController
  * @package App\Controller\Api
  */
-class IndexController extends Core {
+class IndexController extends Core
+{
 
     /**
      *
@@ -68,6 +69,5 @@ class IndexController extends Core {
      */
     public function index()
     {
-
     }
 }

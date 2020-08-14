@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Page;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * View Error controller class
  *
@@ -28,7 +28,6 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  * Class ErrorController
  * @package App\Controller\Page
  */
-class ErrorController extends Core {
-
-    
+class ErrorController extends Core
+{
 }
