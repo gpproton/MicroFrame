@@ -15,7 +15,7 @@
     </php>
     <testsuites>
         <testsuite name="MicroFrame Core Test">
-            <directory suffix="Test.php">./Tests/</directory>
+            <directory suffix="Test.php">./MicroFrame/Tests/</directory>
         </testsuite>
         <testsuite name="MicroFrame App Test">
             <directory suffix="Test.php">./App/Tests/</directory>
@@ -26,6 +26,7 @@
             <directory suffix=".php">./MicroFrame/</directory>
             <directory suffix=".php">./App</directory>
             <exclude>
+                <directory>./MicroFrame/Tests/</directory>
                 <directory suffix="Views.php">./MicroFrame/</directory>
                 <directory suffix="Views.php">./App/</directory>
                 <directory suffix="Model.php">./App/</directory>
