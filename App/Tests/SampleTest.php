@@ -6,7 +6,7 @@ namespace App\Tests;
 
 use PHPUnit\Framework\TestCase;
 
-class SampleAppTest extends TestCase
+class SampleTest extends TestCase
 {
     public function testPushAndPop()
     {
