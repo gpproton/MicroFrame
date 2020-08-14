@@ -1,13 +1,24 @@
 <?php
-
+/**
+ *
+ */
 
 namespace App\Tests;
 
-
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class SampleTest
+ *
+ * @package App\Tests
+ */
 class SampleTest extends TestCase
 {
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
     public function testPushAndPop()
     {
         $stack = [];
