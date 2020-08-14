@@ -23,10 +23,6 @@ namespace MicroFrame\Core;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
-use \AsyncPHP\Doorman\Task;
-use \AsyncPHP\Doorman\Manager\ProcessManager;
-use \AsyncPHP\Doorman\Rule\InMemoryRule;
-use \AsyncPHP\Doorman\Task\ProcessCallbackTask;
 use MicroFrame\Handlers\CacheSource;
 use MicroFrame\Handlers\Logger;
 use MicroFrame\Interfaces\ICache;
@@ -64,29 +60,29 @@ class MicroTask
     /**
      * An in-class logger method, for much easier usage.
      *
-     * @param $text
-     * @param $type
+     * @param  $text
+     * @param  $type
      * @return void
      */
     protected function log($text, $type)
     {
         $instance = Logger::set($text);
         switch ($type) {
-            case 'info':
-                $instance->info();
-                break;
-            case 'warn':
-                $instance->warn();
-                break;
-            case 'error':
-                $instance->error();
-                break;
-            case 'debug':
-                $instance->debug();
-                break;
-            default:
-                $instance->fatal();
-                break;
+        case 'info':
+            $instance->info();
+            break;
+        case 'warn':
+            $instance->warn();
+            break;
+        case 'error':
+            $instance->error();
+            break;
+        case 'debug':
+            $instance->debug();
+            break;
+        default:
+            $instance->fatal();
+            break;
         }
     }
 
@@ -114,6 +110,7 @@ class MicroTask
     /**
      * Use closure for method capture
      * TODO: Change for async task properties without awaiting.
+     *
      * @param $closure
      * @param $args
      */
@@ -125,10 +122,9 @@ class MicroTask
     }
 
     /**
-     *
      * Model static instance initializer.
      *
-     * @param null $source
+     * @param  null $source
      * @return Model|IModel
      */
     protected function model($source =  null) : IModel
@@ -142,7 +138,7 @@ class MicroTask
     /**
      * Initializes a cache instance.
      *
-     * @param string $source
+     * @param  string $source
      * @return ICache|object
      */
     protected function cache($source = 'default') : ICache
@@ -153,7 +149,7 @@ class MicroTask
     /**
      * Initializes a string instance.
      *
-     * @param string $source
+     * @param  string $source
      * @return mixed|void
      */
     protected function string($source = '') : Strings

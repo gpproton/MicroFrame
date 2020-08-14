@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         verbose="true"
+>
+    <php>
+        <ini name="memory_limit" value="1024M" />
+    </php>
+    <testsuites>
+        <testsuite name="MicroFrame Core Test">
+            <directory suffix="Test.php">./Tests/</directory>
+        </testsuite>
+        <testsuite name="MicroFrame App Test">
+            <directory suffix="Test.php">./App/Tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./MicroFrame/</directory>
+            <directory suffix=".php">./App</directory>
+            <exclude>
+                <directory suffix="Views.php">./MicroFrame/</directory>
+                <directory suffix="Views.php">./App/</directory>
+                <directory suffix="Model.php">./App/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
