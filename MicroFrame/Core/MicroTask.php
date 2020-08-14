@@ -106,11 +106,11 @@ class MicroTask
 
     /**
      * Use closure for method capture
-     *
+     * TODO: Change for async task properties without awaiting.
      * @param $closure
      * @param $args
      */
-    protected function loop($closure, $args = []) {
+    private function loop($closure, $args = []) {
         foreach ($args as $arg) {
             $closure($arg);
         }
