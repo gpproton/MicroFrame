@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Handlers;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Core\Application;
 use Throwable;
@@ -32,7 +32,6 @@ use Throwable;
  */
 final class ErrorHandler extends \Error implements Throwable
 {
-
     private $app;
 
     /**
@@ -70,7 +69,6 @@ final class ErrorHandler extends \Error implements Throwable
         if (!empty($this->app)) {
             $this->app->start();
         };
-
     }
 
     /**
@@ -130,8 +128,8 @@ final class ErrorHandler extends \Error implements Throwable
      * @param $type
      * @return bool
      */
-    protected function isFatal($type) {
+    protected function isFatal($type)
+    {
         return in_array($type, [E_COMPILE_ERROR, E_CORE_ERROR, E_ERROR, E_PARSE]);
     }
-
 }

@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Handlers;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IDataSource;
 use MicroFrame\Library\Config;
@@ -33,8 +33,8 @@ use PDOOCI\PDO as fallbackOraclePDO;
  * Class DataSource
  * @package MicroFrame\Handlers
  */
-class DataSource implements IDataSource {
-
+class DataSource implements IDataSource
+{
     private $source;
     private $options;
     private $connection;
@@ -45,15 +45,14 @@ class DataSource implements IDataSource {
      *
      * @return mixed
      */
-    public function __construct($string = "default") {
-
+    public function __construct($string = "default")
+    {
         $this->source = $this->config("dataSource.{$string}");
         $connectStringParams = array(
             'config' => $this->source
         );
 
         if (isset($this->source) && is_null($this->connection)) {
-
             $timeout = isset($this->source['timeout']) ? $this->source['timeout'] : 150;
 
             $this->options = [
@@ -75,9 +74,7 @@ class DataSource implements IDataSource {
                  */
                 if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
                     $this->connection = new fallbackOraclePDO($connectionString, $this->source['user'], $this->source['password']);
-                }
-
-                else if ($this->validate($this->source['type'])) {
+                } elseif ($this->validate($this->source['type'])) {
                     /**
                      * Initialize standard PDO connection.
                      */
@@ -86,7 +83,6 @@ class DataSource implements IDataSource {
                         $this->connection = new PDO($connectionString);
                     } else {
                         $this->connection = new PDO($connectionString, $this->source['user'], $this->source['password']);
-
                     }
                 }
             } catch (\Exception $exception) {
@@ -97,7 +93,6 @@ class DataSource implements IDataSource {
             }
 
             return $this;
-
         } else {
             /**
              * Manually throw exception...
@@ -125,13 +120,13 @@ class DataSource implements IDataSource {
      * @param bool $status
      * @return PDO | mixed
      */
-    public static function get($string = null, $cache = false, $status = false) {
+    public static function get($string = null, $cache = false, $status = false)
+    {
         if (!$status) {
             return empty($string) ? (new self())->connection : (new self($string))->connection;
         } else {
             return empty($string) ? (new self())->source : (new self($string))->source;
         }
-
     }
 
     /**
@@ -148,7 +143,9 @@ class DataSource implements IDataSource {
         } else {
             $filePath = DATA_PATH . "/Local/" . $config['dbname'];
         }
-        if (!is_null($config)) return "sqlite:{$filePath}";
+        if (!is_null($config)) {
+            return "sqlite:{$filePath}";
+        }
 
         return null;
     }
@@ -162,7 +159,9 @@ class DataSource implements IDataSource {
         /**
          * oci:dbname=//hostname:port/ORCL
          */
-        if (!is_null($config)) return "oci:dbname=//{$config['host']}:{$config['port']}/{$config['dbname']}";
+        if (!is_null($config)) {
+            return "oci:dbname=//{$config['host']}:{$config['port']}/{$config['dbname']}";
+        }
 
         return null;
     }
@@ -176,7 +175,9 @@ class DataSource implements IDataSource {
         /**
          * mssql:host=hostname:port;dbname=database
          */
-        if (!is_null($config)) return "mssql:host={$config['host']}:{$config['port']};dbname={$config['dbname']}";
+        if (!is_null($config)) {
+            return "mssql:host={$config['host']}:{$config['port']};dbname={$config['dbname']}";
+        }
 
         return null;
     }
@@ -190,7 +191,9 @@ class DataSource implements IDataSource {
         /**
          * mysql:host=hostname;port=3306;dbname=dbname
          */
-        if (!is_null($config)) return "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+        if (!is_null($config)) {
+            return "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+        }
 
         return null;
     }
@@ -204,7 +207,9 @@ class DataSource implements IDataSource {
         /**
          * pgsql:host=hostname;port=5432;dbname=testdb
          */
-        if (!is_null($config)) return "pgsql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+        if (!is_null($config)) {
+            return "pgsql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+        }
 
         return null;
     }
@@ -226,10 +231,10 @@ class DataSource implements IDataSource {
             'oracle' => 'oci'
         );
 
-        if(!in_array($drivers[$text], PDO::getAvailableDrivers(), TRUE) && $checkOnly) return false;
-        else {
+        if (!in_array($drivers[$text], PDO::getAvailableDrivers(), true) && $checkOnly) {
+            return false;
+        } else {
             return true;
         }
     }
-
 }

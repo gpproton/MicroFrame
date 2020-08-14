@@ -30,12 +30,14 @@
 </head>
 <body>
 
-<?php if (isset($showReturn)) {if ($showReturn) { ?>
+<?php if (isset($showReturn)) {
+    if ($showReturn) { ?>
 <div class="center-align">
     <a class='waves-effect waves-light btn grey lighten-1 center-align z-depth-0' style='color: white; text-decoration: none; margin-right: auto; margin-left: auto;' href='<?=$base?>'>
         <i class='material-icons left'>chevron_left</i>Return Home</a>
 </div>
-<?php } } ?>
+<?php }
+} ?>
 
 <div class="center-align">
     <object class="center-align vector-style" type='image/svg+xml' data='<?=$root?><?=$errorImage?>'></object>

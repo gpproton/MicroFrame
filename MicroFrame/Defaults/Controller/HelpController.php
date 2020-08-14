@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Defaults\Controller;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Core\Controller as Core;
 use MicroFrame\Handlers\Markdown;
@@ -41,7 +41,6 @@ class HelpController extends Core
      */
     public function index()
     {
-
         $assistRoot = Value::init()->assistPath();
         $currentPath = $this->request->path(false);
         $basePath = Strings::filter($this->request->url())->replace([$currentPath, '//', ':/'], ['', '/', '://'])->value();
@@ -103,7 +102,9 @@ class HelpController extends Core
                         /**
                          * get absolute file path for confirming existence.
                          */
-                        if (empty($folderStructure)) $folderStructure = '/';
+                        if (empty($folderStructure)) {
+                            $folderStructure = '/';
+                        }
                         $fileInst = Strings::filter($rootPath . $folderStructure . $value)->replace(['//', '///'], ['/', '/'])->value();
 
                         /**
@@ -117,7 +118,7 @@ class HelpController extends Core
                          * A workaround to return to parent folder from a deep nesting.
                          */
                         else {
-                            while(!file_exists($fileInst)) {
+                            while (!file_exists($fileInst)) {
                                 $subdir = File::init()->relativePath($rootPath, dirname(dirname($fileInst)));
                                 $subdir = Strings::filter($subdir)->replace('./', '/')->value();
 
@@ -130,13 +131,14 @@ class HelpController extends Core
                                     $fileInstance = Strings::filter($folderStructure . $currentFile)->replace(['//', '///'], ['/', '/'])->value();
                                 }
                             }
-
                         }
 
                         /**
                          * Final relative file path.
                          */
-                        if (strpos($fileInstance, '/') === false) $fileInstance = '/' . $fileInstance;
+                        if (strpos($fileInstance, '/') === false) {
+                            $fileInstance = '/' . $fileInstance;
+                        }
 
                         /**
                          * Add list item to string.
@@ -162,7 +164,6 @@ class HelpController extends Core
                     <li><div class="divider divider-restyle"></div></li>
                     <li class="list-restyle"><a class="link-restyle" href="{$rootUrl}{$fileInstance}">{$currentFile}</a></li>
 HTML;
-
                     }
 
                     /**
@@ -269,7 +270,9 @@ HTML;
         /**
          * Default generation for page header.
          */
-        if (!isset($options['title'])) $options['title'] = 'new';
+        if (!isset($options['title'])) {
+            $options['title'] = 'new';
+        }
         /**
          * Default for page title.
          */
@@ -277,7 +280,9 @@ HTML;
             $options['title'] = ucfirst($mataFile . ' documentation');
             $options['header'] = '';
         } else {
-            if ($options['title'] === 'new') $options['title'] = ucfirst($mataFile . ' documentation');
+            if ($options['title'] === 'new') {
+                $options['title'] = ucfirst($mataFile . ' documentation');
+            }
             $options['header'] = "<h2 align='center' style='font-weight: 300 !important; color: #9e9e9e !important;'>{$options['title']}</h2>";
         }
 
@@ -307,8 +312,11 @@ HTML;
          * Get markdown updated date.
          */
         if (!isset($options['date'])) {
-            if (file_exists($requestedFile)) $options['date'] = date("d-M-Y", filectime(__FILE__));
-            else $options['date'] = date("d-M-Y");
+            if (file_exists($requestedFile)) {
+                $options['date'] = date("d-M-Y", filectime(__FILE__));
+            } else {
+                $options['date'] = date("d-M-Y");
+            }
         }
 
         /**
@@ -326,7 +334,9 @@ HTML;
         /**
          * Adds default tags
          */
-        if (!isset($options['tags'])) $options['tags'] = ['PHP', 'MVC', 'Developers', 'Clean Architecture'];
+        if (!isset($options['tags'])) {
+            $options['tags'] = ['PHP', 'MVC', 'Developers', 'Clean Architecture'];
+        }
         $tempTagString = '';
         foreach ($options['tags'] as $tagValue) {
             $tempTagString .= "<span class='center tags-style'>{$tagValue}</span>";
@@ -370,8 +380,9 @@ HTML;
             /**
              * Call menu builder function.
              */
-            if (isset($getConstr)) $getConstr($files, $rootPath);
-
+            if (isset($getConstr)) {
+                $getConstr($files, $rootPath);
+            }
         }
 
         /**

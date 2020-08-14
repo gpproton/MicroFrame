@@ -2,7 +2,7 @@
 
 namespace MicroFrame\Defaults\Controller;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Swagger.json controller class
  *

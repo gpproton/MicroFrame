@@ -26,7 +26,7 @@ use MicroFrame\Library\Config;
 use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use ReflectionClass;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class CacheSource
@@ -34,14 +34,14 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class CacheSource
 {
-
     private $instance;
     /**
      * Init based on \MicroFrame\Handlers\** reflected classes.
      * @param string $source
      * @throws \Exception
      */
-    public function __construct($source = "default") {
+    public function __construct($source = "default")
+    {
         /**
          * Retrieves requested cache config.
          */
@@ -82,7 +82,6 @@ class CacheSource
         } else {
             throw new Exception('Requested Cache type does not exist, please \\n use existing types or create class' . $path);
         }
-
     }
 
     /**
@@ -91,7 +90,7 @@ class CacheSource
      * @param string $source
      * @return ICache|object|null
      */
-    public static function  init($source = "default") : ICache
+    public static function init($source = "default") : ICache
     {
         $instance = null;
         try {
@@ -102,5 +101,4 @@ class CacheSource
 
         return !is_null($instance) ? $instance->instance : null;
     }
-
 }

@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Defaults\Middleware;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use \MicroFrame\Core\Middleware;
 
@@ -37,5 +38,4 @@ class DefaultMiddleware extends Middleware
     {
         return true;
     }
-
 }

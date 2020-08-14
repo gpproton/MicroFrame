@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Core;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Core\Request as request;
 use MicroFrame\Library\Convert;
@@ -67,7 +68,8 @@ final class Response implements IResponse
      * @param array $data
      * @return $this
      */
-    public function setOutput($status = 0, $code = 204, $message = "", $data = []) {
+    public function setOutput($status = 0, $code = 204, $message = "", $data = [])
+    {
         $this->content['status'] = $status;
         $this->content['code'] = $code;
         $this->content['message'] = $message;
@@ -75,7 +77,8 @@ final class Response implements IResponse
         return $this;
     }
 
-    public function notFound() {
+    public function notFound()
+    {
         if (!$this->request->browser()) {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
                 ->setOutput(0, 404, "Requested resource '{$this->request->url()}' not found..")
@@ -91,7 +94,6 @@ final class Response implements IResponse
                 ))
                 ->render('sys.Default');
         }
-
     }
 
     /**
@@ -105,41 +107,45 @@ final class Response implements IResponse
         $this->methods = $selected;
         $state = !in_array($this->request->method(), $selected);
 
-        if($state) {
+        if ($state) {
             $this->proceed = false;
             $this->setOutput(0, 405, Value::init()->HttpCodes(405)->text, []);
-            if($return) return false;
+            if ($return) {
+                return false;
+            }
             $halt && is_null($this->view) ? $this->send() : $this->render(); // TODO: Add 404 view.
             return $this;
-        } else if (!$state && !$return && !$halt) {
+        } elseif (!$state && !$return && !$halt) {
             $this->proceed = true;
             $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
-            if($return) return true;
-            if ($halt) $this->send();
+            if ($return) {
+                return true;
+            }
+            if ($halt) {
+                $this->send();
+            }
             return $this;
         }
 
         return $this;
-
     }
 
     /**
      * @param null $format
      * @return $this
      */
-    Public function format($format = null)
+    public function format($format = null)
     {
         $this->format = is_null($format) ? (is_null($format) ? $this->request->format() : $this->request->query('accept')) : $format;
 
-            if (strlen($this->format) <= 3 && $this->format !== 'xml') {
-                $this->format = $this->request->contentType();
-                if (empty($this->format) || $this->format === "*/*") {
-                    $this->format = 'application/json';
-                }
+        if (strlen($this->format) <= 3 && $this->format !== 'xml') {
+            $this->format = $this->request->contentType();
+            if (empty($this->format) || $this->format === "*/*") {
+                $this->format = 'application/json';
             }
+        }
 
-            return $this;
-
+        return $this;
     }
 
     /**
@@ -147,7 +153,7 @@ final class Response implements IResponse
      * @param bool $raw
      * @return $this|IResponse
      */
-    Public function data($content = null, $raw =  false)
+    public function data($content = null, $raw =  false)
     {
         $this->dataRaw($raw);
 
@@ -161,8 +167,8 @@ final class Response implements IResponse
         return $this;
     }
 
-    Public function dataRaw($content = true) {
-
+    public function dataRaw($content = true)
+    {
         $this->contentRaw = $content ? true : false;
 
         return $this;
@@ -174,28 +180,26 @@ final class Response implements IResponse
      * @param bool $format
      * @return $this
      */
-    Public function header($key = 200, $value = null, $format = false)
+    public function header($key = 200, $value = null, $format = false)
     {
         $charset = "charset=utf-8";
         $accessControl = strtoupper(implode(", ", $this->methods));
         if (is_numeric($key)) {
             header(Value::init()->HttpCodes($key)->full, true);
             header("Access-Control-Allow-Methods: {$accessControl}", true);
-        } else if(!is_null($value) && $key == 'redirect') {
+        } elseif (!is_null($value) && $key == 'redirect') {
             header("Location: {$value}", true);
-        } else if(!is_null($value) && $key == 'content-type') {
-
+        } elseif (!is_null($value) && $key == 'content-type') {
             if (strpos($value, 'json') !== false) {
                 header("Content-Type: application/json; ($charset)", true);
-            } else if (strpos($value, 'xml') !== false) {
+            } elseif (strpos($value, 'xml') !== false) {
                 header("Content-Type: application/xml; ($charset)", true);
-            } else if (strpos($value, 'yaml') !== false) {
+            } elseif (strpos($value, 'yaml') !== false) {
                 header("Content-Type: application/x-yaml; ($charset)", true);
             } else {
                 header("Content-Type: {$value}; ($charset)", true);
             }
-
-        } else if(!is_null($value) && $key == 'accept') {
+        } elseif (!is_null($value) && $key == 'accept') {
             // header("Content-Type: {$value}; charset=utf-8", true);
         } else {
             header("{$key}: {$value}", true);
@@ -209,9 +213,11 @@ final class Response implements IResponse
      * @param null $value
      * @return $this|mixed
      */
-    Public function status($value = null)
+    public function status($value = null)
     {
-        if(is_null($value)) $this->content['code'] = 200;
+        if (is_null($value)) {
+            $this->content['code'] = 200;
+        }
         $this->content['code'] = $value;
 
         return $this;
@@ -222,7 +228,7 @@ final class Response implements IResponse
      * @param bool $proceed
      * @return self
      */
-    Public function redirect($path = null, $proceed = true)
+    public function redirect($path = null, $proceed = true)
     {
         if ($proceed) {
             $this->header('redirect', $path);
@@ -237,7 +243,7 @@ final class Response implements IResponse
      * @param bool $proceed
      * @return self
      */
-    Public function refresh($time = 5, $path = null, $proceed = true)
+    public function refresh($time = 5, $path = null, $proceed = true)
     {
         if ($proceed) {
             $path = is_null($path) ? "" : " url={$path}";
@@ -252,7 +258,7 @@ final class Response implements IResponse
      * @param $value
      * @return $this|IResponse
      */
-    Public function cookie($key, $value)
+    public function cookie($key, $value)
     {
         return $this;
     }
@@ -262,7 +268,7 @@ final class Response implements IResponse
      * @param null $value
      * @return $this|IResponse
      */
-    Public function session($state, $value = null)
+    public function session($state, $value = null)
     {
         // session_start(); started already at request session method.
         // TODO: review all these
@@ -299,7 +305,6 @@ final class Response implements IResponse
         ob_clean();
         
         if (is_null($this->view) && gettype($this->content) === 'array') {
-
             if (!$this->proceed && ($this->content['code'] !== 405)) {
                 $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
             }
@@ -309,12 +314,16 @@ final class Response implements IResponse
              * and setting content type with requested type
              * accept header must be set or error is sent in json.
              */
-            if (!isset($this->formats)) $this->format();
+            if (!isset($this->formats)) {
+                $this->format();
+            }
 
             /**
              * Extra check if methods is not called, execute.
              */
-            if (!isset($this->methods)) $this->methods(['get'], true);
+            if (!isset($this->methods)) {
+                $this->methods(['get'], true);
+            }
 
             /**
              * If request format contains html set to JSON.
@@ -333,8 +342,7 @@ final class Response implements IResponse
             } else {
                 die(Convert::arrays($this->content, $this->format));
             }
-
-        } else if (is_null($this->view) && gettype($this->content) !== 'array') {
+        } elseif (is_null($this->view) && gettype($this->content) !== 'array') {
             die($this->content);
         } else {
             die('please use render for VIEW output.');
@@ -360,8 +368,7 @@ final class Response implements IResponse
         $data['root'] = $barePath . 'resources/';
         $data['base'] = $barePath;
 
-        foreach($data as $key => $value)
-        {
+        foreach ($data as $key => $value) {
             ${$key} = $value;
         }
 
@@ -383,59 +390,58 @@ final class Response implements IResponse
 
             if (file_exists($view)) {
                 ob_start();
-                include_once ($view);
+                include_once($view);
                 $vals = ob_get_contents();
                 ob_clean();
                 die($vals);
             } else {
                 die('Request view does not exist...');
             }
-
         } else {
             die('No view specified...');
         }
-
     }
 
     /**
      * @param $path
      * @return void
      */
-    Public function download($path)
+    public function download($path)
     {
         /** @var string $path */
-        if(Strings::filter($path)->url()){
-                 $filepath = $path;
-                 $filename = basename($filepath);
-                 $filesize = filesize($filepath);
-                 $contentType = Value::init()->mimeType($filename);
-                 if(file_exists($filepath)) {
-                     $this->header('Content-Description', 'File Transfer');
-                     $this->header('content-type', $contentType);
-                     $this->header('Content-Disposition', 'attachment; filename="'. $filename .'"');
-                     $this->header('Content-Transfer-Encoding', 'binary');
-                     $this->header('Expires', '0');
-                     $this->header('Cache-Control', 'must-revalidate');
-                     $this->header('Pragma', 'public');
-                     $this->header('Content-Length', $filesize);
-                     ob_clean();
-                     flush();
-                     readfile($filepath);
-                     $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
-                     die(Convert::arrays($this->content, $this->request->contentType()));
-                 } else {
-                     $this->notFound();
-                 }
-             } else {
+        if (Strings::filter($path)->url()) {
+            $filepath = $path;
+            $filename = basename($filepath);
+            $filesize = filesize($filepath);
+            $contentType = Value::init()->mimeType($filename);
+            if (file_exists($filepath)) {
+                $this->header('Content-Description', 'File Transfer');
+                $this->header('content-type', $contentType);
+                $this->header('Content-Disposition', 'attachment; filename="'. $filename .'"');
+                $this->header('Content-Transfer-Encoding', 'binary');
+                $this->header('Expires', '0');
+                $this->header('Cache-Control', 'must-revalidate');
+                $this->header('Pragma', 'public');
+                $this->header('Content-Length', $filesize);
+                ob_clean();
+                flush();
+                readfile($filepath);
+                $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
+                die(Convert::arrays($this->content, $this->request->contentType()));
+            } else {
                 $this->notFound();
-             }
+            }
+        } else {
+            $this->notFound();
+        }
     }
 
     /**
      * @param $path
      * @return void
      */
-    Public function file($path) {
+    public function file($path)
+    {
         if (is_file($path)) {
             $this->header('content-type', Value::init()->mimeType($path));
             readfile($path);
@@ -444,5 +450,4 @@ final class Response implements IResponse
             $this->notFound();
         }
     }
-
 }

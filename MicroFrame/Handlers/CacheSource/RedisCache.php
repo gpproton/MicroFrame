@@ -27,8 +27,7 @@ use Phpfastcache\Drivers\Redis\Config as redisConfig;
 use Phpfastcache\Drivers\Predis\Config as pRedisConfig;
 use Phpfastcache\Helper\Psr16Adapter;
 
-
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class RedisCache
@@ -75,5 +74,4 @@ class RedisCache extends BaseCache
             return null;
         }
     }
-
 }

@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Core;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Handlers\DataSource;
 use MicroFrame\Handlers\Exception;
@@ -47,7 +47,8 @@ final class Model implements IModel
      * Model constructor.
      * @param string $source
      */
-    public function __construct($source = null) {
+    public function __construct($source = null)
+    {
         $this->instance = $this->initialize($source);
 
         return $this;
@@ -57,7 +58,8 @@ final class Model implements IModel
      * @param $source
      * @return mixed|PDO
      */
-    private function initialize($source) {
+    private function initialize($source)
+    {
         try {
             return DataSource::get($source);
         } catch (\Exception $e) {
@@ -70,15 +72,16 @@ final class Model implements IModel
      * @return $this
      *
      */
-    public function query($content) {
+    public function query($content)
+    {
         if (gettype($content) === 'string') {
             $this->query[] = $content;
-        } else if (gettype($content) === 'array') {
+        } elseif (gettype($content) === 'array') {
             foreach ($content as $key => $value) {
                 if ($key === 'instance' || $key === 'model' || $key === 'params') {
                     $this->query[] = $content;
                     break;
-                } elseif(gettype($value) === 'array') {
+                } elseif (gettype($value) === 'array') {
                     $this->query[] = $value;
                 }
             }
@@ -91,7 +94,8 @@ final class Model implements IModel
      * @param array $array
      * @return $this
      */
-    public function params($array = []) {
+    public function params($array = [])
+    {
         $this->params[] = $array;
 
         return $this;
@@ -103,7 +107,8 @@ final class Model implements IModel
      * @param string $cacheStrategy
      * @return $this|void
      */
-    public function execute($cacheStrategy = 'resultOnly') {
+    public function execute($cacheStrategy = 'resultOnly')
+    {
         $level = 0;
         $modelSrc = "select 1 from dual";
         $modelSample = array('sample' => 'dataX');
@@ -113,7 +118,6 @@ final class Model implements IModel
              * Call to database with current parameters and query strings
              */
             foreach ($this->query as $value) {
-
                 try {
                     $prepare = null;
                     if (gettype($value) === 'array' && sizeof($value) >= 3) {
@@ -133,7 +137,6 @@ final class Model implements IModel
                         $prepare = $this->initialize($value['instance'])
                             ->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                         $param = $value['params'];
-
                     } elseif (isset($this->params[$level])) {
                         $param = $this->params[$level];
                     } else {
@@ -177,7 +180,6 @@ final class Model implements IModel
                         } else {
                             $this->result[$value . '-' . rand(2, 100)] = $results;
                         }
-
                     } else {
                         if (!isset($this->result[$value['model']])) {
                             $this->result[$value['model']] = $results;
@@ -185,7 +187,6 @@ final class Model implements IModel
                             // TODO: Change from random to explicitly defined key.
                             $this->result[$value['model'] . '-' . rand(2, 100)] = $results;
                         }
-
                     }
 
                     /**
@@ -224,7 +225,8 @@ final class Model implements IModel
      *
      * @return array
      */
-    public function result() {
+    public function result()
+    {
         return array_change_key_case($this->result, CASE_LOWER);
     }
 
@@ -235,13 +237,13 @@ final class Model implements IModel
      *
      * @return string
      */
-    private function load($path) {
+    private function load($path)
+    {
         if (!Strings::filter($path)->contains("sys.")) {
             return Reflect::check()->stateLoader("app.Model." . $path, array())->query;
         } else {
             return Reflect::check()->stateLoader($path, array())->query;
         }
-
     }
 
     /**
@@ -283,5 +285,4 @@ final class Model implements IModel
     {
         // TODO: Implement resultOnly() method.
     }
-
 }

@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Interfaces;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IMiddleware
@@ -45,4 +46,3 @@ interface IMiddleware
      */
     public static function model($source = null);
 }
-

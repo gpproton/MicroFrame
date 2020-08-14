@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Core;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IView;
@@ -32,7 +33,6 @@ use MicroFrame\Library\Config;
  */
 class View implements IView
 {
-
     protected $request;
     protected $response;
     protected $model;
@@ -65,7 +65,9 @@ class View implements IView
      */
     public function model($source =  null)
     {
-        if (is_null($source)) return new Model();
+        if (is_null($source)) {
+            return new Model();
+        }
         return new Model($source);
     }
 

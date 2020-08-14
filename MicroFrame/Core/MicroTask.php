@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Core;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use \AsyncPHP\Doorman\Task;
 use \AsyncPHP\Doorman\Manager\ProcessManager;
@@ -36,11 +36,11 @@ use MicroFrame\Library\Strings;
 
 /**
  * Class MicroTask
+ *
  * @package MicroFrame\Core
  */
 class MicroTask
 {
-
     public $timeout;
     public $name;
     public $count;
@@ -48,10 +48,16 @@ class MicroTask
     public $maxLoad;
 
     /**
-     * @param $name
+     * Get config by dot notation.
+     *
+     * @param string $name Name of config to retrieve.
+     *
+     * @comment Config retrieval.
+     *
      * @return array|mixed|null
      */
-    protected function config($name) {
+    protected function config($name)
+    {
         return Config::fetch($name);
     }
 
@@ -62,7 +68,8 @@ class MicroTask
      * @param $type
      * @return void
      */
-    protected function log($text, $type) {
+    protected function log($text, $type)
+    {
         $instance = Logger::set($text);
         switch ($type) {
             case 'info':
@@ -86,22 +93,22 @@ class MicroTask
     /**
      *
      */
-    protected function setup() {
-
+    protected function setup()
+    {
     }
 
     /**
      *
      */
-    protected function getConfig() {
-
+    protected function getConfig()
+    {
     }
 
     /**
      *
      */
-    protected function add() {
-
+    protected function add()
+    {
     }
 
     /**
@@ -110,7 +117,8 @@ class MicroTask
      * @param $closure
      * @param $args
      */
-    private function loop($closure, $args = []) {
+    private function loop($closure, $args = [])
+    {
         foreach ($args as $arg) {
             $closure($arg);
         }
@@ -125,7 +133,9 @@ class MicroTask
      */
     protected function model($source =  null) : IModel
     {
-        if (is_null($source)) return new Model();
+        if (is_null($source)) {
+            return new Model();
+        }
         return new Model($source);
     }
 
@@ -158,5 +168,4 @@ class MicroTask
     {
         // TODO: Implement loader() method.
     }
-
 }

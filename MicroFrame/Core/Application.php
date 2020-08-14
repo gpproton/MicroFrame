@@ -22,14 +22,13 @@
 
 namespace MicroFrame\Core;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Handlers\Route;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Utils;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as whoopsRun;
-
 
 /**
  * Class Application
@@ -42,7 +41,8 @@ class Application
     /**
      * Application constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->config = Config::fetch();
     }
 
@@ -52,7 +52,8 @@ class Application
      *
      * @return bool
      */
-    public function environment() {
+    public function environment()
+    {
         return $this->config['system']['debug'];
     }
 
@@ -60,7 +61,8 @@ class Application
      * Boot up application
      *
      */
-    public function start() {
+    public function start()
+    {
 
         /**
          * Implement pretty error display.
@@ -80,7 +82,6 @@ class Application
 
         if ($this->config['console']) {
             Console::init()->execute();
-
         } else {
             /**
              * Load defined routes to request
@@ -93,5 +94,4 @@ class Application
             Route::set()->boot();
         }
     }
-
 }

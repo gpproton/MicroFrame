@@ -23,7 +23,7 @@ namespace MicroFrame\Interfaces;
 
 use Closure;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IController
@@ -50,6 +50,4 @@ interface IController
      * @return mixed
      */
     public function start();
-
 }
-

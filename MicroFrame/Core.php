@@ -36,7 +36,8 @@ use MicroFrame\Core\Application as app;
  * @package MicroFrame
  * MicroFrame core bootstrapper for application.
  */
-final class Core {
+final class Core
+{
 
     /**
      * Core initialization method.
@@ -62,8 +63,9 @@ final class Core {
         /**
          * Initialize PHP request and globals modification.
          */
-        if (!request::overrideGlobals()) die('Request can bot be routed!!!');
-        else {
+        if (!request::overrideGlobals()) {
+            die('Request can bot be routed!!!');
+        } else {
             $handler->bootstrap(new app);
         }
     }

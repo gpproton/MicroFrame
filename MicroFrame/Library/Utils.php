@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Library;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use ReflectionClass;
 use ReflectionException;
@@ -30,12 +30,12 @@ use ReflectionException;
  * Class Utils
  * @package MicroFrame\Library
  */
-final class Utils {
-
+final class Utils
+{
     private $debug;
 
-    public static function get() {
-
+    public static function get()
+    {
         $instance = new self();
         $instance->debug = Config::fetch("debug");
 
@@ -43,14 +43,13 @@ final class Utils {
     }
 
     // TODO: Redefine this for more accuracy
-    public function local() {
+    public function local()
+    {
         $ipAddress = 'UNKNOWN';
         $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
-        foreach($keys as $k)
-        {
+        foreach ($keys as $k) {
             if (isset($_SERVER[$k]) && !empty($_SERVER[$k])
-                && filter_var($_SERVER[$k], FILTER_VALIDATE_IP))
-            {
+                && filter_var($_SERVER[$k], FILTER_VALIDATE_IP)) {
                 $ipAddress = $_SERVER[$k];
                 break;
             }
@@ -66,7 +65,8 @@ final class Utils {
     /**
      * @param $data
      */
-    public function console($data) {
+    public function console($data)
+    {
         ob_start();
         print_r("\n" . $data);
         error_log(ob_get_clean(), 4);
@@ -76,18 +76,21 @@ final class Utils {
      * @param $path
      * @return mixed
      */
-    public function dirChecks($path) {
-        if (!is_dir($path)) mkdir($path, 777, true);
+    public function dirChecks($path)
+    {
+        if (!is_dir($path)) {
+            mkdir($path, 777, true);
+        }
         return $path;
     }
 
-    public function injectRoutes() {
+    public function injectRoutes()
+    {
         ob_start();
         $sentValues = ob_get_contents();
         /**
          * TODO: Make more elaborate...
          */
-        return require_once ( "./../App/Routes.php" );
+        return require_once("./../App/Routes.php");
     }
-
 }

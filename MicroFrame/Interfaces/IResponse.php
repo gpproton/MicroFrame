@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Interfaces;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IResponse
@@ -47,7 +48,7 @@ interface IResponse
      * @param string $type
      * @return self
      */
-    Public function format($type = 'json');
+    public function format($type = 'json');
 
     /**
      * @param array $selected
@@ -55,40 +56,40 @@ interface IResponse
      * @param bool $halt
      * @return self
      */
-    public function methods($selected = ['get'], $return = null,  $halt = false);
+    public function methods($selected = ['get'], $return = null, $halt = false);
 
     /**
      * @param $content
      * @param bool $raw
      * @return self
      */
-    Public function data($content, $raw =  false);
+    public function data($content, $raw =  false);
 
     /**
      * @param $content
      * @return self
      */
-    Public function dataRaw($content = true);
+    public function dataRaw($content = true);
 
     /**
      * @param $key
      * @param $value
      * @return self
      */
-    Public function header($key, $value = null);
+    public function header($key, $value = null);
 
     /**
      * @param null $value
      * @return self
      */
-    Public function status($value = null);
+    public function status($value = null);
 
     /**
      * @param null $path
      * @param bool $proceed
      * @return self
      */
-    Public function redirect($path = null, $proceed = true);
+    public function redirect($path = null, $proceed = true);
 
     /**
      * @param null $path
@@ -96,21 +97,21 @@ interface IResponse
      * @param bool $proceed
      * @return self
      */
-    Public function refresh($path = null, $time = null, $proceed = true);
+    public function refresh($path = null, $time = null, $proceed = true);
 
     /**
      * @param $key
      * @param $value
      * @return self
      */
-    Public function cookie($key, $value);
+    public function cookie($key, $value);
 
     /**
      * @param $state
      * @param $value
      * @return self
      */
-    Public function session($state, $value = null);
+    public function session($state, $value = null);
 
     /**
      * @param int | string | array $middleware
@@ -134,12 +135,11 @@ interface IResponse
      * @param $path
      * @return void
      */
-    Public function download($path);
+    public function download($path);
 
     /**
      * @param $path
      * @return void
      */
-    Public function file($path);
+    public function file($path);
 }
-

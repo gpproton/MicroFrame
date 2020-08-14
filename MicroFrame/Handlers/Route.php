@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Handlers;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Default resource references
@@ -39,7 +39,6 @@ use MicroFrame\Library\Value;
  */
 class Route
 {
-
     private $request;
     private $response;
     private $proceed;
@@ -59,7 +58,8 @@ class Route
     /**
      * @return Route
      */
-    public static function set() {
+    public static function set()
+    {
         return new self();
     }
 
@@ -71,8 +71,11 @@ class Route
      * @param bool $auto
      * @return mixed
      */
-    private function initialize($path, $check = true, $response = null, $request = null, $auto = true) {
-        if ($check) return Reflect::check()->stateLoader($path, $check);
+    private function initialize($path, $check = true, $response = null, $request = null, $auto = true)
+    {
+        if ($check) {
+            return Reflect::check()->stateLoader($path, $check);
+        }
         $auto = !$auto ? "static" : $auto;
         Reflect::check()->stateLoader($path, array($response, $request, "", $auto))
             /**
@@ -92,7 +95,8 @@ class Route
      * @param int $status
      * @return void
      */
-    public static function map($path = "index", $methods = array('get'), $functions = "index", $middleware = array(), $status = 200) {
+    public static function map($path = "index", $methods = array('get'), $functions = "index", $middleware = array(), $status = 200)
+    {
         /**
          * Filter out unintended string output
          */
@@ -115,9 +119,9 @@ class Route
          */
         if ($wildCard && Strings::filter($clazz->request->path())->contains($path)) {
             $clazz->proceed = true;
-        } else if ($path === $clazz->request->path()) {
+        } elseif ($path === $clazz->request->path()) {
             $clazz->proceed = true;
-        } else if (empty($path) && empty($clazz->request->path())) {
+        } elseif (empty($path) && empty($clazz->request->path())) {
             /**
              * Extra index check, may be redundant but for assurance.
              */
@@ -142,9 +146,9 @@ class Route
                 Request::overrideGlobals(false);
 
                 if (is_file($functions) && Strings::filter($functions)->contains(".php")) {
-                    include_once ($functions);
+                    include_once($functions);
                     die();
-                } else if(is_dir($reqPath)) {
+                } elseif (is_dir($reqPath)) {
                     chdir($reqPath);
                     $dirContents = scandir("./");
                     if (in_array("index.html", $dirContents)) {
@@ -152,11 +156,11 @@ class Route
                          * HTML index item inclusion.
                          */
                         echo file_get_contents("./index.html");
-                    } else if (in_array("index.php", $dirContents)) {
+                    } elseif (in_array("index.php", $dirContents)) {
                         /**
                          * PHP index script inclusion.
                          */
-                        include_once ("index.php");
+                        include_once("index.php");
                     } else {
                         $clazz->response->notFound();
                     }
@@ -175,13 +179,13 @@ class Route
             /**
              * Handle System Controller mapping.
              */
-            else if (Strings::filter($functions)->contains(self::sysPath) && $clazz->initialize($functions)) {
+            elseif (Strings::filter($functions)->contains(self::sysPath) && $clazz->initialize($functions)) {
                 $clazz->initialize($functions, false, $clazz->response, $clazz->request, false);
             }
             /**
              * Handle App Controller mapping.
              */
-            else if ($clazz->initialize(self::appPath . $functions)) {
+            elseif ($clazz->initialize(self::appPath . $functions)) {
                 $clazz->initialize(self::appPath . $functions, false, $clazz->response, $clazz->request, false);
             } else {
                 $clazz->response->data($functions);
@@ -200,14 +204,14 @@ class Route
              */
             $clazz->response->send();
         }
-
     }
 
     /**
      *
      * @param string $path
      */
-    public function boot($path = null) {
+    public function boot($path = null)
+    {
         /**
          * Define custom system routes here with $this->map() method
          * E.g General Swagger | Docs | Wiki
@@ -227,7 +231,7 @@ class Route
          * Assist page config value.
          */
 
-         $assistRoot = Value::init()->assistPath();
+        $assistRoot = Value::init()->assistPath();
 
         /**
          * Swagger frontend for corresponding API Doc
@@ -248,7 +252,9 @@ class Route
          **** System route path end. ****
          */
 
-        if (is_null($path)) $path = $this->request->path();
+        if (is_null($path)) {
+            $path = $this->request->path();
+        }
         /**
          * Call Index if route is not set.
          */
@@ -258,7 +264,7 @@ class Route
         /**
          * Try calling specified route if the controller exist.
          */
-        else if ($this->initialize(self::appPath .  $path)) {
+        elseif ($this->initialize(self::appPath .  $path)) {
             $this->initialize(self::appPath . $path, false, $this->response, $this->request);
         }
         /**
@@ -268,7 +274,4 @@ class Route
             $this->initialize(self::sysPath . "default", false, $this->response, $this->request);
         }
     }
-
 }
-
-

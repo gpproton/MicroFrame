@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Interfaces;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IModel
@@ -77,6 +77,4 @@ interface IModel
      * @return IModel
      */
     public function resultOnly();
-
 }
-

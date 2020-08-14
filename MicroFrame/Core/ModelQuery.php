@@ -25,11 +25,10 @@ namespace MicroFrame\Core;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Reflect;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 class ModelQuery
 {
-
     public $query;
 
     public function __construct($method = "default")
@@ -51,7 +50,8 @@ class ModelQuery
     /**
      * @return array
      */
-    public function default() {
+    public function default()
+    {
         $query = <<<SQL
 
             SELECT 1 FROM DUAL
@@ -61,6 +61,5 @@ SQL;
         $sample = array();
 
         return array( 'query' => $query, 'sample' => $sample);
-
     }
 }

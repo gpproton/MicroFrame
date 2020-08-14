@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Library;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class Value
@@ -28,8 +29,8 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class Value
 {
-
-    public static function init() {
+    public static function init()
+    {
         return new self();
     }
 
@@ -91,15 +92,18 @@ class Value
             );
         };
 
-        if (isset($http[$code])) return $selected($code, $http);
+        if (isset($http[$code])) {
+            return $selected($code, $http);
+        }
 
         return $selected(500, $http);
-
     }
 
-    public function mimeType($filename) {
-        if(!function_exists('mime_content_type')) {
-            function mime_content_type($filename) {
+    public function mimeType($filename)
+    {
+        if (!function_exists('mime_content_type')) {
+            function mime_content_type($filename)
+            {
                 $mime_types = array(
                     'txt' => 'text/plain',
                     'htm' => 'text/html',
@@ -155,17 +159,15 @@ class Value
                     'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
                 );
 
-                $ext = strtolower(array_pop(explode('.',$filename)));
+                $ext = strtolower(array_pop(explode('.', $filename)));
                 if (array_key_exists($ext, $mime_types)) {
                     return $mime_types[$ext];
-                }
-                else if (function_exists('finfo_open')) {
+                } elseif (function_exists('finfo_open')) {
                     $info = finfo_open(FILEINFO_MIME);
                     $mimetic = finfo_file($info, $filename);
                     finfo_close($info);
                     return $mimetic;
-                }
-                else {
+                } else {
                     return 'application/octet-stream';
                 }
             }
@@ -174,9 +176,9 @@ class Value
         }
     }
 
-    public function assistPath() {
+    public function assistPath()
+    {
         $assistRoot = Config::fetch('site.assist') !== null ? Config::fetch('site.assist') : 'help/';
         return rtrim($assistRoot, '/');
     }
-
 }

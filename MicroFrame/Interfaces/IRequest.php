@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Interfaces;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IRequest
@@ -47,25 +48,25 @@ interface IRequest
     /**
      * @return array
      */
-    Public function all();
+    public function all();
 
     /**
      * @param null $string
      * @param bool $multiple
      * @return mixed
      */
-    Public function query($string = null, $multiple = false);
+    public function query($string = null, $multiple = false);
 
     /**
      * @param null $string
      * @return mixed
      */
-    Public function post($string = null);
+    public function post($string = null);
 
     /**
      * @return string
      */
-    Public function raw();
+    public function raw();
 
     /**
      * @return bool
@@ -81,31 +82,31 @@ interface IRequest
      * @param null $string
      * @return mixed
      */
-    Public function server($string = null);
+    public function server($string = null);
 
     /**
      * @param null $string
      * @return mixed
      */
-    Public function header($string = null);
+    public function header($string = null);
 
     /**
      * @param null $string
      * @return mixed
      */
-    Public function session($string = null);
+    public function session($string = null);
 
     /**
      * @param null $option
      * @return mixed
      */
-    Public function auth($option = null);
+    public function auth($option = null);
 
     /**
      * @param null $string
      * @return mixed
      */
-    Public function cookie($string = null);
+    public function cookie($string = null);
 
     /**
      * @param bool $dotted
@@ -120,5 +121,4 @@ interface IRequest
      * @return string
      */
     public function url($full = false);
-
 }

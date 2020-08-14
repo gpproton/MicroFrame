@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Core;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Library\Strings;
 use MicroFrame\Library\Utils;
@@ -43,10 +44,10 @@ final class Request implements IRequest
 
     public function __construct()
     {
-
     }
 
-    public static function get() {
+    public static function get()
+    {
         return new self();
     }
 
@@ -57,14 +58,16 @@ final class Request implements IRequest
      */
     public function method()
     {
-        if (!empty(self::$server['REQUEST_METHOD'])) return strtolower(self::$server['REQUEST_METHOD']);
+        if (!empty(self::$server['REQUEST_METHOD'])) {
+            return strtolower(self::$server['REQUEST_METHOD']);
+        }
         return null;
     }
 
     /**
      *Get all request variable values
      */
-    Public function all()
+    public function all()
     {
         return array_merge($this->query(), $this->post());
     }
@@ -75,30 +78,31 @@ final class Request implements IRequest
      * @param bool $multiple option for return an array
      * @return array|mixed|null
      */
-    Public function query($string = null, $multiple = false)
+    public function query($string = null, $multiple = false)
     {
         $query = array();
-        if (!empty(self::$server['QUERY_STRING'])) $query  = explode('&', self::$server['QUERY_STRING']);
-        if(count($query) > 0 && !empty($query[0]))
-        {
+        if (!empty(self::$server['QUERY_STRING'])) {
+            $query  = explode('&', self::$server['QUERY_STRING']);
+        }
+        if (count($query) > 0 && !empty($query[0])) {
             $params = array();
             $finalParams = null;
-            foreach( $query as $param )
-            {
+            foreach ($query as $param) {
                 // TODO: Find solution for empty query string.
                 // prevent notice on explode() if $param has no '='
-                if (strpos($param, '=') === false) $param += '=';
+                if (strpos($param, '=') === false) {
+                    $param += '=';
+                }
                 list($name, $value) = explode('=', $param, 2);
                 $params[urldecode($name)][] = urldecode($value);
             }
-            if(is_null($string) && !$multiple) {
+            if (is_null($string) && !$multiple) {
                 return $params;
-            } else if(!is_null($string) && $multiple) {
+            } elseif (!is_null($string) && $multiple) {
                 $finalParams = isset($params[$string]) ? $params[$string] : null;
-            } else if(!is_null($string) && !$multiple) {
-            $finalParams = isset($params[$string]) ? $params[$string][0] : null;
-            }
-            else {
+            } elseif (!is_null($string) && !$multiple) {
+                $finalParams = isset($params[$string]) ? $params[$string][0] : null;
+            } else {
                 $finalParams = array();
             }
             return $finalParams;
@@ -109,12 +113,15 @@ final class Request implements IRequest
      * @param null $string  filter for desired post value
      * @return mixed|null
      */
-    Public function post($string = null)
+    public function post($string = null)
     {
         $post = self::$post;
-        if(is_null($string)) return $post;
-        else {
-            if(isset($post[$string])) return $post[$string];
+        if (is_null($string)) {
+            return $post;
+        } else {
+            if (isset($post[$string])) {
+                return $post[$string];
+            }
             return null;
         }
     }
@@ -122,7 +129,7 @@ final class Request implements IRequest
     /**
      * @return false|string
      */
-    Public function raw()
+    public function raw()
     {
         $data = file_get_contents('php://input');
         return !empty($data) ? $data : null;
@@ -132,13 +139,14 @@ final class Request implements IRequest
      * @param null $string filter for desired header value
      * @return array|false|mixed|null
      */
-    Public function header($string = null)
+    public function header($string = null)
     {
-        if (is_null($string)) { return getallheaders(); }
-        else {
+        if (is_null($string)) {
+            return getallheaders();
+        } else {
             $header = null;
             $string = str_replace('-', '_', $string);
-            if(isset(self::$server['HTTP_' . strtoupper($string)])) {
+            if (isset(self::$server['HTTP_' . strtoupper($string)])) {
                 $header = self::$server['HTTP_' . strtoupper($string)];
             }
 
@@ -162,7 +170,9 @@ final class Request implements IRequest
      */
     public function contentType()
     {
-        if ($this->formEncoded()) return $this->format();
+        if ($this->formEncoded()) {
+            return $this->format();
+        }
         return !empty($this->header('content-type')) ?
             $this->header('content-type') : $this->format();
     }
@@ -171,9 +181,11 @@ final class Request implements IRequest
      * @param null $string
      * @return mixed
      */
-    Public function session($string = null)
+    public function session($string = null)
     {
-        if (!is_null($string)) return self::$session[$string];
+        if (!is_null($string)) {
+            return self::$session[$string];
+        }
         return self::$session;
     }
 
@@ -181,9 +193,11 @@ final class Request implements IRequest
      * @param null $string
      * @return mixed
      */
-    Public function cookie($string = null)
+    public function cookie($string = null)
     {
-        if (!is_null($string)) return self::$cookie[$string];
+        if (!is_null($string)) {
+            return self::$cookie[$string];
+        }
         return self::$cookie;
     }
 
@@ -220,8 +234,6 @@ final class Request implements IRequest
         }
 //        self::$env = $_ENV;
 //        self::$session = $_SESSION;
-
-
     }
 
     /**
@@ -248,9 +260,11 @@ final class Request implements IRequest
      * @param null $string
      * @return mixed|null
      */
-    Public function server($string = null)
+    public function server($string = null)
     {
-        if (is_null($string)) return self::$server;
+        if (is_null($string)) {
+            return self::$server;
+        }
         $string = str_replace('-', '_', strtoupper($string));
         return isset(self::$server[$string]) ? self::$server[$string] : null;
     }
@@ -259,7 +273,7 @@ final class Request implements IRequest
      * @param null $option
      * @return mixed|void
      */
-    Public function auth($option = null)
+    public function auth($option = null)
     {
         header('HTTP/1.1 401 Unauthorized');
         header('WWW-Authenticate: Basic realm="MicroFrame basic auth"');
@@ -289,11 +303,11 @@ final class Request implements IRequest
     {
         if (!is_null($this->post('route'))) {
             $final = $this->post('route');
-        } else if (!is_null($this->query('controller'))) {
+        } elseif (!is_null($this->query('controller'))) {
             $final = $this->query('controller');
-        } else if (!is_null($this->server("PATH_INFO"))) {
+        } elseif (!is_null($this->server("PATH_INFO"))) {
             $final = $this->server("PATH_INFO");
-        } else if (!is_null($this->query('route'))) {
+        } elseif (!is_null($this->query('route'))) {
             $final = $this->query('route');
         } else {
             $final = "";
@@ -312,13 +326,15 @@ final class Request implements IRequest
      * @param bool $full
      * @return string
      */
-   public function url($full = false)
+    public function url($full = false)
     {
         $current = (isset(self::$server['HTTPS'])
             && self::$server['HTTPS'] === 'on' ? "https" : "http")
             . "://" . self::$server['HTTP_HOST'] . self::$server['REQUEST_URI'];
 
-        if(!$full) return Strings::filter($current)->range("?", false, true)->value();
+        if (!$full) {
+            return Strings::filter($current)->range("?", false, true)->value();
+        }
         return $current;
     }
 }

@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Yaml\Yaml as YamlEncoder;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class Convert
@@ -39,7 +39,8 @@ class Convert
      * @param string $type
      * @return false|mixed|string
      */
-    public static function arrays($array, $type = 'json') {
+    public static function arrays($array, $type = 'json')
+    {
 
         /**
          * Reformat array to fix object issues.

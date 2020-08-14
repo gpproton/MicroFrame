@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Library;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Handlers\Exception;
 use Noodlehaus\Config as configModule;
@@ -31,12 +31,14 @@ use Noodlehaus\AbstractConfig as configAbstractModule;
  * Class Config
  * @package MicroFrame\Library
  */
-final class Config extends configAbstractModule {
+final class Config extends configAbstractModule
+{
 
     /**
      * @return array
      */
-    protected function getDefaults() {
+    protected function getDefaults()
+    {
 
         /**
          * @summary
@@ -61,7 +63,6 @@ final class Config extends configAbstractModule {
              * Merge all retrieved configurations.
              */
             $confSys->merge($confApp);
-
         } catch (\Exception $exception) {
             Exception::init($exception->getMessage())->output();
         }
@@ -78,7 +79,8 @@ final class Config extends configAbstractModule {
      * @param null $key
      * @return array|mixed|null
      */
-    public static function fetch($key = null) {
+    public static function fetch($key = null)
+    {
         $instance = new self([]);
 
         try {
@@ -87,7 +89,9 @@ final class Config extends configAbstractModule {
             Exception::init($exception->getMessage())->output();
         }
 
-        if (is_null($key)) return $instance->all();
+        if (is_null($key)) {
+            return $instance->all();
+        }
 
         return $instance->get($key);
     }
@@ -95,7 +99,8 @@ final class Config extends configAbstractModule {
     /**
      * Configuration validation...
      */
-    private function validate() {
+    private function validate()
+    {
 
         /**
          * paths validation...
@@ -103,30 +108,37 @@ final class Config extends configAbstractModule {
          */
         $paths = $this->get('system.path');
         $basePath = DATA_PATH . "/";
-        if(!is_null($paths)) {
-
-            if (is_dir($paths['logs'])) $this->set('system.path.logs', $paths['logs']); else {
+        if (!is_null($paths)) {
+            if (is_dir($paths['logs'])) {
+                $this->set('system.path.logs', $paths['logs']);
+            } else {
                 $this->set('system.path.logs', $this->dirCheck($basePath . $paths['logs']));
             }
 
-            if (is_dir($paths['data'])) $this->set('system.path.data', $paths['data']); else {
+            if (is_dir($paths['data'])) {
+                $this->set('system.path.data', $paths['data']);
+            } else {
                 $this->set('system.path.data', $this->dirCheck($basePath . $paths['data']));
             }
 
-            if (is_dir($paths['cache'])) $this->set('system.path.cache', $paths['cache']); else {
+            if (is_dir($paths['cache'])) {
+                $this->set('system.path.cache', $paths['cache']);
+            } else {
                 $this->set('system.path.cache', $this->dirCheck($basePath . $paths['cache']));
             }
 
-            if (is_dir($paths['storage'])) $this->set('system.path.storage', $paths['storage']); else {
+            if (is_dir($paths['storage'])) {
+                $this->set('system.path.storage', $paths['storage']);
+            } else {
                 $this->set('system.path.storage', $this->dirCheck($basePath . $paths['storage']));
             }
-
         }
     }
-    private function dirCheck($path) {
-        if (!is_dir($path)) mkdir($path, 777, true);
+    private function dirCheck($path)
+    {
+        if (!is_dir($path)) {
+            mkdir($path, 777, true);
+        }
         return $path;
     }
-
 }
-

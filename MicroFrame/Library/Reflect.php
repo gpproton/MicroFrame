@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Library;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Handlers\Exception;
 use MicroFrame\Handlers\Logger;
@@ -33,7 +33,6 @@ use ReflectionClass;
  */
 class Reflect
 {
-
     private static $sysPath = "MicroFrame\Defaults\\";
     private static $appPath = "App\\";
     /**
@@ -41,13 +40,13 @@ class Reflect
      */
     public function __construct()
     {
-
     }
 
     /**
      * Statically initialize class object
      */
-    public static function check() {
+    public static function check()
+    {
         return new self();
     }
 
@@ -59,7 +58,8 @@ class Reflect
      * @param bool $checkMethod A condition to see if there's a matching class index or a class method
      * @return mixed
      */
-    public function stateLoader($path, $args = array(), $checkMethod = false) {
+    public function stateLoader($path, $args = array(), $checkMethod = false)
+    {
 
         /**
          * Get base namespace
@@ -87,8 +87,9 @@ class Reflect
             return "$base{$core}\\{$path}";
         };
 
-        if (Strings::filter($type)->contains("sys")) $path = $pathHandler(self::$sysPath);
-        else if ((Strings::filter($type)->contains("app"))) {
+        if (Strings::filter($type)->contains("sys")) {
+            $path = $pathHandler(self::$sysPath);
+        } elseif ((Strings::filter($type)->contains("app"))) {
             $path = $pathHandler(self::$appPath);
         }
 
@@ -125,15 +126,15 @@ class Reflect
 
         if (class_exists($classDirect)) {
             $path = $classDirect;
-        } else if (class_exists($classIndex)) {
+        } elseif (class_exists($classIndex)) {
             $path = $classIndex;
-        } else if (class_exists($classUpper)) {
+        } elseif (class_exists($classUpper)) {
             $path = $classUpper;
         }
         /**
          * Review closely for any issues
          */
-        else if (class_exists($classIndexMethod)) {
+        elseif (class_exists($classIndexMethod)) {
             $path = $classIndexMethod;
         }
 
@@ -144,21 +145,28 @@ class Reflect
                  */
                 if (class_exists($classIndexMethod) && gettype($args) === 'array') {
                     $args[2] = $classIndexMethodValue;
-
-                } elseif (class_exists($classUpper) && gettype($args) === 'array') $args[2] = $classMethod;
+                } elseif (class_exists($classUpper) && gettype($args) === 'array') {
+                    $args[2] = $classMethod;
+                }
                 break;
             case 'Model':
                 /**
                  * $args[0] hold the name method to be called.
                  */
-                if (class_exists($classUpper) && gettype($args) === 'array') $args[0] = $classMethod;
+                if (class_exists($classUpper) && gettype($args) === 'array') {
+                    $args[0] = $classMethod;
+                }
                 break;
             default:
                 break;
         }
 
-        if (gettype($args) !== 'array' && class_exists($path)) return true;
-        if ($checkMethod && class_exists($path)) return $classMethod;
+        if (gettype($args) !== 'array' && class_exists($path)) {
+            return true;
+        }
+        if ($checkMethod && class_exists($path)) {
+            return $classMethod;
+        }
         if (class_exists($path)) {
             try {
                 $classBuilder = new ReflectionClass($path);
@@ -170,8 +178,6 @@ class Reflect
         } else {
             return false;
         }
-
-
     }
 
     /**
@@ -180,10 +186,11 @@ class Reflect
      * @param $paramArrays
      * @return mixed
      */
-    public function methodLoader($classInstance, $methodName, $paramArrays = array()) {
+    public function methodLoader($classInstance, $methodName, $paramArrays = array())
+    {
         return call_user_func_array(
-            array($classInstance, $methodName)
-            , $paramArrays
+            array($classInstance, $methodName),
+            $paramArrays
         );
     }
 
@@ -273,7 +280,6 @@ class Reflect
                 && $tokens[$i - 1][0] == T_WHITESPACE
                 && $tokens[$i][0] == T_STRING
             ) {
-
                 $class_name = $tokens[$i][1];
                 $classes[] = $class_name;
             }
@@ -281,5 +287,4 @@ class Reflect
 
         return $classes[0];
     }
-
 }

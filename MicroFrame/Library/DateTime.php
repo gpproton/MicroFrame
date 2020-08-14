@@ -20,19 +20,21 @@
  */
 
 namespace MicroFrame\Library;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class DateTime
  * @package MicroFrame\Library
  */
-final class DateTime {
+final class DateTime
+{
 
     /**
      * @param $format
      * @param null $date
      */
-    public static function format($format, $date = null) {
-
+    public static function format($format, $date = null)
+    {
     }
 }

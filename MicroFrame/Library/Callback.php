@@ -23,7 +23,7 @@ namespace MicroFrame\Library;
 
 use MicroFrame\Handlers\Exception;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class Callback
@@ -41,7 +41,8 @@ class Callback
      * @param $url
      * @return Callback
      */
-    public static function init($url) {
+    public static function init($url)
+    {
         $instance = new self();
         $instance->curl = curl_init();
         $instance->url = $url;
@@ -54,7 +55,8 @@ class Callback
      * @param $value
      * @return $this
      */
-    public function header($key, $value) {
+    public function header($key, $value)
+    {
         // TODO: Create array/string builder
 
         return $this;
@@ -64,13 +66,15 @@ class Callback
      * @param int $period
      * @return $this
      */
-    public function timeout($period = 120) {
+    public function timeout($period = 120)
+    {
         $this->timeout = $period;
 
         return $this;
     }
 
-    public function data($data = []) {
+    public function data($data = [])
+    {
         $this->data = $data;
 
         return $this;
@@ -80,7 +84,8 @@ class Callback
      * @param string $type
      * @return $this
      */
-    public function request($type = 'GET') {
+    public function request($type = 'GET')
+    {
         $this->request = $type;
 
         return $this;
@@ -89,8 +94,8 @@ class Callback
     /**
      * @return mixed
      */
-    private function build() {
-
+    private function build()
+    {
         curl_setopt_array($this->curl, array(
             CURLOPT_URL => $this->url,
             CURLOPT_SSL_VERIFYPEER => false,
@@ -103,23 +108,21 @@ class Callback
             CURLOPT_TIMEOUT => $this->timeout
         ));
 
-        if($this->data != null) {
+        if ($this->data != null) {
             $data_string = json_encode($this->data);
 
             // TODO: Review from top to bottom
-            curl_setopt($this->curl, CURLOPT_POSTFIELDS,$data_string);
+            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data_string);
 
             return $this->curl;
         }
-
     }
 
     /**
      * @return bool|string
      */
-    public function run() {
-
+    public function run()
+    {
         return curl_exec($this->build());
     }
-
 }

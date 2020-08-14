@@ -20,17 +20,19 @@
  */
 
 namespace MicroFrame\Library;
+
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use function App\Controller\getRelativePath;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class File
  * @package MicroFrame\Library
  */
-final class File {
+final class File
+{
 
 
     /**
@@ -38,7 +40,8 @@ final class File {
      *
      * @return File
      */
-    public static function init() {
+    public static function init()
+    {
         return new self();
     }
 
@@ -49,7 +52,8 @@ final class File {
      * @param int $days
      * @return void
      */
-    public function clearOld($path, $days = 3) {
+    public function clearOld($path, $days = 3)
+    {
         $files = glob($path ."/*");
         $now   = time();
 
@@ -74,19 +78,22 @@ final class File {
      * @param int $filter
      * @return array
      */
-    public function filesInDirectory($basePath = __DIR__, $relativeBase = __DIR__, $contains = ".php", $filter = ".ini" | ".md" | ".DS_Store") {
-            $files = array();
-            $dirIterator = new RecursiveDirectoryIterator($basePath);
-            $fileIterator = new RecursiveIteratorIterator($dirIterator);
-            foreach ($fileIterator as $filename) {
-                if ($filename->isDir()) continue;
-                $file = $this->relativePath($relativeBase, $filename);
-                if (Strings::filter($file)->contains($contains) && !Strings::filter($file)->contains($filter)) {
-                    $files[] = $file;
-                }
+    public function filesInDirectory($basePath = __DIR__, $relativeBase = __DIR__, $contains = ".php", $filter = ".ini" | ".md" | ".DS_Store")
+    {
+        $files = array();
+        $dirIterator = new RecursiveDirectoryIterator($basePath);
+        $fileIterator = new RecursiveIteratorIterator($dirIterator);
+        foreach ($fileIterator as $filename) {
+            if ($filename->isDir()) {
+                continue;
             }
+            $file = $this->relativePath($relativeBase, $filename);
+            if (Strings::filter($file)->contains($contains) && !Strings::filter($file)->contains($filter)) {
+                $files[] = $file;
+            }
+        }
 
-            return $files;
+        return $files;
     }
 
     /**
@@ -95,31 +102,37 @@ final class File {
      * @param string $basePath
      * @return array
      */
-    public function dirStructure($basePath = __DIR__) {
+    public function dirStructure($basePath = __DIR__)
+    {
         $dirIterator = new RecursiveDirectoryIterator($basePath);
         $fileIterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
         $fileSys = array();
         $path = array();
         foreach ($fileIterator as $splFileInfo) {
-
-            if ($splFileInfo->getFilename() !== '.' || $splFileInfo->getFilename() !== '..') $path = $splFileInfo->isDir()
+            if ($splFileInfo->getFilename() !== '.' || $splFileInfo->getFilename() !== '..') {
+                $path = $splFileInfo->isDir()
                 ? array($splFileInfo->getFilename() => array())
                 : array($splFileInfo->getFilename());
+            }
 
             for ($depth = $fileIterator->getDepth() - 1; $depth >= 0; $depth--) {
                 $instFile = $fileIterator->getSubIterator($depth)->current()->getFilename();
 
-                if ( !isset($path['.']) && !isset($path['..']) ) $path = array($instFile => $path);
+                if (!isset($path['.']) && !isset($path['..'])) {
+                    $path = array($instFile => $path);
+                }
             }
 
             $fileSys = array_merge_recursive($fileSys, $path);
-            unset($fileSys['.']); unset($fileSys['..']);
+            unset($fileSys['.']);
+            unset($fileSys['..']);
         }
 
         return $fileSys;
     }
 
-    public function relativePath($from, $to) {
+    public function relativePath($from, $to)
+    {
         /**
          * Compatibility fixes for Windows paths
          */
@@ -131,11 +144,11 @@ final class File {
         $from     = explode('/', $from);
         $to       = explode('/', $to);
         $relPath  = $to;
-        foreach($from as $depth => $dir) {
+        foreach ($from as $depth => $dir) {
             /**
              * find first non-matching dir
              */
-            if($dir === $to[$depth]) {
+            if ($dir === $to[$depth]) {
                 /**
                  * ignore this directory
                  */
@@ -145,7 +158,7 @@ final class File {
                  * get number of remaining dirs to $from
                  */
                 $remaining = count($from) - $depth;
-                if($remaining > 1) {
+                if ($remaining > 1) {
                     /**
                      * add traversals up to first matching dir
                      */
@@ -159,5 +172,4 @@ final class File {
         }
         return implode('/', $relPath);
     }
-    
 }

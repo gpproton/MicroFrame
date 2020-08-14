@@ -22,7 +22,7 @@
 
 namespace MicroFrame\Defaults\Models;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Core\ModelQuery;
 
@@ -32,7 +32,6 @@ use MicroFrame\Core\ModelQuery;
  */
 class TaskModel extends ModelQuery
 {
-
     public function default()
     {
         return parent::default();
@@ -43,7 +42,8 @@ class TaskModel extends ModelQuery
      *
      * @return array
      */
-    public function createTable() {
+    public function createTable()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
@@ -55,7 +55,8 @@ SQL;
      *
      * @return array
      */
-    public function deleteTable() {
+    public function deleteTable()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
@@ -67,7 +68,8 @@ SQL;
      *
      * @return array
      */
-    public function createKey() {
+    public function createKey()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
@@ -79,7 +81,8 @@ SQL;
      *
      * @return array
      */
-    public function deleteKey() {
+    public function deleteKey()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
@@ -91,7 +94,8 @@ SQL;
      *
      * @return array
      */
-    public function setKey() {
+    public function setKey()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
@@ -103,7 +107,8 @@ SQL;
      *
      * @return array
      */
-    public function getKey() {
+    public function getKey()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
@@ -115,19 +120,19 @@ SQL;
      *
      * @return array
      */
-    public function listPush() {
+    public function listPush()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
         return array( 'query' => $query, 'sample' => []);
     }
 
-    public function listPop() {
+    public function listPop()
+    {
         $query = <<<SQL
             SELECT 1 FROM DUAL
 SQL;
         return array( 'query' => $query, 'sample' => []);
     }
-
-
 }

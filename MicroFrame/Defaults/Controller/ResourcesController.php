@@ -22,7 +22,7 @@
 
 namespace MicroFrame\Defaults\Controller;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use \MicroFrame\Core\Controller as Core;
 
@@ -32,7 +32,6 @@ use \MicroFrame\Core\Controller as Core;
  */
 class ResourcesController extends Core
 {
-
     public function index()
     {
         $req = $this->request->path(false);

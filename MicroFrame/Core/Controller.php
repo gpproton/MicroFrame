@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Core;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use Closure;
 use MicroFrame\Handlers\CacheSource;
@@ -55,7 +55,8 @@ abstract class Controller implements IController
      * @param string $method
      * @param bool $auto
      */
-    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true) {
+    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true)
+    {
         define("API_HOST", Config::fetch("system.debug") ? "localhost" : Config::fetch("site.api.host"));
 
         $this->middlewareState = true;
@@ -72,7 +73,8 @@ abstract class Controller implements IController
      * @param $name
      * @return array|mixed|null
      */
-    public function config($name) {
+    public function config($name)
+    {
         return Config::fetch($name);
     }
 
@@ -80,7 +82,8 @@ abstract class Controller implements IController
      * @param IMiddleware|null $middleware
      * @return $this|mixed
      */
-    public function middleware(IMiddleware $middleware = null) {
+    public function middleware(IMiddleware $middleware = null)
+    {
         if (!is_null($middleware)) {
             $this->middlewareState = $middleware->handle() && $this->middlewareState;
         }
@@ -90,7 +93,8 @@ abstract class Controller implements IController
     /**
      * Index/Default controller method
      */
-    protected function index() {
+    protected function index()
+    {
         /**
          * Implement index method from children class if required.
          */
@@ -116,7 +120,8 @@ abstract class Controller implements IController
      * @param bool $state
      * @return mixed|void
      */
-    protected function auto($state = true) {
+    protected function auto($state = true)
+    {
         if (!$state && gettype($this->auto) === 'boolean') {
             $this->response->notFound();
         }
@@ -160,7 +165,9 @@ abstract class Controller implements IController
      */
     protected function model($source =  null) : IModel
     {
-        if (is_null($source)) return new Model();
+        if (is_null($source)) {
+            return new Model();
+        }
         return new Model($source);
     }
 
@@ -203,7 +210,8 @@ abstract class Controller implements IController
      *
      * @return void
      */
-    public function start() {
+    public function start()
+    {
         /** @var IController $this */
         if ($this->middlewareState && !is_null($this->response)) {
             $this->response->proceed = true;
@@ -244,13 +252,11 @@ abstract class Controller implements IController
                             ->send();
                     }
                 }
-
             } else {
                 $this->index();
             }
             $this->index();
         }
-
     }
 
     /**
@@ -258,6 +264,5 @@ abstract class Controller implements IController
      */
     public function __destruct()
     {
-
     }
 }

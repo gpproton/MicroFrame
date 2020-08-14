@@ -1,7 +1,7 @@
 <?php
 namespace MicroFrame\Defaults\Controller;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Swagger UI controller class
  *
@@ -41,7 +41,6 @@ class SwaggerUIController extends Core
      */
     public function index()
     {
-
         $fullUrl = $this->request->url();
         /**
          * Get co responding API path to scan for annotations.
@@ -54,5 +53,4 @@ class SwaggerUIController extends Core
             ->data(['apiPath' => $apiPath])
             ->render('sys.SwaggerUI');
     }
-
 }

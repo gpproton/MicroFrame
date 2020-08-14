@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Handlers;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use \Exception as stockError;
 use MicroFrame\Core\Request as request;
@@ -32,9 +32,8 @@ use MicroFrame\Library\Reflect;
  * Class Exception
  * @package MicroFrame\Handlers
  */
-class Exception extends  stockError implements \Throwable
+class Exception extends stockError implements \Throwable
 {
-
     public $request;
     public $response;
     public $errorCode;
@@ -47,7 +46,8 @@ class Exception extends  stockError implements \Throwable
      * @param int $code
      * @param Exception $previous
      */
-    public function __construct($message, $code = 0, Exception $previous = null) {
+    public function __construct($message, $code = 0, Exception $previous = null)
+    {
         $this->request = new request();
         $this->response = new response();
         $this->errorCode = 500;
@@ -58,7 +58,8 @@ class Exception extends  stockError implements \Throwable
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 
@@ -67,13 +68,17 @@ class Exception extends  stockError implements \Throwable
      *
      * @param null $message
      */
-    public function log($message = null) {
-        if(is_null($message)) $message = self::getMessage();
+    public function log($message = null)
+    {
+        if (is_null($message)) {
+            $message = self::getMessage();
+        }
 //        Logger::warn($message, $this->source);
         Logger::set($message, $this->source)->warn();
     }
 
-    public static function init($message = "") {
+    public static function init($message = "")
+    {
         return new self($message);
     }
 
@@ -81,8 +86,11 @@ class Exception extends  stockError implements \Throwable
      * @param null $message
      * @return void
      */
-    public function output($message = null) {
-        if(is_null($message)) $message = self::getMessage();
+    public function output($message = null)
+    {
+        if (is_null($message)) {
+            $message = self::getMessage();
+        }
 //        Logger::error($message, $this->source);
         Logger::set($message, $this->source)->error();
         $this->response->methods(['get', 'post', 'put', 'delete', 'options']);
@@ -93,13 +101,15 @@ class Exception extends  stockError implements \Throwable
     /**
      * @param null $message
      */
-    public function render($message = null) {
+    public function render($message = null)
+    {
         // TODO: Write error type to default error data array
-        if(is_null($message)) $message = self::getMessage();
+        if (is_null($message)) {
+            $message = self::getMessage();
+        }
 //        Logger::error($message, $this->source);
         Logger::set($message, $this->source)->error();
         $this->response->setOutput(0, $this->errorCode, $message);
         $this->response->render();
     }
-
 }

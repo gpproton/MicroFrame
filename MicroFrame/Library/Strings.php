@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Library;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class Strings
@@ -28,7 +29,6 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 final class Strings
 {
-
     private $value;
 
     /**
@@ -45,7 +45,8 @@ final class Strings
      *
      * @return bool
      */
-    private function validate() {
+    private function validate()
+    {
         return (getType($this->value) === 'string');
     }
 
@@ -54,7 +55,8 @@ final class Strings
      *
      * @return int|void
      */
-    private function count() {
+    private function count()
+    {
         return strlen($this->value);
     }
 
@@ -64,8 +66,8 @@ final class Strings
      * @param string $string
      * @return Strings
      */
-    public static function filter($string = null) {
-
+    public static function filter($string = null)
+    {
         return new self($string);
     }
 
@@ -76,7 +78,8 @@ final class Strings
      * @param string $replace
      * @return Strings
      */
-    public function replace($search = null, $replace = "") {
+    public function replace($search = null, $replace = "")
+    {
         if (gettype($search) === 'array' && gettype($replace) === 'array') {
             $cnt = 0;
             foreach ($search as $val) {
@@ -96,13 +99,17 @@ final class Strings
      * @param null $string
      * @return boolean|$this
      */
-    public function contains($string = null) {
-        if (!$this->validate()) return $this;
+    public function contains($string = null)
+    {
+        if (!$this->validate()) {
+            return $this;
+        }
 
-        if (!empty($string)) return strpos($this->value, $string) !== false;
+        if (!empty($string)) {
+            return strpos($this->value, $string) !== false;
+        }
 
         return false;
-
     }
 
     /**
@@ -122,34 +129,43 @@ final class Strings
      * @param int $count
      * @return $this | array
      */
-    public function between($start = null, $end = null,  $includeDelimiters = false, $array = false, $forceString = true, $count = -1, int &$offset = 0) {
+    public function between($start = null, $end = null, $includeDelimiters = false, $array = false, $forceString = true, $count = -1, int &$offset = 0)
+    {
         $string  = $this->value;
 
-        if ($string === '' || $start === '' || $end === '') return $this;
+        if ($string === '' || $start === '' || $end === '') {
+            return $this;
+        }
 
         if (!$array && $forceString) {
             $startLength = strlen($start);
             $endLength = strlen($end);
             $startPos = strpos($string, $start, $offset);
-            if ($startPos === false) return $this;
+            if ($startPos === false) {
+                return $this;
+            }
             $endPos = strpos($string, $end, $startPos + $startLength);
-            if ($endPos === false) return $this;
+            if ($endPos === false) {
+                return $this;
+            }
             $length = $endPos - $startPos + ($includeDelimiters ? $endLength : -$startLength);
-            if (!$length) return $this;
+            if (!$length) {
+                return $this;
+            }
             $offset = $startPos + ($includeDelimiters ? 0 : $startLength);
             $result = substr($string, $offset, $length);
 
             $this->value = ($result !== false ? $result : null);
 
             return $this;
-
         } else {
             $strings = [];
             $length = strlen($string);
-            while ($offset < $length)
-            {
+            while ($offset < $length) {
                 $found = self::filter($string)->between($start, $end, $includeDelimiters, false, true, $count, $offset)->value();
-                if ($found === null) break;
+                if ($found === null) {
+                    break;
+                }
                 $strings[] = $found;
                 $offset += strlen($includeDelimiters ? $found : $start . $found . $end);
             }
@@ -157,13 +173,14 @@ final class Strings
             if ($count >= 1) {
                 $newStringArray = array();
                 foreach ($strings as $stringValue) {
-                    if (strlen($stringValue) <= $count) $newStringArray[] = $stringValue;
+                    if (strlen($stringValue) <= $count) {
+                        $newStringArray[] = $stringValue;
+                    }
                 }
                 return $newStringArray;
             }
             return $strings;
         }
-
     }
 
     /**
@@ -175,15 +192,18 @@ final class Strings
      * @param int $length The length of string to return.
      * @return $this
      */
-    public function range($search = null, $startRight = false, $leftSelect = false, $length = 0) {
-        if (empty($search)) return $this;
+    public function range($search = null, $startRight = false, $leftSelect = false, $length = 0)
+    {
+        if (empty($search)) {
+            return $this;
+        }
         $string  = $this->value;
         $position = 0;
         if (gettype($startRight) === 'boolean') {
             $left = strrpos($string, $search);
             $right = strpos($string, $search);
             gettype($left) === 'boolean' ? $position = 0 : $position = $startRight ? ($left + 1) : ($right + strlen($search));
-        } else if (gettype($startRight) === 'integer') {
+        } elseif (gettype($startRight) === 'integer') {
             $position = $this->charPosition($this->value, $search, $startRight);
             $position = $position === false ? 0 : $position + 1;
         }
@@ -203,7 +223,8 @@ final class Strings
      * @param bool $all
      * @return $this
      */
-    public function upperCaseWords($all = true) {
+    public function upperCaseWords($all = true)
+    {
         $string = $this->value;
         $string = $all ? ucwords($string) : ucfirst($string);
         $this->value = $string;
@@ -216,7 +237,8 @@ final class Strings
      *
      * @return $this
      */
-    public function upperCaseAll() {
+    public function upperCaseAll()
+    {
         $this->value = strtoupper($this->value);
 
         return $this;
@@ -228,8 +250,8 @@ final class Strings
      * @param bool $first
      * @return $this
      */
-    public function lowerCase($first = false) {
-
+    public function lowerCase($first = false)
+    {
         $this->value = $first ? lcfirst($this->value) : strtolower($this->value);
 
         return $this;
@@ -243,10 +265,11 @@ final class Strings
      * @param $number
      * @return false|int
      */
-    public function charPosition($haystack, $needle, $number) {
-        if($number == '1') {
+    public function charPosition($haystack, $needle, $number)
+    {
+        if ($number == '1') {
             return strpos($haystack, $needle);
-        } else if($number > '1'){
+        } elseif ($number > '1') {
             return strpos($haystack, $needle, $this->charPosition($haystack, $needle, $number - 1) + strlen($needle));
         }
         return 0;
@@ -259,10 +282,14 @@ final class Strings
      */
     public function url()
     {
-        if (!$this->validate()) return $this;
+        if (!$this->validate()) {
+            return $this;
+        }
 
-        $this->value = preg_match('/^[^.][-a-z0-9_.]+[a-z]$/i',
-                $this->value) == 0;
+        $this->value = preg_match(
+            '/^[^.][-a-z0-9_.]+[a-z]$/i',
+            $this->value
+        ) == 0;
         return $this->value;
     }
 
@@ -272,9 +299,15 @@ final class Strings
      * @param bool $check
      * @return $this
      */
-    public function dotted($check = true) {
-        if ($check) $this->value = preg_replace('/[^A-Za-z0-9.\-]/', '',
-            str_replace("/", ".", $this->value));
+    public function dotted($check = true)
+    {
+        if ($check) {
+            $this->value = preg_replace(
+                '/[^A-Za-z0-9.\-]/',
+                '',
+                str_replace("/", ".", $this->value)
+            );
+        }
 
         return $this;
     }
@@ -285,8 +318,11 @@ final class Strings
      * @param $string
      * @return $this
      */
-    public function append($string) {
-        if (!empty($string)) $this->value .= $string;
+    public function append($string)
+    {
+        if (!empty($string)) {
+            $this->value .= $string;
+        }
 
         return $this;
     }
@@ -297,8 +333,11 @@ final class Strings
      * @param $string
      * @return $this
      */
-    public function preAppend($string) {
-        if (!empty($string)) $this->value = $string . $this->value;
+    public function preAppend($string)
+    {
+        if (!empty($string)) {
+            $this->value = $string . $this->value;
+        }
 
         return $this;
     }
@@ -309,10 +348,11 @@ final class Strings
      * @param null $string
      * @return $this
      */
-    public function leftTrim($string = null) {
+    public function leftTrim($string = null)
+    {
         if (is_null($string)) {
             $this->value = ltrim($this->value);
-        } else if(gettype($string) === 'array') {
+        } elseif (gettype($string) === 'array') {
             foreach ($string as $val) {
                 $this->value = ltrim($this->value, $val);
             }
@@ -329,10 +369,11 @@ final class Strings
      * @param null $string
      * @return $this
      */
-    public function rightTrim($string = null) {
+    public function rightTrim($string = null)
+    {
         if (is_null($string)) {
             $this->value = rtrim($this->value);
-        } else if(gettype($string) === 'array') {
+        } elseif (gettype($string) === 'array') {
             foreach ($string as $val) {
                 $this->value = rtrim($this->value, $val);
             }
@@ -349,10 +390,11 @@ final class Strings
      * @param null $string
      * @return $this
      */
-    public function trim($string = null) {
+    public function trim($string = null)
+    {
         if (is_null($string)) {
             $this->value = trim($this->value);
-        } else if(gettype($string) === 'array') {
+        } elseif (gettype($string) === 'array') {
             foreach ($string as $val) {
                 $this->value = trim($this->value, $val);
             }
@@ -368,8 +410,8 @@ final class Strings
      *
      * @return null | string | boolean
      */
-    public function value() {
+    public function value()
+    {
         return $this->value;
     }
-    
 }

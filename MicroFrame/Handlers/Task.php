@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Handlers;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 // TODO: Search Tasks namespace and loop over all class to execute tasks if ran from a CLI
 
@@ -30,5 +31,4 @@ defined('BASE_PATH') OR exit('No direct script access allowed');
  */
 class Task
 {
-
 }

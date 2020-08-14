@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Handlers;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Library\Config;
 use MicroFrame\Library\File;
@@ -32,8 +32,8 @@ use MicroFrame\Library\Utils;
  * Class Logger
  * @package MicroFrame\Handlers
  */
-final class Logger {
-
+final class Logger
+{
     private $source;
     private $text;
     private $config;
@@ -43,8 +43,8 @@ final class Logger {
      * @param null $text
      * @param null $source
      */
-    public function __construct($text = null, $source = null) {
-        
+    public function __construct($text = null, $source = null)
+    {
         $this->text = $text;
         $this->source = $source;
     }
@@ -54,7 +54,8 @@ final class Logger {
      * @param null $class
      * @return Logger
      */
-    public static function set($text = null, $class = null) {
+    public static function set($text = null, $class = null)
+    {
         $instance = new self($text, $class);
         $instance->config = Config::fetch();
 
@@ -107,7 +108,9 @@ final class Logger {
      */
     private function output($type)
     {
-        if (!isset($this->source)) $this->source = Reflect::check()->getClassFullNameFromFile(debug_backtrace()[1]['file']);
+        if (!isset($this->source)) {
+            $this->source = Reflect::check()->getClassFullNameFromFile(debug_backtrace()[1]['file']);
+        }
         $output = $this->text;
 
         switch (gettype($output)) {
@@ -146,13 +149,13 @@ final class Logger {
                 $this->email($output);
                 return $this->web();
         }
-
     }
 
     /**
      * @param null $string
      */
-    private function console($string =  null) {
+    private function console($string =  null)
+    {
         Utils::get()->console($string);
     }
 
@@ -160,7 +163,8 @@ final class Logger {
      * @param null $string
      * @return null
      */
-    private function web($string =  null) {
+    private function web($string =  null)
+    {
         return $string;
     }
 
@@ -168,11 +172,13 @@ final class Logger {
      * @param null $string
      * @param null $path
      */
-    private function file($string =  null, $path = null) {
-
+    private function file($string =  null, $path = null)
+    {
         $logPath = $this->config['system']['path']['logs'];
 
-        if (is_null($path)) $path = $logPath . '/app.log';
+        if (is_null($path)) {
+            $path = $logPath . '/app.log';
+        }
 
         if (is_file($path)) {
             $oldDate =  date("d-m-Y", filemtime($path));
@@ -181,7 +187,9 @@ final class Logger {
             /**
              * Move old logs file
              */
-            if (date("d-m-Y") > $oldDate) rename($path, $oldFile);
+            if (date("d-m-Y") > $oldDate) {
+                rename($path, $oldFile);
+            }
 
             /**
              * Discard log files above retention period
@@ -190,17 +198,13 @@ final class Logger {
         }
 
         file_put_contents($path, $string, FILE_APPEND);
-
     }
 
     /**
      * TODO: Future use case for email error log
      * @param null $string
      */
-    private function email($string =  null) {
-
+    private function email($string =  null)
+    {
     }
-
-
-
 }

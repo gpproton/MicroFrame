@@ -27,7 +27,7 @@ use Phpfastcache\CacheManager;
 use Phpfastcache\Config\Config as cacheConfig;
 use Phpfastcache\Helper\Psr16Adapter;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class MinimalCache
@@ -63,15 +63,13 @@ class MinimalCache extends BaseCache
                     "path" => $this->pathInit($source),
                     "itemDetailedDate" => false
                 ]));
-            } elseif($this->config['type'] == 'cookie') {
-// TODO: Fix config issues for cookie type.
+            } elseif ($this->config['type'] == 'cookie') {
+                // TODO: Fix config issues for cookie type.
             }
             return new Psr16Adapter(strtolower($this->config['type']));
-
         } catch (\Exception $e) {
             Exception::init()->log($e);
             return null;
         }
     }
-
 }

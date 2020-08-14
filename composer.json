@@ -42,9 +42,9 @@
         "asyncphp/doorman": "3.1.*"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "*",
         "filp/whoops": "2.7.*",
-        "phpunit/phpunit": "9.2.*"
+        "phpunit/phpunit": "9.2.*",
+        "friendsofphp/php-cs-fixer": "^2.16"
     },
     "scripts": { }
 }

@@ -20,7 +20,8 @@
  */
 
 namespace MicroFrame\Core;
-defined('BASE_PATH') OR exit('No direct script access allowed');
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
@@ -67,7 +68,9 @@ class Middleware implements IMiddleware
      */
     public static function model($source =  null)
     {
-        if (is_null($source)) return new Model();
+        if (is_null($source)) {
+            return new Model();
+        }
         return new Model($source);
     }
 }

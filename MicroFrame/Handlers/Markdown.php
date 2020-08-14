@@ -21,7 +21,7 @@
 
 namespace MicroFrame\Handlers;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use cebe\markdown\MarkdownExtra;
 use MicroFrame\Library\Config;
@@ -33,17 +33,18 @@ use MicroFrame\Library\Strings;
  */
 class Markdown extends MarkdownExtra
 {
-
     private $html;
 
-    public static function translate($markdownString = "") {
+    public static function translate($markdownString = "")
+    {
         $instance = new self();
         $instance->html5 = true;
 
         return $instance->parse($markdownString);
     }
 
-    public static function init() {
+    public static function init()
+    {
         return new self();
     }
 
@@ -97,7 +98,8 @@ class Markdown extends MarkdownExtra
         return '<del>' . $this->renderAbsy($element[1]) . '</del>';
     }
 
-    private function modifyMarkup() {
+    private function modifyMarkup()
+    {
 
         /**
          * Apply character replacement with private
@@ -126,7 +128,6 @@ class Markdown extends MarkdownExtra
          * Changes github icon markdowns to HTML markup.
          */
         $this->parseIcons();
-
     }
 
     /**
@@ -134,14 +135,13 @@ class Markdown extends MarkdownExtra
      *
      * @param $string
      */
-    private function translateTodo($string) {
-
+    private function translateTodo($string)
+    {
         if ($string == '[X]') {
             $this->html = str_replace($string, '<input type="checkbox" style="all: revert;" checked onclick="return false">', $this->html);
         } elseif ($string == '[ ]') {
             $this->html = str_replace($string, '<input type="checkbox" style="all: revert;" onclick="return false">', $this->html);
         }
-
     }
 
     /**
@@ -149,7 +149,8 @@ class Markdown extends MarkdownExtra
      *
      * @param $string
      */
-    private function reFormatList($string) {
+    private function reFormatList($string)
+    {
         if ($string == '<li>') {
             $this->html = str_replace($string, '<li style="all: revert;">', $this->html);
         } elseif ($string == '<ul>') {
@@ -165,7 +166,8 @@ class Markdown extends MarkdownExtra
      * @param null $string
      * @return string|string[]|null
      */
-    public function parseIcons($string = null) {
+    public function parseIcons($string = null)
+    {
         $return = false;
         if (is_null($string)) {
             $string = $this->html;
@@ -187,10 +189,10 @@ class Markdown extends MarkdownExtra
                     $string = str_replace($realKey, $newMarkup, $string);
                 }
             }
-            if ($return) return $string;
+            if ($return) {
+                return $string;
+            }
             $this->html = $string;
         }
     }
-
-
 }
