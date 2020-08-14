@@ -1,4 +1,17 @@
 <?php
+
+namespace MicroFrame\Core;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
+use Closure;
+use MicroFrame\Handlers\CacheSource;
+use MicroFrame\Handlers\Logger;
+use MicroFrame\Interfaces\ICache;
+use MicroFrame\Interfaces\IModel;
+use MicroFrame\Library\Config;
+use MicroFrame\Library\Strings;
+
 /**
  * MicroTask Core class
  *
@@ -17,23 +30,6 @@
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
- */
-
-namespace MicroFrame\Core;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
-
-use MicroFrame\Handlers\CacheSource;
-use MicroFrame\Handlers\Logger;
-use MicroFrame\Interfaces\ICache;
-use MicroFrame\Interfaces\IModel;
-use MicroFrame\Library\Config;
-use MicroFrame\Library\Strings;
-
-/**
- * Class MicroTask
- *
- * @package MicroFrame\Core
  */
 class MicroTask
 {
@@ -60,8 +56,9 @@ class MicroTask
     /**
      * An in-class logger method, for much easier usage.
      *
-     * @param  $text
-     * @param  $type
+     * @param $text string here
+     * @param $type string here
+     *
      * @return void
      */
     protected function log($text, $type)
@@ -87,21 +84,33 @@ class MicroTask
     }
 
     /**
+     * New method
      *
+     * @summary pending
+     *
+     * @return void
      */
     protected function setup()
     {
     }
 
     /**
+     * New method
      *
+     * @summary pending
+     *
+     * @return void
      */
     protected function getConfig()
     {
     }
 
     /**
+     * New method
      *
+     * @summary pending
+     *
+     * @return void
      */
     protected function add()
     {
@@ -111,8 +120,10 @@ class MicroTask
      * Use closure for method capture
      * TODO: Change for async task properties without awaiting.
      *
-     * @param $closure
-     * @param $args
+     * @param $closure closure here
+     * @param $args    array here
+     *
+     * @return void;
      */
     private function loop($closure, $args = [])
     {
@@ -124,7 +135,8 @@ class MicroTask
     /**
      * Model static instance initializer.
      *
-     * @param  null $source
+     * @param null $source here
+     *
      * @return Model|IModel
      */
     protected function model($source =  null) : IModel
@@ -138,7 +150,8 @@ class MicroTask
     /**
      * Initializes a cache instance.
      *
-     * @param  string $source
+     * @param string $source here
+     *
      * @return ICache|object
      */
     protected function cache($source = 'default') : ICache
@@ -149,7 +162,8 @@ class MicroTask
     /**
      * Initializes a string instance.
      *
-     * @param  string $source
+     * @param string $source here
+     *
      * @return mixed|void
      */
     protected function string($source = '') : Strings
@@ -158,7 +172,11 @@ class MicroTask
     }
 
     /**
+     * New method
      *
+     * @summary pending
+     *
+     * @return void
      */
     protected function loader()
     {

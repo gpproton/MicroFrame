@@ -1,6 +1,18 @@
 <?php
+
+namespace MicroFrame\Core;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
+use MicroFrame\Handlers\DataSource;
+use MicroFrame\Handlers\Exception;
+use MicroFrame\Interfaces\IModel;
+use MicroFrame\Library\Reflect;
+use MicroFrame\Library\Strings;
+use PDO;
+
 /**
- * Model Core class
+ * Model class
  *
  * PHP Version 7
  *
@@ -18,47 +30,39 @@
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
-
-namespace MicroFrame\Core;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
-
-use MicroFrame\Handlers\DataSource;
-use MicroFrame\Handlers\Exception;
-use MicroFrame\Interfaces\IModel;
-use MicroFrame\Library\Reflect;
-use MicroFrame\Library\Strings;
-use PDO;
-
-/**
- * Class Model
- * @package MicroFrame\Core
- */
 final class Model implements IModel
 {
-    private $instance;
-    private $query = array();
-    private $params = array();
-    private $result = array();
+    private $_instance;
+    private $_query = array();
+    private $_params = array();
+    private $_result = array();
     public $completed = false;
     public $status = "Ok";
 
     /**
      * Model constructor.
-     * @param string $source
+     *
+     * @param string $source here
+     *
+     * @comment Model constructor
+     *
+     * @return self
      */
     public function __construct($source = null)
     {
-        $this->instance = $this->initialize($source);
+        $this->_instance = $this->_initialize($source);
 
         return $this;
     }
 
     /**
-     * @param $source
+     * Model init method
+     *
+     * @param $source string here
+     *
      * @return mixed|PDO
      */
-    private function initialize($source)
+    private function _initialize($source)
     {
         try {
             return DataSource::get($source);
@@ -68,21 +72,23 @@ final class Model implements IModel
     }
 
     /**
-     * @param array|string $content
-     * @return $this
+     * Query input method.
      *
+     * @param array|string $content here
+     *
+     * @return $this
      */
     public function query($content)
     {
         if (gettype($content) === 'string') {
-            $this->query[] = $content;
+            $this->_query[] = $content;
         } elseif (gettype($content) === 'array') {
             foreach ($content as $key => $value) {
                 if ($key === 'instance' || $key === 'model' || $key === 'params') {
-                    $this->query[] = $content;
+                    $this->_query[] = $content;
                     break;
                 } elseif (gettype($value) === 'array') {
-                    $this->query[] = $value;
+                    $this->_query[] = $value;
                 }
             }
         }
@@ -91,12 +97,15 @@ final class Model implements IModel
     }
 
     /**
-     * @param array $array
+     * Parameter input method.
+     *
+     * @param array $array here
+     *
      * @return $this
      */
     public function params($array = [])
     {
-        $this->params[] = $array;
+        $this->_params[] = $array;
 
         return $this;
     }
@@ -104,7 +113,8 @@ final class Model implements IModel
     /**
      * Start actual database query for any QModel specified.
      *
-     * @param string $cacheStrategy
+     * @param string $cacheStrategy here
+     *
      * @return $this|void
      */
     public function execute($cacheStrategy = 'resultOnly')
@@ -117,28 +127,29 @@ final class Model implements IModel
             /**
              * Call to database with current parameters and query strings
              */
-            foreach ($this->query as $value) {
+            foreach ($this->_query as $value) {
                 try {
                     $prepare = null;
                     if (gettype($value) === 'array' && sizeof($value) >= 3) {
                         /**
-                         * Allow for multiple datasource queries in single method call.
+                         * Allow for multiple datasource
+                         * queries in single method call.
                          */
-                        if (!empty($this->load($value['model'])['query'])) {
-                            $modelSrc = $this->load($value['model'])['query'];
+                        if (!empty($this->_load($value['model'])['query'])) {
+                            $modelSrc = $this->_load($value['model'])['query'];
                         }
 
                         /**
                          * Allow usage of sample data if not connection
                          */
-                        if (!empty($this->load($value['model'])['sample'])) {
-                            $modelSample = $this->load($value['model'])['sample'];
+                        if (!empty($this->_load($value['model'])['sample'])) {
+                            $modelSample = $this->_load($value['model'])['sample'];
                         }
-                        $prepare = $this->initialize($value['instance'])
+                        $prepare = $this->_initialize($value['instance'])
                             ->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                         $param = $value['params'];
-                    } elseif (isset($this->params[$level])) {
-                        $param = $this->params[$level];
+                    } elseif (isset($this->_params[$level])) {
+                        $param = $this->_params[$level];
                     } else {
                         $param = array();
                     }
@@ -148,18 +159,18 @@ final class Model implements IModel
                         /**
                          * Options for extended array instance | query | param
                          */
-                        if (!empty($this->load($value)['query'])) {
-                            $modelSrc = $this->load($value)['query'];
+                        if (!empty($this->_load($value)['query'])) {
+                            $modelSrc = $this->_load($value)['query'];
                         }
 
                         /**
                          * Allow usage of sample data if not connection
                          */
-                        if (!empty($this->load($value)['sample'])) {
-                            $modelSample = $this->load($value)['sample'];
+                        if (!empty($this->_load($value)['sample'])) {
+                            $modelSample = $this->_load($value)['sample'];
                         }
 
-                        $prepare = $this->instance->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                        $prepare = $this->_instance->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
                     }
 
                     /**
@@ -175,31 +186,31 @@ final class Model implements IModel
                     }
 
                     if (gettype($value) !== 'array') {
-                        if (!isset($this->result[$value])) {
-                            $this->result[$value] = $results;
+                        if (!isset($this->_result[$value])) {
+                            $this->_result[$value] = $results;
                         } else {
-                            $this->result[$value . '-' . rand(2, 100)] = $results;
+                            $this->_result[$value . '-' . rand(2, 100)] = $results;
                         }
                     } else {
-                        if (!isset($this->result[$value['model']])) {
-                            $this->result[$value['model']] = $results;
+                        if (!isset($this->_result[$value['model']])) {
+                            $this->_result[$value['model']] = $results;
                         } else {
                             // TODO: Change from random to explicitly defined key.
-                            $this->result[$value['model'] . '-' . rand(2, 100)] = $results;
+                            $this->_result[$value['model'] . '-' . rand(2, 100)] = $results;
                         }
                     }
 
                     /**
-                     * increment parameters index
+                     * Increment parameters index
                      */
                     $level++;
                 } catch (\Exception $e) {
                     $this->status = $e;
 
                     if (gettype($value) !== 'array') {
-                        $this->result[$value] = $modelSample;
+                        $this->_result[$value] = $modelSample;
                     } else {
-                        $this->result[$value['model']] = $modelSample;
+                        $this->_result[$value['model']] = $modelSample;
                     }
                 }
             }
@@ -213,8 +224,8 @@ final class Model implements IModel
         /**
          * Clear used fields.
          */
-        $this->query = array();
-        $this->params = array();
+        $this->_query = array();
+        $this->_params = array();
         $this->completed = true;
 
         return $this;
@@ -227,17 +238,17 @@ final class Model implements IModel
      */
     public function result()
     {
-        return array_change_key_case($this->result, CASE_LOWER);
+        return array_change_key_case($this->_result, CASE_LOWER);
     }
 
     /**
+     * Internal Model loader
      *
-     *
-     * @param $path
+     * @param $path string here
      *
      * @return string
      */
-    private function load($path)
+    private function _load($path)
     {
         if (!Strings::filter($path)->contains("sys.")) {
             return Reflect::check()->stateLoader("app.Model." . $path, array())->query;
@@ -267,7 +278,8 @@ final class Model implements IModel
     }
 
     /**
-     * Cache only new result when null and never cache new result until cache expires.
+     * Cache only new result when null and never
+     * cache new result until cache expires.
      *
      * @return IModel|void
      */

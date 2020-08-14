@@ -1,4 +1,10 @@
 <?php
+
+
+namespace MicroFrame\Handlers;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
 /**
  * Task Handler class
  *
@@ -18,17 +24,7 @@
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
-
-namespace MicroFrame\Handlers;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
-
-// TODO: Search Tasks namespace and loop over all class to execute tasks if ran from a CLI
-
-/**
- * Class Task
- * @package MicroFrame\Handlers
- */
 class Task
 {
+    // TODO: Search Tasks namespace and loop over all class to execute tasks if ran from a CLI
 }
