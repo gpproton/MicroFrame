@@ -60,6 +60,7 @@
     "suggest": {
         "ext-ftp": "Required to use the Flysystem FTP driver.",
         "ext-gd": "Required to use for...",
+        "ext-apache": "*",
         "ext-memcached": "Required to use the memcache cache driver.",
         "ext-pcntl": "Required to use all features of the queue worker.",
         "ext-posix": "Required to use all features of the queue worker.",
@@ -72,6 +73,9 @@
         ],
         "post-update-cmd": [
 
+        ],
+        "test": [
+            "vendor/bin/phpunit"
         ]
     },
     "minimum-stability": "dev",
