@@ -21,6 +21,7 @@
 
 namespace Tests\Core;
 
+use MicroFrame\Core\Request;
 use MicroFrame\Core\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -38,8 +39,10 @@ class ResponseTest extends TestCase
         define('BASE_PATH', __DIR__);
 
         $this->_response = new Response();
-        $this->_response->methods(['get', 'post']);
-        $this->assertEquals(true, $this->_response->proceed);
+        $newReq = new Request();
+//        die(var_dump($newReq->query()));
+//        $this->_response->methods(['get', 'post']);
+//        $this->assertEquals(true, $this->_response->proceed);
 
         return;
     }

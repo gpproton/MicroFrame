@@ -29,23 +29,32 @@ use MicroFrame\Interfaces\IRequest;
 
 /**
  * Class Request
+ *
  * @package MicroFrame\Core
  */
 final class Request implements IRequest
 {
-    private static $cookie;
-    private static $env;
-    private static $files;
-    private static $get;
-    private static $post;
-    private static $request;
-    private static $server;
-    private static $session;
+    private static $_cookie = [];
+    private static $_env = [];
+    private static $_files = [];
+    private static $_get = [];
+    private static $_post = [];
+    private static $_request = [];
+    private static $_server = [];
+    private static $_session = [];
 
+    /**
+     * Request constructor.
+     */
     public function __construct()
     {
     }
 
+    /**
+     * Get instance of the class
+     *
+     * @return Request
+     */
     public static function get()
     {
         return new self();
@@ -54,18 +63,21 @@ final class Request implements IRequest
 
     /**
      * Get request method type in plain string
+     *
      * @return mixed
      */
     public function method()
     {
-        if (!empty(self::$server['REQUEST_METHOD'])) {
-            return strtolower(self::$server['REQUEST_METHOD']);
+        if (!empty(self::$_server['REQUEST_METHOD'])) {
+            return strtolower(self::$_server['REQUEST_METHOD']);
         }
         return null;
     }
 
     /**
-     *Get all request variable values
+     * Get all request variable values
+     *
+     * @return array
      */
     public function all()
     {
@@ -74,15 +86,18 @@ final class Request implements IRequest
 
 
     /**
-     * @param null $string filter for desired get value
+     * Get all query parameters
+     *
+     * @param null $string   filter for desired get value
      * @param bool $multiple option for return an array
+     *
      * @return array|mixed|null
      */
     public function query($string = null, $multiple = false)
     {
         $query = array();
-        if (!empty(self::$server['QUERY_STRING'])) {
-            $query  = explode('&', self::$server['QUERY_STRING']);
+        if (!empty(self::$_server['QUERY_STRING'])) {
+            $query  = explode('&', self::$_server['QUERY_STRING']);
         }
         if (count($query) > 0 && !empty($query[0])) {
             $params = array();
@@ -110,12 +125,15 @@ final class Request implements IRequest
     }
 
     /**
-     * @param null $string  filter for desired post value
+     * Get posted data
+     *
+     * @param null $string filter for desired post value
+     *
      * @return mixed|null
      */
     public function post($string = null)
     {
-        $post = self::$post;
+        $post = self::$_post;
         if (is_null($string)) {
             return $post;
         } else {
@@ -127,6 +145,8 @@ final class Request implements IRequest
     }
 
     /**
+     * Get raw data posted
+     *
      * @return false|string
      */
     public function raw()
@@ -136,26 +156,52 @@ final class Request implements IRequest
     }
 
     /**
+     * Get sent header data
+     *
      * @param null $string filter for desired header value
+     *
      * @return array|false|mixed|null
      */
     public function header($string = null)
     {
         if (is_null($string)) {
-            return getallheaders();
+            $header = [];
+            if (sizeof(self::$_server) === 0) {
+                self::$_server = $_SERVER;
+            }
+
+            foreach (self::$_server as $serverKey => $serverValue) {
+                if (strpos($serverKey, 'HTTP_') !== false) {
+                    $header[strtolower(
+                        str_replace(
+                            'HTTP_',
+                            '',
+                            $serverKey
+                        )
+                    )] = $serverValue;
+                }
+            }
+
+            return $header;
         } else {
             $header = null;
             $string = str_replace('-', '_', $string);
-            if (isset(self::$server['HTTP_' . strtoupper($string)])) {
-                $header = self::$server['HTTP_' . strtoupper($string)];
+            if (isset(self::$_server['HTTP_' . strtoupper($string)])) {
+                $header = self::$_server['HTTP_' . strtoupper($string)];
             }
 
-            /** @var mixed $header */
+            /**
+             * Final header value requested.
+             *
+             * @var mixed $header
+            */
             return $header;
         }
     }
 
     /**
+     * Retrieve requested format information.
+     *
      * @return string
      */
     public function format()
@@ -166,7 +212,9 @@ final class Request implements IRequest
     }
 
     /**
-     * @inheritDoc
+     * Extra format/content type information
+     *
+     * @return array|false|mixed|string|null
      */
     public function contentType()
     {
@@ -178,33 +226,40 @@ final class Request implements IRequest
     }
 
     /**
-     * @param null $string
+     * Get all session info.
+     *
+     * @param null $string here
+     *
      * @return mixed
      */
     public function session($string = null)
     {
         if (!is_null($string)) {
-            return self::$session[$string];
+            return self::$_session[$string];
         }
-        return self::$session;
+        return self::$_session;
     }
 
     /**
-     * @param null $string
+     * Get sent cookie info.
+     *
+     * @param null $string here
+     *
      * @return mixed
      */
     public function cookie($string = null)
     {
         if (!is_null($string)) {
-            return self::$cookie[$string];
+            return self::$_cookie[$string];
         }
-        return self::$cookie;
+        return self::$_cookie;
     }
 
     /**
      * Reference location for commonly used super globals
      *
-     * @param bool $done
+     * @param bool $done here
+     *
      * @return boolean
      */
     public static function overrideGlobals($done = true)
@@ -213,34 +268,35 @@ final class Request implements IRequest
             /**
              * For initialization and flushing defaults.
              */
-            self::$cookie = $_COOKIE;
-            self::$files = $_FILES;
-            self::$get = $_GET;
-            self::$post = $_POST;
-            self::$request = $_REQUEST;
-            self::$server = $_SERVER;
+            self::$_cookie = $_COOKIE;
+            self::$_files = $_FILES;
+            self::$_get = $_GET;
+            self::$_post = $_POST;
+            self::$_request = $_REQUEST;
+            self::$_server = $_SERVER;
 
-            return self::flushGlobals();
+            return self::_flushGlobals();
         } else {
             /**
              * Return removed defaults.
              */
-            $_COOKIE = self::$cookie;
-            $_FILES = self::$files;
-            $_GET = self::$get;
-            $_POST = self::$post;
-            $_REQUEST = self::$request;
-            $_SERVER = self::$server;
+            $_COOKIE = self::$_cookie;
+            $_FILES = self::$_files;
+            $_GET = self::$_get;
+            $_POST = self::$_post;
+            $_REQUEST = self::$_request;
+            $_SERVER = self::$_server;
         }
-//        self::$env = $_ENV;
-//        self::$session = $_SESSION;
+        //        self::$env = $_ENV;
+        //        self::$session = $_SESSION;
     }
 
     /**
      * Clear original contents for commonly used globals after initialization
+     *
      * @return boolean
      */
-    private static function flushGlobals()
+    private static function _flushGlobals()
     {
         $_COOKIE = [];
         $_FILES = [];
@@ -248,8 +304,8 @@ final class Request implements IRequest
         $_POST = [];
         $_REQUEST = [];
         $_SERVER = [];
-//        $_ENV = [];
-//        $_SESSION = [];
+        //        $_ENV = [];
+        //        $_SESSION = [];
 
         // TODO: Test new session initialization.
         session_start();
@@ -257,20 +313,26 @@ final class Request implements IRequest
     }
 
     /**
-     * @param null $string
+     * Get all request information.
+     *
+     * @param null $string here
+     *
      * @return mixed|null
      */
     public function server($string = null)
     {
         if (is_null($string)) {
-            return self::$server;
+            return self::$_server;
         }
         $string = str_replace('-', '_', strtoupper($string));
-        return isset(self::$server[$string]) ? self::$server[$string] : null;
+        return isset(self::$_server[$string]) ? self::$_server[$string] : null;
     }
 
     /**
-     * @param null $option
+     * Start a basic auth request and retrieve entered valued.
+     *
+     * @param null $option here
+     *
      * @return mixed|void
      */
     public function auth($option = null)
@@ -280,6 +342,8 @@ final class Request implements IRequest
     }
 
     /**
+     * Get if current session is browser.
+     *
      * @return bool
      */
     public function browser()
@@ -288,6 +352,8 @@ final class Request implements IRequest
     }
 
     /**
+     * Get form encoded data.
+     *
      * @return bool
      */
     public function formEncoded()
@@ -296,7 +362,10 @@ final class Request implements IRequest
     }
 
     /**
-     * @param bool $dotted
+     * Returns request path information with required formatting.
+     *
+     * @param bool $dotted here
+     *
      * @return string
      */
     public function path($dotted = true)
@@ -323,14 +392,15 @@ final class Request implements IRequest
     /**
      * Get current request URL actual address
      *
-     * @param bool $full
+     * @param bool $full here
+     *
      * @return string
      */
     public function url($full = false)
     {
-        $current = (isset(self::$server['HTTPS'])
-            && self::$server['HTTPS'] === 'on' ? "https" : "http")
-            . "://" . self::$server['HTTP_HOST'] . self::$server['REQUEST_URI'];
+        $current = (isset(self::$_server['HTTPS'])
+            && self::$_server['HTTPS'] === 'on' ? "https" : "http")
+            . "://" . self::$_server['HTTP_HOST'] . self::$_server['REQUEST_URI'];
 
         if (!$full) {
             return Strings::filter($current)->range("?", false, true)->value();
