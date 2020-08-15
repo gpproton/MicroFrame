@@ -37,6 +37,7 @@ use MicroFrame\Interfaces\IView;
 
 /**
  * Class Response
+ *
  * @package MicroFrame\Core
  */
 final class Response implements IResponse
@@ -62,10 +63,10 @@ final class Response implements IResponse
     }
 
     /**
-     * @param int $status
-     * @param int $code
-     * @param string $message
-     * @param array $data
+     * @param  int    $status
+     * @param  int    $code
+     * @param  string $message
+     * @param  array  $data
      * @return $this
      */
     public function setOutput($status = 0, $code = 204, $message = "", $data = [])
@@ -77,6 +78,9 @@ final class Response implements IResponse
         return $this;
     }
 
+    /**
+     * @return mixed|void
+     */
     public function notFound()
     {
         if (!$this->request->browser()) {
@@ -85,21 +89,24 @@ final class Response implements IResponse
                 ->send();
         } else {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
-                ->data(array(
+                ->data(
+                    array(
                     'errorText' => "Requested resource '{$this->request->url()}' not found..",
                     'errorTitle' => 'Requested resource not found',
                     'errorImage' => 'images/vector/404.svg',
                     'errorColor' => 'firebrick',
                     'showReturn' => true
-                ))
+                    )
+                )
                 ->render('sys.Default');
         }
     }
 
     /**
      * @param array $selected
-     * @param bool $return
-     * @param bool $halt
+     * @param bool  $return
+     * @param bool  $halt
+     *
      * @return $this|bool|IResponse
      */
     public function methods($selected = ['get'], $return = false, $halt = false)
@@ -113,7 +120,8 @@ final class Response implements IResponse
             if ($return) {
                 return false;
             }
-            $halt && is_null($this->view) ? $this->send() : $this->render(); // TODO: Add 404 view.
+            ($halt && is_null($this->view)) ?
+                $this->send() : $this->notFound(); // TODO: Add 404 view.
             return $this;
         } elseif (!$state && !$return && !$halt) {
             $this->proceed = true;
@@ -131,7 +139,7 @@ final class Response implements IResponse
     }
 
     /**
-     * @param null $format
+     * @param  null $format
      * @return $this
      */
     public function format($format = null)
@@ -149,8 +157,8 @@ final class Response implements IResponse
     }
 
     /**
-     * @param null $content
-     * @param bool $raw
+     * @param  null $content
+     * @param  bool $raw
      * @return $this|IResponse
      */
     public function data($content = null, $raw =  false)
@@ -175,9 +183,9 @@ final class Response implements IResponse
     }
 
     /**
-     * @param int $key
-     * @param null $value
-     * @param bool $format
+     * @param  int  $key
+     * @param  null $value
+     * @param  bool $format
      * @return $this
      */
     public function header($key = 200, $value = null, $format = false)
@@ -210,7 +218,7 @@ final class Response implements IResponse
     }
 
     /**
-     * @param null $value
+     * @param  null $value
      * @return $this|mixed
      */
     public function status($value = null)
@@ -224,8 +232,8 @@ final class Response implements IResponse
     }
 
     /**
-     * @param null $path
-     * @param bool $proceed
+     * @param  null $path
+     * @param  bool $proceed
      * @return self
      */
     public function redirect($path = null, $proceed = true)
@@ -238,9 +246,9 @@ final class Response implements IResponse
     }
 
     /**
-     * @param int $time
-     * @param null $path
-     * @param bool $proceed
+     * @param  int  $time
+     * @param  null $path
+     * @param  bool $proceed
      * @return self
      */
     public function refresh($time = 5, $path = null, $proceed = true)
@@ -254,8 +262,8 @@ final class Response implements IResponse
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param  $key
+     * @param  $value
      * @return $this|IResponse
      */
     public function cookie($key, $value)
@@ -264,8 +272,8 @@ final class Response implements IResponse
     }
 
     /**
-     * @param $state
-     * @param null $value
+     * @param  $state
+     * @param  null $value
      * @return $this|IResponse
      */
     public function session($state, $value = null)
@@ -278,7 +286,7 @@ final class Response implements IResponse
     }
 
     /**
-     * @param int | string | array $middleware
+     * @param  int | string | array $middleware
      * @return $this|IResponse
      *
      * TODO: Switch to a dot based middleware/
@@ -289,7 +297,7 @@ final class Response implements IResponse
             /**
              * TODO: Complete implementation.
              */
-//            $this->proceed = $middleware->handle() && $this->proceed;
+            //            $this->proceed = $middleware->handle() && $this->proceed;
         }
         return $this;
     }
@@ -329,7 +337,9 @@ final class Response implements IResponse
              * If request format contains html set to JSON.
              */
             $this->format = strpos($this->format, 'html') !== false ? 'application/json' : $this->format;
-            /** @var void $this */
+            /**
+ * @var void $this
+*/
             $this->header('content-type', $this->format, true);
             $this->header($this->content['code']);
 
@@ -350,8 +360,8 @@ final class Response implements IResponse
     }
 
     /**
-     * @param null | string $view
-     * @param array $data
+     * @param  null | string $view
+     * @param  array         $data
      * @return $this|void
      */
     public function render($view = null, $data = [])
@@ -384,13 +394,13 @@ final class Response implements IResponse
                 ->contains("sys.") ? CORE_PATH . '/Defaults/View/' : APP_PATH . '/View/';
 
             $view = $basePath . Strings::filter($view)
-                    ->replace(['app.', 'sys.', '.'], ['', '', '/'])
-                    ->append('View.php')
-                    ->value();
+                ->replace(['app.', 'sys.', '.'], ['', '', '/'])
+                ->append('View.php')
+                ->value();
 
             if (file_exists($view)) {
                 ob_start();
-                include_once($view);
+                include_once $view;
                 $vals = ob_get_contents();
                 ob_clean();
                 die($vals);
@@ -403,12 +413,14 @@ final class Response implements IResponse
     }
 
     /**
-     * @param $path
+     * @param  $path
      * @return void
      */
     public function download($path)
     {
-        /** @var string $path */
+        /**
+ * @var string $path
+*/
         if (Strings::filter($path)->url()) {
             $filepath = $path;
             $filename = basename($filepath);
@@ -437,7 +449,7 @@ final class Response implements IResponse
     }
 
     /**
-     * @param $path
+     * @param  $path
      * @return void
      */
     public function file($path)
