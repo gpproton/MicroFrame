@@ -2,6 +2,7 @@
 <phpunit colors="true"
          backupGlobals="false"
          backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
          beStrictAboutTestsThatDoNotTestAnything="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -12,13 +13,20 @@
 >
     <php>
         <ini name="memory_limit" value="1024M" />
+        <server name="APP_ENV" value="testing"/>
     </php>
     <testsuites>
-        <testsuite name="MicroFrame Core Test">
-            <directory suffix="Test.php">./MicroFrame/Tests/</directory>
+        <testsuite name="Core-Unit">
+            <directory suffix="Test.php">./MicroFrame/Tests/Unit/</directory>
         </testsuite>
-        <testsuite name="MicroFrame App Test">
-            <directory suffix="Test.php">./App/Tests/</directory>
+        <testsuite name="Core-Integration">
+            <directory suffix="Test.php">./App/Tests/Integration/</directory>
+        </testsuite>
+        <testsuite name="App-Unit">
+            <directory suffix="Test.php">./App/Tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="App-Integration">
+            <directory suffix="Test.php">./App/Tests/Integration/</directory>
         </testsuite>
     </testsuites>
     <filter>
