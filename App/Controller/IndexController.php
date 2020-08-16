@@ -1,15 +1,12 @@
 <?php
-namespace App\Controller;
 
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Index Controller class
  *
  * PHP Version 7
  *
  * @category  Controller
- * @package   App\Controllers
- * @author    Godwin peter .O <me@godwin.dev>
+ * @package   App\Controller
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -22,14 +19,28 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace App\Controller;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
 use MicroFrame\Core\Controller as Core;
 
 /**
  * Class IndexController
- * @package App\Controller
+ *
+ * @category Controller
+ * @package  App\Controller
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class IndexController extends Core
 {
+    /**
+     * Root controller for showcase.
+     *
+     * @return void
+     */
     public function index()
     {
         if (!$this->request->browser()) {
@@ -38,13 +49,16 @@ class IndexController extends Core
                 ->send();
         } else {
             $this->response->methods(['get', 'post', 'put', 'delete', 'option'])
-                ->data(array(
-                    'errorText' => 'Welcome, please write nice codes...',
+                ->data(
+                    [
+                    'errorText' => 'You\'re at a crossroad, 
+                     choose your destination..',
                     'errorTitle' => 'Welcome Page',
                     'errorImage' => 'images/vector/welcome.svg',
                     'errorColor' => 'violet',
                     'showReturn' => false
-                ))->render('sys.Default');
+                    ]
+                )->render('sys.Default');
         }
     }
 }
