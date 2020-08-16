@@ -114,66 +114,95 @@ interface IResponse
     public function header($key, $value = null, $format = false);
 
     /**
-     * @param  null $value
-     * @return self
+     * Sets response header status code
+     *
+     * @param null|int $value here
+     *
+     * @return self|mixed
      */
     public function status($value = null);
 
     /**
-     * @param  null $path
-     * @param  bool $proceed
+     * Change location of current route to another.
+     *
+     * @param null|string $path    here
+     * @param bool        $proceed here
+     *
      * @return self
      */
     public function redirect($path = null, $proceed = true);
 
     /**
-     * @param  null $path
-     * @param  null $time
-     * @param  bool $proceed
+     * Sets a time frame for a route to refresh.
+     *
+     * @param int         $time    here
+     * @param null|string $path    here
+     * @param bool        $proceed here
+     *
      * @return self
      */
-    public function refresh($path = null, $time = null, $proceed = true);
+    public function refresh($time = 5, $path = null, $proceed = true);
 
     /**
-     * @param  $key
-     * @param  $value
+     * Set a response cookie value.
+     *
+     * @param string $key   here
+     * @param string $value here
+     *
      * @return self
      */
-    public function cookie($key, $value);
+    public function cookie($key, $value = '');
 
     /**
-     * @param  $state
-     * @param  $value
+     * Sets a session state.
+     *
+     * @param string $state here
+     * @param string $value here
+     *
      * @return self
      */
-    public function session($state, $value = null);
+    public function session($state, $value = '');
 
     /**
-     * @param  int | string | array $middleware
+     * Inits one or more middleware
+     *
+     * @param string|array|null $middleware here
+     *
      * @return self
      */
-    public function middleware($middleware = null | '' | []);
+    public function middleware($middleware = '');
 
     /**
-     * @param  null | string $view
-     * @param  array         $data
-     * @return self
+     * Renders a webview or string.
+     *
+     * @param null|string $view here
+     * @param array       $data here
+     *
+     * @return $this|void
      */
     public function render($view = null, $data = []);
 
     /**
+     * Send an array or string based HTTP response.
+     *
      * @return void
      */
     public function send();
 
     /**
-     * @param  $path
+     * Send a requested file to be forcefully downloaded via HTTP.
+     *
+     * @param string $path here
+     *
      * @return void
      */
     public function download($path);
 
     /**
-     * @param  $path
+     * Send a file with no specified or forceful usage.
+     *
+     * @param string $path here
+     *
      * @return void
      */
     public function file($path);

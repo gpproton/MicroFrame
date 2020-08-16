@@ -266,8 +266,11 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  null $value
-     * @return $this|mixed
+     * Sets response header status code
+     *
+     * @param null|int $value here
+     *
+     * @return self|mixed
      */
     public function status($value = null)
     {
@@ -280,8 +283,11 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  null $path
-     * @param  bool $proceed
+     * Change location of current route to another.
+     *
+     * @param null|string $path    here
+     * @param bool        $proceed here
+     *
      * @return self
      */
     public function redirect($path = null, $proceed = true)
@@ -294,9 +300,12 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  int  $time
-     * @param  null $path
-     * @param  bool $proceed
+     * Sets a time frame for a route to refresh.
+     *
+     * @param int         $time    here
+     * @param null|string $path    here
+     * @param bool        $proceed here
+     *
      * @return self
      */
     public function refresh($time = 5, $path = null, $proceed = true)
@@ -310,48 +319,61 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  $key
-     * @param  $value
-     * @return $this|IResponse
+     * Set a response cookie value.
+     *
+     * @param string $key   here
+     * @param string $value here
+     *
+     * @return self
      */
-    public function cookie($key, $value)
+    public function cookie($key, $value = '')
     {
+        // TODO: review this
+
         return $this;
     }
 
     /**
-     * @param  $state
-     * @param  null $value
-     * @return $this|IResponse
+     * Sets a session state.
+     *
+     * @param string $state here
+     * @param string $value here
+     *
+     * @return self
      */
     public function session($state, $value = null)
     {
         // session_start(); started already at request session method.
         // TODO: review all these
         // Then starts.
-        // Then set $_SESSION with check on allowed list at the end of controller state.
+        // Then set $_SESSION with check on
+        //allowed list at the end of controller state.
         return $this;
     }
 
     /**
-     * @param  int | string | array $middleware
-     * @return $this|IResponse
+     * Inits one or more middleware
      *
-     * TODO: Switch to a dot based middleware/
+     * @param string|array|null $middleware here
+     *
+     * @return self
      */
-    public function middleware($middleware = null | '' | [])
+    public function middleware($middleware = '')
     {
         if (!is_null($middleware)) {
             /**
              * TODO: Complete implementation.
+             * TODO: Switch to a dot based middleware/
              */
-            //            $this->proceed = $middleware->handle() && $this->proceed;
+            //$this->proceed = $middleware->handle() && $this->proceed;
         }
         return $this;
     }
 
     /**
+     * Send an array or string based HTTP response.
      *
+     * @return void
      */
     public function send()
     {
@@ -466,14 +488,14 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  $path
+     * Send a requested file to be forcefully downloaded via HTTP.
+     *
+     * @param string $path here
+     *
      * @return void
      */
     public function download($path)
     {
-        /**
- * @var string $path
-*/
         if (Strings::filter($path)->url()) {
             $filepath = $path;
             $filename = basename($filepath);
@@ -482,7 +504,10 @@ final class Response implements IResponse
             if (file_exists($filepath)) {
                 $this->header('Content-Description', 'File Transfer');
                 $this->header('content-type', $contentType);
-                $this->header('Content-Disposition', 'attachment; filename="'. $filename .'"');
+                $this->header(
+                    'Content-Disposition',
+                    'attachment; filename="' . $filename . '"'
+                );
                 $this->header('Content-Transfer-Encoding', 'binary');
                 $this->header('Expires', '0');
                 $this->header('Cache-Control', 'must-revalidate');
@@ -492,7 +517,12 @@ final class Response implements IResponse
                 flush();
                 readfile($filepath);
                 $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
-                die(Convert::arrays($this->_content, $this->_request->contentType()));
+                die(
+                    Convert::arrays(
+                        $this->_content,
+                        $this->_request->contentType()
+                    )
+                );
             } else {
                 $this->notFound();
             }
@@ -502,7 +532,10 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  $path
+     * Send a file with no specified or forceful usage.
+     *
+     * @param string $path here
+     *
      * @return void
      */
     public function file($path)
