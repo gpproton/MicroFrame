@@ -1,12 +1,11 @@
 <?php
 /**
- * Response Core class
+ * Core Response class
  *
  * PHP Version 7
  *
  * @category  Core
  * @package   MicroFrame\Core
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -36,45 +35,68 @@ use MicroFrame\Interfaces\IView;
 // TODO: Implement all methods
 
 /**
- * Class Response
+ * Core Response class
  *
- * @package MicroFrame\Core
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class Response implements IResponse
 {
-    private $request;
-    private $view;
-    private $format;
-    private $methods;
-    public $content;
-    private $contentRaw = false;
-    public $proceed;
+    private $_request;
+    private $_view;
+    private $_format;
+    private $_methods;
+    private $_content;
+    private $_contentRaw = false;
+    private $_proceed;
+
+    /**
+     * Set response proceed state.
+     *
+     * @param bool $_proceed here
+     *
+     * @return void
+     */
+    public function setProceed(bool $_proceed): void
+    {
+        $this->_proceed = $_proceed;
+    }
 
     /**
      * Response constructor.
      */
     public function __construct()
     {
-        $this->request = new request();
-        $this->proceed = true;
-        $this->content = array('status' => 1, 'code' => 204, 'message' => 'No content found', 'data' => array());
+        $this->_request = new request();
+        $this->_proceed = true;
+        $this->_content = ['status' => 1,
+            'code' => 204,
+            'message' => 'No content found',
+            'data' => []];
 
         ob_start();
     }
 
     /**
-     * @param  int    $status
-     * @param  int    $code
-     * @param  string $message
-     * @param  array  $data
+     * Compose an array based response output.
+     *
+     * @param int    $status  here
+     * @param int    $code    here
+     * @param string $message here
+     * @param array  $data    here
+     *
      * @return $this
      */
     public function setOutput($status = 0, $code = 204, $message = "", $data = [])
     {
-        $this->content['status'] = $status;
-        $this->content['code'] = $code;
-        $this->content['message'] = $message;
-        $this->content['data'] = $data;
+        $this->_content['status'] = $status;
+        $this->_content['code'] = $code;
+        $this->_content['message'] = $message;
+        $this->_content['data'] = $data;
+
         return $this;
     }
 
@@ -83,15 +105,15 @@ final class Response implements IResponse
      */
     public function notFound()
     {
-        if (!$this->request->browser()) {
+        if (!$this->_request->browser()) {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
-                ->setOutput(0, 404, "Requested resource '{$this->request->url()}' not found..")
+                ->setOutput(0, 404, "Requested resource '{$this->_request->url()}' not found..")
                 ->send();
         } else {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
                 ->data(
                     array(
-                    'errorText' => "Requested resource '{$this->request->url()}' not found..",
+                    'errorText' => "Requested resource '{$this->_request->url()}' not found..",
                     'errorTitle' => 'Requested resource not found',
                     'errorImage' => 'images/vector/404.svg',
                     'errorColor' => 'firebrick',
@@ -111,20 +133,20 @@ final class Response implements IResponse
      */
     public function methods($selected = ['get'], $return = false, $halt = false)
     {
-        $this->methods = $selected;
-        $state = !in_array($this->request->method(), $selected);
+        $this->_methods = $selected;
+        $state = !in_array($this->_request->method(), $selected);
 
         if ($state) {
-            $this->proceed = false;
+            $this->_proceed = false;
             $this->setOutput(0, 405, Value::init()->HttpCodes(405)->text, []);
             if ($return) {
                 return false;
             }
-            ($halt && is_null($this->view)) ?
+            ($halt && is_null($this->_view)) ?
                 $this->send() : $this->notFound(); // TODO: Add 404 view.
             return $this;
         } elseif (!$state && !$return && !$halt) {
-            $this->proceed = true;
+            $this->_proceed = true;
             $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
             if ($return) {
                 return true;
@@ -144,12 +166,12 @@ final class Response implements IResponse
      */
     public function format($format = null)
     {
-        $this->format = is_null($format) ? (is_null($format) ? $this->request->format() : $this->request->query('accept')) : $format;
+        $this->_format = is_null($format) ? (is_null($format) ? $this->_request->format() : $this->_request->query('accept')) : $format;
 
-        if (strlen($this->format) <= 3 && $this->format !== 'xml') {
-            $this->format = $this->request->contentType();
-            if (empty($this->format) || $this->format === "*/*") {
-                $this->format = 'application/json';
+        if (strlen($this->_format) <= 3 && $this->_format !== 'xml') {
+            $this->_format = $this->_request->contentType();
+            if (empty($this->_format) || $this->_format === "*/*") {
+                $this->_format = 'application/json';
             }
         }
 
@@ -166,10 +188,10 @@ final class Response implements IResponse
         $this->dataRaw($raw);
 
         $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, $content);
-        if ($this->proceed && empty($this->content['data'])) {
-            $this->content['status'] = 1;
-            $this->content['code'] = 204;
-            $this->content['message'] = Value::init()->HttpCodes(204)->text;
+        if ($this->_proceed && empty($this->_content['data'])) {
+            $this->_content['status'] = 1;
+            $this->_content['code'] = 204;
+            $this->_content['message'] = Value::init()->HttpCodes(204)->text;
         }
 
         return $this;
@@ -177,7 +199,7 @@ final class Response implements IResponse
 
     public function dataRaw($content = true)
     {
-        $this->contentRaw = $content ? true : false;
+        $this->_contentRaw = $content ? true : false;
 
         return $this;
     }
@@ -191,7 +213,7 @@ final class Response implements IResponse
     public function header($key = 200, $value = null, $format = false)
     {
         $charset = "charset=utf-8";
-        $accessControl = strtoupper(implode(", ", $this->methods));
+        $accessControl = strtoupper(implode(", ", $this->_methods));
         if (is_numeric($key)) {
             header(Value::init()->HttpCodes($key)->full, true);
             header("Access-Control-Allow-Methods: {$accessControl}", true);
@@ -224,9 +246,9 @@ final class Response implements IResponse
     public function status($value = null)
     {
         if (is_null($value)) {
-            $this->content['code'] = 200;
+            $this->_content['code'] = 200;
         }
-        $this->content['code'] = $value;
+        $this->_content['code'] = $value;
 
         return $this;
     }
@@ -312,8 +334,8 @@ final class Response implements IResponse
          */
         ob_clean();
         
-        if (is_null($this->view) && gettype($this->content) === 'array') {
-            if (!$this->proceed && ($this->content['code'] !== 405)) {
+        if (is_null($this->_view) && gettype($this->_content) === 'array') {
+            if (!$this->_proceed && ($this->_content['code'] !== 405)) {
                 $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
             }
 
@@ -329,52 +351,56 @@ final class Response implements IResponse
             /**
              * Extra check if methods is not called, execute.
              */
-            if (!isset($this->methods)) {
+            if (!isset($this->_methods)) {
                 $this->methods(['get'], true);
             }
 
             /**
              * If request format contains html set to JSON.
              */
-            $this->format = strpos($this->format, 'html') !== false ? 'application/json' : $this->format;
-            /**
- * @var void $this
-*/
-            $this->header('content-type', $this->format, true);
-            $this->header($this->content['code']);
+            $this->_format = (strpos($this->_format, 'html') !== false)
+                ? 'application/json' : $this->_format;
+
+            $this->header('content-type', $this->_format, true);
+            $this->header($this->_content['code']);
 
             /**
              * Output and kill running scripts.
              */
 
-            if ($this->contentRaw) {
-                die(Convert::arrays($this->content['data'], $this->format));
+            if ($this->_contentRaw) {
+                die(Convert::arrays($this->_content['data'], $this->_format));
             } else {
-                die(Convert::arrays($this->content, $this->format));
+                die(Convert::arrays($this->_content, $this->_format));
             }
-        } elseif (is_null($this->view) && gettype($this->content) !== 'array') {
-            die($this->content);
+        } elseif (is_null($this->_view) && gettype($this->_content) !== 'array') {
+            die($this->_content);
         } else {
             die('please use render for VIEW output.');
         }
     }
 
     /**
-     * @param  null | string $view
-     * @param  array         $data
+     * Renders a webview or string.
+     *
+     * @param null|string $view here
+     * @param array       $data here
+     *
      * @return $this|void
      */
     public function render($view = null, $data = [])
     {
-        $currentPath = $this->request->path(false);
-        $barePath = Strings::filter($this->request->url())->replace([$currentPath, '//', ':/'], ['', '/', '://'])->value();
+        $currentPath = $this->_request->path(false);
+        $barePath = Strings::filter($this->_request->url())
+            ->replace([$currentPath, '//', ':/'], ['', '/', '://'])
+            ->value();
 
         /**
          * Create a local variable with defined keys in data array.
          */
-        $data = array_merge($data, $this->content['data']);
-        $data['url'] = $this->request->url();
-        $data['path'] = $this->request->path(false);
+        $data = array_merge($data, $this->_content['data']);
+        $data['url'] = $this->_request->url();
+        $data['path'] = $this->_request->path(false);
         $data['root'] = $barePath . 'resources/';
         $data['base'] = $barePath;
 
@@ -391,7 +417,8 @@ final class Response implements IResponse
          */
         if (!empty($view)) {
             $basePath = Strings::filter($view)
-                ->contains("sys.") ? CORE_PATH . '/Defaults/View/' : APP_PATH . '/View/';
+                ->contains("sys.")
+                ? CORE_PATH . '/Defaults/View/' : APP_PATH . '/View/';
 
             $view = $basePath . Strings::filter($view)
                 ->replace(['app.', 'sys.', '.'], ['', '', '/'])
@@ -439,7 +466,7 @@ final class Response implements IResponse
                 flush();
                 readfile($filepath);
                 $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
-                die(Convert::arrays($this->content, $this->request->contentType()));
+                die(Convert::arrays($this->_content, $this->_request->contentType()));
             } else {
                 $this->notFound();
             }

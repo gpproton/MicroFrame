@@ -6,7 +6,6 @@
  *
  * @category  Core
  * @package   MicroFrame\Core
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -37,30 +36,46 @@ use MicroFrame\Library\Reflect;
 use MicroFrame\Library\Strings;
 
 /**
- * Class Controller
- * @package MicroFrame\Core
+ * Core Controller class
+ *
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 abstract class Controller implements IController
 {
     protected $request;
     protected $response;
     protected $method;
-    protected $middlewareState;
-    private $auto;
+    protected $middleware;
+    private $_auto;
 
     /**
      * Controller constructor.
-     * @param IResponse $response
-     * @param IRequest $request
-     * @param string $method
-     * @param bool $auto
+     *
+     * @param IResponse $response here
+     * @param IRequest  $request  here
+     * @param string    $method   here
+     * @param bool      $auto     here
+     *
+     * @return self
      */
-    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true)
-    {
-        define("API_HOST", Config::fetch("system.debug") ? "localhost" : Config::fetch("site.api.host"));
+    public function __construct(
+        IResponse $response,
+        IRequest $request,
+        $method = "",
+        $auto = true
+    ) {
+        define(
+            "API_HOST",
+            Config::fetch("system.debug")
+            ? "localhost" : Config::fetch("site.api.host")
+        );
 
-        $this->middlewareState = true;
-        $this->auto = $auto;
+        $this->middleware = true;
+        $this->_auto = $auto;
 
         $this->request = $request;
         $this->response = $response;
@@ -70,7 +85,10 @@ abstract class Controller implements IController
     }
 
     /**
-     * @param $name
+     * Used for configuration retrieval
+     *
+     * @param string $name here
+     *
      * @return array|mixed|null
      */
     public function config($name)
@@ -79,19 +97,24 @@ abstract class Controller implements IController
     }
 
     /**
-     * @param IMiddleware|null $middleware
+     * Used to call a middleware.
+     *
+     * @param IMiddleware|null $middleware here
+     *
      * @return $this|mixed
      */
     public function middleware(IMiddleware $middleware = null)
     {
         if (!is_null($middleware)) {
-            $this->middlewareState = $middleware->handle() && $this->middlewareState;
+            $this->middleware = $middleware->handle() && $this->middleware;
         }
         return $this;
     }
 
     /**
      * Index/Default controller method
+     *
+     * @return void
      */
     protected function index()
     {
@@ -101,13 +124,15 @@ abstract class Controller implements IController
         $defaultTest = 'Requested resource requires extension..';
         if ($this->request->browser()) {
             $this->response
-                ->data([
+                ->data(
+                    [
                         'errorText' => $defaultTest,
                         'errorTitle' => 'New resource',
                         'errorImage' => 'images/vector/build.svg',
                         'errorColor' => 'dodgerblue',
                         'showReturn' => false
-                    ])
+                    ]
+                )
                 ->render('sys.Default');
         } else {
             $this->response
@@ -117,12 +142,15 @@ abstract class Controller implements IController
     }
 
     /**
-     * @param bool $state
+     * Set option for page to auto route
+     *
+     * @param bool $state here
+     *
      * @return mixed|void
      */
     protected function auto($state = true)
     {
-        if (!$state && gettype($this->auto) === 'boolean') {
+        if (!$state && gettype($this->_auto) === 'boolean') {
             $this->response->notFound();
         }
     }
@@ -130,37 +158,38 @@ abstract class Controller implements IController
     /**
      * An in-class logger method, for much easier usage.
      *
-     * @param $text
-     * @param $type
+     * @param string $text here
+     * @param string $type here
+     *
      * @return void
      */
     protected function log($text, $type)
     {
         $instance = Logger::set($text);
         switch ($type) {
-            case 'info':
-                $instance->info();
-                break;
-            case 'warn':
-                $instance->warn();
-                break;
-            case 'error':
-                $instance->error();
-                break;
-            case 'debug':
-                $instance->debug();
-                break;
-            default:
-                $instance->fatal();
-                break;
+        case 'info':
+            $instance->info();
+            break;
+        case 'warn':
+            $instance->warn();
+            break;
+        case 'error':
+            $instance->error();
+            break;
+        case 'debug':
+            $instance->debug();
+            break;
+        default:
+            $instance->fatal();
+            break;
         }
     }
 
     /**
-     *
      * Model static instance initializer.
      *
-     * @param null $source
+     * @param null $source here
+     *
      * @return Model|IModel
      */
     protected function model($source =  null) : IModel
@@ -174,7 +203,8 @@ abstract class Controller implements IController
     /**
      * Initializes a cache instance.
      *
-     * @param string $source
+     * @param string $source here
+     *
      * @return ICache|object
      */
     protected function cache($source = 'default') : ICache
@@ -185,7 +215,8 @@ abstract class Controller implements IController
     /**
      * Initializes a string instance.
      *
-     * @param string $source
+     * @param string $source here
+     *
      * @return mixed|void
      */
     protected function string($source = '') : Strings
@@ -196,8 +227,9 @@ abstract class Controller implements IController
     /**
      * Initializes an in process task.
      *
-     * @param Closure $closure
-     * @param string $type
+     * @param Closure $closure here
+     * @param string  $type    here
+     *
      * @return mixed|void
      */
     protected function await($closure, $type = 'current')
@@ -206,17 +238,16 @@ abstract class Controller implements IController
     }
 
     /**
-     * @summery Run controller instance
+     * Run controller instance
      *
      * @return void
      */
     public function start()
     {
-        /** @var IController $this */
-        if ($this->middlewareState && !is_null($this->response)) {
-            $this->response->proceed = true;
+        if ($this->middleware && !is_null($this->response)) {
+            $this->response->setProceed(true);
         } else {
-            $this->response->proceed = false;
+            $this->response->setProceed(true);
         }
 
         if (empty($this->method)) {
@@ -238,13 +269,15 @@ abstract class Controller implements IController
                     $defaultTest = 'Please Implement a standard response...';
                     if ($this->request->browser()) {
                         $this->response
-                            ->data([
+                            ->data(
+                                [
                                 'errorText' => $defaultTest,
                                 'errorTitle' => 'New resource',
                                 'errorImage' => 'images/vector/cream.svg',
                                 'errorColor' => 'dodgerblue',
                                 'showReturn' => false
-                            ])
+                                ]
+                            )
                             ->render('sys.Default');
                     } else {
                         $this->response
@@ -257,12 +290,5 @@ abstract class Controller implements IController
             }
             $this->index();
         }
-    }
-
-    /**
-     *
-     */
-    public function __destruct()
-    {
     }
 }
