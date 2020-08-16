@@ -54,18 +54,6 @@ final class Response implements IResponse
     private $_proceed;
 
     /**
-     * Set response proceed state.
-     *
-     * @param bool $_proceed here
-     *
-     * @return void
-     */
-    public function setProceed(bool $_proceed): void
-    {
-        $this->_proceed = $_proceed;
-    }
-
-    /**
      * Response constructor.
      */
     public function __construct()
@@ -81,6 +69,18 @@ final class Response implements IResponse
     }
 
     /**
+     * Set response proceed state.
+     *
+     * @param bool $_proceed here
+     *
+     * @return void
+     */
+    public function setProceed(bool $_proceed): void
+    {
+        $this->_proceed = $_proceed;
+    }
+
+    /**
      * Compose an array based response output.
      *
      * @param int    $status  here
@@ -88,7 +88,7 @@ final class Response implements IResponse
      * @param string $message here
      * @param array  $data    here
      *
-     * @return $this
+     * @return self
      */
     public function setOutput($status = 0, $code = 204, $message = "", $data = [])
     {
@@ -101,35 +101,43 @@ final class Response implements IResponse
     }
 
     /**
+     * A specialized method for triggering a 404 error
+     *
      * @return mixed|void
      */
     public function notFound()
     {
         if (!$this->_request->browser()) {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
-                ->setOutput(0, 404, "Requested resource '{$this->_request->url()}' not found..")
+                ->setOutput(
+                    0,
+                    404,
+                    "Requested resource '{$this->_request->url()}' not found.."
+                )
                 ->send();
         } else {
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
                 ->data(
-                    array(
-                    'errorText' => "Requested resource '{$this->_request->url()}' not found..",
+                    [
+                    'errorText' => "Hey there what's up...",
                     'errorTitle' => 'Requested resource not found',
                     'errorImage' => 'images/vector/404.svg',
                     'errorColor' => 'firebrick',
                     'showReturn' => true
-                    )
+                    ]
                 )
                 ->render('sys.Default');
         }
     }
 
     /**
-     * @param array $selected
-     * @param bool  $return
-     * @param bool  $halt
+     * A method for setting an array of allowed HTTP methods
      *
-     * @return $this|bool|IResponse
+     * @param array $selected here
+     * @param bool  $return   here
+     * @param bool  $halt     here
+     *
+     * @return self|bool|IResponse
      */
     public function methods($selected = ['get'], $return = false, $halt = false)
     {
@@ -161,12 +169,17 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  null $format
-     * @return $this
+     * Useful for validating and setting content type.
+     *
+     * @param null $format here
+     *
+     * @return self
      */
     public function format($format = null)
     {
-        $this->_format = is_null($format) ? (is_null($format) ? $this->_request->format() : $this->_request->query('accept')) : $format;
+        $this->_format = is_null($format) ? (is_null($format)
+            ? $this->_request->format() :
+            $this->_request->query('accept')) : $format;
 
         if (strlen($this->_format) <= 3 && $this->_format !== 'xml') {
             $this->_format = $this->_request->contentType();
@@ -179,9 +192,12 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  null $content
-     * @param  bool $raw
-     * @return $this|IResponse
+     * Sets an array or string to output or render.
+     *
+     * @param null|string|array $content here
+     * @param bool              $raw     here
+     *
+     * @return self
      */
     public function data($content = null, $raw =  false)
     {
@@ -197,6 +213,13 @@ final class Response implements IResponse
         return $this;
     }
 
+    /**
+     * Sets an array or string to output or render.
+     *
+     * @param bool $content here
+     *
+     * @return self
+     */
     public function dataRaw($content = true)
     {
         $this->_contentRaw = $content ? true : false;
@@ -205,10 +228,13 @@ final class Response implements IResponse
     }
 
     /**
-     * @param  int  $key
-     * @param  null $value
-     * @param  bool $format
-     * @return $this
+     * A method for setting custom header options
+     *
+     * @param int    $key    here
+     * @param string $value  here
+     * @param bool   $format here
+     *
+     * @return self
      */
     public function header($key = 200, $value = null, $format = false)
     {

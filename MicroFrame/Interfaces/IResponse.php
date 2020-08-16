@@ -35,57 +35,83 @@ interface IResponse
 {
 
     /**
-     * @param bool $_proceed
+     * Set response proceed state.
+     *
+     * @param bool $_proceed here
+     *
+     * @return void
      */
     public function setProceed(bool $_proceed);
 
     /**
-     * @param  int    $status
-     * @param  int    $code
-     * @param  string $message
-     * @param  array  $data
-     * @return mixed
+     * Compose an array based response output.
+     *
+     * @param int    $status  here
+     * @param int    $code    here
+     * @param string $message here
+     * @param array  $data    here
+     *
+     * @return self
      */
     public function setOutput($status = 0, $code = 204, $message = "", $data = []);
 
     /**
-     * @return mixed
+     * A specialized method for triggering a 404 error
+     *
+     * @return mixed|void
      */
     public function notFound();
 
     /**
-     * @param  string $type
-     * @return self
+     * A method for setting an array of allowed HTTP methods
+     *
+     * @param array $selected here
+     * @param bool  $return   here
+     * @param bool  $halt     here
+     *
+     * @return self|bool|IResponse
      */
-    public function format($type = 'json');
+    public function methods($selected = ['get'], $return = false, $halt = false);
+
 
     /**
-     * @param  array $selected
-     * @param  null  $return
-     * @param  bool  $halt
+     * Useful for validating and setting content type.
+     *
+     * @param null $type here
+     *
      * @return self
      */
-    public function methods($selected = ['get'], $return = null, $halt = false);
+    public function format($type = null);
 
     /**
-     * @param  $content
-     * @param  bool $raw
+     * Sets an array or string to output or render.
+     *
+     * @param null|string|array $content here
+     * @param bool              $raw     here
+     *
      * @return self
      */
     public function data($content, $raw =  false);
 
     /**
-     * @param  $content
+     * A additional to data for setting if data should contain any metadata.
+     *
+     * @param bool $content here
+     *
      * @return self
      */
     public function dataRaw($content = true);
 
     /**
-     * @param  $key
-     * @param  $value
+     * A method for setting custom header options
+     *
+     * @param string $key    here
+     * @param string $value  here
+     * @param bool   $format here
+     *
      * @return self
      */
-    public function header($key, $value = null);
+    public function header($key, $value = null, $format = false);
 
     /**
      * @param  null $value
