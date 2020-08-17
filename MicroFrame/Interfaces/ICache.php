@@ -20,6 +20,8 @@
 
 namespace MicroFrame\Interfaces;
 
+use MicroFrame\Interfaces\Core\ICore;
+
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
@@ -31,7 +33,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://github.com/gpproton/microframe
  */
-interface ICache
+interface ICache extends ICore
 {
 
     /**
