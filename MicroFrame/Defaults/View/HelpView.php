@@ -6,10 +6,10 @@
     <link rel=“canonical” href=“<?=$url?>” />
     <title><?=$options['title']?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--Import Google Icon Font-->
-    <link href="<?=$root?>css/main.css" rel="stylesheet">
     <!-- Load CSS lib -->
     <link rel="stylesheet" href="<?=$root?>css/materialize.min.css" media="screen,projection">
+    <!--Import Google Icon Font-->
+    <link href="<?=$root?>css/main.css" rel="stylesheet">
     <!-- Link required icons -->
     <link rel="apple-touch-icon" sizes="57x57" href="<?=$root?>icons/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="<?=$root?>icons/apple-icon-60x60.png">
@@ -28,7 +28,7 @@
     <meta name="msapplication-TileColor" content="#ededed">
     <meta name="msapplication-TileImage" content="<?=$root?>icons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ededed">
-    <link rel="stylesheet" href="<?=$root?>css/materialize.min.css" media="screen,projection">
+    <!-- Format styles -->
     <link rel="stylesheet" href="<?=$root?>markdown/css/github-markdown.css">
     <link rel="stylesheet" href="<?=$root?>markdown/css/highlight.min.css">
     <style>

@@ -115,7 +115,7 @@ final class Response implements IResponse
             $this->methods(['get', 'post', 'put', 'delete', 'option'])
                 ->data(
                     [
-                    'errorText' => "Hey there what's up...",
+                    'errorText' => "Hey there, wrong room...",
                     'errorTitle' => 'Requested resource not found',
                     'errorImage' => 'images/vector/404.svg',
                     'errorColor' => 'firebrick',
@@ -537,7 +537,18 @@ final class Response implements IResponse
     public function file($path)
     {
         if (is_file($path)) {
-            $this->header('content-type', Value::init()->mimeType($path));
+            header('Content-Type: ' . Value::init()->mimeType($path));
+
+            //No cache
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+
+            //Define file size
+            header('Content-Length: ' . filesize($path));
+            ob_clean();
+            flush();
+
             readfile($path);
             die();
         } else {

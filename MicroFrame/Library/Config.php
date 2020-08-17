@@ -51,6 +51,7 @@ final class Config extends configAbstractModule
          * Retrieve from core configuration yaml file
          */
         $confSys = configModule::load(CORE_PATH . "/config.default.yaml");
+        $mimeSys = configModule::load(CORE_PATH . "/mimes.json");
 
         try {
             /**
@@ -63,6 +64,7 @@ final class Config extends configAbstractModule
              * Merge all retrieved configurations.
              */
             $confSys->merge($confApp);
+            $confSys->merge($mimeSys);
         } catch (\Exception $exception) {
             Exception::init($exception->getMessage())->output();
         }
