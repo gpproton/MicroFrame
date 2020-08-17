@@ -6,7 +6,6 @@
  *
  * @category  DefaultMiddleware
  * @package   MicroFrame\Defaults\Middleware
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -27,11 +26,18 @@ use \MicroFrame\Core\Middleware;
 
 /**
  * Class DefaultMiddleware
- * @package MicroFrame\Defaults\Middleware
+ *
+ * @category Controller
+ * @package  MicroFrame\Defaults\Middleware
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class DefaultMiddleware extends Middleware
 {
     /**
+     * Default middleware state output.
+     *
      * @return bool|mixed
      */
     public function handle()

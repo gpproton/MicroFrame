@@ -6,7 +6,6 @@
  *
  * @category  DefaultController
  * @package   MicroFrame\Defaults\Controller
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -27,14 +26,20 @@ use \MicroFrame\Core\Controller as Core;
 
 /**
  * Class DefaultController
- * @package MicroFrame\Defaults\Controller
+ *
+ * @category Controller
+ * @package  MicroFrame\Defaults\Controller
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class DefaultController extends Core
 {
 
     /**
+     * Default controller for custom rendering and output.
      *
-     * Default controller index method
+     * @return void
      */
     public function index()
     {

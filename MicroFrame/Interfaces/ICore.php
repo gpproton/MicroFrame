@@ -18,7 +18,7 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace MicroFrame\Interfaces\Core;
+namespace MicroFrame\Interfaces;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 

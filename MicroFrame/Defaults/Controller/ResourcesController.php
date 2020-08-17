@@ -6,7 +6,6 @@
  *
  * @category  DefaultController
  * @package   MicroFrame\Defaults\Controller
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -28,10 +27,20 @@ use \MicroFrame\Core\Controller as Core;
 
 /**
  * Class ResourcesController
- * @package MicroFrame\Defaults\Controller
+ *
+ * @category Controller
+ * @package  MicroFrame\Defaults\Controller
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class ResourcesController extends Core
 {
+    /**
+     * Resource item delivery method
+     *
+     * @return void
+     */
     public function index()
     {
         $req = $this->request->path(false);

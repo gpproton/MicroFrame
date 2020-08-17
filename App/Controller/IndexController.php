@@ -36,7 +36,7 @@ use MicroFrame\Core\Controller as Core;
 class IndexController extends Core
 {
     /**
-     * Root controller for showcase.
+     * Index controller for showcase.
      *
      * @return void
      */

@@ -1,8 +1,4 @@
 <?php
-
-namespace MicroFrame\Defaults\Controller;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Swagger.json controller class
  *
@@ -10,7 +6,6 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  *
  * @category  Controller
  * @package   MicroFrame\Defaults\Controller
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -23,6 +18,10 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace MicroFrame\Defaults\Controller;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
 use \MicroFrame\Core\Controller as Core;
 use MicroFrame\Handlers\Exception;
 use MicroFrame\Library\Strings;
@@ -31,11 +30,17 @@ use function OpenApi\scan;
 
 /**
  * Class SwaggerController
- * @package MicroFrame\Defaults\Controller
+ *
+ * @category Controller
+ * @package  MicroFrame\Defaults\Controller
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class SwaggerController extends Core
 {
     /**
+     * Generates default doc array for openAPI.
      *
      * @OA\Info(
      *
@@ -54,12 +59,12 @@ class SwaggerController extends Core
      *     }
      *   },
      *
-     *   @OA\Contact(
+     * @OA\Contact(
      *     name="Tolaram ERP",
      *     email="teamerp@tolaram.com"
      *   ),
      *
-     *   @OA\License(
+     * @OA\License(
      *     name="MIT",
      *     url="https://mit.license"
      *   )
@@ -83,75 +88,74 @@ class SwaggerController extends Core
      * @OA\PathItem(
      *     path="/yield/",
      *
-     *     @OA\Parameter(name="id",
+     * @OA\Parameter(name="id",
      *     description="Content id",
      *     required=false,
      *     in="header",
-     *     @OA\Schema(ref="#/components/schemas/id")
+     * @OA\Schema(ref="#/components/schemas/id")
      *   ),
      *
-     *   @OA\Parameter(name="name",
+     * @OA\Parameter(name="name",
      *     description="Content name",
      *     required=false,
      *     in="query",
-     *     @OA\Schema(ref="#/components/schemas/name")
+     * @OA\Schema(ref="#/components/schemas/name")
      *   ),
      *
-     *  @OA\Parameter(name="check",
+     * @OA\Parameter(name="check",
      *     description="Content check mark",
      *     required=false,
      *     in="query",
-     *     @OA\Schema(ref="#/components/schemas/check")
+     * @OA\Schema(ref="#/components/schemas/check")
      *   ),
      *
-     *    @OA\Post(
+     * @OA\Post(
      *      summary="Test Grouped POST paths placeholder",
      *      tags={"PathTest"},
-     *      @OA\Response(
+     * @OA\Response(
      *      response=200,
      *      description="POST swagger API output",
-     *      @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/json",
-     *         @OA\Schema(
-     *                 @OA\Schema(ref="#/components/schemas/combined"),
+     * @OA\Schema(
+     * @OA\Schema(ref="#/components/schemas/combined"),
      *                 example={"id": 10, "name": "Jessica Smith", "check": "yes"}
      *                  )
      *              )
      *          )
      *      ),
-     *     @OA\Get(
+     * @OA\Get(
      *      summary="Test Grouped GET paths placeholder",
      *      tags={"PathTest"},
-     *      @OA\Response(
+     * @OA\Response(
      *      response=200,
      *      description="GET swagger API output",
-     *      @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/json",
-     *     @OA\Schema(
-     *                 @OA\Schema(ref="#/components/schemas/combined"),
+     * @OA\Schema(
+     * @OA\Schema(ref="#/components/schemas/combined"),
      *                 example={"id": 10, "name": "Jessica Smith", "check": "yes"}
      *                  )
      *              )
      *          )
      *      ),
      *
-     *     @OA\Put(
+     * @OA\Put(
      *      summary="Test Grouped PUT paths placeholder",
      *      tags={"PathTest"},
-     *      @OA\Response(
+     * @OA\Response(
      *      response=200,
      *      description="PUT swagger API output",
-     *      @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/json",
-     *     @OA\Schema(
-     *                 @OA\Schema(ref="#/components/schemas/combined"),
+     * @OA\Schema(
+     * @OA\Schema(ref="#/components/schemas/combined"),
      *                 example={"id": 10, "name": "Jessica Smith", "check": "yes"}
      *                  )
      *              )
      *          )
      *      )
      *   )
-     *
      *
      * @OA\Get(path="/api/swagger/*",
      *   summary="Swagger Index API placeholder",
@@ -160,69 +164,72 @@ class SwaggerController extends Core
      *         {"api_key": {}}
      *     },
      *
-     *   @OA\Parameter(name="id",
+     * @OA\Parameter(name="id",
      *     description="Content id",
      *     required=false,
      *     in="header",
-     *     @OA\Schema(ref="#/components/schemas/id")
+     * @OA\Schema(ref="#/components/schemas/id")
      *   ),
      *
-     *   @OA\Parameter(name="name",
+     * @OA\Parameter(name="name",
      *     description="Content name",
      *     required=false,
      *     in="query",
-     *     @OA\Schema(ref="#/components/schemas/name")
+     * @OA\Schema(ref="#/components/schemas/name")
      *   ),
      *
-     *  @OA\Parameter(name="check",
+     * @OA\Parameter(name="check",
      *     description="Content check mark",
      *     required=false,
      *     in="query",
-     *     @OA\Schema(ref="#/components/schemas/check")
+     * @OA\Schema(ref="#/components/schemas/check")
      *   ),
      *
-     *  @OA\RequestBody(
-     *         @OA\MediaType(
+     * @OA\RequestBody(
+     * @OA\MediaType(
      *             mediaType="application/json",
-     *             @OA\Schema(
-     *                 @OA\Schema(ref="#/components/schemas/combined"),
+     * @OA\Schema(
+     * @OA\Schema(ref="#/components/schemas/combined"),
      *                 example={"id": 10, "name": "Jessica Smith", "check": "yes"}
      *             )
      *         )
      *     ),
      *
-     *   @OA\Response(response=200,
-     *     description="Default base swagger API output & handling docs routing, if you're here check your code tags then ensure you're requesting for the right resource path e.g url.com/api/swagger/{api/index} or your corresponding controller base path.",
+     * @OA\Response(response=200,
+     *     description="Default base swagger API output & handling docs routing,
+     * if you're here check your code tags then ensure you're requesting for the
+     * right resource path e.g url.com/api/swagger/{api/index} or your
+     *     corresponding controller base path.",
      *
-     *     @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/json",
-     *         @OA\Schema(
-     *                 @OA\Schema(ref="#/components/schemas/combined"),
+     * @OA\Schema(
+     * @OA\Schema(ref="#/components/schemas/combined"),
      *                 example={"id": 10, "name": "Jessica Smith", "check": "yes"}
      *             )
      *     ),
-     *     @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/xml",
-     *         @OA\Schema(ref="#/components/schemas/combined")
+     * @OA\Schema(ref="#/components/schemas/combined")
      *     )
      *   ),
-     *   @OA\Response(response="500",
+     * @OA\Response(response="500",
      *     description="A required property is not defined...",
-     *     @OA\JsonContent(ref="#/components/schemas/combined")
+     * @OA\JsonContent(ref="#/components/schemas/combined")
      *   ),
-     *   @OA\Response(response="default",
+     * @OA\Response(response="default",
      *     description="an ""unexpected"" error",
-     *     @OA\XmlContent(ref="#/components/schemas/combined")
+     * @OA\XmlContent(ref="#/components/schemas/combined")
      *   )
      * )
      *
      * @OA\Post(path="/api/swagger/*",
      *   summary="Index API POST placeholder",
      *   tags={"ModelTest"},
-     *   @OA\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Default base POST swagger API output",
-     *     @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/json"
      *     )
      *   )
@@ -232,28 +239,28 @@ class SwaggerController extends Core
      *     tags={"Defaults"},
      *     summary="uploads an image",
      *     operationId="uploadFile",
-     *     @OA\Parameter(
+     * @OA\Parameter(
      *         name="testId",
      *         in="path",
      *         description="ID of test to update",
      *         required=true,
-     *         @OA\Schema(
+     * @OA\Schema(
      *             type="integer",
      *             format="int64",
      *             example=1
      *         )
      *     ),
-     *     @OA\Response(response=200,
+     * @OA\Response(response=200,
      *         description="successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/combined")
+     * @OA\JsonContent(ref="#/components/schemas/combined")
      *     ),
      *     security={
      *         {"default_auth": {"write:Defaults", "read:Defaults"}}
      *     },
-     *     @OA\RequestBody(description="Upload images request body",
-     *         @OA\MediaType(
+     * @OA\RequestBody(description="Upload                  images request body",
+     * @OA\MediaType(
      *             mediaType="application/octet-stream",
-     *             @OA\Schema(
+     * @OA\Schema(
      *                 type="string",
      *                 format="binary"
      *             )
@@ -270,7 +277,6 @@ class SwaggerController extends Core
      *      description="The unique identifier of an item"
      * )
      *
-     *
      * @OA\Schema(
      *      schema="check",
      *      type="string",
@@ -285,13 +291,12 @@ class SwaggerController extends Core
      *      description="The intem names requested..."
      * )
      *
-     *
      * @OA\Schema(
      *   schema="combined",
      *   allOf={
-     *     @OA\Schema(ref="#/components/schemas/id"),
-     *     @OA\Schema(ref="#/components/schemas/name"),
-     *     @OA\Schema(ref="#/components/schemas/check")
+     * @OA\Schema(ref="#/components/schemas/id"),
+     * @OA\Schema(ref="#/components/schemas/name"),
+     * @OA\Schema(ref="#/components/schemas/check")
      *   }
      * )
      *
@@ -301,11 +306,12 @@ class SwaggerController extends Core
      *  value={"id": 10, "name": "Jessica Smith", "check": "yes"}
      * )
      *
+     * @return void
      */
     public function index()
     {
         $apiPath = Strings::filter($this->request->path())
-//            ->range(".", true, true)
+        //            ->range(".", true, true)
             ->replace(["api.swagger", "."], ["", "/"])
             ->upperCaseWords()
             ->value();

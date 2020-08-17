@@ -1,7 +1,4 @@
 <?php
-namespace MicroFrame\Defaults\Controller;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Swagger UI controller class
  *
@@ -9,7 +6,6 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  *
  * @category  Controller
  * @package   MicroFrame\Defaults\Controller
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -22,6 +18,11 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace MicroFrame\Defaults\Controller;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
+
 use \MicroFrame\Core\Controller as Core;
 use MicroFrame\Library\Strings;
 use MicroFrame\Library\Value;
@@ -29,15 +30,19 @@ use MicroFrame\Library\Value;
 /**
  * Class SwaggerUIController
  *
- * For rendering the swagger UI for the project
- *
- * @package MicroFrame\Defaults\Controller
+ * @category Controller
+ * @package  MicroFrame\Defaults\Controller
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class SwaggerUIController extends Core
 {
 
     /**
      * Renders UI for openAPI spec.
+     *
+     * @return void
      */
     public function index()
     {

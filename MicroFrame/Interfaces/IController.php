@@ -21,7 +21,6 @@
 namespace MicroFrame\Interfaces;
 
 use Closure;
-use MicroFrame\Interfaces\Core\ICore;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
