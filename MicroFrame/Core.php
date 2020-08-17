@@ -6,7 +6,6 @@
  *
  * @category  MicroFrame
  * @package   MicroFrame
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -33,8 +32,13 @@ use MicroFrame\Core\Application as app;
 
 /**
  * Class Core
- * @package MicroFrame
  * MicroFrame core bootstrapper for application.
+ *
+ * @category Core
+ * @package  MicroFrame
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class Core
 {
@@ -42,7 +46,9 @@ final class Core
     /**
      * Core initialization method.
      *
-     * @param handler $handler
+     * @param handler $handler error handler class path.
+     *
+     * @return void
      */
     public function run(handler $handler)
     {
