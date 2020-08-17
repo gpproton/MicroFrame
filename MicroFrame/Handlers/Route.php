@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -34,28 +33,35 @@ use MicroFrame\Library\Strings;
 use MicroFrame\Library\Value;
 
 /**
- * Class Route
- * @package MicroFrame\Handlers
+ * Route class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class Route
 {
-    private $request;
-    private $response;
-    private $proceed;
-    const appPath = "app.Controller.";
-    const sysPath = "sys.Controller.";
+    private $_request;
+    private $_response;
+    private $_proceed;
+    const APP_CONTROLLER = "app.Controller.";
+    const SYS_CONTROLLER = "sys.Controller.";
 
     /**
      * Route constructor.
      */
     public function __construct()
     {
-        $this->request = new Request();
-        $this->response = new Response();
-        $this->proceed = false;
+        $this->_request = new Request();
+        $this->_response = new Response();
+        $this->_proceed = false;
     }
 
     /**
+     * A static initializer.
+     *
      * @return Route
      */
     public static function set()
@@ -64,15 +70,23 @@ class Route
     }
 
     /**
-     * @param $path
-     * @param bool $check
-     * @param null $response
-     * @param null $request
-     * @param bool $auto
+     * Route controller resolver.
+     *
+     * @param string $path     here
+     * @param bool   $check    validation only boolean
+     * @param null   $response here
+     * @param null   $request  here
+     * @param bool   $auto     an assist param
+     *
      * @return mixed
      */
-    private function initialize($path, $check = true, $response = null, $request = null, $auto = true)
-    {
+    private function _initialize(
+        $path,
+        $check = true,
+        $response = null,
+        $request = null,
+        $auto = true
+    ) {
         if ($check) {
             return Reflect::check()->stateLoader($path, $check);
         }
@@ -86,17 +100,24 @@ class Route
     }
 
     /**
-     * Custom route mapping method for assigning to controller, closure, string & paths
+     * Custom route mapping method for assigning to
+     * controller, closure, string & paths
      *
-     * @param string $path
-     * @param array $methods
-     * @param string $functions
-     * @param array $middleware
-     * @param int $status
+     * @param string $path       here
+     * @param array  $methods    allowed HTTP methods
+     * @param string $functions  output struct
+     * @param array  $middleware a middleware array.
+     * @param int    $status     status code.
+     *
      * @return void
      */
-    public static function map($path = "index", $methods = array('get'), $functions = "index", $middleware = array(), $status = 200)
-    {
+    public static function map(
+        $path = "index",
+        $methods = array('get'),
+        $functions = "index",
+        $middleware = array(),
+        $status = 200
+    ) {
         /**
          * Filter out unintended string output
          */
@@ -117,36 +138,42 @@ class Route
         /**
          * Path validation logic
          */
-        if ($wildCard && Strings::filter($clazz->request->path())->contains($path)) {
-            $clazz->proceed = true;
-        } elseif ($path === $clazz->request->path()) {
-            $clazz->proceed = true;
-        } elseif (empty($path) && empty($clazz->request->path())) {
+        if ($wildCard
+            && Strings::filter($clazz->_request->path())->contains($path)
+        ) {
+            $clazz->_proceed = true;
+        } elseif ($path === $clazz->_request->path()) {
+            $clazz->_proceed = true;
+        } elseif (empty($path) && empty($clazz->_request->path())) {
             /**
              * Extra index check, may be redundant but for assurance.
              */
-            $clazz->proceed = true;
+            $clazz->_proceed = true;
         }
 
-        if ($clazz->proceed) {
+        if ($clazz->_proceed) {
             /**
-             * handle request method mismatch
+             * Handle request method mismatch
              */
-            $clazz->response->methods($methods, false, true);
+            $clazz->_response->methods($methods, false, true);
 
             /**
              * Directory and script mapping
              */
             if (Strings::filter($functions)->contains("./")
-                || is_file($functions)) {
-                $reqPath = $customScriptsPath . Strings::filter($functions)->replace("./")->value();
+                || is_file($functions)
+            ) {
+                $reqPath = $customScriptsPath .
+                    Strings::filter($functions)->replace("./")->value();
                 /**
                  * Restore cleaned globals
                  */
                 Request::overrideGlobals(false);
 
-                if (is_file($functions) && Strings::filter($functions)->contains(".php")) {
-                    include_once($functions);
+                if (is_file($functions)
+                    && Strings::filter($functions)->contains(".php")
+                ) {
+                    include_once $functions;
                     die();
                 } elseif (is_dir($reqPath)) {
                     chdir($reqPath);
@@ -160,12 +187,12 @@ class Route
                         /**
                          * PHP index script inclusion.
                          */
-                        include_once("index.php");
+                        include_once "index.php";
                     } else {
-                        $clazz->response->notFound();
+                        $clazz->_response->notFound();
                     }
                 } else {
-                    $clazz->response->notFound();
+                    $clazz->_response->notFound();
                 }
                 die();
             }
@@ -174,41 +201,57 @@ class Route
              * Firstly check closure and then execute with return.
              */
             if (gettype($functions) === 'object') {
-                $clazz->response->data($functions());
+                $clazz->_response->data($functions());
             }
             /**
              * Handle System Controller mapping.
              */
-            elseif (Strings::filter($functions)->contains(self::sysPath) && $clazz->initialize($functions)) {
-                $clazz->initialize($functions, false, $clazz->response, $clazz->request, false);
+            elseif (Strings::filter($functions)->contains(self::SYS_CONTROLLER) && $clazz->_initialize($functions)
+            ) {
+                $clazz->_initialize(
+                    $functions,
+                    false,
+                    $clazz->_response,
+                    $clazz->_request,
+                    false
+                );
             }
             /**
              * Handle App Controller mapping.
              */
-            elseif ($clazz->initialize(self::appPath . $functions)) {
-                $clazz->initialize(self::appPath . $functions, false, $clazz->response, $clazz->request, false);
+            elseif ($clazz->_initialize(self::APP_CONTROLLER . $functions)) {
+                $clazz->_initialize(
+                    self::APP_CONTROLLER . $functions,
+                    false,
+                    $clazz->_response,
+                    $clazz->_request,
+                    false
+                );
             } else {
-                $clazz->response->data($functions);
+                $clazz->_response->data($functions);
             }
 
             /**
              * TODO: Switch to a dot base middleware call.
              */
             foreach ($middleware as $middleKey) {
-                $clazz->response->middleware($middleKey);
+                $clazz->_response->middleware($middleKey);
             }
 
-            $clazz->response->status($status);
+            $clazz->_response->status($status);
             /**
              * Send structured output.
              */
-            $clazz->response->send();
+            $clazz->_response->send();
         }
     }
 
     /**
+     * Routes unmapped url path.
      *
-     * @param string $path
+     * @param string $path here
+     *
+     * @return void
      */
     public function boot($path = null)
     {
@@ -219,13 +262,17 @@ class Route
          * Find option for sys.Controller
          *
          * NOTE: Do not modify except you know what you're doing!!!!
-         *
          */
 
         /**
          * Swagger 3.0 Doc API for requested path
          */
-        self::map("/api/swagger*", ['get', 'post'], self::sysPath . "Swagger", []);
+        self::map(
+            "/api/swagger*",
+            ['get', 'post'],
+            self::SYS_CONTROLLER . "Swagger",
+            []
+        );
 
         /**
          * Assist page config value.
@@ -236,42 +283,62 @@ class Route
         /**
          * Swagger frontend for corresponding API Doc
          */
-        self::map("/{$assistRoot}/swagger*", ['get'], self::sysPath . "SwaggerUI", []);
+        self::map(
+            "/{$assistRoot}/swagger*",
+            ['get'],
+            self::SYS_CONTROLLER . "SwaggerUI",
+            []
+        );
 
         /**
          * MarkDown based help documentation web view.
          */
-        self::map("/{$assistRoot}/*", ['get'], self::sysPath . "Help", []);
+        self::map("/{$assistRoot}/*", ['get'], self::SYS_CONTROLLER . "Help", []);
 
         /**
          * Resource router for requested resource files.
          */
-        self::map("/resources/*", ['get'], self::sysPath . "Resources", []);
+        self::map("/resources/*", ['get'], self::SYS_CONTROLLER . "Resources", []);
 
         /**
          **** System route path end. ****
          */
 
         if (is_null($path)) {
-            $path = $this->request->path();
+            $path = $this->_request->path();
         }
         /**
          * Call Index if route is not set.
          */
-        if (empty($path) && $this->initialize(self::appPath . "index")) {
-            $this->initialize(self::appPath . "index", false, $this->response, $this->request);
+        if (empty($path) && $this->_initialize(self::APP_CONTROLLER . "index")) {
+            $this->_initialize(
+                self::APP_CONTROLLER . "index",
+                false,
+                $this->_response,
+                $this->_request
+            );
         }
         /**
          * Try calling specified route if the controller exist.
          */
-        elseif ($this->initialize(self::appPath .  $path)) {
-            $this->initialize(self::appPath . $path, false, $this->response, $this->request);
+        elseif ($this->_initialize(self::APP_CONTROLLER .  $path)) {
+            $this->_initialize(
+                self::APP_CONTROLLER . $path,
+                false,
+                $this->_response,
+                $this->_request
+            );
         }
         /**
          * Call default controller if all fail.
          */
         else {
-            $this->initialize(self::sysPath . "default", false, $this->response, $this->request);
+            $this->_initialize(
+                self::SYS_CONTROLLER . "default",
+                false,
+                $this->_response,
+                $this->_request
+            );
         }
     }
 }

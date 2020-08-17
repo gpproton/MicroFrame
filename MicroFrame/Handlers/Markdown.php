@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -28,13 +27,30 @@ use MicroFrame\Library\Config;
 use MicroFrame\Library\Strings;
 
 /**
- * Class Markdown
- * @package MicroFrame\Handlers
+ * Markdown class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class Markdown extends MarkdownExtra
 {
-    private $html;
+    /**
+     * Hold the HTML contents to output.
+     *
+     * @var string
+     */
+    private $_html;
 
+    /**
+     * Static method to handles conversion.
+     *
+     * @param string $markdownString here
+     *
+     * @return string
+     */
     public static function translate($markdownString = "")
     {
         $instance = new self();
@@ -43,54 +59,72 @@ class Markdown extends MarkdownExtra
         return $instance->parse($markdownString);
     }
 
+    /**
+     * Static init for markdown class.
+     *
+     * @return Markdown
+     */
     public static function init()
     {
         return new self();
     }
 
+    /**
+     * Internal text parsing.
+     *
+     * @param string $text here
+     *
+     * @return string
+     */
     public function parse($text)
     {
-        $this->html = parent::parse($text);
+        $this->_html = parent::parse($text);
 
         /**
          * Make additional markup changes.
          */
-        $this->modifyMarkup();
+        $this->_modifyMarkup();
 
-        return $this->html;
+        return $this->_html;
     }
 
     /**
      * Sort markdown for a strike through
      *
+     * @param string $markdown here
+     *
      * @marker ~~
-     * @param $markdown
+     *
      * @return array
      */
     protected function parseStrike($markdown)
     {
         /**
-         * check whether the marker really represents a strikethrough (i.e. there is a closing ~~)
+         * Check whether the marker really represents a
+         * strikethrough (i.e. there is a closing ~~)
          */
         if (preg_match('/^~~(.+?)~~/', $markdown, $matches)) {
             return [
                 ['strike', $this->parseInline($matches[1])],
                 /**
-                 * return the offset of the parsed text
+                 * Return the offset of the parsed text
                  */
                 strlen($matches[0])
             ];
         }
         /**
-         * in case we did not find a closing ~~ we just return the marker and skip 2 characters
+         * In case we did not find a closing ~~ we
+         * just return the marker and skip 2 characters
          */
         return [['text', '~~'], 2];
     }
 
     /**
-     * rendering is the same as for block elements, we turn the abstract syntax array into a string.
+     * Rendering is the same as for block elements,
+     * we turn the abstract syntax array into a string.
      *
-     * @param $element
+     * @param string $element here
+     *
      * @return string
      */
     protected function renderStrike($element)
@@ -98,31 +132,35 @@ class Markdown extends MarkdownExtra
         return '<del>' . $this->renderAbsy($element[1]) . '</del>';
     }
 
-    private function modifyMarkup()
+    /**
+     * Method to handle a modification of a markdown string.
+     *
+     * @return void
+     */
+    private function _modifyMarkup()
     {
 
         /**
          * Apply character replacement with private
          * methods executed here.
-         *
          */
 
         /**
          * Render checked input in place.
          */
-        $this->translateTodo('[X]');
+        $this->_translateTodo('[X]');
 
         /**
          * Render unchecked input in place
          */
-        $this->translateTodo('[ ]');
+        $this->_translateTodo('[ ]');
 
         /**
          * Fix any previous css library modification on lists elements.
          */
-        $this->reFormatList('<li>');
-        $this->reFormatList('<ul>');
-        $this->reFormatList('<ol>');
+        $this->_reFormatList('<li>');
+        $this->_reFormatList('<ul>');
+        $this->_reFormatList('<ol>');
 
         /**
          * Changes github icon markdowns to HTML markup.
@@ -133,44 +171,49 @@ class Markdown extends MarkdownExtra
     /**
      * Change check annotations and convert to html
      *
-     * @param $string
+     * @param string $string here
+     *
+     * @return string
      */
-    private function translateTodo($string)
+    private function _translateTodo($string)
     {
         if ($string == '[X]') {
-            $this->html = str_replace($string, '<input type="checkbox" style="all: revert;" checked onclick="return false">', $this->html);
+            $this->_html = str_replace($string, '<input type="checkbox" style="all: revert;" checked onclick="return false">', $this->_html);
         } elseif ($string == '[ ]') {
-            $this->html = str_replace($string, '<input type="checkbox" style="all: revert;" onclick="return false">', $this->html);
+            $this->_html = str_replace($string, '<input type="checkbox" style="all: revert;" onclick="return false">', $this->_html);
         }
     }
 
     /**
      * Fix any external CSS library effect on core elements.
      *
-     * @param $string
+     * @param string $string here
+     *
+     * @return string
      */
-    private function reFormatList($string)
+    private function _reFormatList($string)
     {
         if ($string == '<li>') {
-            $this->html = str_replace($string, '<li style="all: revert;">', $this->html);
+            $this->_html = str_replace($string, '<li style="all: revert;">', $this->_html);
         } elseif ($string == '<ul>') {
-            $this->html = str_replace($string, '<ul style="all: revert;">', $this->html);
+            $this->_html = str_replace($string, '<ul style="all: revert;">', $this->_html);
         } elseif ($string == '<ol>') {
-            $this->html = str_replace($string, '<ol style="all: revert;">', $this->html);
+            $this->_html = str_replace($string, '<ol style="all: revert;">', $this->_html);
         }
     }
 
     /**
      * Changes github icon markdowns to HTML markup.
      *
-     * @param null $string
+     * @param null $string here
+     *
      * @return string|string[]|null
      */
     public function parseIcons($string = null)
     {
         $return = false;
         if (is_null($string)) {
-            $string = $this->html;
+            $string = $this->_html;
         } else {
             $return = true;
         }
@@ -192,7 +235,7 @@ class Markdown extends MarkdownExtra
             if ($return) {
                 return $string;
             }
-            $this->html = $string;
+            $this->_html = $string;
         }
     }
 }

@@ -1,10 +1,4 @@
 <?php
-
-
-namespace MicroFrame\Handlers;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
-
 /**
  * Task Handler class
  *
@@ -12,7 +6,6 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  *
  * @category  Core
  * @package   MicroFrame\Handlers
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -23,6 +16,20 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
+ */
+
+namespace MicroFrame\Handlers;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
+/**
+ * Task class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class Task
 {

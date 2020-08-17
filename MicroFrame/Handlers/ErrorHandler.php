@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -23,22 +22,31 @@ namespace MicroFrame\Handlers;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
+use Error as sysError;
 use MicroFrame\Core\Application;
 use Throwable;
 
 /**
- * Class ErrorHandler
- * @package MicroFrame\Handlers
+ * ErrorHandler class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
-final class ErrorHandler extends \Error implements Throwable
+final class ErrorHandler extends sysError implements Throwable
 {
-    private $app;
+    private $_app;
 
     /**
      * ErrorHandler constructor.
-     * @param string $message
-     * @param int $code
-     * @param Throwable|null $previous
+     *
+     * @param string         $message  here
+     * @param int            $code     here
+     * @param Throwable|null $previous here
+     *
+     * @return void
      */
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
@@ -48,11 +56,15 @@ final class ErrorHandler extends \Error implements Throwable
     // TODO: Finish Exception / Exception setup
 
     /**
-     * @param Application $app
+     * Kick start base app class and enable custom error handling.
+     *
+     * @param Application $app here
+     *
+     * @return void
      */
     public function bootstrap(Application $app)
     {
-        $this->app = $app;
+        $this->_app = $app;
 
         error_reporting(-1);
 
@@ -62,34 +74,46 @@ final class ErrorHandler extends \Error implements Throwable
 
         register_shutdown_function([$this, 'handleShutdown']);
 
-        if (! $this->app->environment()) {
+        if (! $this->_app->environment()) {
             ini_set('display_errors', 'Off');
         }
 
-        if (!empty($this->app)) {
-            $this->app->start();
+        if (!empty($this->_app)) {
+            $this->_app->start();
         };
     }
 
     /**
-     * @param $level
-     * @param $message
-     * @param string $file
-     * @param int $line
-     * @param array $context
+     * Fatal error converter to an exception.
+     *
+     * @param int    $level   here
+     * @param string $message here
+     * @param string $file    here
+     * @param int    $line    here
+     * @param array  $context here
+     *
      * @throws Exception
+     *
+     * @return void
      */
-    public function handleError($level, $message, $file = '', $line = 0, $context = [])
-    {
+    public function handleError(
+        $level,
+        $message,
+        $file = '',
+        $line = 0,
+        $context = []
+    ) {
         if (error_reporting() & $level) {
             throw new Exception($message);
         }
     }
 
     /**
-     * Handling the actual errors.
+     * Handling the actual final exceptions.
      *
-     * @param Throwable $e
+     * @param Throwable $e here
+     *
+     * @return void
      */
     public function handleException(Throwable $e)
     {
@@ -102,6 +126,8 @@ final class ErrorHandler extends \Error implements Throwable
 
     /**
      * Handle errors during the shutdown process.
+     *
+     * @return void
      */
     public function handleShutdown()
     {
@@ -113,8 +139,9 @@ final class ErrorHandler extends \Error implements Throwable
     /**
      * Check PHP fatal errors and return an error instance.
      *
-     * @param array $error
-     * @param null $traceOffset
+     * @param array $error       here
+     * @param null  $traceOffset here
+     *
      * @return ErrorHandler
      */
     protected function fatalErrorFromPhpError(array $error, $traceOffset = null)
@@ -125,7 +152,8 @@ final class ErrorHandler extends \Error implements Throwable
     /**
      * Check PHP error if it's fatal.
      *
-     * @param $type
+     * @param string $type here
+     *
      * @return bool
      */
     protected function isFatal($type)

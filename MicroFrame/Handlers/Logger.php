@@ -29,152 +29,189 @@ use MicroFrame\Library\Reflect;
 use MicroFrame\Library\Utils;
 
 /**
- * Class Logger
- * @package MicroFrame\Handlers
+ * Logger class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class Logger
 {
-    private $source;
-    private $text;
-    private $config;
+
+    private $_source;
+    private $_text;
+    private $_config;
 
     /**
      * Logger constructor.
-     * @param null $text
-     * @param null $source
+     *
+     * @param null $text   here
+     * @param null $source here
+     *
+     * @return void|self
      */
     public function __construct($text = null, $source = null)
     {
-        $this->text = $text;
-        $this->source = $source;
+        $this->_text = $text;
+        $this->_source = $source;
     }
 
     /**
-     * @param null $text
-     * @param null $class
+     * The logger static initializer
+     *
+     * @param null $text  here
+     * @param null $class here
+     *
      * @return Logger
      */
     public static function set($text = null, $class = null)
     {
         $instance = new self($text, $class);
-        $instance->config = Config::fetch();
+        $instance->_config = Config::fetch();
 
         return $instance;
     }
 
     /**
+     * Output an info to logger.
      *
+     * @return void
      */
     public function info()
     {
-        $this->output(__FUNCTION__);
+        $this->_output(__FUNCTION__);
     }
 
     /**
+     * Output a warning error to logger.
      *
+     * @return void
      */
     public function warn()
     {
-        $this->output(__FUNCTION__);
+        $this->_output(__FUNCTION__);
     }
 
     /**
+     * Output or returns an error message to logger.
+     *
      * @return false|string|null
      */
     public function error()
     {
-        return $this->output(__FUNCTION__);
+        return $this->_output(__FUNCTION__);
     }
 
     /**
+     * Output or debugging message to logger and web view.
      *
+     * @return false|string|null
      */
     public function debug()
     {
-        $this->output(__FUNCTION__);
+        $this->_output(__FUNCTION__);
     }
 
     /**
+     * Output a fatal error and returns message to all medium.
+     *
      * @return false|string|null
      */
     public function fatal()
     {
-        return $this->output(__FUNCTION__);
+        return $this->_output(__FUNCTION__);
     }
 
     /**
-     * @param $type
+     * The generalized output method.
+     *
+     * @param string $type here
+     *
      * @return false|string|null
      */
-    private function output($type)
+    private function _output($type)
     {
-        if (!isset($this->source)) {
-            $this->source = Reflect::check()->getClassFullNameFromFile(debug_backtrace()[1]['file']);
+        if (!isset($this->_source)) {
+            $this->_source = Reflect::check()
+                ->getClassFullNameFromFile(debug_backtrace()[1]['file']);
         }
-        $output = $this->text;
+        $output = $this->_text;
 
         switch (gettype($output)) {
-            case 'array':
-                $output =  json_encode($output);
-                break;
-            case 'null':
-                $output =  "Nothing to output here!!";
-                break;
-            case 'integer':
-                $output =  "{$output}";
-                break;
-            default:
-                break;
+        case 'array':
+            $output =  json_encode($output);
+            break;
+        case 'null':
+            $output =  "Nothing to output here!!";
+            break;
+        case 'integer':
+            $output =  "{$output}";
+            break;
+        default:
+            break;
         }
         $output = date("[Y-m-d H:i:s]") . "\t[". $type
-            ."]\t[". $this->source ."]\t"
+            ."]\t[". $this->_source ."]\t"
             . $output ."\n";
 
         switch ($type) {
-            case 'info':
-            case 'warn':
-                $this->console($output);
-                $this->file($output);
-                break;
-            case 'error':
-                $this->console($output);
-                $this->file($output);
-                return $this->web();
-            case 'debug':
-                $this->console($output);
-                return $output;
-            default:
-                $this->console($output);
-                $this->file($output);
-                $this->email($output);
-                return $this->web();
+        case 'info':
+        case 'warn':
+            $this->_console($output);
+            $this->_file($output);
+            break;
+        case 'error':
+            $this->_console($output);
+            $this->_file($output);
+            return $this->_web();
+        case 'debug':
+            $this->_console($output);
+            return $output;
+        default:
+            $this->_console($output);
+            $this->_file($output);
+            $this->_email($output);
+            return $this->_web();
         }
     }
 
     /**
-     * @param null $string
+     * Output log content to console.
+     *
+     * @param null $string here
+     *
+     * @return void
      */
-    private function console($string =  null)
+    private function _console($string =  null)
     {
         Utils::get()->console($string);
     }
 
     /**
-     * @param null $string
-     * @return null
+     * Render log content to web view.
+     *
+     * @param null $string here
+     *
+     * @return null|string
      */
-    private function web($string =  null)
+    private function _web($string =  null)
     {
         return $string;
     }
 
     /**
-     * @param null $string
-     * @param null $path
+     * Add log content to file.
+     *
+     * @param null $string here
+     * @param null $path   here
+     *
+     * @return void
      */
-    private function file($string =  null, $path = null)
+    private function _file($string =  null, $path = null)
     {
-        $logPath = $this->config['system']['path']['logs'];
+        $logPath = $this->_config['system']['path']['logs'];
 
         if (is_null($path)) {
             $path = $logPath . '/app.log';
@@ -194,17 +231,22 @@ final class Logger
             /**
              * Discard log files above retention period
              */
-            File::init()->clearOld($logPath, $this->config['system']['retention']['logs']);
+            File::init()
+                ->clearOld($logPath, $this->_config['system']['retention']['logs']);
         }
 
         file_put_contents($path, $string, FILE_APPEND);
     }
 
     /**
+     * Allow sending logs as email.
      * TODO: Future use case for email error log
-     * @param null $string
+     *
+     * @param null $string here
+     *
+     * @return void
      */
-    private function email($string =  null)
+    private function _email($string =  null)
     {
     }
 }

@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -29,8 +28,13 @@ use MicroFrame\Core\Response as response;
 use MicroFrame\Library\Reflect;
 
 /**
- * Class Exception
- * @package MicroFrame\Handlers
+ * Exception class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class Exception extends stockError implements \Throwable
 {
@@ -38,24 +42,30 @@ class Exception extends stockError implements \Throwable
     public $response;
     public $errorCode;
     public $message;
-    private $source;
+    private $_source;
 
     /**
-     * Exception constructor.
-     * @param $message
-     * @param int $code
-     * @param Exception $previous
+     * Exception constructor for initialization.
+     *
+     * @param string    $message  here
+     * @param int       $code     here
+     * @param Exception $previous here
+     *
+     * @return void
      */
     public function __construct($message, $code = 0, Exception $previous = null)
     {
         $this->request = new request();
         $this->response = new response();
         $this->errorCode = 500;
-        $this->source = Reflect::check()->getClassFullNameFromFile(debug_backtrace()[0]['file']);
+        $this->_source = Reflect::check()
+            ->getClassFullNameFromFile(debug_backtrace()[0]['file']);
         parent::__construct($message, $code, $previous);
     }
 
     /**
+     * Returns class path
+     *
      * @return string
      */
     public function __toString()
@@ -66,24 +76,36 @@ class Exception extends stockError implements \Throwable
     /**
      * Log to console and file with no output to response
      *
-     * @param null $message
+     * @param null $message here
+     *
+     * @return void
      */
     public function log($message = null)
     {
         if (is_null($message)) {
             $message = self::getMessage();
         }
-//        Logger::warn($message, $this->source);
-        Logger::set($message, $this->source)->warn();
+
+        Logger::set($message, $this->_source)->warn();
     }
 
+    /**
+     * Execption static initializer
+     *
+     * @param string $message here
+     *
+     * @return Exception
+     */
     public static function init($message = "")
     {
         return new self($message);
     }
 
     /**
-     * @param null $message
+     * Returns a standard out put for clearer debugging.
+     *
+     * @param null $message here
+     *
      * @return void
      */
     public function output($message = null)
@@ -91,15 +113,19 @@ class Exception extends stockError implements \Throwable
         if (is_null($message)) {
             $message = self::getMessage();
         }
-//        Logger::error($message, $this->source);
-        Logger::set($message, $this->source)->error();
+
+        Logger::set($message, $this->_source)->error();
         $this->response->methods(['get', 'post', 'put', 'delete', 'options']);
         $this->response->setOutput(0, $this->errorCode, $message);
         $this->response->send();
     }
 
     /**
-     * @param null $message
+     * Render an error view for 500 error.
+     *
+     * @param null $message here
+     *
+     * @return void
      */
     public function render($message = null)
     {
@@ -107,9 +133,17 @@ class Exception extends stockError implements \Throwable
         if (is_null($message)) {
             $message = self::getMessage();
         }
-//        Logger::error($message, $this->source);
-        Logger::set($message, $this->source)->error();
+
+        Logger::set($message, $this->_source)->error();
         $this->response->setOutput(0, $this->errorCode, $message);
-        $this->response->render();
+        $this->response->data(
+            [
+            'errorText' => "Looks like we can't now.",
+            'errorTitle' => 'Some error occurred (500)',
+            'errorImage' => 'images/vector/cream.svg',
+            'errorColor' => 'firebrick',
+            'showReturn' => true
+            ]
+        )->render('sys.Default');
     }
 }

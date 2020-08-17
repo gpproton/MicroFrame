@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -23,22 +22,36 @@ namespace MicroFrame\Handlers;
 
 use MicroFrame\Interfaces\ICache;
 use MicroFrame\Library\Config;
-use Phpfastcache\Core\Pool\ExtendedCacheItemPoolInterface;
 use ReflectionClass;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class CacheSource
- * @package MicroFrame\Handlers
+ * CacheSource class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class CacheSource
 {
-    private $instance;
+    /**
+     * Hold the requested cache instance.
+     *
+     * @var object|CacheSource
+     */
+    private $_instance;
+
     /**
      * Init based on \MicroFrame\Handlers\** reflected classes.
-     * @param string $source
+     *
+     * @param string $source here
+     *
      * @throws \Exception
+     *
+     * @return void
      */
     public function __construct($source = "default")
     {
@@ -49,15 +62,15 @@ class CacheSource
         $cacheType = ucfirst($cacheType);
 
         switch ($cacheType) {
-            case 'Sqlite':
-            case 'Files':
-            case 'Cookie':
+        case 'Sqlite':
+        case 'Files':
+        case 'Cookie':
             $cacheType = 'Minimal';
-                break;
-            case 'Memcache':
-            case 'Memcached':
-                $cacheType = 'MemCached';
-                break;
+            break;
+        case 'Memcache':
+        case 'Memcached':
+            $cacheType = 'MemCached';
+            break;
         }
 
         /**
@@ -77,17 +90,22 @@ class CacheSource
             } catch (\ReflectionException $e) {
                 Logger::set($e->getMessage())->error();
             }
-            /** @var ReflectionClass $classBuilder */
-            $this->instance = !is_null($classBuilder) ? $classBuilder->newInstanceArgs($args) : null;
+
+            $this->_instance = !is_null($classBuilder)
+                ? $classBuilder->newInstanceArgs($args) : null;
         } else {
-            throw new Exception('Requested Cache type does not exist, please \\n use existing types or create class' . $path);
+            throw new Exception(
+                'Requested Cache type does not exist,
+            please \\n use existing types or create class' . $path
+            );
         }
     }
 
     /**
      * Returns an instance of cache class.
      *
-     * @param string $source
+     * @param string $source here
+     *
      * @return ICache|object|null
      */
     public static function init($source = "default") : ICache
@@ -99,6 +117,6 @@ class CacheSource
             Logger::set($e->getMessage())->error();
         }
 
-        return !is_null($instance) ? $instance->instance : null;
+        return !is_null($instance) ? $instance->_instance : null;
     }
 }

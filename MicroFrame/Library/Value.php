@@ -99,86 +99,42 @@ class Value
         return $selected(500, $http);
     }
 
+    /**
+     * Returns the requested mime type.
+     *
+     * @param string $filename file path requested.
+     *
+     * @return string|null
+     */
     public function mimeType($filename)
     {
-        if (!function_exists('mime_content_type')) {
-            function mime_content_type($filename)
-            {
-                $mime_types = array(
-                    'txt' => 'text/plain',
-                    'htm' => 'text/html',
-                    'html' => 'text/html',
-                    'php' => 'text/html',
-                    'css' => 'text/css',
-                    'js' => 'application/javascript',
-                    'json' => 'application/json',
-                    'xml' => 'application/xml',
-                    'swf' => 'application/x-shockwave-flash',
-                    'flv' => 'video/x-flv',
+        $extSortArray = explode('.', $filename);
+        $ext = sizeof($extSortArray) !== 0
+            ? strtolower($extSortArray[sizeof($extSortArray) - 1])
+            : strtolower($extSortArray[0]);
+        $extSysValue = Config::fetch('system.mimes.' . $ext);
 
-                    // images
-                    'png' => 'image/png',
-                    'jpe' => 'image/jpeg',
-                    'jpeg' => 'image/jpeg',
-                    'jpg' => 'image/jpeg',
-                    'gif' => 'image/gif',
-                    'bmp' => 'image/bmp',
-                    'ico' => 'image/vnd.microsoft.icon',
-                    'tiff' => 'image/tiff',
-                    'tif' => 'image/tiff',
-                    'svg' => 'image/svg+xml',
-                    'svgz' => 'image/svg+xml',
-
-                    // archives
-                    'zip' => 'application/zip',
-                    'rar' => 'application/x-rar-compressed',
-                    'exe' => 'application/x-msdownload',
-                    'msi' => 'application/x-msdownload',
-                    'cab' => 'application/vnd.ms-cab-compressed',
-
-                    // audio/video
-                    'mp3' => 'audio/mpeg',
-                    'qt' => 'video/quicktime',
-                    'mov' => 'video/quicktime',
-
-                    // adobe
-                    'pdf' => 'application/pdf',
-                    'psd' => 'image/vnd.adobe.photoshop',
-                    'ai' => 'application/postscript',
-                    'eps' => 'application/postscript',
-                    'ps' => 'application/postscript',
-
-                    // ms office
-                    'doc' => 'application/msword',
-                    'rtf' => 'application/rtf',
-                    'xls' => 'application/vnd.ms-excel',
-                    'ppt' => 'application/vnd.ms-powerpoint',
-
-                    // open office
-                    'odt' => 'application/vnd.oasis.opendocument.text',
-                    'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-                );
-
-                $ext = strtolower(array_pop(explode('.', $filename)));
-                if (array_key_exists($ext, $mime_types)) {
-                    return $mime_types[$ext];
-                } elseif (function_exists('finfo_open')) {
-                    $info = finfo_open(FILEINFO_MIME);
-                    $mimetic = finfo_file($info, $filename);
-                    finfo_close($info);
-                    return $mimetic;
-                } else {
-                    return 'application/octet-stream';
-                }
-            }
+        if ($extSysValue !== null) {
+            return $extSysValue;
+        } elseif (function_exists('finfo_open')) {
+            $info = finfo_open(FILEINFO_MIME);
+            $mimetic = finfo_file($info, $filename);
+            finfo_close($info);
+            return $mimetic;
         } else {
-            return mime_content_type($filename);
+            return 'application/octet-stream';
         }
     }
 
+    /**
+     * An helper on parsing the configured root help page.
+     *
+     * @return string
+     */
     public function assistPath()
     {
-        $assistRoot = Config::fetch('site.assist') !== null ? Config::fetch('site.assist') : 'help/';
+        $assistRoot = Config::fetch('site.assist') !== null
+            ? Config::fetch('site.assist') : 'help/';
         return rtrim($assistRoot, '/');
     }
 }
