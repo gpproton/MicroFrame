@@ -6,7 +6,6 @@
  *
  * @category  Task
  * @package   App\Task
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -24,8 +23,13 @@ namespace App\Task;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class SampleTask
- * @package App\Task
+ * Application class
+ *
+ * @category Task
+ * @package  App\Task
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class SampleTask
 {

@@ -36,7 +36,7 @@ use MicroFrame\Library\Reflect;
 use MicroFrame\Library\Strings;
 
 /**
- * Core Controller class
+ * Controller class
  *
  * @category Core
  * @package  MicroFrame\Core

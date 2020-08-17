@@ -83,7 +83,7 @@ final class Model implements IModel
      *
      * @param array|string $content here
      *
-     * @return $this
+     * @return self
      */
     public function query($content)
     {
@@ -108,7 +108,7 @@ final class Model implements IModel
      *
      * @param array $array here
      *
-     * @return $this
+     * @return self
      */
     public function params($array = [])
     {
@@ -122,7 +122,7 @@ final class Model implements IModel
      *
      * @param string $cacheStrategy here
      *
-     * @return $this|void
+     * @return self|void
      */
     public function execute($cacheStrategy = 'resultOnly')
     {
@@ -153,7 +153,10 @@ final class Model implements IModel
                             $modelSample = $this->_load($value['model'])['sample'];
                         }
                         $prepare = $this->_initialize($value['instance'])
-                            ->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                            ->prepare(
+                                $modelSrc,
+                                [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]
+                            );
                         $param = $value['params'];
                     } elseif (isset($this->_params[$level])) {
                         $param = $this->_params[$level];
@@ -177,7 +180,11 @@ final class Model implements IModel
                             $modelSample = $this->_load($value)['sample'];
                         }
 
-                        $prepare = $this->_instance->prepare($modelSrc, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+                        $prepare = $this->_instance
+                            ->prepare(
+                                $modelSrc,
+                                [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]
+                            );
                     }
 
                     /**
@@ -196,6 +203,7 @@ final class Model implements IModel
                         if (!isset($this->_result[$value])) {
                             $this->_result[$value] = $results;
                         } else {
+                            // TODO: Change from random to explicitly defined key.
                             $this->_result[$value . '-' . rand(2, 100)] = $results;
                         }
                     } else {
@@ -203,7 +211,8 @@ final class Model implements IModel
                             $this->_result[$value['model']] = $results;
                         } else {
                             // TODO: Change from random to explicitly defined key.
-                            $this->_result[$value['model'] . '-' . rand(2, 100)] = $results;
+                            $this->_result[$value['model'] .
+                            '-' . rand(2, 100)] = $results;
                         }
                     }
 
@@ -267,7 +276,7 @@ final class Model implements IModel
     /**
      * Send result then cache item.
      *
-     * @return IModel|void
+     * @return self|void
      */
     public function resultFirst()
     {
@@ -277,7 +286,7 @@ final class Model implements IModel
     /**
      * Send already cached if it's not null and cache new result.
      *
-     * @return IModel|void
+     * @return self|void
      */
     public function cacheFirst()
     {
@@ -288,7 +297,7 @@ final class Model implements IModel
      * Cache only new result when null and never
      * cache new result until cache expires.
      *
-     * @return IModel|void
+     * @return self|void
      */
     public function cacheOnly()
     {
@@ -298,7 +307,7 @@ final class Model implements IModel
     /**
      * Send only result and never cache results.
      *
-     * @return IModel|void
+     * @return self|void
      */
     public function resultOnly()
     {

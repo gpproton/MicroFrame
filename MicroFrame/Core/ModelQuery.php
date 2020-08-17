@@ -6,7 +6,6 @@
  *
  * @category  Core
  * @package   MicroFrame\Core
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -19,7 +18,6 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-
 namespace MicroFrame\Core;
 
 use MicroFrame\Library\Config;
@@ -27,20 +25,44 @@ use MicroFrame\Library\Reflect;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
+/**
+ * ModelQuery class
+ *
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
+ */
 class ModelQuery
 {
     public $query;
 
+    /**
+     * ModelQuery constructor.
+     *
+     * @param string $method here
+     *
+     * @return self
+     */
     public function __construct($method = "default")
     {
-        $this->query = method_exists($this, $method) ? Reflect::check()->methodLoader($this, $method, array()) : $this->default();
+        $this->query = method_exists($this, $method)
+            ? Reflect::check()->methodLoader(
+                $this,
+                $method,
+                array()
+            ) : $this->default();
 
         return $this;
     }
 
     /**
-     * @param $name
-     * @return array|mixed|null
+     * Retrieves configuration.
+     *
+     * @param string $name here
+     *
+     * @return mixed
      */
     public function config($name)
     {
@@ -48,18 +70,17 @@ class ModelQuery
     }
 
     /**
+     * Default model query check for if not other is specified.
+     *
      * @return array
      */
     public function default()
     {
         $query = <<<SQL
-
             SELECT 1 FROM DUAL
             
 SQL;
-
         $sample = array();
-
         return array( 'query' => $query, 'sample' => $sample);
     }
 }

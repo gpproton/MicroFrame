@@ -6,7 +6,6 @@
  *
  * @category  Interfaces
  * @package   MicroFrame\Interfaces
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -25,91 +24,134 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IRequest
- * @package MicroFrame\Interfaces
+ *
+ * @category Interface
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 interface IRequest
 {
 
     /**
-     * @return string
+     * Get request method type in plain string
+     *
+     * @return mixed
      */
     public function method();
 
     /**
+     * Retrieve requested format information.
+     *
      * @return string
      */
     public function format();
 
     /**
-     * @return string
+     * Extra format/content type information
+     *
+     * @return array|false|mixed|string|null
      */
     public function contentType();
 
     /**
+     * Get all request variable values
+     *
      * @return array
      */
     public function all();
 
     /**
-     * @param null $string
-     * @param bool $multiple
-     * @return mixed
+     * Get all query parameters
+     *
+     * @param null $string   filter for desired get value
+     * @param bool $multiple option for return an array
+     *
+     * @return array|mixed|null
      */
     public function query($string = null, $multiple = false);
 
     /**
-     * @param null $string
-     * @return mixed
+     * Get posted data
+     *
+     * @param null $string filter for desired post value
+     *
+     * @return mixed|null
      */
     public function post($string = null);
 
     /**
-     * @return string
+     * Get raw data posted
+     *
+     * @return false|string
      */
     public function raw();
 
     /**
+     * Get sent header data
+     *
+     * @param null $string filter for desired header value
+     *
+     * @return array|false|mixed|null
+     */
+    public function header($string = null);
+
+    /**
+     * Get if current session is browser.
+     *
      * @return bool
      */
     public function browser();
 
     /**
+     * Get form encoded data.
+     *
      * @return bool
      */
     public function formEncoded();
 
     /**
-     * @param null $string
-     * @return mixed
+     * Get all request information.
+     *
+     * @param null $string here
+     *
+     * @return mixed|null
      */
     public function server($string = null);
 
     /**
-     * @param null $string
-     * @return mixed
-     */
-    public function header($string = null);
-
-    /**
-     * @param null $string
+     * Get all session info.
+     *
+     * @param null $string here
+     *
      * @return mixed
      */
     public function session($string = null);
 
     /**
-     * @param null $option
-     * @return mixed
+     * Start a basic auth request and retrieve entered valued.
+     *
+     * @param null $option here
+     *
+     * @return mixed|void
      */
     public function auth($option = null);
 
     /**
-     * @param null $string
+     * Get sent cookie info.
+     *
+     * @param null $string here
+     *
      * @return mixed
      */
     public function cookie($string = null);
 
     /**
-     * @param bool $dotted
+     * Returns request path information with required formatting.
+     *
+     * @param bool $dotted here
+     *
      * @return string
      */
     public function path($dotted = true);
@@ -117,7 +159,8 @@ interface IRequest
     /**
      * Get current request URL actual address
      *
-     * @param bool $full
+     * @param bool $full here
+     *
      * @return string
      */
     public function url($full = false);

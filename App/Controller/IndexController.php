@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Index Controller class
  *

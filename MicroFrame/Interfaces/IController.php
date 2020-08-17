@@ -1,12 +1,11 @@
 <?php
 /**
- * App base controller interface
+ * Core Controller interface
  *
  * PHP Version 7
  *
  * @category  Interfaces
  * @package   MicroFrame\Interfaces
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -27,27 +26,46 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IController
- * @package MicroFrame\Interfaces
+ *
+ * @category Interface
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 interface IController
 {
 
     /**
-     * @param IResponse $response
-     * @param IRequest $request
-     * @param string $method
-     * @param bool|mixed $auto
+     * Controller constructor.
+     *
+     * @param IResponse $response here
+     * @param IRequest  $request  here
+     * @param string    $method   here
+     * @param bool      $auto     here
+     *
+     * @return self
      */
-    public function __construct(IResponse $response, IRequest $request, $method = "", $auto = true);
+    public function __construct(
+        IResponse $response,
+        IRequest $request,
+        $method = "",
+        $auto = true
+    );
 
     /**
-     * @param IMiddleware $middleware
-     * @return mixed
+     * Used to call a middleware.
+     *
+     * @param IMiddleware|null $middleware here
+     *
+     * @return $this|mixed
      */
     public function middleware(IMiddleware $middleware = null);
 
     /**
-     * @return mixed
+     * Run controller instance
+     *
+     * @return void
      */
     public function start();
 }

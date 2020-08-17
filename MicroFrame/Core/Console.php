@@ -6,7 +6,6 @@
  *
  * @category  Core
  * @package   MicroFrame\Core
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -24,19 +23,39 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class Console
- * @package MicroFrame\Core
+ * Console class
+ *
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class Console
 {
-    private $raw;
+    /**
+     * Console arg all in an array.
+     *
+     * @var array
+     */
+    private $_raw;
 
+    /**
+     * Static init for console class.
+     *
+     * @return self
+     */
     public static function init()
     {
         return new self();
     }
 
-    private function getRaws()
+    /**
+     * Process all console input.
+     *
+     * @return void
+     */
+    private function _getRaws()
     {
         /**
          * Allowed short keys
@@ -59,41 +78,69 @@ class Console
             "verbose"
         );
 
-        $this->raw = getopt($shortInput, $longInput);
+        $this->_raw = getopt($shortInput, $longInput);
     }
 
-    private function formatList()
+    /**
+     * A placeholder
+     *
+     * @return void
+     */
+    private function _formatList()
     {
         // TODO: Format comma separated values
     }
 
-    private function formatArray()
+    /**
+     * A placeholder
+     *
+     * @return void
+     */
+    private function _formatArray()
     {
         // TODO: Format string defined key array separated values
     }
 
+    /**
+     * A placeholder
+     *
+     * @return void
+     */
     public function getFormatted()
     {
     }
 
     /**
+     * A placeholder
      *
+     * @return void
      */
-    private function response()
+    private function _response()
     {
-        // TODO: Defines response for commands that require no task calls or are not variables
+        // TODO: Defines response for commands that
+        // require no task calls or are not variables
     }
 
-    private function state()
+    /**
+     * A placeholder
+     *
+     * @return void
+     */
+    private function _state()
     {
         // TODO: Set
     }
 
+    /**
+     * A placeholder
+     *
+     * @return void
+     */
     public function execute()
     {
-        $this->getRaws();
+        $this->_getRaws();
 
         // TODO: Set what's neXt
-        var_dump($this->raw);
+        var_dump($this->_raw);
     }
 }

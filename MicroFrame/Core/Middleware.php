@@ -28,8 +28,13 @@ use MicroFrame\Interfaces\IModel;
 use MicroFrame\Library\Config;
 
 /**
- * Class Middleware
- * @package MicroFrame\Core
+ * Middleware class
+ *
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class Middleware implements IMiddleware
 {
@@ -46,8 +51,11 @@ class Middleware implements IMiddleware
     }
 
     /**
-     * @param $name
-     * @return array|mixed|null
+     * Retrieves configuration.
+     *
+     * @param string $name here
+     *
+     * @return mixed
      */
     public function config($name)
     {
@@ -55,7 +63,9 @@ class Middleware implements IMiddleware
     }
 
     /**
-     * @return bool|mixed
+     * Returns the proceed state for a controller or response.
+     *
+     * @return mixed
      */
     public function handle()
     {
@@ -63,8 +73,11 @@ class Middleware implements IMiddleware
     }
 
     /**
-     * @param null $source
-     * @return Model|IModel
+     * Allows for interaction with any datasource.
+     *
+     * @param null $source here
+     *
+     * @return self|IModel
      */
     public static function model($source =  null)
     {

@@ -1,12 +1,11 @@
 <?php
 /**
- * App model interface
+ * App Model interface
  *
  * PHP Version 7
  *
  * @category  Interfaces
  * @package   MicroFrame\Interfaces
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -25,56 +24,86 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IModel
- * @package MicroFrame\Interfaces
+ *
+ * @category Interface
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 interface IModel
 {
     /**
-     * IModel constructor.
-     * @param string $source
+     * Model constructor.
+     *
+     * @param string $source here
+     *
+     * @comment Model constructor
+     *
+     * @return self
      */
     public function __construct($source = null);
 
     /**
-     * @param array $array
-     * @return IModel
-     */
-    public function params($array = []);
-
-    /**
-     * @param $string
-     * @return IModel
+     * Query input method.
+     *
+     * @param string $string here
+     *
+     * @return self
      */
     public function query($string);
 
     /**
-     * @param string $cacheStrategy
-     * @return IModel
+     * Parameter input method.
+     *
+     * @param array $array here
+     *
+     * @return self
+     */
+    public function params($array = []);
+
+    /**
+     * Start actual database query for any QModel specified.
+     *
+     * @param string $cacheStrategy here
+     *
+     * @return self|void
      */
     public function execute($cacheStrategy = 'resultOnly');
 
     /**
+     * Returns result from query.
+     *
      * @return array
      */
     public function result();
 
     /**
-     * @return IModel
+     * Send result then cache item.
+     *
+     * @return self|void
      */
     public function resultFirst();
 
     /**
-     * @return IModel
+     * Send already cached if it's not null and cache new result.
+     *
+     * @return self|void
      */
     public function cacheFirst();
 
     /**
-     * @return IModel
+     * Cache only new result when null and never
+     * cache new result until cache expires.
+     *
+     * @return self|void
      */
     public function cacheOnly();
 
     /**
-     * @return IModel
+     * Send only result and never cache results.
+     *
+     * @return self|void
      */
     public function resultOnly();
 }

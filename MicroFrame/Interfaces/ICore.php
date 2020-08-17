@@ -1,15 +1,11 @@
 <?php
-namespace App\Controller\Page;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
- * View Error controller class
+ * ICore class
  *
  * PHP Version 7
  *
- * @category  Controller
- * @package   App\Controllers\Page
- * @author    Godwin peter .O <me@godwin.dev>
+ * @category  MicroFrame
+ * @package   App\PlaceHolder
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -22,12 +18,19 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- use \MicroFrame\Core\Controller as Core;
+namespace MicroFrame\Interfaces\Core;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class ErrorController
- * @package App\Controller\Page
+ * Interface ICore
+ *
+ * @category Interface
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
-class ErrorController extends Core
+interface ICore
 {
 }

@@ -6,7 +6,6 @@
  *
  * @category  Interfaces
  * @package   MicroFrame\Interfaces
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -25,24 +24,37 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IMiddleware
- * @package MicroFrame\Interfaces
+ *
+ * @category Interfaces
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 interface IMiddleware
 {
     /**
-     * @param $name
+     * Retrieves configuration.
+     *
+     * @param string $name here
+     *
      * @return mixed
      */
     public function config($name);
 
     /**
+     * Returns the proceed state for a controller or response.
+     *
      * @return mixed
      */
     public function handle();
 
     /**
-     * @param null $source
-     * @return IModel
+     * Allows for interaction with any datasource.
+     *
+     * @param null $source here
+     *
+     * @return IModel|self
      */
     public static function model($source = null);
 }

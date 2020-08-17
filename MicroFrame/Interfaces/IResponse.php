@@ -25,7 +25,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Interface IResponse
  *
- * @category Core
+ * @category Interface
  * @package  MicroFrame\Interfaces
  * @author   Godwin peter .O <me@godwin.dev>
  * @license  MIT License

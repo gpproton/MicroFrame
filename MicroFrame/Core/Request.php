@@ -6,7 +6,6 @@
  *
  * @category  Core
  * @package   MicroFrame\Core
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -28,9 +27,13 @@ use MicroFrame\Library\Utils;
 use MicroFrame\Interfaces\IRequest;
 
 /**
- * Class Request
+ * Request class
  *
- * @package MicroFrame\Core
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class Request implements IRequest
 {
@@ -72,6 +75,18 @@ final class Request implements IRequest
             return strtolower(self::$_server['REQUEST_METHOD']);
         }
         return null;
+    }
+
+    /**
+     * Retrieve requested format information.
+     *
+     * @return string
+     */
+    public function format()
+    {
+        $check = !empty($this->query('format')) ?
+            $this->query('format') : $this->header('accept');
+        return !empty($check) ? $check : $this->query('accept');
     }
 
     /**
@@ -200,15 +215,13 @@ final class Request implements IRequest
     }
 
     /**
-     * Retrieve requested format information.
+     * Get if current session is browser.
      *
-     * @return string
+     * @return bool
      */
-    public function format()
+    public function browser()
     {
-        $check = !empty($this->query('format')) ?
-            $this->query('format') : $this->header('accept');
-        return !empty($check) ? $check : $this->query('accept');
+        return Strings::filter($this->header('accept'))->contains('html');
     }
 
     /**
@@ -234,6 +247,7 @@ final class Request implements IRequest
      */
     public function session($string = null)
     {
+        // TODO: Use session global here directly.
         if (!is_null($string)) {
             return self::$_session[$string];
         }
@@ -339,16 +353,6 @@ final class Request implements IRequest
     {
         header('HTTP/1.1 401 Unauthorized');
         header('WWW-Authenticate: Basic realm="MicroFrame basic auth"');
-    }
-
-    /**
-     * Get if current session is browser.
-     *
-     * @return bool
-     */
-    public function browser()
-    {
-        return Strings::filter($this->header('accept'))->contains('html');
     }
 
     /**

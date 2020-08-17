@@ -1,7 +1,4 @@
 <?php
-namespace App\Controller\Page;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * View Index controller class
  *
@@ -22,11 +19,20 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace App\Controller\Page;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
  use MicroFrame\Core\Controller as Core;
 
 /**
  * Class IndexController
- * @package App\Controller\Page
+ *
+ * @category Controller
+ * @package  App\Controller\Page
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class IndexController extends Core
 {

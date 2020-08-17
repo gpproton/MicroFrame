@@ -1,7 +1,4 @@
 <?php
-namespace App\Controller\Api;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Default Index controller class
  *
@@ -9,7 +6,6 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  *
  * @category  Controller
  * @package   App\Controllers\Api
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -22,21 +18,31 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- use \MicroFrame\Core\Controller as Core;
+namespace App\Controller\Api;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
+use \MicroFrame\Core\Controller as Core;
 
 /**
  * Class IndexController
- * @package App\Controller\Api
+ *
+ * @category Controller
+ * @package  App\Controller\Api
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class IndexController extends Core
 {
 
     /**
+     * Index sample OpenAPI doc
      *
      * @OA\Info(
      *   title="Base Sample API DOC",
      *   version="0.0.1",
-     *   @OA\Contact(
+     * @OA\Contact(
      *     email="teamerp@tolaram.com"
      *   )
      * )
@@ -44,28 +50,28 @@ class IndexController extends Core
      * @OA\Post(
      *   path="/api/index",
      *   summary="Index API POST placeholder",
-     *   @OA\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Default base POST swagger API output",
-     *     @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/json"
      *     )
      *   )
      * )
-     *
      *
      * @OA\Get(
      *   path="/api/index",
      *   summary="Index API GET placeholder",
-     *   @OA\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Default base GET swagger API output",
-     *     @OA\MediaType(
+     * @OA\MediaType(
      *         mediaType="application/json"
      *     )
      *   )
      * )
      *
+     * @return void
      */
     public function index()
     {

@@ -1,12 +1,11 @@
 <?php
 /**
- * App view interface
+ * Core Trait
  *
  * PHP Version 7
  *
- * @category  Interfaces
- * @package   MicroFrame\Interfaces
- * @author    Godwin peter .O <me@godwin.dev>
+ * @category  Traits
+ * @package   MicroFrame\Traits
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -19,32 +18,18 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-namespace MicroFrame\Interfaces;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
+namespace MicroFrame\Traits;
 
 /**
- * Interface IView
- * @package MicroFrame\Interfaces
+ * Trait TCore
+ *
+ * @category Interface
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
-interface IView
+trait TCore
 {
 
-    /**
-     * @param $name
-     * @return mixed
-     */
-    public function config($name);
-
-    /**
-     * @param null $source
-     * @return IModel
-     */
-    public function model($source = null);
-
-    /**
-     * @param null $source
-     * @return mixed
-     */
-    public function loader($source = null);
 }

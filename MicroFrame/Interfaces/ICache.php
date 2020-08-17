@@ -1,12 +1,11 @@
 <?php
 /**
- * App model interface
+ * App Cache interface
  *
  * PHP Version 7
  *
  * @category  Interfaces
  * @package   MicroFrame\Interfaces
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -25,12 +24,21 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface ICache
- * @package MicroFrame\Interfaces
+ *
+ * @category Interface
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 interface ICache
 {
+
     /**
-     * @param $name
+     * Retrieve configuration to a cache instance
+     *
+     * @param string $name here
+     *
      * @return mixed
      */
     public function config($name);

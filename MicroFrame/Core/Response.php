@@ -25,12 +25,8 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 use MicroFrame\Core\Request as request;
 use MicroFrame\Library\Convert;
 use MicroFrame\Library\Strings;
-use MicroFrame\Library\Utils;
 use MicroFrame\Library\Value;
-use MicroFrame\Interfaces\IMiddleware;
-use MicroFrame\Interfaces\IModel;
 use MicroFrame\Interfaces\IResponse;
-use MicroFrame\Interfaces\IView;
 
 // TODO: Implement all methods
 

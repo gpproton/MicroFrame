@@ -6,7 +6,6 @@
  *
  * @category  Interfaces
  * @package   MicroFrame\Interfaces
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -25,19 +24,32 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Interface IDataSource
- * @package MicroFrame\Interfaces
+ *
+ * @category Interface
+ * @package  MicroFrame\Interfaces
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 interface IDataSource
 {
+
     /**
-     * @param $name
+     * DataSource constructor and data source connection initializer.
+     *
+     * @param string $string here
+     *
+     * @return self|IDataSource
+     */
+    public function __construct($string = 'default');
+
+    /**
+     * Retrieves configuration.
+     *
+     * @param string $name here
+     *
      * @return mixed
      */
     public function config($name);
 
-    /**
-     * IDataSource constructor.
-     * @param string $string
-     */
-    public function __construct($string = null);
 }

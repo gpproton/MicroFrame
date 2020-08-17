@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -30,32 +29,39 @@ use PDO;
 use PDOOCI\PDO as fallbackOraclePDO;
 
 /**
- * Class DataSource
- * @package MicroFrame\Handlers
+ * DataSource class
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class DataSource implements IDataSource
 {
-    private $source;
-    private $options;
-    private $connection;
+    private $_source;
+    private $_options;
+    private $_connection;
 
     /**
      * DataSource constructor and data source connection initializer.
-     * @param string $string
      *
-     * @return mixed
+     * @param string $string here
+     *
+     * @return self|IDataSource
      */
     public function __construct($string = "default")
     {
-        $this->source = $this->config("dataSource.{$string}");
+        $this->_source = $this->config("dataSource.{$string}");
         $connectStringParams = array(
-            'config' => $this->source
+            'config' => $this->_source
         );
 
-        if (isset($this->source) && is_null($this->connection)) {
-            $timeout = isset($this->source['timeout']) ? $this->source['timeout'] : 150;
+        if (isset($this->_source) && is_null($this->_connection)) {
+            $timeout = isset($this->_source['timeout'])
+                ? $this->_source['timeout'] : 150;
 
-            $this->options = [
+            $this->_options = [
                 PDO::ATTR_PERSISTENT => true,
                 PDO::ATTR_EMULATE_PREPARES => false,
                 PDO::ATTR_TIMEOUT => $timeout,
@@ -67,27 +73,44 @@ class DataSource implements IDataSource
                 /**
                  * Reflect method for connection string generation.
                  */
-                $connectionString = Reflect::check()->methodLoader($this, $this->source['type'], $connectStringParams);
+                $connectionString = Reflect::check()
+                    ->methodLoader(
+                        $this,
+                        $this->_source['type'],
+                        $connectStringParams
+                    );
 
                 /**
                  * Circumvent issues if OCI PDO driver is not available.
                  */
-                if (!$this->validate($this->source['type'], true) && $this->source['type'] === "oracle") {
-                    $this->connection = new fallbackOraclePDO($connectionString, $this->source['user'], $this->source['password']);
-                } elseif ($this->validate($this->source['type'])) {
+                if (!$this->_validate(
+                    $this->_source['type'],
+                    true
+                ) && $this->_source['type'] === "oracle"
+                ) {
+                    $this->_connection = new fallbackOraclePDO(
+                        $connectionString,
+                        $this->_source['user'],
+                        $this->_source['password']
+                    );
+                } elseif ($this->_validate($this->_source['type'])) {
                     /**
                      * Initialize standard PDO connection.
                      */
 
-                    if (($this->source['type'] === 'sqlite')) {
-                        $this->connection = new PDO($connectionString);
+                    if (($this->_source['type'] === 'sqlite')) {
+                        $this->_connection = new PDO($connectionString);
                     } else {
-                        $this->connection = new PDO($connectionString, $this->source['user'], $this->source['password']);
+                        $this->_connection = new PDO(
+                            $connectionString,
+                            $this->_source['user'],
+                            $this->_source['password']
+                        );
                     }
                 }
             } catch (\Exception $exception) {
                 /**
-                 * handle all data source exceptions...
+                 * Handle all data source exceptions...
                  */
                 Exception::init()->output($exception->getMessage());
             }
@@ -106,8 +129,11 @@ class DataSource implements IDataSource
     }
 
     /**
-     * @param $name
-     * @return array|mixed|null
+     * Retrieves configuration.
+     *
+     * @param string $name here
+     *
+     * @return mixed
      */
     public function config($name)
     {
@@ -115,28 +141,36 @@ class DataSource implements IDataSource
     }
 
     /**
-     * @param null $string
-     * @param bool $cache
-     * @param bool $status
-     * @return PDO | mixed
+     * DataSource static initializer.
+     *
+     * @param null $string here
+     * @param bool $cache  here
+     * @param bool $status here
+     *
+     * @return PDO|mixed
      */
     public static function get($string = null, $cache = false, $status = false)
     {
         if (!$status) {
-            return empty($string) ? (new self())->connection : (new self($string))->connection;
+            return empty($string) ?
+                (new self())->_connection : (new self($string))->_connection;
         } else {
-            return empty($string) ? (new self())->source : (new self($string))->source;
+            return empty($string) ?
+                (new self())->_source : (new self($string))->_source;
         }
     }
 
     /**
-     * @param null $config
+     * Sqlite config string builder.
+     *
+     * @param array $config here
+     *
      * @return string
      */
     public function sqlite($config = null)
     {
         /**
-         * sqlite:/path/to/sqlite/file.sq3
+         * Sqlite:/path/to/sqlite/file.sq3
          */
         if (is_file($config['dbname'])) {
             $filePath = $config['dbname'];
@@ -151,64 +185,80 @@ class DataSource implements IDataSource
     }
 
     /**
-     * @param null $config
+     * Oracle config string builder.
+     *
+     * @param array $config here
+     *
      * @return string
      */
     public function oracle($config = null)
     {
         /**
-         * oci:dbname=//hostname:port/ORCL
+         * Oci:dbname=//hostname:port/ORCL
          */
         if (!is_null($config)) {
-            return "oci:dbname=//{$config['host']}:{$config['port']}/{$config['dbname']}";
+            return "oci:dbname=//" . $config['host'] .
+                ":" . $config['port'] . "/" . $config['dbname'];
         }
 
         return null;
     }
 
     /**
-     * @param null $config
+     * MSSQL config string builder.
+     *
+     * @param array $config here
+     *
      * @return string
      */
     public function mssql($config = null)
     {
         /**
-         * mssql:host=hostname:port;dbname=database
+         * Mssql:host=hostname:port;dbname=database
          */
         if (!is_null($config)) {
-            return "mssql:host={$config['host']}:{$config['port']};dbname={$config['dbname']}";
+            return "mssql:host=" . $config['host'] . ":" .
+                $config['port'] . ";dbname=" . $config['dbname'];
         }
 
         return null;
     }
 
     /**
-     * @param null $config
+     * Mysql config string builder.
+     *
+     * @param array $config here
+     *
      * @return string
      */
     public function mysql($config = null)
     {
         /**
-         * mysql:host=hostname;port=3306;dbname=dbname
+         * Mysql:host=hostname;port=3306;dbname=dbname
          */
         if (!is_null($config)) {
-            return "mysql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+            return "mysql:host=" . $config['host'] . ";port=" .
+                $config['port'] . ";dbname=" . $config['dbname'];
         }
 
         return null;
     }
 
     /**
-     * @param null $config
+     * Postgres config string builder.
+     *
+     * @param array $config here
+     *
      * @return string
      */
     public function postgres($config = null)
     {
         /**
-         * pgsql:host=hostname;port=5432;dbname=testdb
+         * Pgsql:host=hostname;port=5432;dbname=testdb
          */
         if (!is_null($config)) {
-            return "pgsql:host={$config['host']};port={$config['port']};dbname={$config['dbname']}";
+            return "pgsql:host=" . $config['host'] . ";port=" .
+                $config['port'] . ";dbname=" . $config['dbname'];
         }
 
         return null;
@@ -217,11 +267,12 @@ class DataSource implements IDataSource
     /**
      * Check if specified datasource type is supported.
      *
-     * @param $text
-     * @param bool $checkOnly
+     * @param string $text      here
+     * @param bool   $checkOnly here
+     *
      * @return bool
      */
-    private function validate($text, $checkOnly = false)
+    private function _validate($text, $checkOnly = false)
     {
         $drivers = array(
             'sqlite' => 'sqlite',
@@ -231,7 +282,12 @@ class DataSource implements IDataSource
             'oracle' => 'oci'
         );
 
-        if (!in_array($drivers[$text], PDO::getAvailableDrivers(), true) && $checkOnly) {
+        if (!in_array(
+            $drivers[$text],
+            PDO::getAvailableDrivers(),
+            true
+        ) && $checkOnly
+        ) {
             return false;
         } else {
             return true;

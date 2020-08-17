@@ -7,7 +7,6 @@
  *
  * @category  Core
  * @package   MicroFrame\Core
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -31,19 +30,29 @@ use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as whoopsRun;
 
 /**
- * Class Application
- * @package MicroFrame\Core
+ * Application class
+ *
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 class Application
 {
-    private $config;
+    /**
+     * Contains retrieved config for the app bootstrap.
+     *
+     * @var array|mixed|null
+     */
+    private $_config;
 
     /**
      * Application constructor.
      */
     public function __construct()
     {
-        $this->config = Config::fetch();
+        $this->_config = Config::fetch();
     }
 
 
@@ -54,12 +63,13 @@ class Application
      */
     public function environment()
     {
-        return $this->config['system']['debug'];
+        return $this->_config['system']['debug'];
     }
 
     /**
      * Boot up application
      *
+     * @return void
      */
     public function start()
     {
@@ -67,7 +77,7 @@ class Application
         /**
          * Implement pretty error display.
          */
-        if ($this->config['system']['debug']) {
+        if ($this->_config['system']['debug']) {
             $whoops = new whoopsRun;
             $page = new PrettyPageHandler();
             $protectArray = array('_ENV', '_SERVER');
@@ -80,7 +90,7 @@ class Application
             $whoops->pushHandler($page)->register();
         }
 
-        if ($this->config['console']) {
+        if ($this->_config['console']) {
             Console::init()->execute();
         } else {
             /**

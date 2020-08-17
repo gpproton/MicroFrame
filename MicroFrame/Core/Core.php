@@ -1,15 +1,11 @@
 <?php
-namespace App\Controller\Api;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
- * API Error controller class
+ * Request Core class
  *
  * PHP Version 7
  *
- * @category  App
- * @package   App\Controllers\Api
- * @author    Godwin peter .O <me@godwin.dev>
+ * @category  Core
+ * @package   MicroFrame\Core
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -22,12 +18,19 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
- use \MicroFrame\Core\Controller as Core;
+namespace MicroFrame\Core;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class ErrorController
- * @package App\Controller\Api
+ * Core class
+ *
+ * @category Core
+ * @package  MicroFrame\Core
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
-class ErrorController extends Core
+class Core
 {
 }

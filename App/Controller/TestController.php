@@ -1,11 +1,11 @@
 <?php
 /**
- * Test Controller class
+ * TestController class
  *
  * PHP Version 7
  *
- * @category  Controller
- * @package   App\Controllers
+ * @category  MicroFrame
+ * @package   App\Controller
  * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
@@ -21,18 +21,26 @@
 
 namespace App\Controller;
 
-defined('BASE_PATH') OR exit('No direct script access allowed');
+defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Core\Controller as Core;
 
 /**
  * Class TestController
- * @package App\Controller
+ *
+ * @category Controller
+ * @package  App\Controller
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
-class TestController extends Core {
+final class TestController extends Core
+{
 
     /**
      * Controller index method, normal.
+     *
+     * @return void
      */
     public function index()
     {
@@ -42,11 +50,24 @@ class TestController extends Core {
          * $this->auto(false);
          */
 
+        //        $cacheInstance = $this->cache('redis');
+        //        die(var_dump($cacheInstance->setMultiple(['testz' => 'yes', 'testx' => 'hmmm'])));
+        //        die(var_dump($cacheInstance->set('newSamples', 45)));
+        //        die(var_dump($cacheInstance->get('testz')));
+        //        die(var_dump($cacheInstance->push('nq1', ['haha', 'hoho'])));
+        //        die(var_dump($cacheInstance->pop('nq1')));
+        //        die(var_dump($cacheInstance->getMultiple(['testz', 'nq1_queue'])));
+        //        die(var_dump($cacheInstance->deleteMultiple(['testz', 'nq1_queue'])));
+
+
         $this->response
             // Optional set method
             ->methods(['get', 'post'])
-            ->data(['OnePieceVillains' => ['Black Beard', 'Douglass Bullet', 'D Rocks', 'Im Sama'],
-            'address' => $this->request->url()])
+            ->data(
+                ['Villains' => ['OnePiece' => ['Black Beard', 'Douglass Bullet', 'D Rocks', 'Im Sama'],
+                'Naruto' => ['Orochimaru', 'Danzo', 'Madara Uciha']],
+                'address' => $this->request->url()]
+            )
             ->send();
     }
 }
