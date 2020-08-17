@@ -6,7 +6,6 @@
  *
  * @category  Model
  * @package   App\Model
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -26,8 +25,13 @@ use MicroFrame\Core\ModelQuery;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class SampleModel
- * @package App\Model
+ * SampleModel class
+ *
+ * @category Core
+ * @package  App\Model
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://godwin.dev
  */
 class SampleModel extends ModelQuery
 {
@@ -37,17 +41,12 @@ class SampleModel extends ModelQuery
      *
      * @return array
      */
-    public function default()
+    public function index()
     {
         $query = <<<SQL
-
             SELECT 1 FROM DUAL
-            
 SQL;
-
-        $sample = array();
-
-        return array( 'query' => $query, 'sample' => $sample);
+        return array( 'query' => $query, 'sample' => array());
     }
 
     /**
@@ -58,13 +57,8 @@ SQL;
     public function sample()
     {
         $query = <<<SQL
-
             SELECT 'TEST' FROM DUAL
-            
 SQL;
-
-        $sample = array();
-
-        return array( 'query' => $query, 'sample' => $sample);
+        return array( 'query' => $query, 'sample' => array());
     }
 }

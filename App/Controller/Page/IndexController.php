@@ -32,7 +32,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @package  App\Controller\Page
  * @author   Godwin peter .O <me@godwin.dev>
  * @license  MIT License
- * @link     https://github.com/gpproton/microframe
+ * @link     https://godwin.dev
  */
 class IndexController extends Core
 {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Model Query class
+ * Core ModelQuery class
  *
  * PHP Version 7
  *
@@ -32,7 +32,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @package  MicroFrame\Core
  * @author   Godwin peter .O <me@godwin.dev>
  * @license  MIT License
- * @link     https://github.com/gpproton/microframe
+ * @link     https://godwin.dev
  */
 class ModelQuery
 {
@@ -74,11 +74,10 @@ class ModelQuery
      *
      * @return array
      */
-    public function default()
+    public function index()
     {
         $query = <<<SQL
             SELECT 1 FROM DUAL
-            
 SQL;
         $sample = array();
         return array( 'query' => $query, 'sample' => $sample);

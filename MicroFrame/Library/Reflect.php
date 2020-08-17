@@ -22,10 +22,8 @@ namespace MicroFrame\Library;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
-use MicroFrame\Handlers\Exception;
 use MicroFrame\Handlers\Logger;
 use ReflectionClass;
-
 
 /**
  * Class Reflect
@@ -34,12 +32,25 @@ use ReflectionClass;
  * @package  MicroFrame\Library
  * @author   Godwin peter .O <me@godwin.dev>
  * @license  MIT License
- * @link     https://github.com/gpproton/microframe
+ * @link     https://godwin.dev
  */
 class Reflect
 {
-    private static $sysPath = "MicroFrame\Defaults\\";
-    private static $appPath = "App\\";
+    /**
+     * System default content path.
+     *
+     * @var string
+     */
+    private static $_sysPath = "MicroFrame\Defaults\\";
+
+
+    /**
+     * Application content path.
+     *
+     * @var string
+     */
+    private static $_appPath = "App\\";
+
     /**
      * Reflect constructor.
      */
@@ -49,6 +60,8 @@ class Reflect
 
     /**
      * Statically initialize class object
+     *
+     * @return self
      */
     public static function check()
     {
@@ -58,9 +71,11 @@ class Reflect
     /**
      * Dynamically get classes and method based on filtered strings
      *
-     * @param $path
-     * @param array $args
-     * @param bool $checkMethod A condition to see if there's a matching class index or a class method
+     * @param string $path        here
+     * @param array  $args        here
+     * @param bool   $checkMethod A condition to see if
+     *                            there's a matching class index or a class method
+     *
      * @return mixed
      */
     public function stateLoader($path, $args = array(), $checkMethod = false)
@@ -93,9 +108,9 @@ class Reflect
         };
 
         if (Strings::filter($type)->contains("sys")) {
-            $path = $pathHandler(self::$sysPath);
+            $path = $pathHandler(self::$_sysPath);
         } elseif ((Strings::filter($type)->contains("app"))) {
-            $path = $pathHandler(self::$appPath);
+            $path = $pathHandler(self::$_appPath);
         }
 
         $classDirect = Strings::filter($path)
@@ -144,26 +159,26 @@ class Reflect
         }
 
         switch ($core) {
-            case 'Controller':
-                /**
-                 * $args[2] hold the name method to be called.
-                 */
-                if (class_exists($classIndexMethod) && gettype($args) === 'array') {
-                    $args[2] = $classIndexMethodValue;
-                } elseif (class_exists($classUpper) && gettype($args) === 'array') {
-                    $args[2] = $classMethod;
-                }
-                break;
-            case 'Model':
-                /**
-                 * $args[0] hold the name method to be called.
-                 */
-                if (class_exists($classUpper) && gettype($args) === 'array') {
-                    $args[0] = $classMethod;
-                }
-                break;
-            default:
-                break;
+        case 'Controller':
+            /**
+             * $args[2] hold the name method to be called.
+             */
+            if (class_exists($classIndexMethod) && gettype($args) === 'array') {
+                $args[2] = $classIndexMethodValue;
+            } elseif (class_exists($classUpper) && gettype($args) === 'array') {
+                $args[2] = $classMethod;
+            }
+            break;
+        case 'Model':
+            /**
+             * $args[0] hold the name method to be called.
+             */
+            if (class_exists($classUpper) && gettype($args) === 'array') {
+                $args[0] = $classMethod;
+            }
+            break;
+        default:
+            break;
         }
 
         if (gettype($args) !== 'array' && class_exists($path)) {
@@ -178,7 +193,11 @@ class Reflect
             } catch (\ReflectionException $e) {
                 Logger::set($e->getMessage())->error();
             }
-            /** @var ReflectionClass $classBuilder */
+            /**
+             * Reflection instance.
+             *
+             * @var ReflectionClass $classBuilder
+             */
             return $classBuilder->newInstanceArgs($args);
         } else {
             return false;
@@ -186,9 +205,12 @@ class Reflect
     }
 
     /**
-     * @param $classInstance
-     * @param $methodName
-     * @param $paramArrays
+     * Method instance loader.
+     *
+     * @param string $classInstance here
+     * @param string $methodName    here
+     * @param array  $paramArrays   here
+     *
      * @return mixed
      */
     public function methodLoader($classInstance, $methodName, $paramArrays = array())
@@ -201,12 +223,12 @@ class Reflect
 
 
     /**
-     * get the full name (name \ namespace) of a class from its file path
+     * Get the full name (name \ namespace) of a class from its file path
      * result example: (string) "I\Am\The\Namespace\Of\This\Class"
      *
-     * @param $filePathName
+     * @param string $filePathName here
      *
-     * @return  string
+     * @return string
      */
     public function getClassFullNameFromFile($filePathName)
     {
@@ -215,11 +237,11 @@ class Reflect
 
 
     /**
-     * build and return an object of a class from its file path
+     * Build and return an object of a class from its file path
      *
-     * @param $filePathName
+     * @param string $filePathName here
      *
-     * @return  mixed
+     * @return mixed
      */
     public function getClassObjectFromFile($filePathName)
     {
@@ -228,11 +250,11 @@ class Reflect
     }
 
     /**
-     * get the class namespace form file path using token
+     * Get the class namespace form file path using token
      *
-     * @param $filePathName
+     * @param string $filePathName here
      *
-     * @return  null|string
+     * @return null|string
      */
     public function getClassNamespaceFromFile($filePathName)
     {
@@ -253,7 +275,8 @@ class Reflect
                         $namespace = trim($namespace);
                         break;
                     }
-                    $namespace .= is_array($tokens[$i]) ? $tokens[$i][1] : $tokens[$i];
+                    $namespace .= is_array($tokens[$i])
+                        ? $tokens[$i][1] : $tokens[$i];
                 }
                 break;
             }
@@ -267,11 +290,11 @@ class Reflect
     }
 
     /**
-     * get the class name form file path using token
+     * Get the class name form file path using token
      *
-     * @param $filePathName
+     * @param string $filePathName here
      *
-     * @return  mixed
+     * @return mixed
      */
     protected function getClassNameFromFile($filePathName)
     {

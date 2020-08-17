@@ -35,7 +35,7 @@ use function OpenApi\scan;
  * @package  MicroFrame\Defaults\Controller
  * @author   Godwin peter .O <me@godwin.dev>
  * @license  MIT License
- * @link     https://github.com/gpproton/microframe
+ * @link     https://godwin.dev
  */
 class SwaggerController extends Core
 {

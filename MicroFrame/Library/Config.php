@@ -33,7 +33,7 @@ use Noodlehaus\AbstractConfig as configAbstractModule;
  * @package  MicroFrame\Library
  * @author   Godwin peter .O <me@godwin.dev>
  * @license  MIT License
- * @link     https://github.com/gpproton/microframe
+ * @link     https://godwin.dev
  */
 final class Config extends configAbstractModule
 {
