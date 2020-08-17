@@ -1,12 +1,11 @@
 <?php
 /**
- * Conversion Library class
+ * Parser Library class
  *
  * PHP Version 7
  *
  * @category  Library
  * @package   MicroFrame\Library
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -28,15 +27,23 @@ use Symfony\Component\Yaml\Yaml as YamlEncoder;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class Convert
- * @package MicroFrame\Library
+ * Class Parser
+ *
+ * @category Library
+ * @package  MicroFrame\Library
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
-class Convert
+class Parser
 {
 
     /**
-     * @param $array
-     * @param string $type
+     * The array parser method
+     *
+     * @param array  $array array to be parsed.
+     * @param string $type  format to be parsed into.
+     *
      * @return false|mixed|string
      */
     public static function arrays($array, $type = 'json')

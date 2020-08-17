@@ -6,7 +6,6 @@
  *
  * @category  Library
  * @package   MicroFrame\Library
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -25,16 +24,25 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class DateTime
- * @package MicroFrame\Library
+ *
+ * @category Library
+ * @package  MicroFrame\Library
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class DateTime
 {
 
     /**
-     * @param $format
-     * @param null $date
+     * Potentially assist for date format.
+     *
+     * @param string $format here
+     * @param string $date   here
+     *
+     * @return void
      */
-    public static function format($format, $date = null)
+    public static function format($format, $date = 'd-m-Y')
     {
     }
 }

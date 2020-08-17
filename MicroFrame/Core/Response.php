@@ -23,7 +23,7 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Core\Request as request;
-use MicroFrame\Library\Convert;
+use MicroFrame\Library\Parser;
 use MicroFrame\Library\Strings;
 use MicroFrame\Library\Value;
 use MicroFrame\Interfaces\IResponse;
@@ -413,9 +413,9 @@ final class Response implements IResponse
              */
 
             if ($this->_contentRaw) {
-                die(Convert::arrays($this->_content['data'], $this->_format));
+                die(Parser::arrays($this->_content['data'], $this->_format));
             } else {
-                die(Convert::arrays($this->_content, $this->_format));
+                die(Parser::arrays($this->_content, $this->_format));
             }
         } elseif (is_null($this->_view) && gettype($this->_content) !== 'array') {
             die($this->_content);
@@ -514,7 +514,7 @@ final class Response implements IResponse
                 readfile($filepath);
                 $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
                 die(
-                    Convert::arrays(
+                    Parser::arrays(
                         $this->_content,
                         $this->_request->contentType()
                     )

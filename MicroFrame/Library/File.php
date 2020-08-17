@@ -6,7 +6,6 @@
  *
  * @category  Library
  * @package   MicroFrame\Library
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -29,7 +28,12 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class File
- * @package MicroFrame\Library
+ *
+ * @category Library
+ * @package  MicroFrame\Library
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class File
 {
@@ -48,8 +52,9 @@ final class File
     /**
      * Clears old files in a directory above the number of days specified
      *
-     * @param $path
-     * @param int $days
+     * @param string $path here
+     * @param int    $days here
+     *
      * @return void
      */
     public function clearOld($path, $days = 3)
@@ -69,17 +74,23 @@ final class File
     /**
      * Check for files directory and recursively in child directories.
      *
-     * @summary While checking through directories allow or disallow matching string patterns
+     * @param string $basePath     here
+     * @param string $relativeBase where relative root starts
+     * @param string $contains     filter text contain
+     * @param int    $filter       text ignore
+     *
+     * @summary While checking through directories
+     * allow or disallow matching string patterns
      * also setting of preferred base path and
      *
-     * @param string $basePath
-     * @param string $relativeBase
-     * @param string $contains
-     * @param int $filter
      * @return array
      */
-    public function filesInDirectory($basePath = __DIR__, $relativeBase = __DIR__, $contains = ".php", $filter = ".ini" | ".md" | ".DS_Store")
-    {
+    public function filesInDirectory(
+        $basePath = __DIR__,
+        $relativeBase = __DIR__,
+        $contains = ".php",
+        $filter = ".ini" | ".md" | ".DS_Store"
+    ) {
         $files = array();
         $dirIterator = new RecursiveDirectoryIterator($basePath);
         $fileIterator = new RecursiveIteratorIterator($dirIterator);
@@ -88,7 +99,9 @@ final class File
                 continue;
             }
             $file = $this->relativePath($relativeBase, $filename);
-            if (Strings::filter($file)->contains($contains) && !Strings::filter($file)->contains($filter)) {
+            if (Strings::filter($file)->contains($contains)
+                && !Strings::filter($file)->contains($filter)
+            ) {
                 $files[] = $file;
             }
         }
@@ -99,24 +112,31 @@ final class File
     /**
      * Returns an associative array of a directory and all it contents.
      *
-     * @param string $basePath
+     * @param string $basePath here
+     *
      * @return array
      */
     public function dirStructure($basePath = __DIR__)
     {
         $dirIterator = new RecursiveDirectoryIterator($basePath);
-        $fileIterator = new RecursiveIteratorIterator($dirIterator, RecursiveIteratorIterator::CHILD_FIRST);
+        $fileIterator = new RecursiveIteratorIterator(
+            $dirIterator,
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
         $fileSys = array();
         $path = array();
         foreach ($fileIterator as $splFileInfo) {
-            if ($splFileInfo->getFilename() !== '.' || $splFileInfo->getFilename() !== '..') {
+            if ($splFileInfo->getFilename() !== '.'
+                || $splFileInfo->getFilename() !== '..'
+            ) {
                 $path = $splFileInfo->isDir()
                 ? array($splFileInfo->getFilename() => array())
                 : array($splFileInfo->getFilename());
             }
 
             for ($depth = $fileIterator->getDepth() - 1; $depth >= 0; $depth--) {
-                $instFile = $fileIterator->getSubIterator($depth)->current()->getFilename();
+                $instFile = $fileIterator
+                    ->getSubIterator($depth)->current()->getFilename();
 
                 if (!isset($path['.']) && !isset($path['..'])) {
                     $path = array($instFile => $path);
@@ -131,6 +151,15 @@ final class File
         return $fileSys;
     }
 
+    /**
+     * Returns relative path of a file from specified
+     * directory
+     *
+     * @param string $from here
+     * @param string $to   here
+     *
+     * @return string
+     */
     public function relativePath($from, $to)
     {
         /**
@@ -146,21 +175,21 @@ final class File
         $relPath  = $to;
         foreach ($from as $depth => $dir) {
             /**
-             * find first non-matching dir
+             * Find first non-matching dir
              */
             if ($dir === $to[$depth]) {
                 /**
-                 * ignore this directory
+                 * Ignore this directory
                  */
                 array_shift($relPath);
             } else {
                 /**
-                 * get number of remaining dirs to $from
+                 * Get number of remaining dirs to $from
                  */
                 $remaining = count($from) - $depth;
                 if ($remaining > 1) {
                     /**
-                     * add traversals up to first matching dir
+                     * Add traversals up to first matching dir
                      */
                     $padLength = (count($relPath) + $remaining - 1) * -1;
                     $relPath = array_pad($relPath, $padLength, '..');

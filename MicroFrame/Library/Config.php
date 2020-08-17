@@ -6,7 +6,6 @@
  *
  * @category  Library
  * @package   MicroFrame\Library
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -29,19 +28,26 @@ use Noodlehaus\AbstractConfig as configAbstractModule;
 
 /**
  * Class Config
- * @package MicroFrame\Library
+ *
+ * @category Library
+ * @package  MicroFrame\Library
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class Config extends configAbstractModule
 {
 
     /**
+     * Get and merge all config.
+     *
      * @return array
      */
     protected function getDefaults()
     {
 
         /**
-         * @summary
+         * Get CLI execution state and merge with config,
          */
         $defaults = array(
             'console' => php_sapi_name() === 'cli'
@@ -78,7 +84,8 @@ final class Config extends configAbstractModule
     /**
      * Initialize instance of the configuration retrieval.
      *
-     * @param null $key
+     * @param null $key here
+     *
      * @return array|mixed|null
      */
     public static function fetch($key = null)
@@ -86,7 +93,7 @@ final class Config extends configAbstractModule
         $instance = new self([]);
 
         try {
-            $instance->validate();
+            $instance->_validate();
         } catch (\Exception $exception) {
             Exception::init($exception->getMessage())->output();
         }
@@ -99,14 +106,14 @@ final class Config extends configAbstractModule
     }
 
     /**
-     * Configuration validation...
+     * Configuration  paths validation and creation...
+     *
+     * @return void
      */
-    private function validate()
+    private function _validate()
     {
-
         /**
-         * paths validation...
-         *
+         * Paths validation...
          */
         $paths = $this->get('system.path');
         $basePath = DATA_PATH . "/";
@@ -114,29 +121,49 @@ final class Config extends configAbstractModule
             if (is_dir($paths['logs'])) {
                 $this->set('system.path.logs', $paths['logs']);
             } else {
-                $this->set('system.path.logs', $this->dirCheck($basePath . $paths['logs']));
+                $this->set(
+                    'system.path.logs',
+                    $this->_dirCheck($basePath . $paths['logs'])
+                );
             }
 
             if (is_dir($paths['data'])) {
                 $this->set('system.path.data', $paths['data']);
             } else {
-                $this->set('system.path.data', $this->dirCheck($basePath . $paths['data']));
+                $this->set(
+                    'system.path.data',
+                    $this->_dirCheck($basePath . $paths['data'])
+                );
             }
 
             if (is_dir($paths['cache'])) {
                 $this->set('system.path.cache', $paths['cache']);
             } else {
-                $this->set('system.path.cache', $this->dirCheck($basePath . $paths['cache']));
+                $this->set(
+                    'system.path.cache',
+                    $this->_dirCheck($basePath . $paths['cache'])
+                );
             }
 
             if (is_dir($paths['storage'])) {
                 $this->set('system.path.storage', $paths['storage']);
             } else {
-                $this->set('system.path.storage', $this->dirCheck($basePath . $paths['storage']));
+                $this->set(
+                    'system.path.storage',
+                    $this->_dirCheck($basePath . $paths['storage'])
+                );
             }
         }
     }
-    private function dirCheck($path)
+
+    /**
+     * Assist to check and create directories.
+     *
+     * @param string $path here
+     *
+     * @return mixed
+     */
+    private function _dirCheck($path)
     {
         if (!is_dir($path)) {
             mkdir($path, 777, true);

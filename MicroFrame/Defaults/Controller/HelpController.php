@@ -475,7 +475,7 @@ $markdownString
 MARKDOWN;
         }
         /**
-         * Convert markdown to HTML
+         * Parser markdown to HTML
          */
         $html = Markdown::translate($markdownString);
 

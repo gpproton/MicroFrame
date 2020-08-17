@@ -6,7 +6,6 @@
  *
  * @category  Library
  * @package   MicroFrame\Library
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -28,7 +27,12 @@ use ReflectionException;
 
 /**
  * Class Utils
- * @package MicroFrame\Library
+ *
+ * @category Library
+ * @package  MicroFrame\Library
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://github.com/gpproton/microframe
  */
 final class Utils
 {
