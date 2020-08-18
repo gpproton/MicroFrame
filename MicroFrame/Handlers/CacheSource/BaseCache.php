@@ -32,7 +32,7 @@ use function array_splice;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class BaseCache
+ * BaseCache Class
  *
  * @category Handlers
  * @package  MicroFrame\Handlers\CacheSource

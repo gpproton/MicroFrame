@@ -29,7 +29,7 @@ use Phpfastcache\Helper\Psr16Adapter;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class RedisCache
+ * RedisCache Class
  *
  * @category Handlers
  * @package  MicroFrame\Handlers\CacheSource
