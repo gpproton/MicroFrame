@@ -55,7 +55,15 @@
 
         body {
             font-weight: 300 !important;
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
         }
+
+        main {
+            flex: 1 0 auto;
+        }
+
         .markdown-body {
             box-sizing: border-box;
             min-width: 200px;
@@ -199,6 +207,15 @@
     } ?>
 
 </div>
+
+<footer class="page-footer" style="background-color: #ededed;">
+    <div class="footer-copyright" style="background-color: #9e9e9e;">
+        <div class="container">
+            © 2020 MicroFrame
+            <a class="white-text text-lighten-4 right" href="#!">Tolaram ERP</a>
+        </div>
+    </div>
+</footer>
 
 <script src="<?=$root?>js/materialize.min.js"></script>
 <!-- https://highlightjs.org/ -->
