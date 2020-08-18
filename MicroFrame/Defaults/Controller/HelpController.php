@@ -31,7 +31,7 @@ use Noodlehaus\Config;
 use Noodlehaus\Parser\Yaml;
 
 /**
- * Class HelpController
+ * HelpController Class
  *
  * @category Controller
  * @package  MicroFrame\Defaults\Controller

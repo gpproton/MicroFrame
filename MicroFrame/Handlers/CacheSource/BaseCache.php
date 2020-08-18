@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers\CacheSource
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -34,7 +33,12 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class BaseCache
- * @package MicroFrame\Handlers\CacheSource
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers\CacheSource
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://godwin.dev
  */
 abstract class BaseCache implements ICache
 {
@@ -44,7 +48,10 @@ abstract class BaseCache implements ICache
 
     /**
      * CacheSource constructor.
-     * @param string $source
+     *
+     * @param string $source cache source.
+     *
+     * @return void|self
      */
     public function __construct($source = "default")
     {
@@ -55,10 +62,10 @@ abstract class BaseCache implements ICache
     }
 
     /**
-     *
      * A central initialization point, for any type of datasource.
      *
-     * @param $source
+     * @param string $source Cache source to pass to constructor.
+     *
      * @return mixed|null
      */
     abstract public function init($source) : Psr16Adapter;
@@ -66,7 +73,8 @@ abstract class BaseCache implements ICache
     /**
      * Retrieve configuration values.
      *
-     * @param $name
+     * @param string $name name of configuration to retrieve.
+     *
      * @return mixed|void
      */
     public function config($name)
@@ -77,13 +85,16 @@ abstract class BaseCache implements ICache
     /**
      * Prepend configured prefix on requested keys.
      *
-     * @param $key
+     * @param string $key here
+     *
      * @return string|array
+     *
      * @throws Exception
      */
-    private function setPrefix($key)
+    private function _setPrefix($key)
     {
-        $prefix = isset($this->config($this->source)['prefix']) ? $this->config($this->source)['prefix'] : 'mf_';
+        $prefix = isset($this->config($this->source)['prefix'])
+            ? $this->config($this->source)['prefix'] : 'mf_';
         if (gettype($key) === 'string') {
             return $prefix . $key;
         } elseif (gettype($key) === 'array') {
@@ -99,7 +110,8 @@ abstract class BaseCache implements ICache
     /**
      * Initialize path for caching items.
      *
-     * @param string $source
+     * @param string $source Root path for cache to initialize.
+     *
      * @return array|mixed|string|null
      */
     protected function pathInit($source = 'default')
@@ -116,15 +128,17 @@ abstract class BaseCache implements ICache
     /**
      * Get value for single item.
      *
-     * @param $key
+     * @param string $key here
+     *
      * @return mixed|void
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
      */
     public function get($key)
     {
-        $key = $this->setPrefix($key);
+        $key = $this->_setPrefix($key);
 
         return $this->instance->get($key);
     }
@@ -132,17 +146,19 @@ abstract class BaseCache implements ICache
     /**
      * Set value for single item.
      *
-     * @param $key
-     * @param $value
-     * @param int $expiry
+     * @param string                $key    here
+     * @param string|array|int|null $value  here
+     * @param int                   $expiry here
+     *
      * @return mixed|void
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
      */
     public function set($key, $value, $expiry = 900)
     {
-        $key = $this->setPrefix($key);
+        $key = $this->_setPrefix($key);
 
         return $this->instance->set($key, $value, $expiry);
     }
@@ -150,17 +166,19 @@ abstract class BaseCache implements ICache
     /**
      * Push items to back of array
      *
-     * @param $key
-     * @param array|string|int $value
-     * @param int $expiry
+     * @param string                $key    here
+     * @param string|array|int|null $value  here
+     * @param int                   $expiry here
+     *
      * @return mixed|void
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
      */
     public function push($key, $value, $expiry = 1)
     {
-        $key = $this->setPrefix($key) . '_queue';
+        $key = $this->_setPrefix($key) . '_queue';
         $expiry = (60 * 60 * 24) * $expiry;
         $oldValues = $this->instance->get($key);
 
@@ -173,8 +191,14 @@ abstract class BaseCache implements ICache
              * Filter excess items in queue.
              */
             $maxListConfig = $this->config($this->source . '.maxQueue');
-            if (gettype($oldValues) === 'array' && sizeof($oldValues) >= $maxListConfig) {
-                array_splice($oldValues, 0, (sizeof($oldValues) - $maxListConfig) - 1);
+            if (gettype($oldValues) === 'array'
+                && sizeof($oldValues) >= $maxListConfig
+            ) {
+                array_splice(
+                    $oldValues,
+                    0,
+                    (sizeof($oldValues) - $maxListConfig) - 1
+                );
             }
 
             if (gettype($value) === 'array') {
@@ -192,17 +216,19 @@ abstract class BaseCache implements ICache
     /**
      * Remove the front items in array.
      *
-     * @param $key
-     * @param int $count
-     * @param int $expiry
+     * @param string $key    here
+     * @param int    $count  number of items to pop.
+     * @param int    $expiry here
+     *
      * @return mixed|void
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
      */
     public function pop($key, int $count = 1, $expiry = 1)
     {
-        $key = $this->setPrefix($key) . '_queue';
+        $key = $this->_setPrefix($key) . '_queue';
         $expiry = (60 * 60 * 24) * $expiry;
         $oldValues = $this->instance->get($key);
 
@@ -225,7 +251,11 @@ abstract class BaseCache implements ICache
              */
             $maxListConfig = $this->config($this->source . '.maxQueue');
             if (sizeof($oldValues) >= $maxListConfig) {
-                array_splice($oldValues, 0, (sizeof($oldValues) - $maxListConfig) - 1);
+                array_splice(
+                    $oldValues,
+                    0,
+                    (sizeof($oldValues) - $maxListConfig) - 1
+                );
             }
         }
 
@@ -235,16 +265,18 @@ abstract class BaseCache implements ICache
     /**
      * Returns all queue items by the requested count or all.
      *
-     * @param $key
-     * @param int $count
+     * @param string $key   here
+     * @param int    $count number of items to retrieve.
+     *
      * @return mixed|void
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
      */
     public function all($key, $count = 100)
     {
-        $key = $this->setPrefix($key). '_queue';
+        $key = $this->_setPrefix($key). '_queue';
         $item = $this->instance->get($key);
         if (sizeof($count) >= 1) {
             array_slice($item, 0, $count);
@@ -256,6 +288,7 @@ abstract class BaseCache implements ICache
      * Clears all entered keys.
      *
      * @return mixed|void|boolean
+     *
      * @throws PhpfastcacheSimpleCacheException
      */
     public function clear()
@@ -266,23 +299,27 @@ abstract class BaseCache implements ICache
     /**
      * Delete requested key completely.
      *
-     * @param $key
+     * @param string $key here
+     *
      * @return mixed|void|boolean
+     *
      * @throws Exception
      * @throws PhpfastcacheSimpleCacheException
      */
     public function delete($key)
     {
-        $key = $this->setPrefix($key);
+        $key = $this->_setPrefix($key);
         return $this->instance->delete($key);
     }
 
     /**
+     * An array of keys to return.
      *
+     * @param array $keys    here
+     * @param null  $default here
      *
-     * @param array $keys
-     * @param null $default
-     * @return mixed|void
+     * @return mixed|void|array
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
@@ -290,7 +327,7 @@ abstract class BaseCache implements ICache
     public function getMultiple($keys, $default = null)
     {
         if (gettype($keys) === 'array') {
-            $keys = $this->setPrefix($keys);
+            $keys = $this->_setPrefix($keys);
 
             return $this->instance->getMultiple($keys);
         }
@@ -301,17 +338,19 @@ abstract class BaseCache implements ICache
     /**
      * A key value save of multiple keys.
      *
-     * @param $values
-     * @param int $ttl
+     * @param array $values A key value array store.
+     * @param int   $expiry expiry in seconds
+     *
      * @return mixed|void
+     *
      * @throws Exception
      * @throws PhpfastcacheSimpleCacheException
      */
-    public function setMultiple($values, $ttl = 900)
+    public function setMultiple($values, $expiry = 900)
     {
         if (gettype($values) === 'array') {
             foreach ($values as $key => $value) {
-                $values[$this->setPrefix($key)] = $value;
+                $values[$this->_setPrefix($key)] = $value;
                 unset($values[$key]);
             }
 
@@ -322,8 +361,12 @@ abstract class BaseCache implements ICache
     }
 
     /**
-     * @param array $keys
+     * Delete multiple keys.
+     *
+     * @param array $keys here
+     *
      * @return mixed|void
+     *
      * @throws Exception
      * @throws InvalidArgumentException
      * @throws PhpfastcacheSimpleCacheException
@@ -331,7 +374,7 @@ abstract class BaseCache implements ICache
     public function deleteMultiple($keys = [])
     {
         if (gettype($keys) === 'array' && sizeof($keys) >= 1) {
-            $keys = $this->setPrefix($keys);
+            $keys = $this->_setPrefix($keys);
 
             return $this->instance->deleteMultiple($keys);
         }
@@ -342,7 +385,8 @@ abstract class BaseCache implements ICache
     /**
      * Check if a key exist.
      *
-     * @param $key
+     * @param string $key here
+     *
      * @return mixed|void
      * @throws Exception
      * @throws PhpfastcacheSimpleCacheException
@@ -350,7 +394,7 @@ abstract class BaseCache implements ICache
     public function has($key)
     {
         if (gettype($key) === 'string') {
-            $key = $this->setPrefix($key);
+            $key = $this->_setPrefix($key);
 
             return $this->instance->has($key);
         }

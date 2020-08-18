@@ -20,10 +20,14 @@
 
 namespace MicroFrame\Interfaces;
 
+use MicroFrame\Handlers\Exception;
+use Phpfastcache\Exceptions\PhpfastcacheSimpleCacheException;
+use Psr\Cache\InvalidArgumentException;
+
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Interface ICache
+ * ICache Interface
  *
  * @category Interface
  * @package  MicroFrame\Interfaces
@@ -44,76 +48,146 @@ interface ICache extends ICore
     public function config($name);
 
     /**
-     * @param $key
-     * @return mixed
+     * Get value for single item.
+     *
+     * @param string $key here
+     *
+     * @return mixed|void
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function get($key);
 
     /**
-     * @param $key
-     * @param $value
-     * @param int $expiry
-     * @return mixed
+     * Set value for single item.
+     *
+     * @param string                $key    here
+     * @param string|array|int|null $value  here
+     * @param int                   $expiry here
+     *
+     * @return mixed|void
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function set($key, $value, $expiry = 900);
 
     /**
-     * @param $key
-     * @param $value
-     * @param int $expiry
-     * @return mixed
+     * Push items to back of array
+     *
+     * @param string                $key    here
+     * @param string|array|int|null $value  here
+     * @param int                   $expiry here
+     *
+     * @return mixed|void
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function push($key, $value, $expiry = 1);
 
     /**
-     * @param $key
-     * @param int $count
-     * @param int $expiry
-     * @return mixed
+     * Remove the front items in array.
+     *
+     * @param string $key    here
+     * @param int    $count  number of items to pop.
+     * @param int    $expiry here
+     *
+     * @return mixed|void
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function pop($key, int $count = 1, $expiry = 1);
 
     /**
-     * @param $key
-     * @param $count
-     * @return mixed
+     * Returns all queue items by the requested count or all.
+     *
+     * @param string $key   here
+     * @param int    $count number of items to retrieve.
+     *
+     * @return mixed|void
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function all($key, $count);
 
     /**
-     * @return mixed
+     * Clears all entered keys.
+     *
+     * @return mixed|void|boolean
+     *
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function clear();
 
     /**
-     * @param $key
-     * @return mixed
+     * Delete requested key completely.
+     *
+     * @param string $key here
+     *
+     * @return mixed|void|boolean
+     *
+     * @throws Exception
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function delete($key);
 
     /**
-     * @param $keys
-     * @param null $default
-     * @return mixed
+     * An array of keys to return.
+     *
+     * @param array $keys    here
+     * @param null  $default here
+     *
+     * @return mixed|void|array
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function getMultiple($keys, $default = null);
 
     /**
-     * @param $values
-     * @param int $expiry
-     * @return mixed
+     * A key value save of multiple keys.
+     *
+     * @param array $values A key value array store.
+     * @param int   $expiry expiry in seconds
+     *
+     * @return mixed|void
+     *
+     * @throws Exception
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function setMultiple($values, $expiry = 900);
 
     /**
-     * @param $keys
-     * @return mixed
+     * Delete multiple keys.
+     *
+     * @param array $keys here
+     *
+     * @return mixed|void
+     *
+     * @throws Exception
+     * @throws InvalidArgumentException
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function deleteMultiple($keys);
 
     /**
-     * @param $key
-     * @return mixed
+     * Check if a key exist.
+     *
+     * @param string $key here
+     *
+     * @return mixed|void
+     * @throws Exception
+     * @throws PhpfastcacheSimpleCacheException
      */
     public function has($key);
 }

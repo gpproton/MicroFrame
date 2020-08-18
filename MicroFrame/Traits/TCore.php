@@ -21,10 +21,10 @@
 namespace MicroFrame\Traits;
 
 /**
- * Trait TCore
+ * TCore Trait
  *
- * @category Interface
- * @package  MicroFrame\Interfaces
+ * @category Traits
+ * @package  MicroFrame\Traits
  * @author   Godwin peter .O <me@godwin.dev>
  * @license  MIT License
  * @link     https://godwin.dev

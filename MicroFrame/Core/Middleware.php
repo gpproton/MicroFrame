@@ -6,7 +6,6 @@
  *
  * @category  Core
  * @package   MicroFrame\Core
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License

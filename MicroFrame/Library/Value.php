@@ -23,7 +23,7 @@ namespace MicroFrame\Library;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class Value
+ * Value Class
  *
  * @category Library
  * @package  MicroFrame\Library
@@ -33,16 +33,24 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 class Value
 {
+    /**
+     * Value class static initializer.
+     *
+     * @return self|void
+     */
     public static function init()
     {
         return new self();
     }
 
     /**
-     * @param $code
+     * A method to return a specific error HTTP code.
+     *
+     * @param int $code here
+     *
      * @return mixed
      */
-    public function HttpCodes($code)
+    public function httpCodes($code)
     {
         $http = array(
             100 => 'HTTP/1.1 100 Continue',

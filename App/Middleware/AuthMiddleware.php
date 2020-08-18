@@ -1,7 +1,4 @@
 <?php
-namespace App\Middleware;
-
-defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Test Middleware class
  *
@@ -9,7 +6,6 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  *
  * @category  Middleware
  * @package   App\Middleware
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -22,15 +18,26 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
+namespace App\Middleware;
+
+defined('BASE_PATH') or exit('No direct script access allowed');
+
 use \Microframe\Core\Middleware;
 
 /**
- * Class AuthMiddleware
- * @package App\Middleware
+ * AuthMiddleware Class
+ *
+ * @category Middleware
+ * @package  App\Middleware
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://godwin.dev
  */
 class AuthMiddleware extends Middleware
 {
     /**
+     * Handle the validation return state.
+     *
      * @return bool|mixed
      */
     public function handle()

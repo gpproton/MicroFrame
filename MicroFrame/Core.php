@@ -31,7 +31,7 @@ use MicroFrame\Handlers\ErrorHandler as handler;
 use MicroFrame\Core\Application as app;
 
 /**
- * Class Core
+ * Core Class
  * MicroFrame core bootstrapper for application.
  *
  * @category Core

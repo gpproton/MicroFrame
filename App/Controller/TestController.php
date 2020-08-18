@@ -6,7 +6,6 @@
  *
  * @category  MicroFrame
  * @package   App\Controller
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -26,7 +25,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 use MicroFrame\Core\Controller as Core;
 
 /**
- * Class TestController
+ * TestController Class
  *
  * @category Controller
  * @package  App\Controller

@@ -31,7 +31,7 @@ use MicroFrame\Interfaces\IResponse;
 // TODO: Implement all methods
 
 /**
- * Core Response class
+ * Response class
  *
  * @category Core
  * @package  MicroFrame\Core
@@ -142,7 +142,7 @@ final class Response implements IResponse
 
         if ($state) {
             $this->_proceed = false;
-            $this->setOutput(0, 405, Value::init()->HttpCodes(405)->text, []);
+            $this->setOutput(0, 405, Value::init()->httpCodes(405)->text, []);
             if ($return) {
                 return false;
             }
@@ -151,7 +151,7 @@ final class Response implements IResponse
             return $this;
         } elseif (!$state && !$return && !$halt) {
             $this->_proceed = true;
-            $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
+            $this->setOutput(1, 200, Value::init()->httpCodes(200)->text, []);
             if ($return) {
                 return true;
             }
@@ -199,11 +199,11 @@ final class Response implements IResponse
     {
         $this->dataRaw($raw);
 
-        $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, $content);
+        $this->setOutput(1, 200, Value::init()->httpCodes(200)->text, $content);
         if ($this->_proceed && empty($this->_content['data'])) {
             $this->_content['status'] = 1;
             $this->_content['code'] = 204;
-            $this->_content['message'] = Value::init()->HttpCodes(204)->text;
+            $this->_content['message'] = Value::init()->httpCodes(204)->text;
         }
 
         return $this;
@@ -237,7 +237,7 @@ final class Response implements IResponse
         $charset = "charset=utf-8";
         $accessControl = strtoupper(implode(", ", $this->_methods));
         if (is_numeric($key)) {
-            header(Value::init()->HttpCodes($key)->full, true);
+            header(Value::init()->httpCodes($key)->full, true);
             header("Access-Control-Allow-Methods: {$accessControl}", true);
         } elseif (!is_null($value) && $key == 'redirect') {
             header("Location: {$value}", true);
@@ -380,7 +380,7 @@ final class Response implements IResponse
         
         if (is_null($this->_view) && gettype($this->_content) === 'array') {
             if (!$this->_proceed && ($this->_content['code'] !== 405)) {
-                $this->setOutput(0, 401, Value::init()->HttpCodes(401)->text, []);
+                $this->setOutput(0, 401, Value::init()->httpCodes(401)->text, []);
             }
 
             /**
@@ -512,7 +512,7 @@ final class Response implements IResponse
                 ob_clean();
                 flush();
                 readfile($filepath);
-                $this->setOutput(1, 200, Value::init()->HttpCodes(200)->text, []);
+                $this->setOutput(1, 200, Value::init()->httpCodes(200)->text, []);
                 die(
                     Parser::arrays(
                         $this->_content,

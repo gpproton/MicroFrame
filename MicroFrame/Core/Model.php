@@ -267,7 +267,10 @@ final class Model implements IModel
     private function _load($path)
     {
         if (!Strings::filter($path)->contains("sys.")) {
-            return Reflect::check()->stateLoader("app.Model." . $path, array())->query;
+            return Reflect::check()->stateLoader(
+                "app.Model." . $path,
+                array()
+            )->query;
         } else {
             return Reflect::check()->stateLoader($path, array())->query;
         }

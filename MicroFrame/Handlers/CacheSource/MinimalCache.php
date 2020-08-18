@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers\CacheSource
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -31,17 +30,22 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class MinimalCache
- * @package MicroFrame\Handlers\CacheSource
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers\CacheSource
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://godwin.dev
  */
 class MinimalCache extends BaseCache
 {
 
     /**
+     * Initializes Sqlite or file cache instance.
      *
-     * Initializes Sqlite instance.
+     * @param string $source here
      *
-     * @param $source
-     * @return mixed|null
+     * @return mixed|null|BaseCache
      */
     public function init($source) : Psr16Adapter
     {
@@ -55,14 +59,22 @@ class MinimalCache extends BaseCache
              * Sort config differences with the minimal caches.
              */
             if ($this->config['type'] == 'sqlite') {
-                CacheManager::setDefaultConfig(new cacheConfig([
-                    "path" => $this->pathInit($source)
-                ]));
+                CacheManager::setDefaultConfig(
+                    new cacheConfig(
+                        [
+                        "path" => $this->pathInit($source)
+                        ]
+                    )
+                );
             } elseif (strpos($this->config['type'], 'file') !== false) {
-                CacheManager::setDefaultConfig(new cacheConfig([
-                    "path" => $this->pathInit($source),
-                    "itemDetailedDate" => false
-                ]));
+                CacheManager::setDefaultConfig(
+                    new cacheConfig(
+                        [
+                        "path" => $this->pathInit($source),
+                        "itemDetailedDate" => false
+                        ]
+                    )
+                );
             } elseif ($this->config['type'] == 'cookie') {
                 // TODO: Fix config issues for cookie type.
             }

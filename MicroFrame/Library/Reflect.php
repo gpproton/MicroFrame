@@ -26,7 +26,7 @@ use MicroFrame\Handlers\Logger;
 use ReflectionClass;
 
 /**
- * Class Reflect
+ * Reflect Class
  *
  * @category Library
  * @package  MicroFrame\Library

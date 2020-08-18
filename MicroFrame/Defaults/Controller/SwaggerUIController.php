@@ -1,6 +1,6 @@
 <?php
 /**
- * Swagger UI controller class
+ * SwaggerUI controller class
  *
  * PHP Version 7
  *
@@ -28,7 +28,7 @@ use MicroFrame\Library\Strings;
 use MicroFrame\Library\Value;
 
 /**
- * Class SwaggerUIController
+ * SwaggerUIController Class
  *
  * @category Controller
  * @package  MicroFrame\Defaults\Controller

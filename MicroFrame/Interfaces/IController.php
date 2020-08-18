@@ -25,7 +25,7 @@ use Closure;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Interface IController
+ * IController Interface
  *
  * @category Interface
  * @package  MicroFrame\Interfaces

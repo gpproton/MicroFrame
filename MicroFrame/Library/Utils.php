@@ -26,7 +26,7 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
- * Class Utils
+ * Utils Class
  *
  * @category Library
  * @package  MicroFrame\Library
@@ -36,24 +36,46 @@ use ReflectionException;
  */
 final class Utils
 {
-    private $debug;
+    private $_debug;
 
+    /**
+     * Statically returns an instance of utils.
+     *
+     * @return self
+     */
     public static function get()
     {
         $instance = new self();
-        $instance->debug = Config::fetch("debug");
+        $instance->_debug = Config::fetch("debug");
 
         return $instance;
     }
 
-    // TODO: Redefine this for more accuracy
+    /**
+     * Returns state if running within local network.
+     *
+     * @return bool
+     */
     public function local()
     {
+        // TODO: Redefine this for more accuracy
         $ipAddress = 'UNKNOWN';
-        $keys=array('HTTP_CLIENT_IP','HTTP_X_FORWARDED_FOR','HTTP_X_FORWARDED','HTTP_FORWARDED_FOR','HTTP_FORWARDED','REMOTE_ADDR');
+        $keys= [
+            'HTTP_CLIENT_IP',
+            'HTTP_X_FORWARDED_FOR',
+            'HTTP_X_FORWARDED',
+            'HTTP_FORWARDED_FOR',
+            'HTTP_FORWARDED',
+            'REMOTE_ADDR'
+        ];
+
         foreach ($keys as $k) {
             if (isset($_SERVER[$k]) && !empty($_SERVER[$k])
-                && filter_var($_SERVER[$k], FILTER_VALIDATE_IP)) {
+                && filter_var(
+                    $_SERVER[$k],
+                    FILTER_VALIDATE_IP
+                )
+            ) {
                 $ipAddress = $_SERVER[$k];
                 break;
             }
@@ -62,12 +84,16 @@ final class Utils
             ($ipAddress == '::1'
             || $ipAddress == '127.0.0.1'
             || $ipAddress == '0.0.0.0')
-            && $this->debug
+            && $this->_debug
         );
     }
 
     /**
-     * @param $data
+     * Prints string to console.
+     *
+     * @param string $data String content to output.
+     *
+     * @return void.
      */
     public function console($data)
     {
@@ -77,17 +103,10 @@ final class Utils
     }
 
     /**
-     * @param $path
-     * @return mixed
+     * Utilzed once for route injection.
+     *
+     * @return string
      */
-    public function dirChecks($path)
-    {
-        if (!is_dir($path)) {
-            mkdir($path, 777, true);
-        }
-        return $path;
-    }
-
     public function injectRoutes()
     {
         ob_start();
@@ -95,6 +114,6 @@ final class Utils
         /**
          * TODO: Make more elaborate...
          */
-        return require_once("./../App/Routes.php");
+        return include_once "./../App/Routes.php";
     }
 }

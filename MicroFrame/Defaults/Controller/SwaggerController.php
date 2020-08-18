@@ -1,6 +1,6 @@
 <?php
 /**
- * Swagger.json controller class
+ * Swagger controller class
  *
  * PHP Version 7
  *
@@ -29,7 +29,7 @@ use \OpenApi\Annotations as OA;
 use function OpenApi\scan;
 
 /**
- * Class SwaggerController
+ * SwaggerController Class
  *
  * @category Controller
  * @package  MicroFrame\Defaults\Controller

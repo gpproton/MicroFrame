@@ -23,7 +23,7 @@ namespace MicroFrame\Interfaces;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Interface IDataSource
+ * IDataSource Interface
  *
  * @category Interface
  * @package  MicroFrame\Interfaces

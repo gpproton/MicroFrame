@@ -27,7 +27,7 @@ use Symfony\Component\Yaml\Yaml as YamlEncoder;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class Parser
+ * Parser Class
  *
  * @category Library
  * @package  MicroFrame\Library

@@ -27,7 +27,7 @@ use function App\Controller\getRelativePath;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class File
+ * File Class
  *
  * @category Library
  * @package  MicroFrame\Library

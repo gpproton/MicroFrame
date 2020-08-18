@@ -23,7 +23,7 @@ namespace MicroFrame\Library;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class Strings
+ * Strings Class
  *
  * @category Library
  * @package  MicroFrame\Library
@@ -33,25 +33,28 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 final class Strings
 {
-    private $value;
+    private $_value;
 
     /**
      * Strings constructor.
-     * @param null $string
+     *
+     * @param null $string here
+     *
+     * @return void|self
      */
     public function __construct($string = null)
     {
-        $this->value = $string;
+        $this->_value = $string;
     }
 
     /**
-     * validates in value is a string.
+     * Validates in value is a string.
      *
      * @return bool
      */
-    private function validate()
+    private function _validate()
     {
-        return (getType($this->value) === 'string');
+        return (getType($this->_value) === 'string');
     }
 
     /**
@@ -59,15 +62,16 @@ final class Strings
      *
      * @return int|void
      */
-    private function count()
+    private function _count()
     {
-        return strlen($this->value);
+        return strlen($this->_value);
     }
 
     /**
      * The string helper static initializer.
      *
-     * @param string $string
+     * @param string $string here
+     *
      * @return Strings
      */
     public static function filter($string = null)
@@ -78,20 +82,21 @@ final class Strings
     /**
      * A method to replace strings with multiple replacement option available.
      *
-     * @param null $search
-     * @param string $replace
-     * @return Strings
+     * @param null   $search  here
+     * @param string $replace here
+     *
+     * @return self
      */
     public function replace($search = null, $replace = "")
     {
         if (gettype($search) === 'array' && gettype($replace) === 'array') {
             $cnt = 0;
             foreach ($search as $val) {
-                $this->value = str_replace($val, $replace[$cnt], $this->value);
+                $this->_value = str_replace($val, $replace[$cnt], $this->_value);
                 $cnt++;
             }
         } else {
-            $this->value = str_replace($search, $replace, $this->value);
+            $this->_value = str_replace($search, $replace, $this->_value);
         }
 
         return $this;
@@ -100,17 +105,18 @@ final class Strings
     /**
      * An integrated method to check if sub string existing main string.
      *
-     * @param null $string
-     * @return boolean|$this
+     * @param null $string here
+     *
+     * @return boolean|self
      */
     public function contains($string = null)
     {
-        if (!$this->validate()) {
+        if (!$this->_validate()) {
             return $this;
         }
 
         if (!empty($string)) {
-            return strpos($this->value, $string) !== false;
+            return strpos($this->_value, $string) !== false;
         }
 
         return false;
@@ -121,21 +127,30 @@ final class Strings
      *
      * No value method required, if the 4th & 5th are true, false an array of string
      * is returned that matched the conditions.
-     * The 3rd parameter specifies if the that start and end delimiter will be included in result
+     * The 3rd parameter specifies if the that start
+     * and end delimiter will be included in result
      * The 6th parameter specify the max string length that will be returned.
      *
-     * @param null $start
-     * @param null $end
-     * @param bool $includeDelimiters
-     * @param int $offset
-     * @param bool $array
-     * @param bool $forceString
-     * @param int $count
-     * @return $this | array
+     * @param null $start             here
+     * @param null $end               here
+     * @param bool $includeDelimiters here
+     * @param bool $array             here
+     * @param bool $forceString       here
+     * @param int  $count             here
+     * @param int  $offset            here
+     *
+     * @return self|array
      */
-    public function between($start = null, $end = null, $includeDelimiters = false, $array = false, $forceString = true, $count = -1, int &$offset = 0)
-    {
-        $string  = $this->value;
+    public function between(
+        $start = null,
+        $end = null,
+        $includeDelimiters = false,
+        $array = false,
+        $forceString = true,
+        $count = -1,
+        int &$offset = 0
+    ) {
+        $string  = $this->_value;
 
         if ($string === '' || $start === '' || $end === '') {
             return $this;
@@ -152,26 +167,38 @@ final class Strings
             if ($endPos === false) {
                 return $this;
             }
-            $length = $endPos - $startPos + ($includeDelimiters ? $endLength : -$startLength);
+            $length = $endPos - $startPos + ($includeDelimiters
+                    ? $endLength : -$startLength);
             if (!$length) {
                 return $this;
             }
             $offset = $startPos + ($includeDelimiters ? 0 : $startLength);
             $result = substr($string, $offset, $length);
 
-            $this->value = ($result !== false ? $result : null);
+            $this->_value = ($result !== false ? $result : null);
 
             return $this;
         } else {
             $strings = [];
             $length = strlen($string);
             while ($offset < $length) {
-                $found = self::filter($string)->between($start, $end, $includeDelimiters, false, true, $count, $offset)->value();
+                $found = self::filter($string)->between(
+                    $start,
+                    $end,
+                    $includeDelimiters,
+                    false,
+                    true,
+                    $count,
+                    $offset
+                )->value();
                 if ($found === null) {
                     break;
                 }
                 $strings[] = $found;
-                $offset += strlen($includeDelimiters ? $found : $start . $found . $end);
+                $offset += strlen(
+                    $includeDelimiters
+                    ? $found : $start . $found . $end
+                );
             }
 
             if ($count >= 1) {
@@ -188,34 +215,45 @@ final class Strings
     }
 
     /**
-     * Enable splitting as string based on a character and cutting it by direction or string position equivalent to another direction.
+     * Enable splitting as string based on a character and cutting
+     * it by direction or string position equivalent to another direction.
      *
-     * @param null $search The string to mark as start point.
-     * @param bool $startRight if true picks position last occurring character or the particular count the char repeated.
+     * @param null $search     The string to mark as start point.
+     * @param bool $startRight if true picks position last occurring
+     *                         character or the particular count the char repeated.
      * @param bool $leftSelect If true selects text to the left of search text.
-     * @param int $length The length of string to return.
-     * @return $this
+     * @param int  $length     The length of string to return.
+     *
+     * @return self
      */
-    public function range($search = null, $startRight = false, $leftSelect = false, $length = 0)
-    {
+    public function range(
+        $search = null,
+        $startRight = false,
+        $leftSelect = false,
+        $length = 0
+    ) {
         if (empty($search)) {
             return $this;
         }
-        $string  = $this->value;
+        $string  = $this->_value;
         $position = 0;
         if (gettype($startRight) === 'boolean') {
             $left = strrpos($string, $search);
             $right = strpos($string, $search);
-            gettype($left) === 'boolean' ? $position = 0 : $position = $startRight ? ($left + 1) : ($right + strlen($search));
+            gettype($left) === 'boolean'
+                ? $position = 0 : $position = $startRight
+                ? ($left + 1) : ($right + strlen($search));
         } elseif (gettype($startRight) === 'integer') {
-            $position = $this->charPosition($this->value, $search, $startRight);
+            $position = $this->charPosition($this->_value, $search, $startRight);
             $position = $position === false ? 0 : $position + 1;
         }
 
         if ($position !== 0) {
-            $string = $leftSelect ? substr($string, 0, $position - strlen($search)) : substr($string, $position);
+            $string = $leftSelect
+                ? substr($string, 0, $position - strlen($search))
+                : substr($string, $position);
             $string = $length > 0 ? substr($string, 0, $length) : $string;
-            $this->value = $string;
+            $this->_value = $string;
         }
 
         return $this;
@@ -224,14 +262,15 @@ final class Strings
     /**
      * Change either the first word or all words fir character to upper case
      *
-     * @param bool $all
-     * @return $this
+     * @param bool $all here
+     *
+     * @return self
      */
     public function upperCaseWords($all = true)
     {
-        $string = $this->value;
+        $string = $this->_value;
         $string = $all ? ucwords($string) : ucfirst($string);
-        $this->value = $string;
+        $this->_value = $string;
 
         return $this;
     }
@@ -239,11 +278,11 @@ final class Strings
     /**
      * Change a text to upper case
      *
-     * @return $this
+     * @return self
      */
     public function upperCaseAll()
     {
-        $this->value = strtoupper($this->value);
+        $this->_value = strtoupper($this->_value);
 
         return $this;
     }
@@ -251,12 +290,13 @@ final class Strings
     /**
      * Change a text to lower case
      *
-     * @param bool $first
-     * @return $this
+     * @param bool $first here
+     *
+     * @return self
      */
     public function lowerCase($first = false)
     {
-        $this->value = $first ? lcfirst($this->value) : strtolower($this->value);
+        $this->_value = $first ? lcfirst($this->_value) : strtolower($this->_value);
 
         return $this;
     }
@@ -264,9 +304,10 @@ final class Strings
     /**
      * Get exact position of character or words in string on the repeat instance.
      *
-     * @param $haystack
-     * @param $needle
-     * @param $number
+     * @param string $haystack here
+     * @param string $needle   here
+     * @param int    $number   here
+     *
      * @return false|int
      */
     public function charPosition($haystack, $needle, $number)
@@ -274,7 +315,15 @@ final class Strings
         if ($number == '1') {
             return strpos($haystack, $needle);
         } elseif ($number > '1') {
-            return strpos($haystack, $needle, $this->charPosition($haystack, $needle, $number - 1) + strlen($needle));
+            return strpos(
+                $haystack,
+                $needle,
+                $this->charPosition(
+                    $haystack,
+                    $needle,
+                    $number - 1
+                ) + strlen($needle)
+            );
         }
         return 0;
     }
@@ -286,30 +335,31 @@ final class Strings
      */
     public function url()
     {
-        if (!$this->validate()) {
+        if (!$this->_validate()) {
             return $this;
         }
 
-        $this->value = preg_match(
+        $this->_value = preg_match(
             '/^[^.][-a-z0-9_.]+[a-z]$/i',
-            $this->value
+            $this->_value
         ) == 0;
-        return $this->value;
+        return $this->_value;
     }
 
     /**
      * Change a slashed string to dot and all some characters
      *
-     * @param bool $check
-     * @return $this
+     * @param bool $check here
+     *
+     * @return self
      */
     public function dotted($check = true)
     {
         if ($check) {
-            $this->value = preg_replace(
+            $this->_value = preg_replace(
                 '/[^A-Za-z0-9.\-]/',
                 '',
-                str_replace("/", ".", $this->value)
+                str_replace("/", ".", $this->_value)
             );
         }
 
@@ -319,13 +369,14 @@ final class Strings
     /**
      * Allow append to string
      *
-     * @param $string
-     * @return $this
+     * @param string $string here
+     *
+     * @return self
      */
     public function append($string)
     {
         if (!empty($string)) {
-            $this->value .= $string;
+            $this->_value .= $string;
         }
 
         return $this;
@@ -334,13 +385,14 @@ final class Strings
     /**
      * Allow pre append to string.
      *
-     * @param $string
-     * @return $this
+     * @param string $string here
+     *
+     * @return self
      */
     public function preAppend($string)
     {
         if (!empty($string)) {
-            $this->value = $string . $this->value;
+            $this->_value = $string . $this->_value;
         }
 
         return $this;
@@ -349,19 +401,20 @@ final class Strings
     /**
      * Use to left trim a character from a string.
      *
-     * @param null $string
-     * @return $this
+     * @param null $string here
+     *
+     * @return self
      */
     public function leftTrim($string = null)
     {
         if (is_null($string)) {
-            $this->value = ltrim($this->value);
+            $this->_value = ltrim($this->_value);
         } elseif (gettype($string) === 'array') {
             foreach ($string as $val) {
-                $this->value = ltrim($this->value, $val);
+                $this->_value = ltrim($this->_value, $val);
             }
         } else {
-            $this->value = ltrim($this->value, $string);
+            $this->_value = ltrim($this->_value, $string);
         }
 
         return $this;
@@ -370,19 +423,20 @@ final class Strings
     /**
      * Use to right trim a character from a string.
      *
-     * @param null $string
-     * @return $this
+     * @param null $string here
+     *
+     * @return self
      */
     public function rightTrim($string = null)
     {
         if (is_null($string)) {
-            $this->value = rtrim($this->value);
+            $this->_value = rtrim($this->_value);
         } elseif (gettype($string) === 'array') {
             foreach ($string as $val) {
-                $this->value = rtrim($this->value, $val);
+                $this->_value = rtrim($this->_value, $val);
             }
         } else {
-            $this->value = rtrim($this->value, $string);
+            $this->_value = rtrim($this->_value, $string);
         }
 
         return $this;
@@ -391,19 +445,20 @@ final class Strings
     /**
      * Use to trim a character from a string from any direction.
      *
-     * @param null $string
-     * @return $this
+     * @param null $string here
+     *
+     * @return self
      */
     public function trim($string = null)
     {
         if (is_null($string)) {
-            $this->value = trim($this->value);
+            $this->_value = trim($this->_value);
         } elseif (gettype($string) === 'array') {
             foreach ($string as $val) {
-                $this->value = trim($this->value, $val);
+                $this->_value = trim($this->_value, $val);
             }
         } else {
-            $this->value = trim($this->value, $string);
+            $this->_value = trim($this->_value, $string);
         }
 
         return $this;
@@ -416,6 +471,6 @@ final class Strings
      */
     public function value()
     {
-        return $this->value;
+        return $this->_value;
     }
 }

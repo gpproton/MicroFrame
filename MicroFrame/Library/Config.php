@@ -27,7 +27,7 @@ use Noodlehaus\Config as configModule;
 use Noodlehaus\AbstractConfig as configAbstractModule;
 
 /**
- * Class Config
+ * Config Class
  *
  * @category Library
  * @package  MicroFrame\Library

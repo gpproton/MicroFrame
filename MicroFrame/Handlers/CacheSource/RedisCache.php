@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers\CacheSource
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -31,17 +30,22 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class RedisCache
- * @package MicroFrame\Handlers\CacheSource
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers\CacheSource
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://godwin.dev
  */
 class RedisCache extends BaseCache
 {
 
     /**
+     * Initializes redis cache instance.
      *
-     * Initializes redis instance.
+     * @param string $source here
      *
-     * @param $source
-     * @return mixed|null
+     * @return mixed|null|BaseCache
      */
     public function init($source) : Psr16Adapter
     {
@@ -52,11 +56,16 @@ class RedisCache extends BaseCache
 
         try {
             $configItems = [
-                'host' => isset($this->config['host']) ? $this->config['host'] : '127.0.0.1',
-                'port' => isset($this->config['port']) ? $this->config['port'] : 6379,
-                'password' => isset($this->config['password']) ? $this->config['password'] : '',
-                'database' => isset($this->config['database']) ? $this->config['database'] : 0,
-                'timeout' => isset($this->config['timeout']) ? $this->config['timeout'] : 5
+                'host' => isset($this->config['host'])
+                    ? $this->config['host'] : '127.0.0.1',
+                'port' => isset($this->config['port'])
+                    ? $this->config['port'] : 6379,
+                'password' => isset($this->config['password'])
+                    ? $this->config['password'] : '',
+                'database' => isset($this->config['database'])
+                    ? $this->config['database'] : 0,
+                'timeout' => isset($this->config['timeout'])
+                    ? $this->config['timeout'] : 5
             ];
 
             if (class_exists('Redis')) {

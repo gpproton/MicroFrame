@@ -25,7 +25,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 use \MicroFrame\Core\Controller as Core;
 
 /**
- * Class DefaultController
+ * DefaultController Class
  *
  * @category Controller
  * @package  MicroFrame\Defaults\Controller

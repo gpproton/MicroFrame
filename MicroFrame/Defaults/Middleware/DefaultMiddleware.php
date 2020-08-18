@@ -25,7 +25,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 use \MicroFrame\Core\Middleware;
 
 /**
- * Class DefaultMiddleware
+ * DefaultMiddleware Class
  *
  * @category Controller
  * @package  MicroFrame\Defaults\Middleware

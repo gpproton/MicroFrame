@@ -25,7 +25,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 use MicroFrame\Core\Controller as Core;
 
 /**
- * Class IndexController
+ * IndexController Class
  *
  * @category Controller
  * @package  App\Controller

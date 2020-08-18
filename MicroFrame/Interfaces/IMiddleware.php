@@ -23,7 +23,7 @@ namespace MicroFrame\Interfaces;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Interface IMiddleware
+ * IMiddleware Interface
  *
  * @category Interfaces
  * @package  MicroFrame\Interfaces

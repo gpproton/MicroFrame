@@ -6,7 +6,6 @@
  *
  * @category  Handlers
  * @package   MicroFrame\Handlers\CacheSource
- * @author    Godwin peter .O <me@godwin.dev>
  * @author    Tolaram Group Nigeria <teamerp@tolaram.com>
  * @copyright 2020 Tolaram Group Nigeria
  * @license   MIT License
@@ -30,30 +29,43 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
  * Class MemCachedCache
- * @package MicroFrame\Handlers\CacheSource
+ *
+ * @category Handlers
+ * @package  MicroFrame\Handlers\CacheSource
+ * @author   Godwin peter .O <me@godwin.dev>
+ * @license  MIT License
+ * @link     https://godwin.dev
  */
 class MemCachedCache extends BaseCache
 {
 
     /**
+     * Initializes Memcached cache instance.
      *
-     * Initializes Sqlite instance.
+     * @param string $source here
      *
-     * @param $source
-     * @return mixed|null
+     * @return mixed|null|BaseCache
      */
     public function init($source) : Psr16Adapter
     {
         try {
             $configItems = [
-                'host' => isset($this->config['host']) ? $this->config['host'] : '127.0.0.1',
-                'port' => isset($this->config['port']) ? $this->config['port'] : 11211,
-                'sasl_user' => isset($this->config['database']) ? $this->config['database'] : false,
-                'sasl_password' => isset($this->config['password']) ? $this->config['password'] : false,
-                'timeout' => isset($this->config['timeout']) ? $this->config['timeout'] : 5
+                'host' => isset($this->config['host'])
+                    ? $this->config['host'] : '127.0.0.1',
+                'port' => isset($this->config['port'])
+                    ? $this->config['port'] : 11211,
+                'sasl_user' => isset($this->config['database'])
+                    ? $this->config['database'] : false,
+                'sasl_password' => isset($this->config['password'])
+                    ? $this->config['password'] : false,
+                'timeout' => isset($this->config['timeout'])
+                    ? $this->config['timeout'] : 5
             ];
 
-            return new Psr16Adapter(strtolower($this->config['type']), new cacheConfig($configItems));
+            return new Psr16Adapter(
+                strtolower($this->config['type']),
+                new cacheConfig($configItems)
+            );
         } catch (\Exception $e) {
             Exception::init()->log($e);
 

@@ -25,7 +25,7 @@ use MicroFrame\Handlers\Exception;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
- * Class Callback
+ * Callback Class
  *
  * @category Library
  * @package  MicroFrame\Library
@@ -35,98 +35,123 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 class Callback
 {
-    private $url;
-    private $timeout = 120;
-    private $request = 'GET';
-    private $curl;
-    private $data;
+    private $_url;
+    private $_timeout = 120;
+    private $_request = 'GET';
+    private $_curl;
+    private $_header = array();
+    private $_data = array();
 
     /**
-     * @param $url
+     * Callback static initializer.
+     *
+     * @param string $url here
+     *
      * @return Callback
      */
     public static function init($url)
     {
         $instance = new self();
-        $instance->curl = curl_init();
-        $instance->url = $url;
+        $instance->_curl = curl_init();
+        $instance->_url = $url;
 
         return $instance;
     }
 
     /**
-     * @param $key
-     * @param $value
-     * @return $this
+     * Allowing setting of headers with key value array.
+     *
+     * @param array $headerArray here
+     *
+     * @return self
      */
-    public function header($key, $value)
+    public function header($headerArray = array())
     {
-        // TODO: Create array/string builder
+        $this->_header = $headerArray;
 
         return $this;
     }
 
     /**
-     * @param int $period
-     * @return $this
+     * Set an HTTP timeout for callback instance.
+     *
+     * @param int $period here
+     *
+     * @return self
      */
     public function timeout($period = 120)
     {
-        $this->timeout = $period;
-
-        return $this;
-    }
-
-    public function data($data = [])
-    {
-        $this->data = $data;
+        $this->_timeout = $period;
 
         return $this;
     }
 
     /**
-     * @param string $type
-     * @return $this
+     * Inject a key value array to post
+     *
+     * @param array $data a key => value array
+     *
+     * @return self
+     */
+    public function data($data = array())
+    {
+        $this->_data = $data;
+
+        return $this;
+    }
+
+    /**
+     * A method to specify request type.
+     *
+     * @param string $type Request type.
+     *
+     * @return self
      */
     public function request($type = 'GET')
     {
-        $this->request = $type;
+        $this->_request = $type;
 
         return $this;
     }
 
     /**
+     * Complete PHP curl setup.
+     *
      * @return mixed
      */
-    private function build()
+    private function _build()
     {
-        curl_setopt_array($this->curl, array(
-            CURLOPT_URL => $this->url,
+        curl_setopt_array(
+            $this->_curl,
+            array(
+            CURLOPT_URL => $this->_url,
             CURLOPT_SSL_VERIFYPEER => false,
-//            CURLOPT_HTTPHEADER => array("content-type: application/json", "Accept: application/json","hash:$hash","principal:$this->principal", "credentials: $this->credential"),
+            CURLOPT_HTTPHEADER => $this->_header,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => $this->request,
+            CURLOPT_CUSTOMREQUEST => $this->_request,
             CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_VERBOSE => 1,
-            CURLOPT_CONNECTTIMEOUT => $this->timeout,
-            CURLOPT_TIMEOUT => $this->timeout
-        ));
+            CURLOPT_CONNECTTIMEOUT => $this->_timeout,
+            CURLOPT_TIMEOUT => $this->_timeout
+            )
+        );
 
-        if ($this->data != null) {
-            $data_string = json_encode($this->data);
-
+        if ($this->_data != null) {
+            $data_string = json_encode($this->_data);
             // TODO: Review from top to bottom
-            curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data_string);
+            curl_setopt($this->_curl, CURLOPT_POSTFIELDS, $data_string);
 
-            return $this->curl;
+            return $this->_curl;
         }
     }
 
     /**
-     * @return bool|string
+     * Public method to execute HTTP callback.
+     *
+     * @return bool|string|array
      */
     public function run()
     {
-        return curl_exec($this->build());
+        return curl_exec($this->_build());
     }
 }
