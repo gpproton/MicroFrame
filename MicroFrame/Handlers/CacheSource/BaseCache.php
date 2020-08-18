@@ -42,8 +42,25 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 abstract class BaseCache implements ICache
 {
+    /**
+     * An instance of cache class
+     *
+     * @var ICache
+     */
     protected $instance;
+
+    /**
+     * An array or string of the requested configuration.
+     *
+     * @var array|string
+     */
     protected $config;
+
+    /**
+     * A string for requesting for specific cache config.
+     *
+     * @var string
+     */
     protected $source;
 
     /**

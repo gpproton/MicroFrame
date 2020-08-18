@@ -39,8 +39,25 @@ use PDOOCI\PDO as fallbackOraclePDO;
  */
 class DataSource implements IDataSource
 {
+    /**
+     * A string for requesting for specific datasource config.
+     *
+     * @var string
+     */
     private $_source;
+
+    /**
+     * An array of PDO connection options.
+     *
+     * @var array
+     */
     private $_options;
+
+    /**
+     * An instance of datasource connection.
+     *
+     * @var IDataSource
+     */
     private $_connection;
 
     /**

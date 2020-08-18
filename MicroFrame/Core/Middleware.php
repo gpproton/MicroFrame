@@ -24,6 +24,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Interfaces\IMiddleware;
 use MicroFrame\Interfaces\IModel;
+use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Library\Config;
 
 /**
@@ -37,7 +38,18 @@ use MicroFrame\Library\Config;
  */
 class Middleware implements IMiddleware
 {
+    /**
+     * Holds an instance of IRequest.
+     *
+     * @var IRequest
+     */
     protected $request;
+
+    /**
+     * A Model object instance.
+     *
+     * @var IModel
+     */
     protected $model;
 
     /**

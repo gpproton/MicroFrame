@@ -37,6 +37,11 @@ use Throwable;
  */
 final class ErrorHandler extends sysError implements Throwable
 {
+    /**
+     * The core application instance.
+     *
+     * @var Application
+     */
     private $_app;
 
     /**

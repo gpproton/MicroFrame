@@ -35,11 +35,46 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 class Callback
 {
+    /**
+     * Requested uri in callback instance.
+     *
+     * @var string
+     */
     private $_url;
+
+    /**
+     * Specified timeout for callback.
+     *
+     * @var int
+     */
     private $_timeout = 120;
+
+    /**
+     * Callback request method.
+     *
+     * @var string
+     */
     private $_request = 'GET';
+
+    /**
+     * The final curl instance after build.
+     *
+     * @var mixed
+     */
     private $_curl;
+
+    /**
+     * An array of header key and values.
+     *
+     * @var array
+     */
     private $_header = array();
+
+    /**
+     * A key => value array for data to send.
+     *
+     * @var array
+     */
     private $_data = array();
 
     /**

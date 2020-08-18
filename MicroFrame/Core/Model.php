@@ -39,11 +39,46 @@ use PDO;
  */
 final class Model implements IModel
 {
+    /**
+     * The internal instance of the default/requested model.
+     *
+     * @var IModel
+     */
     private $_instance;
+
+    /**
+     * An array of query to be executed.
+     *
+     * @var array
+     */
     private $_query = array();
+
+    /**
+     * A parameter array for requested queries.
+     *
+     * @var array
+     */
     private $_params = array();
+
+    /**
+     * Completed result array.
+     *
+     * @var array
+     */
     private $_result = array();
+
+    /**
+     * An indicator if all queries completed.
+     *
+     * @var bool
+     */
     public $completed = false;
+
+    /**
+     * A string indicator of final query status.
+     *
+     * @var string
+     */
     public $status = "Ok";
 
     /**

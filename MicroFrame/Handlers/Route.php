@@ -27,6 +27,8 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 use MicroFrame\Core\Request;
 use MicroFrame\Core\Response;
+use MicroFrame\Interfaces\IRequest;
+use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Library\Reflect;
 use MicroFrame\Defaults\Middleware\DefaultMiddleware;
 use MicroFrame\Library\Strings;
@@ -43,10 +45,39 @@ use MicroFrame\Library\Value;
  */
 class Route
 {
+    /**
+     * An instance of request
+     *
+     * @var IRequest
+     */
     private $_request;
+
+    /**
+     * Response object instance.
+     *
+     * @var IResponse
+     */
     private $_response;
+
+    /**
+     * A validation property for routes.
+     *
+     * @var bool
+     */
     private $_proceed;
+
+    /**
+     * App controller dot root constant.
+     *
+     * @var string
+     */
     const APP_CONTROLLER = "app.Controller.";
+
+    /**
+     * Core controller dot root constant.
+     *
+     * @var string
+     */
     const SYS_CONTROLLER = "sys.Controller.";
 
     /**

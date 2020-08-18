@@ -33,6 +33,11 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 final class Strings
 {
+    /**
+     * String entered for modification.
+     *
+     * @var string
+     */
     private $_value;
 
     /**

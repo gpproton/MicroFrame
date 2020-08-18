@@ -46,10 +46,39 @@ use MicroFrame\Library\Strings;
  */
 abstract class Controller implements IController
 {
+    /**
+     * Holds an instance of IRequest.
+     *
+     * @var IRequest
+     */
     protected $request;
+
+    /**
+     * An object instance of IResponse.
+     *
+     * @var IResponse
+     */
     protected $response;
+
+    /**
+     * Property for the requested controller method.
+     *
+     * @var mixed|string
+     */
     protected $method;
+
+    /**
+     * A address for one or more middleware.
+     *
+     * @var string|array
+     */
     protected $middleware;
+
+    /**
+     * Boolean for allowing auto routing or not.
+     *
+     * @var bool
+     */
     private $_auto;
 
     /**

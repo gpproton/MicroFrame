@@ -25,6 +25,8 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 use \Exception as stockError;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
+use MicroFrame\Interfaces\IRequest;
+use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Library\Reflect;
 
 /**
@@ -38,10 +40,39 @@ use MicroFrame\Library\Reflect;
  */
 class Exception extends stockError implements \Throwable
 {
+    /**
+     * A request instance.
+     *
+     * @var IRequest
+     */
     public $request;
+
+    /**
+     * An object instance of IResponse
+     *
+     * @var IResponse
+     */
     public $response;
+
+    /**
+     * Error/Exception code
+     *
+     * @var int
+     */
     public $errorCode;
+
+    /**
+     * Exception message.
+     *
+     * @var string
+     */
     public $message;
+
+    /**
+     * Class path for the exception source.
+     *
+     * @var string
+     */
     private $_source;
 
     /**

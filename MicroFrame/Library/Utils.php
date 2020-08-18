@@ -36,6 +36,11 @@ use ReflectionException;
  */
 final class Utils
 {
+    /**
+     * Property to hold debug state of application.
+     *
+     * @var array
+     */
     private $_debug;
 
     /**

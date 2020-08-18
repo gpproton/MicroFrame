@@ -40,8 +40,25 @@ use MicroFrame\Library\Utils;
 final class Logger
 {
 
+    /**
+     * Class path of requested log.
+     *
+     * @var string
+     */
     private $_source;
+
+    /**
+     * String to be processed by logger.
+     *
+     * @var string
+     */
     private $_text;
+
+    /**
+     * Configurations for logger.
+     *
+     * @var string|array
+     */
     private $_config;
 
     /**

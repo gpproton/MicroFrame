@@ -37,13 +37,60 @@ use MicroFrame\Interfaces\IRequest;
  */
 final class Request implements IRequest
 {
+    /**
+     * An internal array of cookies.
+     *
+     * @var array
+     */
     private static $_cookie = [];
+
+    /**
+     * An internal array of environmental variables.
+     *
+     * @var array
+     */
     private static $_env = [];
+
+    /**
+     * Sent files over request.
+     *
+     * @var array
+     */
     private static $_files = [];
+
+    /**
+     * HTTP queries key value array.
+     *
+     * @var array
+     */
     private static $_get = [];
+
+    /**
+     * An internal array of received post data.
+     *
+     * @var array
+     */
     private static $_post = [];
+
+    /**
+     * An internal array of all server request.
+     *
+     * @var array
+     */
     private static $_request = [];
+
+    /**
+     * More server requested content.
+     *
+     * @var array
+     */
     private static $_server = [];
+
+    /**
+     * An internal array of session.
+     *
+     * @var array
+     */
     private static $_session = [];
 
     /**

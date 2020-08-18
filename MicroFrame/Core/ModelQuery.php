@@ -36,6 +36,11 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 class ModelQuery
 {
+    /**
+     * A ModelQuery object instance query string.
+     *
+     * @var string
+     */
     public $query;
 
     /**

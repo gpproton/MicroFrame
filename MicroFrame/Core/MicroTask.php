@@ -40,10 +40,39 @@ use MicroFrame\Library\Strings;
  */
 class MicroTask
 {
+    /**
+     * Timeout value in seconds for a task
+     *
+     * @var int
+     */
     public $timeout;
+
+    /**
+     * Specified task custom name.
+     *
+     * @var string
+     */
     public $name;
+
+    /**
+     * Task periodic execution.
+     *
+     * @var int
+     */
     public $count;
+
+    /**
+     * Minimum CPU load for task.
+     *
+     * @var int
+     */
     public $minLoad;
+
+    /**
+     * Maximum CPU load for task.
+     *
+     * @var int
+     */
     public $maxLoad;
 
     /**

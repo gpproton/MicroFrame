@@ -23,6 +23,7 @@ namespace MicroFrame\Core;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 use MicroFrame\Core\Request as request;
+use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Library\Parser;
 use MicroFrame\Library\Strings;
 use MicroFrame\Library\Value;
@@ -41,12 +42,53 @@ use MicroFrame\Interfaces\IResponse;
  */
 final class Response implements IResponse
 {
+    /**
+     * An object Instance request.
+     *
+     * @var IRequest
+     */
     private $_request;
+
+    /**
+     * Controller instance of requested view.
+     *
+     * @var string
+     */
     private $_view;
+
+    /**
+     * Requested content-type/format
+     *
+     * @var string
+     */
     private $_format;
+
+    /**
+     * Allowed HTTP methods for the current controller.
+     *
+     * @var array
+     */
     private $_methods;
+
+    /**
+     * Output data for parser or view.
+     *
+     * @var array|string
+     */
     private $_content;
+
+    /**
+     * Option to include metadata or not to parser.
+     *
+     * @var bool
+     */
     private $_contentRaw = false;
+
+    /**
+     * Response/processing validation field.
+     *
+     * @var bool
+     */
     private $_proceed;
 
     /**
