@@ -38,7 +38,7 @@ use Whoops\Run as whoopsRun;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Application
+class Application extends Core
 {
     /**
      * Contains retrieved config for the app bootstrap.

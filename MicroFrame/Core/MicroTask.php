@@ -38,7 +38,7 @@ use MicroFrame\Library\Strings;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class MicroTask
+class MicroTask extends Core
 {
     /**
      * Timeout value in seconds for a task

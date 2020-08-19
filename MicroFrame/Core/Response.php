@@ -40,7 +40,7 @@ use MicroFrame\Interfaces\IResponse;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-final class Response implements IResponse
+final class Response extends Core implements IResponse
 {
     /**
      * An object Instance request.

@@ -31,5 +31,12 @@ namespace MicroFrame\Traits;
  */
 trait TCore
 {
-
+    /**
+     * An in application debugging method.
+     *
+     * @return void
+     */
+    public function debugX()
+    {
+    }
 }

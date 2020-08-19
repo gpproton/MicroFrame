@@ -22,6 +22,7 @@ namespace MicroFrame\Library;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
+use MicroFrame\Core\Core;
 use MicroFrame\Handlers\Logger;
 use ReflectionClass;
 
@@ -34,7 +35,7 @@ use ReflectionClass;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Reflect
+class Reflect extends Core
 {
     /**
      * System default content path.

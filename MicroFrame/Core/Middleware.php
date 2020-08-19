@@ -36,7 +36,7 @@ use MicroFrame\Library\Config;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Middleware implements IMiddleware
+class Middleware extends Core implements IMiddleware
 {
     /**
      * Holds an instance of IRequest.

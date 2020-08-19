@@ -22,6 +22,7 @@ namespace MicroFrame\Library;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
+use MicroFrame\Core\Core;
 use ReflectionClass;
 use ReflectionException;
 
@@ -34,7 +35,7 @@ use ReflectionException;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-final class Utils
+final class Utils extends Core
 {
     /**
      * Property to hold debug state of application.

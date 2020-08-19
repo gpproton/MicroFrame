@@ -37,7 +37,7 @@ use PDO;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-final class Model implements IModel
+final class Model extends Core implements IModel
 {
     /**
      * The internal instance of the default/requested model.

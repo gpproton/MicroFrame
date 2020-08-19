@@ -204,7 +204,6 @@
     } else {
         echo $html;
     } ?>
-
 </div>
 
 <footer class="page-footer" style="background-color: #ededed;">

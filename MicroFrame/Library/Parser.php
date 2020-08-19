@@ -20,6 +20,7 @@
 
 namespace MicroFrame\Library;
 
+use MicroFrame\Core\Core;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Yaml\Yaml as YamlEncoder;
@@ -35,7 +36,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Parser
+class Parser extends Core
 {
 
     /**

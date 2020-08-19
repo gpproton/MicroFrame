@@ -20,6 +20,7 @@
 
 namespace MicroFrame\Library;
 
+use MicroFrame\Core\Core;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use function App\Controller\getRelativePath;
@@ -35,7 +36,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-final class File
+final class File extends Core
 {
 
 

@@ -20,6 +20,7 @@
 
 namespace MicroFrame\Library;
 
+use MicroFrame\Core\Core;
 use MicroFrame\Handlers\Exception;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
@@ -33,7 +34,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Callback
+class Callback extends Core
 {
     /**
      * Requested uri in callback instance.

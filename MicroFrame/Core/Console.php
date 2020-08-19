@@ -31,7 +31,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Console
+class Console extends Core
 {
     /**
      * Console arg all in an array.

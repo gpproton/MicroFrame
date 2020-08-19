@@ -20,6 +20,8 @@
 
 namespace MicroFrame\Handlers;
 
+use MicroFrame\Core\Core;
+
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
@@ -31,7 +33,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Task
+class Task extends Core
 {
     // TODO: Search Tasks namespace and loop over all class to execute tasks if ran from a CLI
 }

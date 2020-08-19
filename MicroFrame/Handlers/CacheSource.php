@@ -20,6 +20,7 @@
 
 namespace MicroFrame\Handlers;
 
+use MicroFrame\Core\Core;
 use MicroFrame\Interfaces\ICache;
 use MicroFrame\Library\Config;
 use ReflectionClass;
@@ -35,7 +36,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class CacheSource
+class CacheSource extends Core
 {
     /**
      * Hold the requested cache instance.

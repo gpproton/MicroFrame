@@ -22,6 +22,7 @@ namespace MicroFrame\Handlers;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
+use MicroFrame\Core\Core;
 use MicroFrame\Interfaces\IDataSource;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Reflect;
@@ -37,7 +38,7 @@ use PDOOCI\PDO as fallbackOraclePDO;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class DataSource implements IDataSource
+class DataSource extends Core implements IDataSource
 {
     /**
      * A string for requesting for specific datasource config.

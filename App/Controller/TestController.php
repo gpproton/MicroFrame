@@ -49,6 +49,8 @@ final class TestController extends Core
          * $this->auto(false);
          */
 
+        $this->debugX();
+        
         //        $cacheInstance = $this->cache('redis');
         //        die(var_dump($cacheInstance->setMultiple(['testz' => 'yes', 'testx' => 'hmmm'])));
         //        die(var_dump($cacheInstance->set('newSamples', 45)));

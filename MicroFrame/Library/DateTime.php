@@ -20,6 +20,8 @@
 
 namespace MicroFrame\Library;
 
+use MicroFrame\Core\Core;
+
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 /**
@@ -31,7 +33,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-final class DateTime
+final class DateTime extends Core
 {
 
     /**

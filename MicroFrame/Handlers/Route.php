@@ -25,6 +25,8 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 /**
  * Default resource references
  */
+
+use MicroFrame\Core\Core;
 use MicroFrame\Core\Request;
 use MicroFrame\Core\Response;
 use MicroFrame\Interfaces\IRequest;
@@ -43,7 +45,7 @@ use MicroFrame\Library\Value;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class Route
+class Route extends Core
 {
     /**
      * An instance of request

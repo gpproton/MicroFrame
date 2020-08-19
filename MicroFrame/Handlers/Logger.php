@@ -23,6 +23,7 @@ namespace MicroFrame\Handlers;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
+use MicroFrame\Core\Core;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\File;
 use MicroFrame\Library\Reflect;
@@ -37,7 +38,7 @@ use MicroFrame\Library\Utils;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-final class Logger
+final class Logger extends Core
 {
 
     /**

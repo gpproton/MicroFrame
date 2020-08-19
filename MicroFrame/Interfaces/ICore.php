@@ -33,4 +33,11 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  */
 interface ICore
 {
+
+    /**
+     * An in application debugging method.
+     *
+     * @return void
+     */
+    public function debugX();
 }

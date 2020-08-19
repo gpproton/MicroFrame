@@ -44,7 +44,7 @@ use MicroFrame\Library\Strings;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-abstract class Controller implements IController
+abstract class Controller extends Core implements IController
 {
     /**
      * Holds an instance of IRequest.

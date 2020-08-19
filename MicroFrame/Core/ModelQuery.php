@@ -34,7 +34,7 @@ defined('BASE_PATH') or exit('No direct script access allowed');
  * @license  MIT License
  * @link     https://godwin.dev
  */
-class ModelQuery
+class ModelQuery extends Core
 {
     /**
      * A ModelQuery object instance query string.

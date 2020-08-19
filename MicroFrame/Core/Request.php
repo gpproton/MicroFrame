@@ -35,7 +35,7 @@ use MicroFrame\Interfaces\IRequest;
  * @license  MIT License
  * @link     https://godwin.dev
  */
-final class Request implements IRequest
+final class Request extends Core implements IRequest
 {
     /**
      * An internal array of cookies.
