@@ -1,7 +1,7 @@
 # Quick parts
 
 ```bash
-composer create-project gpproton/microframe testApp --no-dev
+composer create-project microframe/app testApp --no-dev
 ```
 
 ### Simple controller usage
