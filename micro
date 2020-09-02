@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+/**
+ * MicroFrame console bootstrap file.
+ *
+ * @author Godwin peter .O <me@godwin.dev>
+ * @link https://github.com/tolaramgroup/microframe/
+ * @copyright 2020 Tolaram Group
+ * @license   MIT License
+ */
+
+/**
+* Perform execution of from index.
+*/
+chdir('./public');
+include_once 'index.php';
