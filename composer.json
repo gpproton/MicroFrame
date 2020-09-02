@@ -1,5 +1,5 @@
 {
-    "name": "tolaramgroup/microframe",
+    "name": "microframe/app",
     "description": "A simplistic micro framework with a little touch of MVC without the necessity of models",
     "keywords": ["template", "framework", "MVC", "micro", "cli"],
     "homepage": "https://github.com/tolaramgroup/microframe",
