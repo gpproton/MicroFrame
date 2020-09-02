@@ -1,2 +1,21 @@
 ---
-customYaml: true
+# DataSource types sqlite | mysql | postgres | oracle | mssql
+dataSource:
+  default:
+    type: sqlite
+    dbname: default.sq3
+    timeout: 10
+  sampledb:
+    type: postgres
+    host: 127.0.0.1
+    port: 5432
+    dbname: postgres
+    user: 'postgres'
+    password: ''
+    timeout: 10
+
+site:
+  title: 'MicroFrame 0.0.1'
+  root: index
+  api:
+    host: 197.149.93.70:10053
