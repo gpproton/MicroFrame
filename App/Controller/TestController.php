@@ -50,25 +50,29 @@ final class TestController extends Core
          */
 
         $this->debugX();
-        
-        //        $cacheInstance = $this->cache('redis');
-        //        die(var_dump($cacheInstance->setMultiple(['testz' => 'yes', 'testx' => 'hmmm'])));
-        //        die(var_dump($cacheInstance->set('newSamples', 45)));
-        //        die(var_dump($cacheInstance->get('testz')));
-        //        die(var_dump($cacheInstance->push('nq1', ['haha', 'hoho'])));
-        //        die(var_dump($cacheInstance->pop('nq1')));
-        //        die(var_dump($cacheInstance->getMultiple(['testz', 'nq1_queue'])));
-        //        die(var_dump($cacheInstance->deleteMultiple(['testz', 'nq1_queue'])));
 
 
         $this->response
-            // Optional set method
             ->methods(['get', 'post'])
             ->data(
-                ['Villains' => ['OnePiece' => ['Black Beard', 'Douglass Bullet', 'D Rocks', 'Im Sama'],
-                'Naruto' => ['Orochimaru', 'Danzo', 'Madara Uciha']],
-                'address' => $this->request->url()]
+                [
+                'Villains' => [
+                    'OnePiece' => [
+                        'Black Beard',
+                        'Douglass Bullet',
+                        'D Rocks',
+                        'Im Sama'
+                    ],
+                    'Naruto' => [
+                        'Orochimaru',
+                        'Danzo',
+                        'Madara Uciha'
+                    ]
+                ],
+                'Address' => $this->request->url()
+                ]
             )
+            ->middleware('Auth')
             ->send();
     }
 }
