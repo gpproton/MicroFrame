@@ -54,7 +54,6 @@ class AuthMiddleware extends Middleware
          */
 
         /**
-         *
          * Sample data call with default instance
          *
          * $data = $this->model->query('select 1 from dual')
@@ -63,13 +62,22 @@ class AuthMiddleware extends Middleware
          */
 
         /**
-         *
          * Sample data call with custom database instance
          *
          * $data = parent::model('oracle2x')->query('select 1 from dual')
          * ->execute()
          * ->result();
          */
+
+        // Cache tests
+        //        $cacheInstance = $this->cache('redis');
+        //        die(var_dump($cacheInstance->setMultiple(['testz' => 'yes', 'testx' => 'hmmm'])));
+        //        die(var_dump($cacheInstance->set('newSamples', 45)));
+        //        die(var_dump($cacheInstance->get('testz')));
+        //        die(var_dump($cacheInstance->push('nq1', ['haha', 'hoho'])));
+        //        die(var_dump($cacheInstance->pop('nq1')));
+        //        die(var_dump($cacheInstance->getMultiple(['testz', 'nq1_queue'])));
+        //        die(var_dump($cacheInstance->deleteMultiple(['testz', 'nq1_queue'])));
 
         return true;
     }
