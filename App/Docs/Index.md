@@ -5,6 +5,6 @@
 
  All here...
  
- [X] Confirmed.
+1. [X] Confirmed.
  
- [ ] Unconfirmed.
+2. [ ] Unconfirmed.
