@@ -1,0 +1,54 @@
+/*
+ * Main CSS file
+ *
+ * CSS3
+ *
+ * @author Godwin peter .O <me@godwin.dev>
+ * @author Tolaram Group Nigeria <teamerp@tolaram.com>
+ * @copyright 2020 Tolaram Group Nigeria
+ * @license MIT License
+ * @link https://github.com/gpproton/microframe
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so.
+ */
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(font/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(font/MaterialIcons-Regular.woff2) format('woff2'),
+  url(font/MaterialIcons-Regular.woff) format('woff'),
+  url(font/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}

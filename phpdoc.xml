@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title>MicroFrame 0.0.1</title>
+    <parser>
+        <target>Build/Docs</target>
+    </parser>
+    <transformer>
+        <target>Build/Docs</target>
+    </transformer>
+    <files>
+        <directory>MicroFrame/</directory>
+        <directory>App/</directory>
+        <file>Public/Index.php</file>
+        <ignore>vendor/*</ignore>
+        <ignore>tests/*</ignore>
+    </files>
+    <logging>
+        <level>err</level>
+        <paths>
+            <default>Data/Logs/{DATE}.log</default>
+            <errors>Data/Logs/{DATE}.errors.log</errors>
+        </paths>
+    </logging>
+    <transformations>
+        <template name="responsive-twig" />
+    </transformations>
+</phpdoc>

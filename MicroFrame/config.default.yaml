@@ -1,0 +1,63 @@
+---
+system:
+  debug: true
+  key: no_key
+  path:
+    logs: 'Logs'
+    data: 'Local'
+    cache: 'Cache'
+    storage: 'Storage'
+    emoji:
+      path: '/Resources/emoji.json'
+      url: 'https://api.github.com/emojis'
+  retention:
+    logs: 10
+    cache: 3
+
+site:
+  title: 'MicroFrame 0.0.1'
+  root: index
+  assist: 'help/'
+  api:
+    host: example.com
+
+
+auth:
+# Passkey | DataBase | Auth0 -> Default authentication middleware.
+  type: 'passkey'
+  timeout: 3600
+  session_key: 'MicroFrame_Session'
+  passkey: pass@123
+
+# DataSource types File | Sqlite | Redis | MemCached | Cookie
+# Files, Cookie & Sqlite types point to folder location in Data/CacheSource
+cacheSource:
+  default:
+    type: sqlite
+    prefix: 'mf_'
+    maxQueue: 500
+  redis:
+    type: redis
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    password: ''
+    timeout: 10
+    prefix: 'mf_'
+    maxQueue: 500
+
+# DataSource types sqlite | mysql | postgres | oracle | mssql
+# Sqlite data files are to be located at Data/local/
+dataSource:
+  default:
+    type: sqlite
+    dbname: default.sq3
+    timeout: 10
+  sampledb:
+    type: postgres
+    host: 127.0.0.1
+    port: 5432
+    dbname: postgres
+    user: 'postgres'
+    password: ''
+    timeout: 10

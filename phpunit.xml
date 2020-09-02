@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         verbose="true"
+>
+    <php>
+        <ini name="memory_limit" value="1024M" />
+        <server name="APP_ENV" value="testing"/>
+    </php>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./MicroFrame/Tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">./App/Tests/Integration/</directory>
+        </testsuite>
+        <testsuite name="App-Unit">
+            <directory suffix="Test.php">./App/Tests/Unit/</directory>
+        </testsuite>
+        <testsuite name="App-Integration">
+            <directory suffix="Test.php">./App/Tests/Integration/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./MicroFrame/</directory>
+            <directory suffix=".php">./App</directory>
+            <exclude>
+                <directory>./MicroFrame/Tests/</directory>
+                <directory suffix="Views.php">./MicroFrame/</directory>
+                <directory suffix="Views.php">./App/</directory>
+                <directory suffix="Model.php">./App/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

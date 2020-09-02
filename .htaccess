@@ -4,31 +4,23 @@
 ##
 ##############################
 
-RewriteEngine On
-RewriteCond $1 !^(index\.php)
-
-RedirectMatch 403 ^/vendor/?$
 IndexIgnore *
 Options All -Indexes
 
-<FilesMatch "composer\.*|.\env|nginx\.conf|.\htaccess">
-    Order allow,deny
-    Deny from all
-    Allow From 127.0.0.1
-</FilesMatch>
+<IfModule mod_rewrite.c>
+# Send Requests To Front Controller...
+RewriteEngine On
 
-<FilesMatch "\.php$">
-    Order Allow,Deny
-    Deny from all
-</FilesMatch>
+#RewriteRule /Docs/Core/(.*)$ /core/docs/$1 [R=301,NC,L]
 
-<FilesMatch "index[0-9]?\.php$">
-    Order Allow,Deny
-    Allow from all
-</FilesMatch>
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/Index.php?controller=$1 [NC,L,QSA]
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-<Files .git*>
-    Order allow,deny
-    Deny from all
-    Allow From 127.0.0.1
-</Files>
+</IfModule>
+
+# Set a default PHP version
+#AddHandler application/x-httpd-php74 .php
