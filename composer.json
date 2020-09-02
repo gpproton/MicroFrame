@@ -76,8 +76,11 @@
         ],
         "test": [
             "vendor/bin/phpunit"
-        ]
+        ],
+        "php-cs-fixer": "php-cs-fixer --rules=@PSR2 --config=./.php_cs",
+        "phpcs": "phpcs --color --standard=PSR2"
     },
+    "bin": ["bin/setup.sh", "bin/phpdoc.phar"],
     "minimum-stability": "dev",
     "prefer-stable": true
 }
