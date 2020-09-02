@@ -1,8 +1,8 @@
 {
-    "name": "gpproton/microframe",
+    "name": "tolaramgroup/microframe",
     "description": "A simplistic micro framework with a little touch of MVC without the necessity of models",
     "keywords": ["template", "framework", "MVC", "micro", "cli"],
-    "homepage": "https://github.com/gpproton/microframe",
+    "homepage": "https://github.com/tolaramgroup/microframe",
     "type": "template",
     "license": "MIT",
     "authors": [
@@ -14,8 +14,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/gpproton/microframe/issues",
-        "source": "https://github.com/gpproton/microframe"
+        "issues": "https://github.com/tolaramgroup/microframe/issues",
+        "source": "https://github.com/tolaramgroup/microframe"
     },
     "config": {
         "platform": { },
