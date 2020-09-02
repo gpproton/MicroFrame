@@ -16,10 +16,10 @@
         <server name="APP_ENV" value="testing"/>
     </php>
     <testsuites>
-        <testsuite name="Core-Unit">
+        <testsuite name="Unit">
             <directory suffix="Test.php">./MicroFrame/Tests/Unit/</directory>
         </testsuite>
-        <testsuite name="Core-Integration">
+        <testsuite name="Integration">
             <directory suffix="Test.php">./App/Tests/Integration/</directory>
         </testsuite>
         <testsuite name="App-Unit">
