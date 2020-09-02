@@ -1,6 +1,6 @@
 <?php
 /**
- * Test Middleware class
+ * Default App Auth Middleware class
  *
  * PHP Version 7
  *
