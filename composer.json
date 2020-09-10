@@ -18,8 +18,13 @@
         "source": "https://github.com/tolaramgroup/microframe"
     },
     "config": {
-        "platform": { },
-        "sort-packages": true
+        "platform": {"php": "7.3"},
+        "sort-packages": true,
+        "archive-format": "zip",
+        "archive-dir": "Build/Release"
+    },
+    "archive": {
+        "exclude": ["vendor", "Build", ".idea", "composer.lock", ".gitattributes", ".gitignore", "phpcs.xml", "phpunit.xml", "phpdoc.xml"]
     },
     "autoload": {
         "psr-4": {
@@ -46,7 +51,7 @@
         "hassankhan/config": "2.1.*",
         "symfony/yaml": "5.1.*",
         "symfony/finder": "5.1.*",
-        "symfony/serializer": "3.4.43",
+        "symfony/serializer": "3.4.*",
         "cebe/markdown": "1.2.*",
         "zircote/swagger-php": "3.0.*",
         "asyncphp/doorman": "3.1.*"
@@ -75,11 +80,18 @@
         "post-update-cmd": [
 
         ],
+        "post-autoload-dump": [
+            "php -r \"file_put_contents('Build/Bin/phpdoc.phar', file_get_contents('https://phpdoc.org/phpDocumentor.phar'));\""
+        ],
+        "post-create-project-cmd": [
+
+        ],
         "test": [
             "vendor/bin/phpunit"
         ],
         "cs-check": "phpcs",
-        "cs-fix": "phpcbf"
+        "cs-fix": "phpcbf",
+        "phpdoc": "php Build/Bin/phpdoc.phar"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
