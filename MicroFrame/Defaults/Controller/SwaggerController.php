@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Swagger controller class
  *
@@ -22,10 +23,10 @@ namespace MicroFrame\Defaults\Controller;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
-use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Core\Controller as Core;
 use MicroFrame\Handlers\Exception;
 use MicroFrame\Library\Strings;
-use \OpenApi\Annotations as OA;
+use OpenApi\Annotations as OA;
 use function OpenApi\scan;
 
 /**

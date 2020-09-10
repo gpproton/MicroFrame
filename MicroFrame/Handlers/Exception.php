@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Exception Handlers  class
  *
@@ -22,7 +23,7 @@ namespace MicroFrame\Handlers;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
-use \Exception as stockError;
+use Exception as stockError;
 use MicroFrame\Core\Request as request;
 use MicroFrame\Core\Response as response;
 use MicroFrame\Interfaces\IRequest;

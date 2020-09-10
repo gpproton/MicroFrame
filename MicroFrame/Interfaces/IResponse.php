@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Response interface
  *
@@ -91,7 +92,7 @@ interface IResponse extends ICore
      *
      * @return self
      */
-    public function data($content, $raw =  false);
+    public function data($content, $raw = false);
 
     /**
      * A additional to data for setting if data should contain any metadata.

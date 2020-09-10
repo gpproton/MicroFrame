@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default Middleware class
  *
@@ -22,7 +23,7 @@ namespace MicroFrame\Defaults\Middleware;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
-use \MicroFrame\Core\Middleware;
+use MicroFrame\Core\Middleware;
 
 /**
  * DefaultMiddleware Class

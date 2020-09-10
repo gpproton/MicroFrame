@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Logger Handlers class
  *
@@ -158,40 +159,40 @@ final class Logger extends Core
         $output = $this->_text;
 
         switch (gettype($output)) {
-        case 'array':
-            $output =  json_encode($output);
-            break;
-        case 'null':
-            $output =  "Nothing to output here!!";
-            break;
-        case 'integer':
-            $output =  "{$output}";
-            break;
-        default:
-            break;
+            case 'array':
+                $output =  json_encode($output);
+                break;
+            case 'null':
+                $output =  "Nothing to output here!!";
+                break;
+            case 'integer':
+                $output =  "{$output}";
+                break;
+            default:
+                break;
         }
-        $output = date("[Y-m-d H:i:s]") . "\t[". $type
-            ."]\t[". $this->_source ."]\t"
-            . $output ."\n";
+        $output = date("[Y-m-d H:i:s]") . "\t[" . $type
+            . "]\t[" . $this->_source . "]\t"
+            . $output . "\n";
 
         switch ($type) {
-        case 'info':
-        case 'warn':
-            $this->_console($output);
-            $this->_file($output);
-            break;
-        case 'error':
-            $this->_console($output);
-            $this->_file($output);
-            return $this->_web();
-        case 'debug':
-            $this->_console($output);
-            return $output;
-        default:
-            $this->_console($output);
-            $this->_file($output);
-            $this->_email($output);
-            return $this->_web();
+            case 'info':
+            case 'warn':
+                $this->_console($output);
+                $this->_file($output);
+                break;
+            case 'error':
+                $this->_console($output);
+                $this->_file($output);
+                return $this->_web();
+            case 'debug':
+                $this->_console($output);
+                return $output;
+            default:
+                $this->_console($output);
+                $this->_file($output);
+                $this->_email($output);
+                return $this->_web();
         }
     }
 
@@ -202,7 +203,7 @@ final class Logger extends Core
      *
      * @return void
      */
-    private function _console($string =  null)
+    private function _console($string = null)
     {
         Utils::get()->console($string);
     }
@@ -214,7 +215,7 @@ final class Logger extends Core
      *
      * @return null|string
      */
-    private function _web($string =  null)
+    private function _web($string = null)
     {
         return $string;
     }
@@ -227,7 +228,7 @@ final class Logger extends Core
      *
      * @return void
      */
-    private function _file($string =  null, $path = null)
+    private function _file($string = null, $path = null)
     {
         $logPath = $this->_config['system']['path']['logs'];
 
@@ -264,7 +265,7 @@ final class Logger extends Core
      *
      * @return void
      */
-    private function _email($string =  null)
+    private function _email($string = null)
     {
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default controller class
  *
@@ -65,7 +66,8 @@ class HelpController extends Core
             ->range($assistRoot . "/")
             ->value();
 
-        if (empty($requestedPath)
+        if (
+            empty($requestedPath)
             || Strings::filter($requestedPath)->contains('http')
         ) {
             $requestedFile = CORE_PATH . '/Defaults/Markdown/Default.md';
@@ -94,7 +96,10 @@ class HelpController extends Core
              * @param $array
              * @param $rootPath
              */
-            $getConstr = function ($array, $rootPath) use (
+            $getConstr = function (
+                $array,
+                $rootPath
+            ) use (
                 &$reveal,
                 &$getConstr,
                 &$folderStructure,
@@ -110,7 +115,8 @@ class HelpController extends Core
                     /**
                      * Add a list item.
                      */
-                    if (gettype($key) === 'integer'
+                    if (
+                        gettype($key) === 'integer'
                         && Strings::filter($value)->contains('.md')
                     ) {
                         $currentFile = Strings::filter($value)
@@ -193,7 +199,8 @@ class HelpController extends Core
                                 ->replace(APP_PATH . '/Docs')->value();
                             $requestLoc = (strpos($rootPath, '/') !== 0)
                                 ? '/' . $loc : $loc;
-                            if (!Strings::filter($rootUrl)->contains($requestLoc)
+                            if (
+                                !Strings::filter($rootUrl)->contains($requestLoc)
                                 && !$rootIterateCheck
                             ) {
                                 $rootIterateCheck = true;
@@ -210,7 +217,8 @@ HTML;
                     /**
                      * Add an unordered list item and it's children items.
                      */
-                    if (gettype($value) === 'array'
+                    if (
+                        gettype($value) === 'array'
                         && gettype($key) !== 'integer'
                     ) {
                         arsort($value);
@@ -218,10 +226,11 @@ HTML;
                         /**
                          * New folder path.
                          */
-                        if (is_dir(
-                            $rootPath .
-                            $folderStructure . '/' . $key . '/'
-                        )
+                        if (
+                            is_dir(
+                                $rootPath .
+                                $folderStructure . '/' . $key . '/'
+                            )
                         ) {
                             $folderStructure = $folderStructure . '/' . $key . '/';
                         } else {
@@ -274,7 +283,8 @@ HTML;
             $markdownString = file_get_contents($requestedFile);
         }
 
-        if ($requestedPath === $assistRoot
+        if (
+            $requestedPath === $assistRoot
             || $requestedPath === ''
             || Strings::filter($requestedPath)->contains('http')
         ) {
@@ -300,7 +310,7 @@ HTML;
 
 
             $options = substr($markdownString, $startPos, $endPos);
-            $options = new Config($options, new Yaml, true);
+            $options = new Config($options, new Yaml(), true);
             $options = $options->all();
         } else {
             $options = [];
@@ -406,7 +416,8 @@ HTML;
             $options['tags'] = '';
         }
 
-        if (empty($options['tags'])
+        if (
+            empty($options['tags'])
             && empty($options['image']) && empty($options['header'])
         ) {
             $options['date-author'] = '';

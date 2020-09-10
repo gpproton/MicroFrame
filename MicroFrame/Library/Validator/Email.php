@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Email Validator class
  *

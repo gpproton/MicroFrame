@@ -1,4 +1,5 @@
 <?php
+
 /**
  * General Utility Library class
  *
@@ -66,7 +67,7 @@ final class Utils extends Core
     {
         // TODO: Redefine this for more accuracy
         $ipAddress = 'UNKNOWN';
-        $keys= [
+        $keys = [
             'HTTP_CLIENT_IP',
             'HTTP_X_FORWARDED_FOR',
             'HTTP_X_FORWARDED',
@@ -76,7 +77,8 @@ final class Utils extends Core
         ];
 
         foreach ($keys as $k) {
-            if (isset($_SERVER[$k]) && !empty($_SERVER[$k])
+            if (
+                isset($_SERVER[$k]) && !empty($_SERVER[$k])
                 && filter_var(
                     $_SERVER[$k],
                     FILTER_VALIDATE_IP

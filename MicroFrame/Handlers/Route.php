@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Route Handlers class
  *
@@ -128,7 +129,7 @@ class Route extends Core
             /**
              * Default middleware left here just for extra capability.
              */
-            ->middleware(new DefaultMiddleware)
+            ->middleware(new DefaultMiddleware())
             ->start();
     }
 
@@ -171,7 +172,8 @@ class Route extends Core
         /**
          * Path validation logic
          */
-        if ($wildCard
+        if (
+            $wildCard
             && Strings::filter($clazz->_request->path())->contains($path)
         ) {
             $clazz->_proceed = true;
@@ -193,7 +195,8 @@ class Route extends Core
             /**
              * Directory and script mapping
              */
-            if (Strings::filter($functions)->contains("./")
+            if (
+                Strings::filter($functions)->contains("./")
                 || is_file($functions)
             ) {
                 $reqPath = $customScriptsPath .
@@ -203,7 +206,8 @@ class Route extends Core
                  */
                 Request::overrideGlobals(false);
 
-                if (is_file($functions)
+                if (
+                    is_file($functions)
                     && Strings::filter($functions)->contains(".php")
                 ) {
                     include_once $functions;
@@ -239,7 +243,8 @@ class Route extends Core
             /**
              * Handle System Controller mapping.
              */
-            elseif (Strings::filter($functions)->contains(self::SYS_CONTROLLER) && $clazz->_initialize($functions)
+            elseif (
+                Strings::filter($functions)->contains(self::SYS_CONTROLLER) && $clazz->_initialize($functions)
             ) {
                 $clazz->_initialize(
                     $functions,

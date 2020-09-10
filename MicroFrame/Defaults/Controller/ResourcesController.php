@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Resources controller class
  *
@@ -18,12 +19,11 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-
 namespace MicroFrame\Defaults\Controller;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
-use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Core\Controller as Core;
 
 /**
  * ResourcesController Class

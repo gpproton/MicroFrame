@@ -1,4 +1,5 @@
 <?php
+
 /**
  * App DataSource interface
  *
@@ -51,5 +52,4 @@ interface IDataSource extends ICore
      * @return mixed
      */
     public function config($name);
-
 }

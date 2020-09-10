@@ -49,7 +49,7 @@ final class Core
      *
      * @return void
      */
-    public function run(handler $handler) : void
+    public function run(handler $handler): void
     {
 
         /**

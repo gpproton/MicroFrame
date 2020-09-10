@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Request Core class
  *

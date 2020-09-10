@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Response class
  *
@@ -237,7 +238,7 @@ final class Response extends Core implements IResponse
      *
      * @return self
      */
-    public function data($content = null, $raw =  false)
+    public function data($content = null, $raw = false)
     {
         $this->dataRaw($raw);
 

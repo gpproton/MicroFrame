@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Task Handler class
  *
