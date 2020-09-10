@@ -1,4 +1,5 @@
 <?php
+
 /**
  * CacheSource Handler class
  *
@@ -63,15 +64,15 @@ class CacheSource extends Core
         $cacheType = ucfirst($cacheType);
 
         switch ($cacheType) {
-        case 'Sqlite':
-        case 'Files':
-        case 'Cookie':
-            $cacheType = 'Minimal';
-            break;
-        case 'Memcache':
-        case 'Memcached':
-            $cacheType = 'MemCached';
-            break;
+            case 'Sqlite':
+            case 'Files':
+            case 'Cookie':
+                $cacheType = 'Minimal';
+                break;
+            case 'Memcache':
+            case 'Memcached':
+                $cacheType = 'MemCached';
+                break;
         }
 
         /**
@@ -109,7 +110,7 @@ class CacheSource extends Core
      *
      * @return ICache|object|null
      */
-    public static function init($source = "default") : ICache
+    public static function init($source = "default"): ICache
     {
         $instance = null;
         try {

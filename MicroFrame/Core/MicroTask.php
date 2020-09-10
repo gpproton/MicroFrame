@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MicroTask Core class
  *
@@ -17,6 +18,7 @@
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
+
 namespace MicroFrame\Core;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
@@ -101,21 +103,21 @@ class MicroTask extends Core
     {
         $instance = Logger::set($text);
         switch ($type) {
-        case 'info':
-            $instance->info();
-            break;
-        case 'warn':
-            $instance->warn();
-            break;
-        case 'error':
-            $instance->error();
-            break;
-        case 'debug':
-            $instance->debug();
-            break;
-        default:
-            $instance->fatal();
-            break;
+            case 'info':
+                $instance->info();
+                break;
+            case 'warn':
+                $instance->warn();
+                break;
+            case 'error':
+                $instance->error();
+                break;
+            case 'debug':
+                $instance->debug();
+                break;
+            default:
+                $instance->fatal();
+                break;
         }
     }
 
@@ -175,7 +177,7 @@ class MicroTask extends Core
      *
      * @return Model|IModel
      */
-    protected function model($source =  null) : IModel
+    protected function model($source = null): IModel
     {
         if (is_null($source)) {
             return new Model();
@@ -190,7 +192,7 @@ class MicroTask extends Core
      *
      * @return ICache|object
      */
-    protected function cache($source = 'default') : ICache
+    protected function cache($source = 'default'): ICache
     {
         return CacheSource::init($source);
     }
@@ -202,7 +204,7 @@ class MicroTask extends Core
      *
      * @return mixed|void
      */
-    protected function string($source = '') : Strings
+    protected function string($source = ''): Strings
     {
         return Strings::filter($source);
     }

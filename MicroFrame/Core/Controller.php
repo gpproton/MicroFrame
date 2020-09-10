@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Controller class
  *
@@ -196,21 +197,21 @@ abstract class Controller extends Core implements IController
     {
         $instance = Logger::set($text);
         switch ($type) {
-        case 'info':
-            $instance->info();
-            break;
-        case 'warn':
-            $instance->warn();
-            break;
-        case 'error':
-            $instance->error();
-            break;
-        case 'debug':
-            $instance->debug();
-            break;
-        default:
-            $instance->fatal();
-            break;
+            case 'info':
+                $instance->info();
+                break;
+            case 'warn':
+                $instance->warn();
+                break;
+            case 'error':
+                $instance->error();
+                break;
+            case 'debug':
+                $instance->debug();
+                break;
+            default:
+                $instance->fatal();
+                break;
         }
     }
 
@@ -221,7 +222,7 @@ abstract class Controller extends Core implements IController
      *
      * @return Model|IModel
      */
-    protected function model($source =  null) : IModel
+    protected function model($source = null): IModel
     {
         if (is_null($source)) {
             return new Model();
@@ -236,7 +237,7 @@ abstract class Controller extends Core implements IController
      *
      * @return ICache|object
      */
-    protected function cache($source = 'default') : ICache
+    protected function cache($source = 'default'): ICache
     {
         return CacheSource::init($source);
     }
@@ -248,7 +249,7 @@ abstract class Controller extends Core implements IController
      *
      * @return mixed|void
      */
-    protected function string($source = '') : Strings
+    protected function string($source = ''): Strings
     {
         return Strings::filter($source);
     }

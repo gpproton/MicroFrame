@@ -1,4 +1,5 @@
 <?php
+
 /**
  * File Library class
  *
@@ -23,6 +24,7 @@ namespace MicroFrame\Library;
 use MicroFrame\Core\Core;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
+
 use function App\Controller\getRelativePath;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
@@ -60,7 +62,7 @@ final class File extends Core
      */
     public function clearOld($path, $days = 3)
     {
-        $files = glob($path ."/*");
+        $files = glob($path . "/*");
         $now   = time();
 
         foreach ($files as $file) {
@@ -100,7 +102,8 @@ final class File extends Core
                 continue;
             }
             $file = $this->relativePath($relativeBase, $filename);
-            if (Strings::filter($file)->contains($contains)
+            if (
+                Strings::filter($file)->contains($contains)
                 && !Strings::filter($file)->contains($filter)
             ) {
                 $files[] = $file;
@@ -127,7 +130,8 @@ final class File extends Core
         $fileSys = array();
         $path = array();
         foreach ($fileIterator as $splFileInfo) {
-            if ($splFileInfo->getFilename() !== '.'
+            if (
+                $splFileInfo->getFilename() !== '.'
                 || $splFileInfo->getFilename() !== '..'
             ) {
                 $path = $splFileInfo->isDir()

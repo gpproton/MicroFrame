@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Datasource Handler class
  *
@@ -101,10 +102,11 @@ class DataSource extends Core implements IDataSource
                 /**
                  * Circumvent issues if OCI PDO driver is not available.
                  */
-                if (!$this->_validate(
-                    $this->_source['type'],
-                    true
-                ) && $this->_source['type'] === "oracle"
+                if (
+                    !$this->_validate(
+                        $this->_source['type'],
+                        true
+                    ) && $this->_source['type'] === "oracle"
                 ) {
                     $this->_connection = new fallbackOraclePDO(
                         $connectionString,
@@ -300,11 +302,12 @@ class DataSource extends Core implements IDataSource
             'oracle' => 'oci'
         );
 
-        if (!in_array(
-            $drivers[$text],
-            PDO::getAvailableDrivers(),
-            true
-        ) && $checkOnly
+        if (
+            !in_array(
+                $drivers[$text],
+                PDO::getAvailableDrivers(),
+                true
+            ) && $checkOnly
         ) {
             return false;
         } else {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Bootstrapping core
  *
@@ -34,7 +35,7 @@ ini_set("max_file_uploads", 300);
 require_once __DIR__ . '/../vendor/autoload.php';
 
 
-$app = new MicroFrame\Core;
+$app = new MicroFrame\Core();
 
 /**
  * Bootstrap application with error handling..

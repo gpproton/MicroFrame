@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Base CacheSource Handler class
  *
@@ -18,7 +19,6 @@
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
 
-
 namespace MicroFrame\Handlers\CacheSource;
 
 use MicroFrame\Handlers\Exception;
@@ -27,6 +27,7 @@ use MicroFrame\Library\Config;
 use Phpfastcache\Exceptions\PhpfastcacheSimpleCacheException;
 use Phpfastcache\Helper\Psr16Adapter;
 use Psr\Cache\InvalidArgumentException;
+
 use function array_splice;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
@@ -85,7 +86,7 @@ abstract class BaseCache implements ICache
      *
      * @return mixed|null
      */
-    abstract public function init($source) : Psr16Adapter;
+    abstract public function init($source): Psr16Adapter;
 
     /**
      * Retrieve configuration values.
@@ -208,7 +209,8 @@ abstract class BaseCache implements ICache
              * Filter excess items in queue.
              */
             $maxListConfig = $this->config($this->source . '.maxQueue');
-            if (gettype($oldValues) === 'array'
+            if (
+                gettype($oldValues) === 'array'
                 && sizeof($oldValues) >= $maxListConfig
             ) {
                 array_splice(
@@ -293,7 +295,7 @@ abstract class BaseCache implements ICache
      */
     public function all($key, $count = 100)
     {
-        $key = $this->_setPrefix($key). '_queue';
+        $key = $this->_setPrefix($key) . '_queue';
         $item = $this->instance->get($key);
         if (sizeof($count) >= 1) {
             array_slice($item, 0, $count);

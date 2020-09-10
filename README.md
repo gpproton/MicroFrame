@@ -10,7 +10,7 @@ composer create-project microframe/app testApp --no-dev
 
 ```php
 <?php
-use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Core\Controller as Core;
 
 class TestController extends Core {
     public function index()
@@ -26,22 +26,12 @@ class TestController extends Core {
 
 ```php
 <?php
-use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Core\Controller as Core;
 
-/**
- * Class TestController
- * @package App\Controller
- */
 class TestController extends Core {
 
-    /**
-     * Controller index method, normal.
-     */
     public function index()
     {
-        /**
-         * Set if controller should auto or not via it's path.
-         */
         $this->auto(false);
 
         $this->response

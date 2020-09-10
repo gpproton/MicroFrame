@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core Controller interface
  *

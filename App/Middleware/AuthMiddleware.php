@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default App Auth Middleware class
  *
@@ -22,7 +23,7 @@ namespace App\Middleware;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
-use \Microframe\Core\Middleware;
+use Microframe\Core\Middleware;
 
 /**
  * AuthMiddleware Class

@@ -25,3 +25,4 @@ App/Config/*.yml*
 App/Config/*.ini*
 App/Config/*.xml*
 .php_cs.cache
+.phpcs-cache

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Middleware Core class
  *
@@ -90,7 +91,7 @@ class Middleware extends Core implements IMiddleware
      *
      * @return self|IModel
      */
-    public static function model($source =  null)
+    public static function model($source = null)
     {
         if (is_null($source)) {
             return new Model();

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SwaggerUI controller class
  *
@@ -23,7 +24,7 @@ namespace MicroFrame\Defaults\Controller;
 defined('BASE_PATH') or exit('No direct script access allowed');
 
 
-use \MicroFrame\Core\Controller as Core;
+use MicroFrame\Core\Controller as Core;
 use MicroFrame\Library\Strings;
 use MicroFrame\Library\Value;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default View
  *
@@ -17,6 +18,7 @@
  * use, copy, modify, merge, publish distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so
  */
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,7 +81,7 @@
     <a class='waves-effect waves-light btn grey lighten-1 center-align z-depth-0' style='color: white; text-decoration: none; margin-right: auto; margin-left: auto;' href='<?=$base?>'>
         <i class='material-icons left'>chevron_left</i>Return Home</a>
 </div>
-<?php }
+    <?php }
 } ?>
 
 <div class="center-align">

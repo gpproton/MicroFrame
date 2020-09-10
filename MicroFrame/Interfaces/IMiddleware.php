@@ -1,4 +1,5 @@
 <?php
+
 /**
  * App middleware interface
  *

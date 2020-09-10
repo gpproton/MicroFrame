@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Reflect Library class
  *
@@ -160,26 +161,26 @@ class Reflect extends Core
         }
 
         switch ($core) {
-        case 'Controller':
-            /**
-             * $args[2] hold the name method to be called.
-             */
-            if (class_exists($classIndexMethod) && gettype($args) === 'array') {
-                $args[2] = $classIndexMethodValue;
-            } elseif (class_exists($classUpper) && gettype($args) === 'array') {
-                $args[2] = $classMethod;
-            }
-            break;
-        case 'Model':
-            /**
-             * $args[0] hold the name method to be called.
-             */
-            if (class_exists($classUpper) && gettype($args) === 'array') {
-                $args[0] = $classMethod;
-            }
-            break;
-        default:
-            break;
+            case 'Controller':
+                /**
+                 * $args[2] hold the name method to be called.
+                 */
+                if (class_exists($classIndexMethod) && gettype($args) === 'array') {
+                    $args[2] = $classIndexMethodValue;
+                } elseif (class_exists($classUpper) && gettype($args) === 'array') {
+                    $args[2] = $classMethod;
+                }
+                break;
+            case 'Model':
+                /**
+                 * $args[0] hold the name method to be called.
+                 */
+                if (class_exists($classUpper) && gettype($args) === 'array') {
+                    $args[0] = $classMethod;
+                }
+                break;
+            default:
+                break;
         }
 
         if (gettype($args) !== 'array' && class_exists($path)) {
@@ -247,7 +248,7 @@ class Reflect extends Core
     public function getClassObjectFromFile($filePathName)
     {
         $classString = $this->getClassFullNameFromFile($filePathName);
-        return new $classString;
+        return new $classString();
     }
 
     /**
@@ -305,7 +306,8 @@ class Reflect extends Core
         $tokens = token_get_all($php_code);
         $count = count($tokens);
         for ($i = 2; $i < $count; $i++) {
-            if ($tokens[$i - 2][0] == T_CLASS
+            if (
+                $tokens[$i - 2][0] == T_CLASS
                 && $tokens[$i - 1][0] == T_WHITESPACE
                 && $tokens[$i][0] == T_STRING
             ) {

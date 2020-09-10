@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Password Validator class
  *

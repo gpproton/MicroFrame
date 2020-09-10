@@ -78,7 +78,7 @@ class Application extends Core
          * Implement pretty error display.
          */
         if ($this->_config['system']['debug']) {
-            $whoops = new whoopsRun;
+            $whoops = new whoopsRun();
             $page = new PrettyPageHandler();
             $protectArray = array('_ENV', '_SERVER');
 

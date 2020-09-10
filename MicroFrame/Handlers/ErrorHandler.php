@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Error Handler  class
  *
