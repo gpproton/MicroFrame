@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Core class
  *
@@ -24,11 +25,9 @@ namespace MicroFrame;
 /**
  * Framework root path.
  */
-define('BASE_PATH', realpath(__DIR__ .'/..'));
+define('BASE_PATH', dirname(__DIR__));
 
-use MicroFrame\Core\Request as request;
-use MicroFrame\Handlers\ErrorHandler as handler;
-use MicroFrame\Core\Application as app;
+use MicroFrame\{Core\Request as request, Handlers\ErrorHandler as handler, Core\Application as app};
 
 /**
  * Core Class
@@ -50,29 +49,29 @@ final class Core
      *
      * @return void
      */
-    public function run(handler $handler)
+    public function run(handler $handler) : void
     {
 
         /**
          * Framework internals path.
          */
-        define('CORE_PATH', realpath(__DIR__ .'/../MicroFrame'));
+        define('CORE_PATH', BASE_PATH . '/MicroFrame');
         /**
          * Framework app code path.
          */
-        define('APP_PATH', realpath(__DIR__ .'/../App'));
+        define('APP_PATH', BASE_PATH . '/App');
         /**
          * Framework base data path.
          */
-        define('DATA_PATH', realpath(__DIR__ .'/../Data'));
+        define('DATA_PATH', BASE_PATH . '/Data');
 
         /**
          * Initialize PHP request and globals modification.
          */
         if (!request::overrideGlobals()) {
             die('Request can bot be routed!!!');
-        } else {
-            $handler->bootstrap(new app);
         }
+
+        $handler->bootstrap(new app());
     }
 }
