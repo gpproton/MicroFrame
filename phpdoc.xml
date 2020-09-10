@@ -8,11 +8,12 @@
         <target>Build/Docs</target>
     </transformer>
     <files>
+        <ignore>vendor/*</ignore>
+        <ignore>Build/*</ignore>
+        <ignore>Data/*</ignore>
         <directory>MicroFrame/</directory>
         <directory>App/</directory>
         <file>Public/Index.php</file>
-        <ignore>vendor/*</ignore>
-        <ignore>tests/*</ignore>
     </files>
     <logging>
         <level>err</level>
