@@ -39,7 +39,7 @@
         }
     },
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.3",
         "ext-json": "*",
         "ext-fileinfo": "*",
         "ext-curl": "*",
