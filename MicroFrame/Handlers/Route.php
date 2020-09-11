@@ -30,10 +30,10 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 use MicroFrame\Core\Core;
 use MicroFrame\Core\Request;
 use MicroFrame\Core\Response;
+use MicroFrame\Defaults\Middleware\DefaultMiddleware;
 use MicroFrame\Interfaces\IRequest;
 use MicroFrame\Interfaces\IResponse;
 use MicroFrame\Library\Reflect;
-use MicroFrame\Defaults\Middleware\DefaultMiddleware;
 use MicroFrame\Library\Strings;
 use MicroFrame\Library\Value;
 
@@ -106,16 +106,16 @@ class Route extends Core
     /**
      * Route controller resolver.
      *
-     * @param string $path     here
-     * @param bool   $check    validation only boolean
-     * @param null   $response here
-     * @param null   $request  here
-     * @param bool   $auto     an assist param
+     * @param string $path here
+     * @param bool $check validation only boolean
+     * @param null $response here
+     * @param null $request here
+     * @param bool $auto an assist param
      *
      * @return mixed
      */
     private function _initialize(
-        $path,
+        string $path,
         $check = true,
         $response = null,
         $request = null,
@@ -137,11 +137,11 @@ class Route extends Core
      * Custom route mapping method for assigning to
      * controller, closure, string & paths
      *
-     * @param string $path       here
-     * @param array  $methods    allowed HTTP methods
-     * @param string $functions  output struct
-     * @param array  $middleware a middleware array.
-     * @param int    $status     status code.
+     * @param string $path here
+     * @param array $methods allowed HTTP methods
+     * @param string $functions output struct
+     * @param array $middleware a middleware array.
+     * @param int $status status code.
      *
      * @return void
      */
@@ -151,7 +151,7 @@ class Route extends Core
         $functions = "index",
         $middleware = array(),
         $status = 200
-    ) {
+    ): void {
         /**
          * Filter out unintended string output
          */
@@ -192,60 +192,62 @@ class Route extends Core
              */
             $clazz->_response->methods($methods, false, true);
 
-            /**
-             * Directory and script mapping
-             */
-            if (
-                Strings::filter($functions)->contains("./")
-                || is_file($functions)
-            ) {
-                $reqPath = $customScriptsPath .
-                    Strings::filter($functions)->replace("./")->value();
+            if (is_string($functions)) {
                 /**
-                 * Restore cleaned globals
+                 * Directory and script mapping
                  */
-                Request::overrideGlobals(false);
-
                 if (
-                    is_file($functions)
-                    && Strings::filter($functions)->contains(".php")
+                    Strings::filter($functions)->contains("./")
+                    || is_file($functions)
                 ) {
-                    include_once $functions;
-                    die();
-                } elseif (is_dir($reqPath)) {
-                    chdir($reqPath);
-                    $dirContents = scandir("./");
-                    if (in_array("index.html", $dirContents)) {
-                        /**
-                         * HTML index item inclusion.
-                         */
-                        echo file_get_contents("./index.html");
-                    } elseif (in_array("index.php", $dirContents)) {
-                        /**
-                         * PHP index script inclusion.
-                         */
-                        include_once "index.php";
+                    $reqPath = $customScriptsPath .
+                        Strings::filter($functions)->replace("./")->value();
+                    /**
+                     * Restore cleaned globals
+                     */
+                    Request::overrideGlobals(false);
+
+                    if (
+                        is_file($functions)
+                        && Strings::filter($functions)->contains(".php")
+                    ) {
+                        include_once $functions;
+                        die();
+                    } elseif (is_dir($reqPath)) {
+                        chdir($reqPath);
+                        $dirContents = scandir("./");
+                        if (in_array("index.html", $dirContents)) {
+                            /**
+                             * HTML index item inclusion.
+                             */
+                            echo file_get_contents("./index.html");
+                        } elseif (in_array("index.php", $dirContents)) {
+                            /**
+                             * PHP index script inclusion.
+                             */
+                            include_once "index.php";
+                        } else {
+                            $clazz->_response->notFound();
+                        }
                     } else {
                         $clazz->_response->notFound();
                     }
-                } else {
-                    $clazz->_response->notFound();
+                    die();
                 }
-                die();
             }
 
             /**
              * Firstly check closure and then execute with return.
              */
-            if (gettype($functions) === 'object') {
+            if (is_object($functions)) {
                 $clazz->_response->data($functions());
-            }
-            /**
-             * Handle System Controller mapping.
-             */
-            elseif (
-                Strings::filter($functions)->contains(self::SYS_CONTROLLER) && $clazz->_initialize($functions)
+            } elseif (
+                Strings::filter($functions)->contains(self::SYS_CONTROLLER)
+                && $clazz->_initialize($functions)
             ) {
+                /**
+                 * Handle System Controller mapping.
+                 */
                 $clazz->_initialize(
                     $functions,
                     false,
@@ -253,11 +255,10 @@ class Route extends Core
                     $clazz->_request,
                     false
                 );
-            }
-            /**
-             * Handle App Controller mapping.
-             */
-            elseif ($clazz->_initialize(self::APP_CONTROLLER . $functions)) {
+            } elseif ($clazz->_initialize(self::APP_CONTROLLER . $functions)) {
+                /**
+                 * Handle App Controller mapping.
+                 */
                 $clazz->_initialize(
                     self::APP_CONTROLLER . $functions,
                     false,
@@ -287,7 +288,7 @@ class Route extends Core
     /**
      * Routes unmapped url path.
      *
-     * @param string $path here
+     * @param null $path here
      *
      * @return void
      */
@@ -355,22 +356,20 @@ class Route extends Core
                 $this->_response,
                 $this->_request
             );
-        }
-        /**
-         * Try calling specified route if the controller exist.
-         */
-        elseif ($this->_initialize(self::APP_CONTROLLER .  $path)) {
+        } elseif ($this->_initialize(self::APP_CONTROLLER . $path)) {
+            /**
+             * Try calling specified route if the controller exist.
+             */
             $this->_initialize(
                 self::APP_CONTROLLER . $path,
                 false,
                 $this->_response,
                 $this->_request
             );
-        }
-        /**
-         * Call default controller if all fail.
-         */
-        else {
+        } else {
+            /**
+             * Call default controller if all fail.
+             */
             $this->_initialize(
                 self::SYS_CONTROLLER . "default",
                 false,
