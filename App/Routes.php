@@ -32,8 +32,6 @@ defined('BASE_PATH') or exit('No direct script access allowed');
 
 //Route::map("/api/index/*", ['get', 'post'], function () {return "Test routes...";}, []);
 
-//Route::map("/api/test/*", ['get', 'post'], "Testing!!!", []);
-
 //Route::map("/api/", ['get', 'post', 'put'], "api.index", []);
 
 //Route::map("/test", ['get', 'post'], "test", []);
