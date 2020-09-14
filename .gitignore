@@ -8,11 +8,6 @@ Build/*
 
 ## Composer rules
 composer.lock
-bin/composer.phar
-
-## Extra phar files
-bin/phpdoc.phar
-bin/apigen.phar
 
 ## OS metadata files
 .DS_Store
