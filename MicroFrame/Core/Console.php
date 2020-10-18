@@ -39,7 +39,7 @@ class Console extends Core
      *
      * @var array
      */
-    private $_raw;
+    private $raw;
 
     /**
      * Static init for console class.
@@ -56,7 +56,7 @@ class Console extends Core
      *
      * @return void
      */
-    private function _getRaws()
+    private function getRaws()
     {
         /**
          * Allowed short keys
@@ -64,6 +64,7 @@ class Console extends Core
         $shortInput = "t:";
         $shortInput .= "c::";
         $shortInput .= "v::";
+        $shortInput .= "S::";
         $shortInput .= "phq";
 
         /**
@@ -73,13 +74,19 @@ class Console extends Core
             "task:",
             "timeout::",
             "variables::",
+            "Serve::",
             "persist",
             "help",
             "quiet",
             "verbose"
         );
 
-        $this->_raw = getopt($shortInput, $longInput);
+        $this->raw = getopt($shortInput, $longInput);
+
+        /**
+         * Match up characters with string options
+         * to reflect specified char.
+         */
     }
 
     /**
@@ -87,7 +94,7 @@ class Console extends Core
      *
      * @return void
      */
-    private function _formatList()
+    private function formatList()
     {
         // TODO: Format comma separated values
     }
@@ -97,7 +104,7 @@ class Console extends Core
      *
      * @return void
      */
-    private function _formatArray()
+    private function formatArray()
     {
         // TODO: Format string defined key array separated values
     }
@@ -116,7 +123,7 @@ class Console extends Core
      *
      * @return void
      */
-    private function _response()
+    private function response()
     {
         // TODO: Defines response for commands that
         // require no task calls or are not variables
@@ -127,7 +134,7 @@ class Console extends Core
      *
      * @return void
      */
-    private function _state()
+    private function state()
     {
         // TODO: Set
     }
@@ -139,9 +146,16 @@ class Console extends Core
      */
     public function execute()
     {
-        $this->_getRaws();
+        $this->getRaws();
 
+        //TODO: Fix codes to comply, with project plan
+
+        // Handles serves request.
+        // Test out serve command.
+        if (isset($this->raw['S']) || isset($this->raw['Serve'])) {
+            die('Completed web request');
+        }
         // TODO: Set what's neXt
-        var_dump($this->_raw);
+        var_dump($this->raw);
     }
 }

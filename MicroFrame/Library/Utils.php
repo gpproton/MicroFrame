@@ -111,7 +111,7 @@ final class Utils extends Core
     }
 
     /**
-     * Utilzed once for route injection.
+     * Utilized once for route injection.
      *
      * @return string
      */
@@ -124,4 +124,5 @@ final class Utils extends Core
          */
         return include_once "./../App/Routes.php";
     }
+
 }
