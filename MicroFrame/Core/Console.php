@@ -82,6 +82,11 @@ class Console extends Core
         );
 
         $this->raw = getopt($shortInput, $longInput);
+
+        /**
+         * Match up characters with string options
+         * to reflect specified char.
+         */
     }
 
     /**
@@ -143,6 +148,13 @@ class Console extends Core
     {
         $this->getRaws();
 
+        //TODO: Fix codes to comply, with project plan
+
+        // Handles serves request.
+        // Test out serve command.
+        if (isset($this->raw['S']) || isset($this->raw['Serve'])) {
+            die('Completed web request');
+        }
         // TODO: Set what's neXt
         var_dump($this->raw);
     }
