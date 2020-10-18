@@ -4,6 +4,7 @@
 ##
 ##############################
 
+ServerSignature off
 IndexIgnore *
 Options All -Indexes
 
