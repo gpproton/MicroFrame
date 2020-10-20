@@ -23,9 +23,13 @@ namespace MicroFrame\Core;
 
 defined('BASE_PATH') or exit('No direct script access allowed');
 
+use MicroFrame\Handlers\Exception;
 use MicroFrame\Handlers\Route;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Utils;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run as whoopsRun;
 
@@ -45,14 +49,14 @@ class Application extends Core
      *
      * @var array|mixed|null
      */
-    private $_config;
+    private $config;
 
     /**
      * Application constructor.
      */
     public function __construct()
     {
-        $this->_config = Config::fetch();
+        $this->config = Config::fetch();
     }
 
 
@@ -63,7 +67,7 @@ class Application extends Core
      */
     public function environment()
     {
-        return $this->_config['system']['debug'];
+        return $this->config['system']['debug'];
     }
 
     /**
@@ -77,7 +81,7 @@ class Application extends Core
         /**
          * Implement pretty error display.
          */
-        if ($this->_config['system']['debug']) {
+        if ($this->config['system']['debug']) {
             $whoops = new whoopsRun();
             $page = new PrettyPageHandler();
             $protectArray = array('_ENV', '_SERVER');
@@ -90,8 +94,37 @@ class Application extends Core
             $whoops->pushHandler($page)->register();
         }
 
-        if ($this->_config['console']) {
-            Console::init()->execute();
+        if ($this->config['console']) {
+            $consoleInstance = Console::init();
+            $consoleInstance->execute();
+
+            //TODO: Handle console serve mode from app's symfony process.
+            if (
+                isset($consoleInstance->all['S'])
+                || isset($consoleInstance->all['Serve'])
+            ) {
+                /**
+                 * Execute command or kill.
+                 */
+                $process = new Process([(new PhpExecutableFinder())->find(false), '-S', '127.0.0.1:4567',]);
+
+                try {
+                    $process->start();
+                } catch (ProcessFailedException $exception) {
+                    die($exception);
+                }
+
+                echo("Running built-in web server on port -> 4567...\n");
+                foreach ($process as $type => $data) {
+                    if ($process::OUT === $type) {
+                        echo "Micro: " . $data;
+                    } else {
+                        echo "Micro: " . $data;
+                    }
+                }
+
+                die('Completed web request');
+            }
         } else {
             /**
              * Load defined routes to request
