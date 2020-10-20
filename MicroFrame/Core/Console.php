@@ -39,7 +39,7 @@ class Console extends Core
      *
      * @var array
      */
-    private $raw;
+    public $all;
 
     /**
      * Static init for console class.
@@ -56,7 +56,7 @@ class Console extends Core
      *
      * @return void
      */
-    private function getRaws()
+    private function getalls()
     {
         /**
          * Allowed short keys
@@ -81,7 +81,7 @@ class Console extends Core
             "verbose"
         );
 
-        $this->raw = getopt($shortInput, $longInput);
+        $this->all = getopt($shortInput, $longInput);
 
         /**
          * Match up characters with string options
@@ -146,16 +146,14 @@ class Console extends Core
      */
     public function execute()
     {
-        $this->getRaws();
+        $this->getalls();
 
         //TODO: Fix codes to comply, with project plan
 
         // Handles serves request.
         // Test out serve command.
-        if (isset($this->raw['S']) || isset($this->raw['Serve'])) {
-            die('Completed web request');
-        }
+
         // TODO: Set what's neXt
-        var_dump($this->raw);
+//        var_dump($this->all);
     }
 }
