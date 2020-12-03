@@ -1,0 +1,14 @@
+{
+    "name": "microframe/app",
+    "description": "A startup project template for microframe.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Godwin peter .O",
+            "email": "me@godwin.dev"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
