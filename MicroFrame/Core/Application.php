@@ -21,9 +21,6 @@
 
 namespace MicroFrame\Core;
 
-defined('BASE_PATH') or exit('No direct script access allowed');
-
-use MicroFrame\Handlers\Exception;
 use MicroFrame\Handlers\Route;
 use MicroFrame\Library\Config;
 use MicroFrame\Library\Utils;
@@ -95,7 +92,14 @@ class Application extends Core
         }
 
         if ($this->config['console']) {
+            /**
+             * Initialize console instance.
+             */
             $consoleInstance = Console::init();
+
+            /**
+             * Retrieves console parameters.
+             */
             $consoleInstance->execute();
 
             //TODO: Handle console serve mode from app's symfony process.
@@ -106,22 +110,41 @@ class Application extends Core
                 /**
                  * Execute command or kill.
                  */
-                $process = new Process([(new PhpExecutableFinder())->find(false), '-S', '127.0.0.1:4567',]);
+                $process = new Process(
+                    [
+                    (new PhpExecutableFinder())->find(false),
+                    '-S',
+                    '127.0.0.1:4567',
+                    '--define',
+                    'memory_limit=1024M',
+                    '--define',
+                    'max_input_time=-1',
+                    '--define',
+                    'max_execution_time=-1',
+                    ]
+                );
 
                 try {
-                    $process->start();
+//                    $process->start();
+                    $process->run(function ($type, $buffer) {
+                        if (Process::ERR === $type) {
+                            echo 'ERR > ' . $buffer;
+                        } else {
+                            echo 'OUT > ' . $buffer;
+                        }
+                    });
                 } catch (ProcessFailedException $exception) {
                     die($exception);
                 }
 
-                echo("Running built-in web server on port -> 4567...\n");
-                foreach ($process as $type => $data) {
-                    if ($process::OUT === $type) {
-                        echo "Micro: " . $data;
-                    } else {
-                        echo "Micro: " . $data;
-                    }
-                }
+                echo("Running built-in web server on port --> 4567...\n");
+//                foreach ($process as $type => $data) {
+//                    if ($process::OUT === $type) {
+//                        echo "Micro: " . $data;
+//                    } else {
+//                        echo "Micro: " . $data;
+//                    }
+//                }
 
                 die('Completed web request');
             }

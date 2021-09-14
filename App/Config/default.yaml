@@ -13,6 +13,14 @@ dataSource:
     user: 'postgres'
     password: ''
     timeout: 10
+  bhntest:
+    type: oracle
+    host: 192.168.77.4
+    port: 1521
+    dbname: ORCL
+    user: 'orbhn'
+    password: 'orbhn'
+    timeout: 10
 
 site:
   title: 'MicroFrame 0.0.1'
