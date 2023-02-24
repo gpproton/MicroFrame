@@ -21,7 +21,10 @@
         "platform": {"php": "7.3"},
         "sort-packages": true,
         "archive-format": "zip",
-        "archive-dir": "Build/Release"
+        "archive-dir": "Build/Release",
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "archive": {
         "exclude": ["vendor", "Build", ".idea", "composer.lock", ".gitattributes", ".gitignore", "phpcs.xml", "phpunit.xml", "phpdoc.xml"]
