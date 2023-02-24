@@ -50,6 +50,11 @@ final class TestController extends Core
          * $this->auto(false);
          */
 
+        $data = $this->model('bhntest')->query('sample')
+            ->execute()
+            ->result();
+        die(var_dump($data));
+
         $this->debugX();
 
 
